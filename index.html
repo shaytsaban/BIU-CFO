@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance in AI Era – CFO 4.0 | Bar-Ilan University</title>
+    <meta name="description"
+        content="Finance in AI Era – CFO 4.0 course at Bar-Ilan University. Lecturer: Dr. Shay Tsaban, Ph.D.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-start: #0f0c29;
+            --primary-mid: #302b63;
+            --primary-end: #24243e;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #7c3aed;
+            --accent-pink: #f472b6;
+            --accent-gold: #fbbf24;
+            --text-dark: #1f2937;
+            --text-light: #94a3b8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ========== HERO ========== */
+        header {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 40%, #24243e 100%);
+            color: white;
+            padding: 5rem 1.5rem 7rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated orbs */
+        header::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -60px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.35), transparent 70%);
+            border-radius: 50%;
+            animation: floatOrb 8s ease-in-out infinite;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -40px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.25), transparent 70%);
+            border-radius: 50%;
+            animation: floatOrb 10s ease-in-out infinite reverse;
+        }
+
+        .orb-extra {
+            position: absolute;
+            top: 50%;
+            left: 55%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(244, 114, 182, 0.2), transparent 70%);
+            border-radius: 50%;
+            animation: floatOrb 12s ease-in-out infinite 2s;
+        }
+
+        @keyframes floatOrb {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-30px) scale(1.08);
+            }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 10;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            padding: 0.35rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .badge i {
+            font-size: 0.75rem;
+        }
+
+        .badge.accent {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.4), rgba(0, 212, 255, 0.3));
+            border-color: rgba(124, 58, 237, 0.5);
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 0.3rem;
+        }
+
+        h1 .highlight {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.6rem;
+            font-weight: 300;
+            opacity: 0.85;
+            margin-bottom: 0.75rem;
+        }
+
+        .instructor-name {
+            font-size: 1.15rem;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-bottom: 0.4rem;
+        }
+
+        .university {
+            font-size: 0.95rem;
+            font-weight: 500;
+            opacity: 0.6;
+            letter-spacing: 0.5px;
+        }
+
+        /* AI Particles decoration */
+        .particles {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            animation: drift linear infinite;
+        }
+
+        .particle:nth-child(1) {
+            left: 10%;
+            top: 20%;
+            animation-duration: 15s;
+        }
+
+        .particle:nth-child(2) {
+            left: 25%;
+            top: 60%;
+            animation-duration: 18s;
+            width: 3px;
+            height: 3px;
+        }
+
+        .particle:nth-child(3) {
+            left: 50%;
+            top: 30%;
+            animation-duration: 22s;
+            width: 5px;
+            height: 5px;
+        }
+
+        .particle:nth-child(4) {
+            left: 70%;
+            top: 70%;
+            animation-duration: 16s;
+        }
+
+        .particle:nth-child(5) {
+            left: 85%;
+            top: 15%;
+            animation-duration: 20s;
+            width: 3px;
+            height: 3px;
+        }
+
+        .particle:nth-child(6) {
+            left: 40%;
+            top: 80%;
+            animation-duration: 14s;
+            width: 2px;
+            height: 2px;
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(30px);
+                opacity: 0;
+            }
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .container {
+            max-width: 920px;
+            margin: -3.5rem auto 3rem;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 20;
+        }
+
+        /* ========== CARDS ========== */
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 10px 30px -5px rgba(0, 0, 0, 0.06);
+            padding: 2.25rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        .card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.12);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(24px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .icon-box i {
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .icon-box.purple {
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+        }
+
+        .icon-box.blue {
+            background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+        }
+
+        .icon-box.teal {
+            background: linear-gradient(135deg, #14b8a6, #2dd4bf);
+        }
+
+        .icon-box.pink {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        /* ========== VISION SECTION ========== */
+        .vision-text {
+            color: #475569;
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .vision-text strong {
+            color: var(--text-dark);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ede9fe, #e0f2fe);
+            border-left: 4px solid var(--accent-purple);
+            border-radius: 0 12px 12px 0;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box p {
+            color: #4c1d95;
+            font-weight: 500;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .highlight-box i {
+            color: var(--accent-purple);
+            margin-right: 0.5rem;
+        }
+
+        .key-themes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .theme-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            transition: background 0.2s ease;
+        }
+
+        .theme-item:hover {
+            background: #f1f5f9;
+        }
+
+        .theme-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .theme-icon.c1 {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .theme-icon.c2 {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .theme-icon.c3 {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .theme-icon.c4 {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .theme-item span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #334155;
+        }
+
+        /* ========== MATERIALS NOTICE ========== */
+        .materials-notice {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+            border: 2px solid #bbf7d0;
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .materials-notice i {
+            font-size: 1.5rem;
+            color: var(--success);
+        }
+
+        .materials-notice p {
+            color: #166534;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .materials-notice p span {
+            font-weight: 400;
+            color: #15803d;
+            font-size: 0.9rem;
+            display: block;
+            margin-top: 0.15rem;
+        }
+
+        /* ========== LECTURE CARD ========== */
+        .lecture-card {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .lecture-card:hover {
+            border-color: var(--accent-purple);
+            background: #faf5ff;
+            transform: translateX(4px);
+        }
+
+        .lecture-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary-mid), var(--accent-purple));
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .lecture-info {
+            flex: 1;
+        }
+
+        .lecture-info h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+        }
+
+        .lecture-info .lecture-date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .lecture-info .lecture-instructor {
+            font-size: 0.8rem;
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+
+        .new-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 0.25rem 0.65rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(124, 58, 237, 0);
+            }
+        }
+
+        /* ========== CONTACT CARD ========== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .contact-item:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+        }
+
+        .contact-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .contact-icon.email {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .contact-icon.web {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .contact-icon.office {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .contact-item .label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .contact-item .value {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            color: var(--text-light);
+            margin-top: auto;
+            border-top: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        .footer-brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.4rem;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        footer .heart {
+            color: var(--accent-pink);
+            -webkit-text-fill-color: var(--accent-pink);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            header {
+                padding: 3.5rem 1rem 5.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .lecture-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <!-- ========== HERO ========== -->
+        <header>
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <div class="orb-extra"></div>
+
+            <div class="header-content">
+                <div class="badge-row">
+                    <span class="badge"><i class="fas fa-university"></i> Bar-Ilan University</span>
+                    <span class="badge accent"><i class="fas fa-robot"></i> AI-Powered Finance</span>
+                    <span class="badge"><i class="fas fa-calendar-alt"></i> 2026</span>
+                </div>
+
+                <h1>Finance in <span class="highlight">AI Era</span></h1>
+                <p class="subtitle">CFO 4.0</p>
+                <p class="instructor-name">Dr. Shay Tsaban, Ph.D.</p>
+                <p class="university">Bar-Ilan University</p>
+            </div>
+        </header>
+
+        <!-- ========== MAIN CONTENT ========== -->
+        <section class="container">
+
+            <!-- About & Vision -->
+            <div class="card" id="vision">
+                <div class="section-header">
+                    <div class="icon-box purple">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h2>The CFO as a Strategic Visionary</h2>
+                </div>
+
+                <p class="vision-text">
+                    The role of the <strong>Chief Financial Officer</strong> has undergone a revolutionary
+                    transformation. No longer confined to spreadsheets and compliance, today's CFO is a
+                    <strong>strategic architect</strong> — a key driver of innovation, growth, and organizational
+                    resilience.
+                </p>
+
+                <p class="vision-text">
+                    Artificial Intelligence is rewriting the rules of finance. From predictive analytics and
+                    automated risk assessment to real-time decision intelligence, <strong>AI empowers CFOs</strong>
+                    to move beyond reporting the past and start <strong>shaping the future</strong>.
+                    The modern CFO is not merely a "numbers person" — they are a <strong>visionary leader</strong>,
+                    a strategist who leverages technology to unlock business value and navigate uncertainty with
+                    confidence.
+                </p>
+
+                <div class="highlight-box">
+                    <p>
+                        <i class="fas fa-lightbulb"></i>
+                        This course prepares you for the frontier of finance — where data science meets
+                        financial strategy, and where the CFO sits at the heart of organizational transformation.
+                    </p>
+                </div>
+
+                <div class="key-themes">
+                    <div class="theme-item">
+                        <div class="theme-icon c1"><i class="fas fa-brain"></i></div>
+                        <span>AI-Driven Financial Decision Making</span>
+                    </div>
+                    <div class="theme-item">
+                        <div class="theme-icon c2"><i class="fas fa-chart-line"></i></div>
+                        <span>Predictive Analytics & Forecasting</span>
+                    </div>
+                    <div class="theme-item">
+                        <div class="theme-icon c3"><i class="fas fa-shield-alt"></i></div>
+                        <span>Risk Management in the Digital Age</span>
+                    </div>
+                    <div class="theme-item">
+                        <div class="theme-icon c4"><i class="fas fa-rocket"></i></div>
+                        <span>Strategic Leadership & Innovation</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Materials Access -->
+            <div class="card" id="materials">
+                <div class="section-header">
+                    <div class="icon-box blue">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <h2>Course Materials</h2>
+                </div>
+
+                <div class="materials-notice">
+                    <i class="fas fa-check-circle"></i>
+                    <p>
+                        All course materials are accessed right here.
+                        <span>Lecture slides, reading materials, assignments, and resources will be published on this
+                            page throughout the semester.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Lectures Section -->
+            <div class="card" id="lectures">
+                <div class="section-header">
+                    <div class="icon-box teal">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h2>Lectures</h2>
+                </div>
+
+                <div class="lecture-card">
+                    <div class="lecture-number">1</div>
+                    <div class="lecture-info">
+                        <h3>CFOs, Welcome to the New Era!</h3>
+                        <p class="lecture-date"><i class="far fa-calendar-alt"></i> 15.2.2026</p>
+                        <p class="lecture-instructor">Dr. Shay Tsaban</p>
+                    </div>
+                    <span class="new-badge"><i class="fas fa-sparkles"></i> New</span>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="card" id="contact">
+                <div class="section-header">
+                    <div class="icon-box pink">
+                        <i class="fas fa-address-card"></i>
+                    </div>
+                    <h2>Get in Touch</h2>
+                </div>
+
+                <div class="contact-grid">
+                    <a href="mailto:shay.tsaban@gmail.com" class="contact-item">
+                        <div class="contact-icon email">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <div class="label">Email</div>
+                            <div class="value">shay.tsaban@gmail.com</div>
+                        </div>
+                    </a>
+
+                    <div class="contact-item">
+                        <div class="contact-icon office">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div>
+                            <div class="label">Institution</div>
+                            <div class="value">Bar-Ilan University</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ========== FOOTER ========== -->
+        <footer>
+            <div class="footer-brand">CFO 4.0 — Finance in AI Era</div>
+            <p>Dr. Shay Tsaban, Ph.D. • Bar-Ilan University • 2026</p>
+            <p style="margin-top: 0.5rem;">Made with <span class="heart">♥</span> for the next generation of financial
+                leaders</p>
+        </footer>
+
+    </div>
+</body>
+
+</html>
