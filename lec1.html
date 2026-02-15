@@ -1,0 +1,2616 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הכשרת מנהלי כספים בעידן ה-AI | ד״ר שי צבאן</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;300;400;500;700;900&family=Rubik:wght@300;400;500;600;700;900&family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #111827;
+  --bg-card: #1a2236;
+  --bg-card-hover: #1f2a42;
+  --accent-gold: #d4a843;
+  --accent-gold-light: #f0d078;
+  --accent-blue: #3b82f6;
+  --accent-blue-light: #60a5fa;
+  --accent-cyan: #06b6d4;
+  --accent-emerald: #10b981;
+  --accent-rose: #f43f5e;
+  --accent-purple: #a855f7;
+  --accent-orange: #f59e0b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-subtle: rgba(212,168,67,0.15);
+  --gradient-gold: linear-gradient(135deg, #d4a843, #f0d078);
+  --gradient-blue: linear-gradient(135deg, #3b82f6, #06b6d4);
+  --gradient-dark: linear-gradient(180deg, #0a0e1a, #111827);
+  --shadow-glow: 0 0 40px rgba(212,168,67,0.15);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ===== PRESENTATION CONTAINER ===== */
+.presentation {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 80px;
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: none;
+  overflow-y: auto;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+}
+
+.slide.exit-left {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+/* ===== NAVIGATION ===== */
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 56px;
+  background: rgba(10,14,26,0.92);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  z-index: 1000;
+}
+
+.nav-btn {
+  background: none;
+  border: 1px solid var(--border-subtle);
+  color: var(--accent-gold);
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Heebo', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.nav-btn:hover {
+  background: rgba(212,168,67,0.12);
+  border-color: var(--accent-gold);
+}
+
+.nav-counter {
+  font-family: 'Rubik', sans-serif;
+  color: var(--text-muted);
+  font-size: 14px;
+  direction: ltr;
+}
+
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(212,168,67,0.1);
+  z-index: 1000;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-gold);
+  transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  border-radius: 0 3px 3px 0;
+}
+
+/* ===== SECTION MENU ===== */
+.section-menu {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 999;
+}
+
+.menu-toggle {
+  background: rgba(26,34,54,0.9);
+  border: 1px solid var(--border-subtle);
+  color: var(--accent-gold);
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+}
+
+.menu-toggle:hover { background: rgba(212,168,67,0.15); }
+
+.menu-panel {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  width: 320px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: rgba(17,24,39,0.97);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 16px;
+  display: none;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.menu-panel.open { display: block; }
+
+.menu-section {
+  padding: 8px 12px;
+  margin: 4px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  border-right: 3px solid transparent;
+}
+
+.menu-section:hover {
+  background: rgba(212,168,67,0.08);
+  color: var(--text-primary);
+  border-right-color: var(--accent-gold);
+}
+
+.menu-section.section-header {
+  color: var(--accent-gold);
+  font-weight: 700;
+  font-size: 14px;
+  margin-top: 12px;
+  cursor: default;
+  border-right: none;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.slide-title {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.title-gold { 
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.slide-subtitle {
+  font-family: 'Heebo', sans-serif;
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 300;
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 800px;
+  line-height: 1.6;
+}
+
+.section-label {
+  font-family: 'Rubik', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+
+/* ===== CONTENT LAYOUTS ===== */
+.content-full {
+  width: 100%;
+  max-width: 1200px;
+  text-align: right;
+}
+
+.content-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  width: 100%;
+  max-width: 1200px;
+  align-items: start;
+}
+
+.content-triple {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.content-quad {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.4s;
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+
+.card-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.card-title {
+  font-family: 'Rubik', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.card-highlight {
+  border-color: var(--accent-gold);
+  background: linear-gradient(135deg, rgba(212,168,67,0.06), rgba(26,34,54,1));
+}
+
+/* ===== STAT BLOCKS ===== */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.stat-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+  transition: all 0.4s;
+}
+
+.stat-block:hover {
+  transform: scale(1.03);
+  border-color: var(--accent-gold);
+}
+
+.stat-number {
+  font-family: 'Rubik', sans-serif;
+  font-size: 42px;
+  font-weight: 900;
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 8px;
+  direction: ltr;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.stat-source {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* ===== QUOTE ===== */
+.quote-block {
+  background: linear-gradient(135deg, rgba(212,168,67,0.08), rgba(26,34,54,0.8));
+  border: 1px solid rgba(212,168,67,0.25);
+  border-radius: 20px;
+  padding: 40px 48px;
+  max-width: 900px;
+  position: relative;
+}
+
+.quote-block::before {
+  content: '"';
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 120px;
+  color: var(--accent-gold);
+  opacity: 0.2;
+  position: absolute;
+  top: -20px;
+  right: 20px;
+  line-height: 1;
+}
+
+.quote-text {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-primary);
+  position: relative;
+  z-index: 1;
+}
+
+.quote-author {
+  font-family: 'Rubik', sans-serif;
+  font-size: 15px;
+  color: var(--accent-gold);
+  margin-top: 16px;
+  font-weight: 500;
+}
+
+/* ===== THOUGHT QUESTIONS ===== */
+.thought-box {
+  background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(6,182,212,0.06));
+  border: 1px solid rgba(59,130,246,0.25);
+  border-radius: 20px;
+  padding: 36px 44px;
+  max-width: 900px;
+  width: 100%;
+}
+
+.thought-title {
+  font-family: 'Rubik', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.thought-question {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 22px;
+  color: var(--text-primary);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.thought-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ===== TIMELINE ===== */
+.timeline {
+  width: 100%;
+  max-width: 900px;
+  position: relative;
+  padding-right: 40px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent-gold), var(--accent-blue), var(--accent-cyan));
+}
+
+.timeline-item {
+  position: relative;
+  padding: 0 50px 36px 0;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: 6px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  border: 3px solid var(--bg-primary);
+  z-index: 1;
+}
+
+.timeline-year {
+  font-family: 'Rubik', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin-bottom: 6px;
+}
+
+.timeline-content {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.timeline-content strong {
+  color: var(--text-primary);
+}
+
+/* ===== CHARTS ===== */
+.chart-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.chart-title {
+  font-family: 'Rubik', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+}
+
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 60px;
+  align-items: center;
+  gap: 16px;
+}
+
+.bar-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+.bar-track {
+  height: 32px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+  width: 0;
+  position: relative;
+}
+
+.bar-fill.animated { width: var(--target-width); }
+
+.bar-value {
+  font-family: 'Rubik', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  direction: ltr;
+  text-align: center;
+}
+
+/* Donut Chart */
+.donut-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.donut-wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.donut-wrapper svg {
+  transform: rotate(-90deg);
+}
+
+.donut-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.donut-number {
+  font-family: 'Rubik', sans-serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--text-primary);
+  direction: ltr;
+}
+
+.donut-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ===== CASE STUDY ===== */
+.case-study {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 36px;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.case-badge {
+  display: inline-block;
+  background: rgba(212,168,67,0.12);
+  color: var(--accent-gold);
+  font-family: 'Rubik', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.case-company {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.case-role {
+  font-size: 15px;
+  color: var(--accent-gold);
+  margin-bottom: 16px;
+}
+
+.case-text {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.case-result {
+  background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  font-size: 15px;
+  color: var(--accent-emerald);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== COMPARISON TABLE ===== */
+.compare-table {
+  width: 100%;
+  max-width: 1000px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.compare-table th {
+  background: rgba(212,168,67,0.1);
+  padding: 16px 20px;
+  font-family: 'Rubik', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-gold);
+  text-align: right;
+}
+
+.compare-table td {
+  padding: 14px 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+}
+
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:hover td { background: var(--bg-card-hover); }
+
+/* ===== TOOL CARDS ===== */
+.tool-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.4s;
+}
+
+.tool-card:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(59,130,246,0.1);
+}
+
+.tool-name {
+  font-family: 'Rubik', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--accent-blue-light);
+}
+
+.tool-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.tool-tag {
+  display: inline-block;
+  background: rgba(59,130,246,0.1);
+  color: var(--accent-blue-light);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-left: 6px;
+  margin-bottom: 4px;
+}
+
+/* ===== COVER SLIDE ===== */
+.cover-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cover-bg::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: 
+    radial-gradient(ellipse at 30% 20%, rgba(212,168,67,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(59,130,246,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(6,182,212,0.04) 0%, transparent 60%);
+  animation: coverPulse 12s ease-in-out infinite;
+}
+
+@keyframes coverPulse {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(-2%,-2%) scale(1.05); }
+}
+
+.cover-grid {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: 
+    linear-gradient(rgba(212,168,67,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,168,67,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.cover-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cover-badge {
+  display: inline-block;
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  font-family: 'Rubik', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 24px;
+  border-radius: 30px;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+  animation: fadeInDown 1s 0.2s both;
+}
+
+.cover-title {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  animation: fadeInDown 1s 0.4s both;
+}
+
+.cover-subtitle-line {
+  font-family: 'Heebo', sans-serif;
+  font-size: clamp(20px, 2.5vw, 32px);
+  font-weight: 300;
+  color: var(--text-secondary);
+  margin-bottom: 48px;
+  animation: fadeInDown 1s 0.6s both;
+}
+
+.cover-meta {
+  display: flex;
+  gap: 40px;
+  font-size: 15px;
+  color: var(--text-muted);
+  animation: fadeInDown 1s 0.8s both;
+}
+
+.cover-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cover-divider {
+  width: 80px;
+  height: 2px;
+  background: var(--gradient-gold);
+  margin: 32px auto;
+  animation: fadeInDown 1s 0.5s both;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== SECTION DIVIDER SLIDES ===== */
+.section-divider {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-number {
+  font-family: 'Rubik', sans-serif;
+  font-size: 120px;
+  font-weight: 900;
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.15;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-70%);
+  line-height: 1;
+  direction: ltr;
+}
+
+.section-divider-title {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(30px, 3.5vw, 50px);
+  font-weight: 900;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.section-divider-sub {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-top: 16px;
+  text-align: center;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* ===== PROCESS FLOW ===== */
+.process-flow {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  max-width: 1100px;
+  direction: rtl;
+}
+
+.process-step {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  position: relative;
+  transition: all 0.4s;
+}
+
+.process-step:hover {
+  border-color: var(--accent-gold);
+  transform: translateY(-4px);
+}
+
+.process-num {
+  font-family: 'Rubik', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--accent-gold);
+  margin-bottom: 10px;
+  direction: ltr;
+}
+
+.process-title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.process-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.process-arrow {
+  font-size: 24px;
+  color: var(--accent-gold);
+  opacity: 0.4;
+  margin-top: 40px;
+  flex-shrink: 0;
+}
+
+/* ===== ANIMATED COUNTERS ===== */
+.counter {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 900;
+  direction: ltr;
+  display: inline-block;
+}
+
+/* ===== LIST STYLES ===== */
+.styled-list {
+  list-style: none;
+  padding: 0;
+}
+
+.styled-list li {
+  padding: 10px 24px 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  position: relative;
+}
+
+.styled-list li::before {
+  content: '◆';
+  color: var(--accent-gold);
+  position: absolute;
+  right: 0;
+  font-size: 10px;
+  top: 15px;
+}
+
+.styled-list li strong {
+  color: var(--text-primary);
+}
+
+/* ===== EMPHASIS ===== */
+.em-gold { color: var(--accent-gold); font-weight: 600; }
+.em-blue { color: var(--accent-blue-light); font-weight: 600; }
+.em-cyan { color: var(--accent-cyan); font-weight: 600; }
+.em-green { color: var(--accent-emerald); font-weight: 600; }
+.em-rose { color: var(--accent-rose); font-weight: 600; }
+.em-purple { color: var(--accent-purple); font-weight: 600; }
+
+.text-body {
+  font-size: 17px;
+  color: var(--text-secondary);
+  line-height: 1.85;
+  max-width: 900px;
+}
+
+.small-text {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.mb-32 { margin-bottom: 32px; }
+.mb-40 { margin-bottom: 40px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+
+.text-center { text-align: center; }
+
+/* ===== PILL TAG ===== */
+.pill {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 3px;
+}
+
+.pill-gold { background: rgba(212,168,67,0.12); color: var(--accent-gold); }
+.pill-blue { background: rgba(59,130,246,0.12); color: var(--accent-blue-light); }
+.pill-green { background: rgba(16,185,129,0.12); color: var(--accent-emerald); }
+.pill-rose { background: rgba(244,63,94,0.12); color: var(--accent-rose); }
+.pill-purple { background: rgba(168,85,247,0.12); color: var(--accent-purple); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .slide { padding: 40px 24px 80px; }
+  .content-split { grid-template-columns: 1fr; gap: 24px; }
+  .content-triple { grid-template-columns: 1fr; }
+  .content-quad { grid-template-columns: 1fr; }
+  .bar-row { grid-template-columns: 100px 1fr 50px; }
+  .process-flow { flex-direction: column; }
+  .process-arrow { transform: rotate(90deg); margin: 0 auto; }
+  .donut-container { flex-direction: column; }
+}
+
+/* ===== KEYBOARD HINT ===== */
+.key-hint {
+  position: fixed;
+  bottom: 68px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(26,34,54,0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 6px 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.5s;
+  z-index: 999;
+  direction: ltr;
+}
+
+.key-hint.visible { opacity: 1; }
+
+/* ===== SCROLL FADE-IN FOR SLIDE CONTENT ===== */
+.fade-in-item {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.slide.active .fade-in-item { opacity: 1; transform: translateY(0); }
+.slide.active .fade-in-item:nth-child(1) { transition-delay: 0.1s; }
+.slide.active .fade-in-item:nth-child(2) { transition-delay: 0.2s; }
+.slide.active .fade-in-item:nth-child(3) { transition-delay: 0.3s; }
+.slide.active .fade-in-item:nth-child(4) { transition-delay: 0.4s; }
+.slide.active .fade-in-item:nth-child(5) { transition-delay: 0.5s; }
+.slide.active .fade-in-item:nth-child(6) { transition-delay: 0.6s; }
+.slide.active .fade-in-item:nth-child(7) { transition-delay: 0.7s; }
+.slide.active .fade-in-item:nth-child(8) { transition-delay: 0.8s; }
+
+/* ===== BLINKING CURSOR ===== */
+.blink { animation: blink 1.2s infinite; }
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+/* ===== INTERACTIVE POLL ===== */
+.poll-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.poll-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 16px 24px;
+  text-align: right;
+  cursor: pointer;
+  font-family: 'Heebo', sans-serif;
+  font-size: 16px;
+  color: var(--text-secondary);
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.poll-btn:hover {
+  border-color: var(--accent-gold);
+  background: rgba(212,168,67,0.06);
+  color: var(--text-primary);
+}
+
+.poll-btn.selected {
+  border-color: var(--accent-gold);
+  background: rgba(212,168,67,0.1);
+  color: var(--accent-gold);
+}
+
+.poll-letter {
+  display: inline-flex;
+  width: 32px; height: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  font-family: 'Rubik', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  flex-shrink: 0;
+  direction: ltr;
+}
+
+/* WATERMARK */
+.watermark {
+  position: fixed;
+  bottom: 64px;
+  left: 20px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.08);
+  font-family: 'Rubik', sans-serif;
+  z-index: 999;
+  direction: ltr;
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="section-menu">
+  <button class="menu-toggle" id="menuToggle" title="תפריט">☰</button>
+  <div class="menu-panel" id="menuPanel">
+    <div class="menu-section section-header">🎯 פתיחה</div>
+    <div class="menu-section" onclick="goToSlide(0)">שער הקורס</div>
+    <div class="menu-section" onclick="goToSlide(1)">מטרות הקורס</div>
+    <div class="menu-section" onclick="goToSlide(2)">סקר פתיחה</div>
+    <div class="menu-section" onclick="goToSlide(3)">מפת הקורס</div>
+    
+    <div class="menu-section section-header">📊 פרק 1: ה-CFO החדש</div>
+    <div class="menu-section" onclick="goToSlide(4)">שער פרק 1</div>
+    <div class="menu-section" onclick="goToSlide(5)">מספרים שמדברים</div>
+    <div class="menu-section" onclick="goToSlide(6)">האבולוציה של התפקיד</div>
+    <div class="menu-section" onclick="goToSlide(7)">CFO 4.0 — ארבעה גלים</div>
+    <div class="menu-section" onclick="goToSlide(8)">תחומי האחריות של ה-CFO</div>
+    <div class="menu-section" onclick="goToSlide(9)">השותפות האסטרטגית</div>
+    <div class="menu-section" onclick="goToSlide(10)">מ-CFO ל-CEO</div>
+    <div class="menu-section" onclick="goToSlide(11)">שאלה למחשבה #1</div>
+    
+    <div class="menu-section section-header">🚀 פרק 2: CFO כמוביל חדשנות</div>
+    <div class="menu-section" onclick="goToSlide(12)">שער פרק 2</div>
+    <div class="menu-section" onclick="goToSlide(13)">מחתך עלויות ליוצר ערך</div>
+    <div class="menu-section" onclick="goToSlide(14)">Case Study: HPE — Marie Myers</div>
+    <div class="menu-section" onclick="goToSlide(15)">Case Study: Booking Holdings</div>
+    <div class="menu-section" onclick="goToSlide(16)">הפרדוקס: 88% לעומת 86%</div>
+    <div class="menu-section" onclick="goToSlide(17)">חמשת מנועי החדשנות</div>
+    <div class="menu-section" onclick="goToSlide(18)">שאלה למחשבה #2</div>
+
+    <div class="menu-section section-header">🤖 פרק 3: AI בפיננסים</div>
+    <div class="menu-section" onclick="goToSlide(19)">שער פרק 3</div>
+    <div class="menu-section" onclick="goToSlide(20)">מצב האימוץ — מספרים</div>
+    <div class="menu-section" onclick="goToSlide(21)">פלטפורמות Enterprise</div>
+    <div class="menu-section" onclick="goToSlide(22)">כלי FP&A מתקדמים</div>
+    <div class="menu-section" onclick="goToSlide(23)">ROI — הנתונים האמיתיים</div>
+    <div class="menu-section" onclick="goToSlide(24)">Agentic AI — הטרנד של 2026</div>
+    <div class="menu-section" onclick="goToSlide(25)">שאלה למחשבה #3</div>
+
+    <div class="menu-section section-header">📈 פרק 4: ניתוח פיננסי ויצירת ערך</div>
+    <div class="menu-section" onclick="goToSlide(26)">שער פרק 4</div>
+    <div class="menu-section" onclick="goToSlide(27)">מעבר למדדים מסורתיים</div>
+    <div class="menu-section" onclick="goToSlide(28)">מדדי SaaS וטכנולוגיה</div>
+    <div class="menu-section" onclick="goToSlide(29)">ESG ושווי שוק</div>
+    <div class="menu-section" onclick="goToSlide(30)">אנליטיקה חזויית</div>
+    <div class="menu-section" onclick="goToSlide(31)">שאלה למחשבה #4</div>
+
+    <div class="menu-section section-header">🤝 פרק 5: CFO, הנהלה ודירקטוריון</div>
+    <div class="menu-section" onclick="goToSlide(32)">שער פרק 5</div>
+    <div class="menu-section" onclick="goToSlide(33)">הסטוריטלינג הפיננסי</div>
+    <div class="menu-section" onclick="goToSlide(34)">מבנה הדוח לדירקטוריון</div>
+    <div class="menu-section" onclick="goToSlide(35)">כללי הזהב לתקשורת</div>
+    <div class="menu-section" onclick="goToSlide(36)">שאלה למחשבה #5</div>
+
+    <div class="menu-section section-header">🇮🇱 פרק 6: ישראל</div>
+    <div class="menu-section" onclick="goToSlide(37)">שער פרק 6</div>
+    <div class="menu-section" onclick="goToSlide(38)">האקוסיסטם הישראלי</div>
+    <div class="menu-section" onclick="goToSlide(39)">חברות ישראליות שמשנות</div>
+    <div class="menu-section" onclick="goToSlide(40)">המחסור ב-CFO בישראל</div>
+    <div class="menu-section" onclick="goToSlide(41)">ענת אשכנזי — מבנק הפועלים ל-Google</div>
+
+    <div class="menu-section section-header">🏁 סיכום</div>
+    <div class="menu-section" onclick="goToSlide(42)">10 Takeaways</div>
+    <div class="menu-section" onclick="goToSlide(43)">סיכום ושאלות</div>
+  </div>
+</div>
+
+<div class="watermark">Dr. Shay Tsaban | CFO Program 2/26</div>
+
+<div class="presentation" id="presentation">
+
+<!-- ============================== SLIDE 0: COVER ============================== -->
+<div class="slide active" data-slide="0">
+  <div class="cover-bg"><div class="cover-grid"></div></div>
+  <div class="cover-content">
+    <div class="cover-badge">מחזור 2/26 — הרצאת פתיחה</div>
+    <h1 class="cover-title"><span class="title-gold">הכשרת מנהלי כספים</span><br>בעידן ה-AI</h1>
+    <div class="cover-divider"></div>
+    <p class="cover-subtitle-line">תפקיד סמנכ״ל הכספים | חדשנות | בינה מלאכותית | יצירת ערך</p>
+    <div class="cover-meta">
+      <span class="cover-meta-item">👤 ד״ר שי צבאן</span>
+      <span class="cover-meta-item">📅 15.02.2026</span>
+      <span class="cover-meta-item">📍 בניין 507, כיתה 1</span>
+      <span class="cover-meta-item">🕐 17:00 – 20:15</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 1: OBJECTIVES ============================== -->
+<div class="slide" data-slide="1">
+  <div class="section-label fade-in-item">🎯 מטרות המפגש</div>
+  <h2 class="slide-title fade-in-item">מה נלמד <span class="title-gold">הערב?</span></h2>
+  <div class="content-triple fade-in-item" style="margin-top: 32px;">
+    <div class="card card-highlight">
+      <span class="card-icon">🔭</span>
+      <div class="card-title">להבין את התפקיד החדש</div>
+      <div class="card-text">כיצד התפקיד של סמנכ״ל הכספים עבר מהפכה — מ״שומר הסף הפיננסי״ ל״שותף אסטרטגי ראשון של ה-CEO״. נבין מדוע 10% מה-CEOs של Fortune 500 הגיעו ישירות מתפקיד CFO.</div>
+    </div>
+    <div class="card card-highlight">
+      <span class="card-icon">🤖</span>
+      <div class="card-title">לחיות את המהפכה</div>
+      <div class="card-text">נכיר את כלי ה-AI שמשנים את הפיננסים עכשיו — מ-Copilot של מיקרוסופט ועד Agentic AI. נבין מדוע 88% משתמשים ב-AI אבל 86% עדיין לא מפיקים ערך.</div>
+    </div>
+    <div class="card card-highlight">
+      <span class="card-icon">📈</span>
+      <div class="card-title">ליצור ערך אמיתי</div>
+      <div class="card-text">ניתוח פיננסי מעבר ל-EBITDA, סטוריטלינג עם נתונים, ESG כערך כלכלי, ותקשורת אפקטיבית מול הנהלות ודירקטוריונים שמניבה החלטות.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 2: OPENING POLL ============================== -->
+<div class="slide" data-slide="2">
+  <div class="section-label fade-in-item">💬 סקר פתיחה</div>
+  <h2 class="slide-title fade-in-item">מה האתגר <span class="title-gold">הגדול ביותר</span> שלכם כיום?</h2>
+  <div class="poll-options fade-in-item" style="margin-top: 24px;">
+    <div class="poll-btn" onclick="this.classList.toggle('selected')">
+      <span class="poll-letter">A</span>
+      <span>מעבר מעבודה שוטפת לחשיבה אסטרטגית — ״אין לי זמן להרים את הראש מה-Excel״</span>
+    </div>
+    <div class="poll-btn" onclick="this.classList.toggle('selected')">
+      <span class="poll-letter">B</span>
+      <span>הבנה והטמעה של כלי AI — ״אני יודע שזה חשוב, לא יודע מאיפה להתחיל״</span>
+    </div>
+    <div class="poll-btn" onclick="this.classList.toggle('selected')">
+      <span class="poll-letter">C</span>
+      <span>תקשורת אפקטיבית מול הנהלה/דירקטוריון — ״המספרים לא ׳נוחתים׳ להם״</span>
+    </div>
+    <div class="poll-btn" onclick="this.classList.toggle('selected')">
+      <span class="poll-letter">D</span>
+      <span>גיוס, פיתוח ושימור צוות פיננסים איכותי — ״אין מספיק אנשים טובים״</span>
+    </div>
+  </div>
+  <p class="small-text fade-in-item" style="margin-top: 20px; text-align: center;">💡 אפשר לבחור יותר מתשובה אחת. נחזור לתשובות שלכם בסוף ההרצאה.</p>
+</div>
+
+<!-- ============================== SLIDE 3: COURSE MAP ============================== -->
+<div class="slide" data-slide="3">
+  <div class="section-label fade-in-item">🗺️ מפת ההרצאה</div>
+  <h2 class="slide-title fade-in-item">חמישה <span class="title-gold">פרקים</span> — שלוש שעות</h2>
+  <div class="process-flow fade-in-item" style="margin-top: 32px;">
+    <div class="process-step">
+      <div class="process-num">01</div>
+      <div class="process-title">ה-CFO החדש</div>
+      <div class="process-desc">האבולוציה, האחריות המורחבת, השותפות עם CEO</div>
+    </div>
+    <div class="process-arrow">←</div>
+    <div class="process-step">
+      <div class="process-num">02</div>
+      <div class="process-title">מוביל חדשנות</div>
+      <div class="process-desc">מחתך עלויות ליוצר ערך, Case Studies</div>
+    </div>
+    <div class="process-arrow">←</div>
+    <div class="process-step">
+      <div class="process-num">03</div>
+      <div class="process-title">AI בפיננסים</div>
+      <div class="process-desc">כלים, פלטפורמות, ROI, Agentic AI</div>
+    </div>
+    <div class="process-arrow">←</div>
+    <div class="process-step">
+      <div class="process-num">04</div>
+      <div class="process-title">ניתוח ויצירת ערך</div>
+      <div class="process-desc">מדדים חדשים, ESG, אנליטיקה חזויית</div>
+    </div>
+    <div class="process-arrow">←</div>
+    <div class="process-step">
+      <div class="process-num">05</div>
+      <div class="process-title">הנהלה ודירקטוריון</div>
+      <div class="process-desc">סטוריטלינג, דיווח, תיאום ציפיות</div>
+    </div>
+  </div>
+  <p class="small-text fade-in-item text-center" style="margin-top: 24px;">☕ הפסקה באמצע | שאלות למחשבה בכל פרק | דיונים קבוצתיים</p>
+</div>
+
+<!-- ============================== SLIDE 4: SECTION 1 DIVIDER ============================== -->
+<div class="slide section-divider" data-slide="4">
+  <span class="section-number">01</span>
+  <div class="section-label fade-in-item">פרק ראשון</div>
+  <h2 class="section-divider-title fade-in-item"><span class="title-gold">ה-CFO החדש</span><br>מהפכה בתפקיד</h2>
+  <p class="section-divider-sub fade-in-item">כיצד סמנכ״ל הכספים הפך מרואה חשבון בכיר<br>לשותף האסטרטגי החשוב ביותר של המנכ״ל</p>
+</div>
+
+<!-- ============================== SLIDE 5: STATS ============================== -->
+<div class="slide" data-slide="5">
+  <div class="section-label fade-in-item">📊 המספרים שמדברים</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(28px, 3vw, 40px);">מצב <span class="title-gold">התפקיד</span> בפברואר 2026</h2>
+  <div class="stat-grid fade-in-item" style="margin-top: 28px;">
+    <div class="stat-block">
+      <div class="stat-number">70%+</div>
+      <div class="stat-label">מה-CFOs נושאים באחריות מעבר לפיננסים</div>
+      <div class="stat-source">Gartner 2025</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">10.26%</div>
+      <div class="stat-label">מ-CEOs של Fortune 500 הגיעו מתפקיד CFO</div>
+      <div class="stat-source">Crist Kolder 2025</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">6.6</div>
+      <div class="stat-label">מדד ביטחון CFOs — הגבוה ב-4 שנים</div>
+      <div class="stat-source">Deloitte Q4/2025</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">87%</div>
+      <div class="stat-label">מ-CFOs אופטימיים לגבי החברה שלהם</div>
+      <div class="stat-source">Deloitte Q4/2025</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">50%</div>
+      <div class="stat-label">מ-CFOs ציינו טרנספורמציה דיגיטלית כעדיפות #1 ל-2026</div>
+      <div class="stat-source">Deloitte Q4/2025</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 6: EVOLUTION ============================== -->
+<div class="slide" data-slide="6">
+  <div class="section-label fade-in-item">📜 האבולוציה</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 38px);">מאיפה <span class="title-gold">באנו</span> ולאן <span class="title-gold">אנחנו הולכים</span></h2>
+  <div class="content-split fade-in-item" style="margin-top: 24px;">
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">שנות ה-80 — CFO 1.0</div>
+        <div class="timeline-content"><strong>הבקר הפיננסי</strong> — דיווח, ציות, הנהלת חשבונות. מוכוון עבר. "להסתכל במראה האחורית".</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">שנות ה-2000 — CFO 2.0</div>
+        <div class="timeline-content"><strong>המנהל הפיננסי</strong> — FP&A, תכנון, ניהול סיכונים. SOX ורגולציה מחמירה. "להסתכל קדימה דרך המספרים".</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">שנות ה-2010 — CFO 3.0</div>
+        <div class="timeline-content"><strong>השותף האסטרטגי</strong> — M&A, טרנספורמציה דיגיטלית, Big Data. "לשבת ליד המנכ"ל בשולחן ההחלטות".</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2024+ — CFO 4.0</div>
+        <div class="timeline-content"><strong>ה-Catalyst Officer</strong> — AI, ESG, חדשנות, ניהול שינוי ארגוני, כישרונות. "להוביל את הספינה, לא רק לנווט".</div>
+      </div>
+    </div>
+    <div class="quote-block" style="align-self: center;">
+      <div class="quote-text">CEOs מחפשים טייס-משנה שיודע לסנתז את המספרים ולבנות אסטרטגיה שמשלבת צרכי לקוחות, יכולות פנימיות ומיצוב תחרותי</div>
+      <div class="quote-author">— פרופ׳ דיוויד ווסלס, Wharton School</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 7: CFO 4.0 FRAMEWORK ============================== -->
+<div class="slide" data-slide="7">
+  <div class="section-label fade-in-item">🏗️ מסגרת CFO 4.0</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 38px);">שלושה <span class="title-gold">גלים</span> של טרנספורמציה דיגיטלית</h2>
+  <p class="slide-subtitle fade-in-item" style="margin-bottom: 28px;">מסגרת BearingPoint / Accenture — רק 11% מה-CFOs מגיעים לגל השלישי</p>
+  <div class="content-triple fade-in-item">
+    <div class="card" style="border-top: 3px solid var(--accent-blue);">
+      <div style="font-size: 14px; color: var(--accent-blue); font-weight: 600; margin-bottom: 12px;">גל ראשון — אוטומציה</div>
+      <div class="card-title">שיפור העבודה השוטפת</div>
+      <div class="card-text">
+        RPA, אוטומציה של AP/AR, סגירת ספרים מואצת, בקרות אוטומטיות. 
+        <br><br><strong>הצפי:</strong> חיסכון של 20-40% בזמן עיבוד.
+        <br><span class="pill pill-blue">הרוב פה</span>
+      </div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--accent-gold);">
+      <div style="font-size: 14px; color: var(--accent-gold); font-weight: 600; margin-bottom: 12px;">גל שני — תובנות</div>
+      <div class="card-title">Real-Time Financial Insights</div>
+      <div class="card-text">
+        BI דינמי, Self-Service Analytics, דשבורדים, ויזואליזציה.
+        <br><br><strong>הצפי:</strong> החלטות מהירות ב-50%.
+        <br><span class="pill pill-gold">הצמיחה כאן</span>
+      </div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--accent-emerald);">
+      <div style="font-size: 14px; color: var(--accent-emerald); font-weight: 600; margin-bottom: 12px;">גל שלישי — המצאה מחדש</div>
+      <div class="card-title">Reinvention & Value Creation</div>
+      <div class="card-text">
+        Agentic AI, מודלים חזויים, חדשנות במודל עסקי, הנעת טרנספורמציה ארגונית.
+        <br><br><strong>הצפי:</strong> x2 בערך שנוצר.
+        <br><span class="pill pill-green">רק 11%!</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 8: RESPONSIBILITY CHART ============================== -->
+<div class="slide" data-slide="8">
+  <div class="section-label fade-in-item">📋 מפת האחריות</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 38px);">ה-CFO של 2026 אחראי על <span class="title-gold">הכל</span></h2>
+  <div class="chart-container fade-in-item" style="margin-top: 20px;">
+    <div class="chart-title">אחוז ה-CFOs הנושאים באחריות בכל תחום (Egon Zehnder Global Survey)</div>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">פיננסים ודיווח</div><div class="bar-track"><div class="bar-fill" style="--target-width:98%; background: var(--gradient-gold);"></div></div><div class="bar-value">98%</div></div>
+      <div class="bar-row"><div class="bar-label">ESG / קיימות</div><div class="bar-track"><div class="bar-fill" style="--target-width:55%; background: linear-gradient(90deg, #10b981, #06b6d4);"></div></div><div class="bar-value">55%</div></div>
+      <div class="bar-row"><div class="bar-label">מיזוגים ורכישות</div><div class="bar-track"><div class="bar-fill" style="--target-width:44%; background: linear-gradient(90deg, #3b82f6, #a855f7);"></div></div><div class="bar-value">44%</div></div>
+      <div class="bar-row"><div class="bar-label">אסטרטגיה ארגונית</div><div class="bar-track"><div class="bar-fill" style="--target-width:38%; background: linear-gradient(90deg, #f59e0b, #f43f5e);"></div></div><div class="bar-value">38%</div></div>
+      <div class="bar-row"><div class="bar-label">ניהול סיכונים</div><div class="bar-track"><div class="bar-fill" style="--target-width:36%; background: linear-gradient(90deg, #f43f5e, #a855f7);"></div></div><div class="bar-value">36%</div></div>
+      <div class="bar-row"><div class="bar-label">סייבר ואבטחת מידע</div><div class="bar-track"><div class="bar-fill" style="--target-width:27%; background: linear-gradient(90deg, #06b6d4, #3b82f6);"></div></div><div class="bar-value">27%</div></div>
+      <div class="bar-row"><div class="bar-label">IT / טכנולוגיה</div><div class="bar-track"><div class="bar-fill" style="--target-width:24%; background: linear-gradient(90deg, #a855f7, #f43f5e);"></div></div><div class="bar-value">24%</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 9: CEO-CFO Partnership ============================== -->
+<div class="slide" data-slide="9">
+  <div class="section-label fade-in-item">🤝 השותפות</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 38px);">מ-<span class="em-rose">״מה העלות?״</span> ל-<span class="title-gold">״מה האסטרטגיה?״</span></h2>
+  <div class="content-split fade-in-item" style="margin-top: 24px;">
+    <div>
+      <h3 class="card-title mb-16">הפער ב-1.3 שנים</h3>
+      <div class="text-body" style="font-size: 16px;">
+        <strong>Crist Kolder Associates</strong> גילו שהפער הגילאי הממוצע בין CFO ו-CEO חדשים ירד ל-<span class="em-gold">1.3 שנים בלבד</span> — הנמוך ביותר מ-2015. זה לא מקרי. ארגונים רוצים שהשניים יהיו שווים בשולחן.
+        <br><br>
+        <strong>PwC CFO Pulse Survey:</strong> כ-<span class="em-gold">60% מה-CFOs</span> מקדישים היום יותר זמן לביצועים עסקיים, FP&A וטכנולוגיה מאשר לפני שנה.
+        <br><br>
+        <strong>ה-CFO כ-Platform Leader:</strong> מסגרת CFO Evolution 3.0 של Armanino מגדירה את ה-CFO כמנהיג פלטפורמה — מי שמחבר בין Data, אנשים ותהליכים ליצירת ערך.
+      </div>
+    </div>
+    <div>
+      <h3 class="card-title mb-16">חלוקת זמן: עבר VS עתיד</h3>
+      <div class="chart-container" style="padding: 24px;">
+        <div style="margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 14px; color: var(--text-secondary);">CFO מסורתי</span>
+          </div>
+          <div style="display: flex; height: 36px; border-radius: 8px; overflow: hidden;">
+            <div style="width: 65%; background: var(--accent-rose); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">בקרה ודיווח 65%</div>
+            <div style="width: 20%; background: var(--accent-blue); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">תכנון 20%</div>
+            <div style="width: 15%; background: var(--accent-emerald); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">אסטרטגיה 15%</div>
+          </div>
+        </div>
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 14px; color: var(--text-secondary);">CFO 4.0</span>
+          </div>
+          <div style="display: flex; height: 36px; border-radius: 8px; overflow: hidden;">
+            <div style="width: 20%; background: var(--accent-rose); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">בקרה 20%</div>
+            <div style="width: 30%; background: var(--accent-blue); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">תכנון 30%</div>
+            <div style="width: 50%; background: var(--accent-emerald); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">אסטרטגיה וחדשנות 50%</div>
+          </div>
+        </div>
+        <p class="small-text mt-16 text-center">מבוסס על Armanino CFO Evolution 3.0 + PwC Pulse 2025</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 10: CFO to CEO ============================== -->
+<div class="slide" data-slide="10">
+  <div class="section-label fade-in-item">🏆 מ-CFO ל-CEO</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 38px);">CFOs שהפכו <span class="title-gold">למנהיגי עולם</span></h2>
+  <div class="content-quad fade-in-item" style="margin-top: 24px;">
+    <div class="card">
+      <div class="card-title">🍔 Chris Turner → CEO</div>
+      <div style="font-size: 13px; color: var(--accent-gold); margin-bottom: 8px;">Yum! Brands | אוקטובר 2025</div>
+      <div class="card-text">מ-CFO ל-Chief Franchise Officer ומשם ל-CEO. הוביל אסטרטגיית דיגיטל ותפעול ב-Pizza Hut, Taco Bell ו-KFC.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">💻 Amy Hood</div>
+      <div style="font-size: 13px; color: var(--accent-gold); margin-bottom: 8px;">Microsoft | CFO מ-2013</div>
+      <div class="card-text">שותפה אסטרטגית מרכזית בטרנספורמציה ל-Cloud. הפכה את Azure למנוע הצמיחה המרכזי.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔍 Ruth Porat</div>
+      <div style="font-size: 13px; color: var(--accent-gold); margin-bottom: 8px;">Alphabet | מ-CFO ל-President & CIO</div>
+      <div class="card-text">הובילה השקעות ב-Waymo, Google Cloud ו-AI. קודמה לנשיאת Alphabet ומנהלת השקעות ראשית.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🌍 Ewout Steenbergen</div>
+      <div style="font-size: 13px; color: var(--accent-gold); margin-bottom: 8px;">Booking Holdings | CFO</div>
+      <div class="card-text">השיק תוכנית AI בהיקף $450M חיסכון עד 2027, עם השקעה מחדש בצמיחה וחדשנות.</div>
+    </div>
+  </div>
+  <p class="small-text fade-in-item text-center mt-24">📊 שנת 2025 הייתה שנת שיא למינויי CFO חדשים — 122 חילופים ב-Fortune 500 ובחברות גדולות (Crist Kolder)</p>
+</div>
+
+<!-- ============================== SLIDE 11: THOUGHT Q1 ============================== -->
+<div class="slide" data-slide="11">
+  <div class="thought-box fade-in-item">
+    <div class="thought-title">💡 שאלה למחשבה — דיון קבוצתי (5 דקות)</div>
+    <div class="thought-question">
+      חשבו על סמנכ״ל הכספים בארגון שלכם (או על עצמכם בתפקיד):<br>
+      <span class="em-gold">איזה אחוז מהזמן מוקדש לאסטרטגיה ויצירת ערך, לעומת בקרה ודיווח?</span>
+    </div>
+    <div class="thought-sub">
+      מה צריך לקרות כדי להזיז את הפרופורציה? <br>
+      מהם שני הדברים המעשיים הראשונים שאפשר לעשות מחר בבוקר?
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 12: SECTION 2 DIVIDER ============================== -->
+<div class="slide section-divider" data-slide="12">
+  <span class="section-number">02</span>
+  <div class="section-label fade-in-item">פרק שני</div>
+  <h2 class="section-divider-title fade-in-item">ה-CFO כ<span class="title-gold">מוביל חדשנות</span></h2>
+  <p class="section-divider-sub fade-in-item">מחתך עלויות ליוצר ערך: למה ארגונים עם CFOs אפקטיביים<br>מניבים 60% יותר תשואה על ההון?</p>
+</div>
+
+<!-- ============================== SLIDE 13: VALUE CREATOR ============================== -->
+<div class="slide" data-slide="13">
+  <div class="section-label fade-in-item">🔄 השינוי</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 38px);">מ<span class="em-rose">חתך עלויות</span> ל<span class="title-gold">יוצר ערך</span></h2>
+  <div class="content-split fade-in-item" style="margin-top: 20px;">
+    <div>
+      <div class="stat-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="stat-block">
+          <div class="stat-number">x1.6</div>
+          <div class="stat-label">תשואה על ההון בחברות עם CFO אפקטיבי</div>
+          <div class="stat-source">McKinsey</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">x1.5</div>
+          <div class="stat-label">סיכוי לעקוף מתחרים עם צוות פיננסים חזק</div>
+          <div class="stat-source">EY</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">x2</div>
+          <div class="stat-label">סיכוי להשיג יעדי טרנספורמציה כשמתמקדים ביצירת ערך</div>
+          <div class="stat-source">Accenture</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">+15pp</div>
+          <div class="stat-label">צמיחת הכנסות בחברות עם "המצאה מחדש מתמשכת"</div>
+          <div class="stat-source">Accenture</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card card-highlight">
+        <div class="card-title mb-16">🧠 חמש תובנות ממחקרי 2025</div>
+        <ul class="styled-list">
+          <li><strong>Accenture:</strong> חברות ש״ממציאות את עצמן מחדש״ צומחות ב-15 נקודות אחוז יותר</li>
+          <li><strong>McKinsey:</strong> CFOs שמשקיעים ב-Gen AI חוסכים $3.70 על כל דולר שמושקע</li>
+          <li><strong>Deloitte:</strong> 54% מה-CFOs רואים ב-Agentic AI עדיפות טרנספורמטיבית</li>
+          <li><strong>Fortune:</strong> CFOs שמובילים AI מצליחים לקצר את הזמן לסגירת ספרים ב-40%</li>
+          <li><strong>PwC:</strong> 88% מה-CFOs מתכננים להגדיל תקציבי AI ב-2025-2026</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 14: CASE HPE ============================== -->
+<div class="slide" data-slide="14">
+  <div class="section-label fade-in-item">🏢 Case Study #1</div>
+  <div class="case-study fade-in-item">
+    <div class="case-badge">FORTUNE — פברואר 2026</div>
+    <div class="case-company">HPE — Hewlett Packard Enterprise</div>
+    <div class="case-role">Marie Myers, CFO</div>
+    <div class="case-text">
+      <strong>האתגר:</strong> כל שבוע, צוות FP&A הכין 100 שקפים של ניתוח תפעולי. הכנת המצגת בלעה את כל השבוע ולא השאירה זמן לניתוח אמיתי.
+      <br><br>
+      <strong>הפתרון:</strong> Myers בנתה פלטפורמת AI בשם <span class="em-gold">"Alfred"</span> שאוטומציה את כל תהליך הכנת הדוחות — מאיסוף נתונים, דרך ניתוח חריגות, ועד הצגה ויזואלית.
+      <br><br>
+      <strong>השינוי בפועל:</strong> Myers עצמה מבצעת כעת שאילתות ישירות מול ה-AI, במקום לפנות לראש ה-FP&A. היא מקבלת תשובות מיידיות בכל שעה ביום.
+    </div>
+    <div class="case-result">✅ הפחתה של ~90% במאמץ ידני | קיצור מחזור דיווח ב-40% | חיסכון של 25%+ בעלויות עיבוד</div>
+  </div>
+  <p class="small-text fade-in-item text-center mt-16">💬 <em>"אני לא מתקשרת לראש FP&A שלי — אני שואלת את Alfred."</em> — Marie Myers, Fortune 2026</p>
+</div>
+
+<!-- ============================== SLIDE 15: CASE BOOKING ============================== -->
+<div class="slide" data-slide="15">
+  <div class="section-label fade-in-item">🏢 Case Study #2</div>
+  <div class="case-study fade-in-item">
+    <div class="case-badge">דוגמה מהתעשייה</div>
+    <div class="case-company">Booking Holdings</div>
+    <div class="case-role">Ewout Steenbergen, CFO</div>
+    <div class="case-text">
+      <strong>היוזמה:</strong> Steenbergen השיק תוכנית AI רב-שנתית עם יעד של <span class="em-gold">$450 מיליון</span> בחסכונות עד 2027 — לא רק לחתוך עלויות, אלא להשקיע מחדש בצמיחה.
+      <br><br>
+      <strong>האסטרטגיה:</strong> פיתוח Connected Trip — מערכת AI שמחברת טיסות, מלונות, השכרת רכב וחוויות למסלול מותאם אישית. ה-CFO הוביל את ההשקעה וגיבש את ה-Business Case.
+      <br><br>
+      <strong>המפתח:</strong> ה-CFO לא רק אישר תקציב — הוא <span class="em-gold">עיצב את האסטרטגיה</span>, קבע KPIs, ובנה מנגנון ROI שמאפשר מעקב שוטף.
+    </div>
+    <div class="case-result">✅ $450M יעד חיסכון | השקעה מחדש בצמיחה | CFO כמוביל אסטרטגי — לא רק מאשר</div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 16: THE PARADOX ============================== -->
+<div class="slide" data-slide="16">
+  <div class="section-label fade-in-item">⚡ הפרדוקס</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 40px);"><span class="em-green">88%</span> משתמשים ב-AI — אבל <span class="em-rose">86%</span> לא מפיקים ערך</h2>
+  <div class="content-split fade-in-item" style="margin-top: 28px;">
+    <div>
+      <div class="donut-container" style="flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 32px;">
+          <div class="donut-wrapper">
+            <svg width="200" height="200" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="20"/>
+              <circle cx="100" cy="100" r="80" fill="none" stroke="var(--accent-emerald)" stroke-width="20" 
+                stroke-dasharray="440.9" stroke-dashoffset="52.9" stroke-linecap="round"/>
+            </svg>
+            <div class="donut-center"><div class="donut-number">88%</div><div class="donut-sub">משתמשים ב-AI</div></div>
+          </div>
+          <div class="donut-wrapper">
+            <svg width="200" height="200" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="20"/>
+              <circle cx="100" cy="100" r="80" fill="none" stroke="var(--accent-rose)" stroke-width="20" 
+                stroke-dasharray="432.3" stroke-dashoffset="60.6" stroke-linecap="round"/>
+            </svg>
+            <div class="donut-center"><div class="donut-number">86%</div><div class="donut-sub">בלי ערך מדיד</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card card-highlight">
+        <div class="card-title mb-16">🔑 למה הפער כל כך גדול?</div>
+        <ul class="styled-list">
+          <li><strong>פיילוטים ללא אסטרטגיה</strong> — ארגונים מנסים כלים בודדים בלי חזון כולל</li>
+          <li><strong>איכות נתונים</strong> — "Garbage In, Garbage Out" — AI לא יפתור בעיית מידע</li>
+          <li><strong>חוסר בכישרונות</strong> — מי בצוות באמת מבין AI? הפער בין IT לפיננסים</li>
+          <li><strong>התנגדות לשינוי</strong> — "עבד לנו 20 שנה ב-Excel, למה לשנות?"</li>
+          <li><strong>חוסר מדידה</strong> — בלי KPIs ברורים, אי אפשר להוכיח ROI</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p class="small-text fade-in-item text-center mt-16">מקורות: McKinsey 2025 Global Survey, Gartner Finance AI Survey 2025</p>
+</div>
+
+<!-- ============================== SLIDE 17: FIVE ENGINES ============================== -->
+<div class="slide" data-slide="17">
+  <div class="section-label fade-in-item">🚀 חמשת המנועים</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 38px);">איך CFO מוביל חדשנות <span class="title-gold">בפועל?</span></h2>
+  <div class="process-flow fade-in-item" style="margin-top: 28px;">
+    <div class="process-step">
+      <div class="process-num">🎯</div>
+      <div class="process-title">מגדיר חזון</div>
+      <div class="process-desc">בונה Business Case לטכנולוגיה עם ROI ברור ומדיד — לא רק ״צריך AI״</div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">💰</div>
+      <div class="process-title">מקצה משאבים</div>
+      <div class="process-desc">מזיז תקציבים מתחזוקה לחדשנות, מייצר ״מרחב ניסוי בטוח״</div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">📊</div>
+      <div class="process-title">מודד תוצאות</div>
+      <div class="process-desc">KPIs ברורים: זמן סגירת ספרים, דיוק תחזיות, עלות לעסקה</div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">👥</div>
+      <div class="process-title">מפתח אנשים</div>
+      <div class="process-desc">Upskilling של הצוות — מ-Excel Experts ל-AI-Enabled Analysts</div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">🔗</div>
+      <div class="process-title">מחבר ארגון</div>
+      <div class="process-desc">גשר בין IT, תפעול, שיווק ומכירות — ה-CFO כנקודת החיבור</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 18: THOUGHT Q2 ============================== -->
+<div class="slide" data-slide="18">
+  <div class="thought-box fade-in-item">
+    <div class="thought-title">💡 שאלה למחשבה — זוגות (3 דקות)</div>
+    <div class="thought-question">
+      חשבו על פרויקט חדשנות אחד שסמנכ״ל הכספים שלכם (או אתם) יכולים להוביל:<br>
+      <span class="em-gold">מה ה-Business Case? מה ה-ROI הצפוי? מה יהיה ה-Quick Win הראשון?</span>
+    </div>
+    <div class="thought-sub">
+      💡 רמז: התחילו ב-Pain Point הגדול ביותר — מה גוזל הכי הרבה זמן ידני? זה בדרך כלל ה-Low Hanging Fruit.
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 19: SECTION 3 DIVIDER ============================== -->
+<div class="slide section-divider" data-slide="19">
+  <span class="section-number">03</span>
+  <div class="section-label fade-in-item">פרק שלישי</div>
+  <h2 class="section-divider-title fade-in-item"><span class="title-gold">AI בפיננסים</span><br>כלים, פלטפורמות, ו-ROI</h2>
+  <p class="section-divider-sub fade-in-item">מה באמת עובד? מה שווה את ההשקעה?<br>וכיצד להימנע מהפיכת ה-86% שלא מפיקים ערך</p>
+</div>
+
+<!-- ============================== SLIDE 20: AI ADOPTION STATS ============================== -->
+<div class="slide" data-slide="20">
+  <div class="section-label fade-in-item">📊 מצב אימוץ AI בפיננסים</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 38px);">הנתונים של <span class="title-gold">2025-2026</span></h2>
+  <div class="chart-container fade-in-item" style="margin-top: 20px;">
+    <div class="chart-title">שימוש ב-AI בפונקציות פיננסיות — מגמת עליה חדה</div>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">פונקציות פיננסים עם AI</div><div class="bar-track"><div class="bar-fill" style="--target-width:59%; background: var(--gradient-gold);"></div></div><div class="bar-value">59%</div></div>
+      <div class="bar-row"><div class="bar-label">CFOs עם 5+ שימושי GenAI (x6 מ-2024)</div><div class="bar-track"><div class="bar-fill" style="--target-width:44%; background: linear-gradient(90deg, #3b82f6, #06b6d4);"></div></div><div class="bar-value">44%</div></div>
+      <div class="bar-row"><div class="bar-label">CFOs שמתכננים להגדיל תקציב AI</div><div class="bar-track"><div class="bar-fill" style="--target-width:88%; background: linear-gradient(90deg, #10b981, #06b6d4);"></div></div><div class="bar-value">88%</div></div>
+      <div class="bar-row"><div class="bar-label">CEOs שמקצים 10-20% מתקציב ל-AI</div><div class="bar-track"><div class="bar-fill" style="--target-width:69%; background: linear-gradient(90deg, #f59e0b, #f43f5e);"></div></div><div class="bar-value">69%</div></div>
+      <div class="bar-row"><div class="bar-label">ארגונים שמשתמשים ב-AI בפיננסים (גלובלי)</div><div class="bar-track"><div class="bar-fill" style="--target-width:71%; background: linear-gradient(90deg, #a855f7, #f43f5e);"></div></div><div class="bar-value">71%</div></div>
+    </div>
+    <p class="small-text mt-16">מקורות: Gartner 2025 | McKinsey 2025 | PwC 2025 | KPMG 2024</p>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 21: ENTERPRISE PLATFORMS ============================== -->
+<div class="slide" data-slide="21">
+  <div class="section-label fade-in-item">🏗️ פלטפורמות Enterprise</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 34px);">הכלים שכל CFO צריך להכיר <span class="title-gold">ב-2026</span></h2>
+  <div class="content-triple fade-in-item" style="margin-top: 20px;">
+    <div class="tool-card">
+      <div class="tool-name">Microsoft Copilot for Finance</div>
+      <div style="font-size: 12px; color: var(--accent-emerald); margin-bottom: 8px;">GA — אוקטובר 2025</div>
+      <div class="tool-desc">חיבור ל-ERP, התאמות AR, ניתוח שונות, Collections אוטומטי. חיסכון של 20 דקות לחשבון, התאמות ירדו מ-2 שעות ל-10 דקות.</div>
+      <div><span class="pill pill-green">ROI: 14 דק׳ ליום</span><span class="pill pill-blue">$30/user/month</span></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">SAP Joule</div>
+      <div style="font-size: 12px; color: var(--accent-emerald); margin-bottom: 8px;">2,100+ AI Skills</div>
+      <div class="tool-desc">סוכני AI לניהול מזומנים (חיסכון 70% בזמן), הצטברויות חשבונאיות, פתרון מחלוקות. ROI ממוצע 16% עם צפי להכפלה תוך שנתיים.</div>
+      <div><span class="pill pill-green">ROI: 16%</span><span class="pill pill-purple">Agentic</span></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Oracle Cloud ERP</div>
+      <div style="font-size: 12px; color: var(--accent-emerald); margin-bottom: 8px;">AI Agents ללא עלות נוספת</div>
+      <div class="tool-desc">סוכני AI לספקים, ספר חשבונות, תשלומים ותכנון. Gartner Leader ב-4 רביעיות קסם — ERP ו-Financial Planning.</div>
+      <div><span class="pill pill-green">מובנה ב-ERP</span><span class="pill pill-blue">Leader x4</span></div>
+    </div>
+  </div>
+  <div class="content-triple fade-in-item" style="margin-top: 16px;">
+    <div class="tool-card">
+      <div class="tool-name">BlackLine</div>
+      <div class="tool-desc">Agentic AI לסגירת ספרים: Journals Risk Analyser, ניתוח שונות אוטומטי, "Verity Collect" — סוכן AI שמנהל שיחות גבייה.</div>
+      <div><span class="pill pill-rose">AI Collections</span><span class="pill pill-gold">Financial Close</span></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Workday Illuminate</div>
+      <div class="tool-desc">תחזיות חזויניות, זיהוי אנומליות בשכר, Financial Audit Agent. 60%+ מחברות Fortune 500 משתמשות ב-Workday.</div>
+      <div><span class="pill pill-purple">Predictive</span><span class="pill pill-blue">60% Fortune 500</span></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Rillet</div>
+      <div style="font-size: 12px; color: var(--accent-orange); margin-bottom: 8px;">Sequoia + a16z — $100M+ raised</div>
+      <div class="tool-desc">ERP חדש מבוסס AI. סגירת Month-End בימים, חצי מזמן הכנת הביקורת. מותאם לחברות SaaS צומחות.</div>
+      <div><span class="pill pill-gold">Disruptor</span><span class="pill pill-green">SaaS-native</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 22: FP&A TOOLS ============================== -->
+<div class="slide" data-slide="22">
+  <div class="section-label fade-in-item">📈 כלי FP&A מתקדמים</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 34px);">פלטפורמות תכנון ש<span class="title-gold">משנות את המשחק</span></h2>
+  <div class="content-quad fade-in-item" style="margin-top: 20px;">
+    <div class="tool-card">
+      <div class="tool-name">🐷 Pigment</div>
+      <div class="tool-desc">הפלטפורמה הנחשקת ביותר בקהילות CFO — מבצעת עבודה של "1.5 FTE" לצוותים רזים. תכנון תרחישי בזמן אמת.</div>
+      <div><span class="pill pill-gold">מוביל בקהילות CFO</span></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">📊 Anaplan</div>
+      <div class="tool-desc">9 פעמים Gartner Magic Quadrant Leader. ML-driven forecasting. מודלים מורכבים בקנה מידה ארגוני.</div>
+      <div><span class="pill pill-purple">9x Gartner Leader</span></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">📗 Datarails</div>
+      <div style="font-size: 12px; color: var(--accent-emerald); margin-bottom: 8px;">חברה ישראלית 🇮🇱</div>
+      <div class="tool-desc">AI שעובד בתוך Excel — שיחה בשפה טבעית עם הנתונים. אידיאלי לצוותים שלא רוצים לוותר על Excel.</div>
+      <div><span class="pill pill-blue">Excel-native AI</span></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">🤖 Cube</div>
+      <div class="tool-desc">פלטפורמת FP&A עם AI Agents לתכנון פיננסי, ניתוח שונות אוטומטי ודיווח. אינטגרציה עם Excel ו-Google Sheets.</div>
+      <div><span class="pill pill-green">AI Agents</span></div>
+    </div>
+  </div>
+  <div class="quote-block fade-in-item" style="margin-top: 24px; max-width: 800px;">
+    <div class="quote-text" style="font-size: 20px;">אנליסטים לא-טכניים בצוות שלי יכולים עכשיו לשוחח עם הנתונים בשפה טבעית ולהתחיל לקבל תובנות — בלי לכתוב שורת קוד אחת</div>
+    <div class="quote-author">— Craig Mestel, CFO, Webflow</div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 23: ROI DATA ============================== -->
+<div class="slide" data-slide="23">
+  <div class="section-label fade-in-item">💎 ROI — הנתונים האמיתיים</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 34px);">כמה שווה <span class="title-gold">כל דולר</span> שמושקע ב-AI?</h2>
+  <div class="content-split fade-in-item" style="margin-top: 20px;">
+    <div>
+      <div class="stat-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="stat-block" style="border-color: var(--accent-gold);">
+          <div class="stat-number">$3.70</div>
+          <div class="stat-label">תשואה ממוצעת על כל $1 ב-GenAI</div>
+          <div class="stat-source">McKinsey 2025</div>
+        </div>
+        <div class="stat-block" style="border-color: var(--accent-emerald);">
+          <div class="stat-number">$10.30</div>
+          <div class="stat-label">תשואה בקרב Top Performers</div>
+          <div class="stat-source">McKinsey 2025</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">+15.8%</div>
+          <div class="stat-label">עלייה בהכנסות — Early Adopters</div>
+          <div class="stat-source">Gartner 2025</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">+22.6%</div>
+          <div class="stat-label">שיפור בפרודוקטיביות</div>
+          <div class="stat-source">Gartner 2025</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="chart-container" style="padding: 24px;">
+        <div class="chart-title">Top Value Drivers — היכן ה-ROI הגבוה ביותר?</div>
+        <div class="bar-chart">
+          <div class="bar-row"><div class="bar-label">AP/AR Automation</div><div class="bar-track"><div class="bar-fill" style="--target-width:80%; background: var(--gradient-gold);"></div></div><div class="bar-value">26%</div></div>
+          <div class="bar-row"><div class="bar-label">Financial Close</div><div class="bar-track"><div class="bar-fill" style="--target-width:58%; background: linear-gradient(90deg, #3b82f6, #06b6d4);"></div></div><div class="bar-value">19%</div></div>
+          <div class="bar-row"><div class="bar-label">FP&A / Forecasting</div><div class="bar-track"><div class="bar-fill" style="--target-width:52%; background: linear-gradient(90deg, #10b981, #06b6d4);"></div></div><div class="bar-value">17%</div></div>
+          <div class="bar-row"><div class="bar-label">Fraud Detection</div><div class="bar-track"><div class="bar-fill" style="--target-width:43%; background: linear-gradient(90deg, #f43f5e, #a855f7);"></div></div><div class="bar-value">14%</div></div>
+          <div class="bar-row"><div class="bar-label">Tax & Compliance</div><div class="bar-track"><div class="bar-fill" style="--target-width:36%; background: linear-gradient(90deg, #f59e0b, #f43f5e);"></div></div><div class="bar-value">12%</div></div>
+        </div>
+        <p class="small-text mt-16">% CFOs שמזהים כ-Top Value Driver. KPMG 2024.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 24: AGENTIC AI ============================== -->
+<div class="slide" data-slide="24">
+  <div class="section-label fade-in-item">🤖 הטרנד המגדיר של 2026</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 40px);"><span class="title-gold">Agentic AI</span> — סוכני AI אוטונומיים</h2>
+  <div class="content-split fade-in-item" style="margin-top: 24px;">
+    <div>
+      <div class="text-body" style="font-size: 16px;">
+        <strong>מה זה?</strong> סוכני AI שלא רק עונים לשאלות — הם <span class="em-gold">חושבים, מתכננים ומבצעים</span> משימות מורכבות באופן עצמאי. במקום ״תנתח את הדוח הזה״, הסוכן מזהה בעיה, חוקר, מציע פתרון, ומבצע.
+        <br><br>
+        <strong>דוגמאות בפיננסים:</strong>
+      </div>
+      <ul class="styled-list">
+        <li><strong>BlackLine Verity Collect</strong> — סוכן שמנהל שיחות גבייה בשפה טבעית</li>
+        <li><strong>SAP Cash Management Agent</strong> — מנהל פוזיציות מזומנים בעצמו</li>
+        <li><strong>Oracle Planning Agent</strong> — בונה תחזיות ומריץ תרחישים</li>
+        <li><strong>Workday Financial Audit Agent</strong> — ביקורת פנימית אוטומטית</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card card-highlight" style="margin-bottom: 20px;">
+        <div class="card-title">📊 הנתונים של Gartner</div>
+        <div class="card-text" style="font-size: 16px; line-height: 1.8;">
+          <span class="em-gold">עד 2028: 33%</span> מתוכנות ה-Enterprise יכללו Agentic AI<br>
+          (לעומת <span class="em-rose">פחות מ-1%</span> ב-2024)<br><br>
+          <span class="em-gold">15%</span> מההחלטות היומיומיות יתקבלו באופן אוטונומי<br><br>
+          <span class="em-gold">54%</span> מה-CFOs מזהים Agentic AI כעדיפות טרנספורמציה
+        </div>
+      </div>
+      <div class="card" style="border-color: var(--accent-rose);">
+        <div class="card-title">⚠️ נקודת זהירות</div>
+        <div class="card-text">סוכני AI אוטונומיים דורשים ממשל נתונים מחמיר, Audit Trail, ובקרות. "מהירות ללא בקרה = כאוס" — CFO של Wiz</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 25: THOUGHT Q3 ============================== -->
+<div class="slide" data-slide="25">
+  <div class="thought-box fade-in-item">
+    <div class="thought-title">💡 שאלה למחשבה — דיון כיתתי (5 דקות)</div>
+    <div class="thought-question">
+      אם הייתם צריכים לבחור <span class="em-gold">כלי AI אחד בלבד</span> להטמעה מחר בבוקר בארגון שלכם:<br>
+      מה הייתם בוחרים ולמה?
+    </div>
+    <div class="thought-sub">
+      חשבו על: מה ה-Pain Point הגדול ביותר? היכן השקעת הזמן הידני הגדולה ביותר?<br>
+      מה הכי קל למדוד מבחינת ROI? מה יזוז הכי מהר?
+    </div>
+  </div>
+  <div class="stat-grid fade-in-item" style="margin-top: 28px; max-width: 800px;">
+    <div class="stat-block" style="border-color: var(--accent-blue);">
+      <div class="stat-number" style="font-size: 28px;">🏁</div>
+      <div class="stat-label"><strong>Quick Win</strong><br>AP/AR Automation — ROI תוך 3 חודשים</div>
+    </div>
+    <div class="stat-block" style="border-color: var(--accent-gold);">
+      <div class="stat-number" style="font-size: 28px;">🎯</div>
+      <div class="stat-label"><strong>Strategic Win</strong><br>FP&A AI — שינוי משחק בתחזיות</div>
+    </div>
+    <div class="stat-block" style="border-color: var(--accent-emerald);">
+      <div class="stat-number" style="font-size: 28px;">🚀</div>
+      <div class="stat-label"><strong>Moonshot</strong><br>Agentic AI — עתיד הפיננסים</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 26: SECTION 4 DIVIDER ============================== -->
+<div class="slide section-divider" data-slide="26">
+  <span class="section-number">04</span>
+  <div class="section-label fade-in-item">פרק רביעי</div>
+  <h2 class="section-divider-title fade-in-item">ניתוח פיננסי <span class="title-gold">ויצירת ערך</span></h2>
+  <p class="section-divider-sub fade-in-item">מעבר ל-EBITDA: מדדים חדשים, ESG כערך כלכלי,<br>ואנליטיקה חזויית שמשנה את כללי המשחק</p>
+</div>
+
+<!-- ============================== SLIDE 27: BEYOND TRADITIONAL ============================== -->
+<div class="slide" data-slide="27">
+  <div class="section-label fade-in-item">📊 מעבר למסורתי</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 36px);">מ-EBITDA <span class="title-gold">למדדים שמניעים החלטות</span></h2>
+  <div class="content-split fade-in-item" style="margin-top: 20px;">
+    <div>
+      <table class="compare-table" style="width: 100%;">
+        <tr><th>מדד מסורתי</th><th>מדד מתקדם</th><th>למה?</th></tr>
+        <tr><td>EBITDA</td><td>EVA (Economic Value Added)</td><td>מודד יצירת ערך מעל עלות ההון</td></tr>
+        <tr><td>רווחיות גולמית</td><td>Unit Economics (LTV/CAC)</td><td>מודד כלכליות ברמת לקוח</td></tr>
+        <tr><td>צמיחת הכנסות</td><td>Rule of 40</td><td>משלב צמיחה + רווחיות</td></tr>
+        <tr><td>שורה תחתונה</td><td>Free Cash Flow Yield</td><td>מזומנים > רווח חשבונאי</td></tr>
+        <tr><td>דיווח נפרד</td><td>Integrated Reporting (ISSB)</td><td>ESG + פיננסים = תמונה שלמה</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="card card-highlight">
+        <div class="card-title">🏭 EVA בפעולה</div>
+        <div class="card-text" style="line-height: 1.8;">
+          <strong>Kao Corporation (יפן)</strong> — משתמשת ב-EVA כמדד הניהולי המרכזי. כל החלטת השקעה נמדדת לפי יצירת ערך מעל עלות ההון.
+          <br><br>
+          <strong>SASAC (סין)</strong> — החליפה ROE ב-EVA להערכת כל מפעלי המדינה.
+          <br><br>
+          <strong>הנוסחה:</strong><br>
+          <span style="font-family: 'Rubik'; direction: ltr; display: inline-block; font-size: 15px; color: var(--accent-gold);">EVA = NOPAT − (WACC × Invested Capital)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 28: SAAS METRICS ============================== -->
+<div class="slide" data-slide="28">
+  <div class="section-label fade-in-item">📱 מדדי SaaS וטכנולוגיה</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 36px);">המדדים ש<span class="title-gold">וול סטריט באמת מסתכל עליהם</span></h2>
+  <p class="slide-subtitle fade-in-item" style="margin-bottom: 24px; font-size: 16px;">קריטי לישראל — חברות SaaS הן מנוע הצמיחה של ההייטק הישראלי</p>
+  <div class="content-quad fade-in-item">
+    <div class="card" style="border-top: 3px solid var(--accent-gold);">
+      <div class="card-title" style="direction: ltr;">Rule of 40</div>
+      <div class="card-text">צמיחת הכנסות + שולי רווח ≥ 40%. המדד המרכזי להערכת שווי. חברות מעל 40 נסחרות בפרמיה משמעותית.</div>
+      <div class="mt-16"><span class="pill pill-gold" style="direction: ltr;">Revenue Growth + Margin ≥ 40%</span></div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--accent-emerald);">
+      <div class="card-title" style="direction: ltr;">NRR — Net Revenue Retention</div>
+      <div class="card-text">כמה הכנסות מלקוחות קיימים גדלו. מעל 120% = מצוין. מדד מרכזי בהערכת שווי SaaS — מודד "דביקות".</div>
+      <div class="mt-16"><span class="pill pill-green" style="direction: ltr;">Target: &gt;120%</span></div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--accent-rose);">
+      <div class="card-title" style="direction: ltr;">Burn Multiple</div>
+      <div class="card-text">כמה מזומנים נשרפו על כל דולר של ARR חדש. המדד של David Sacks ליעילות הון. מתחת ל-2x = יעיל.</div>
+      <div class="mt-16"><span class="pill pill-rose" style="direction: ltr;">Cash Burned ÷ Net New ARR</span></div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--accent-blue);">
+      <div class="card-title" style="direction: ltr;">LTV / CAC Ratio</div>
+      <div class="card-text">ערך חיי לקוח חלקי עלות רכישה. יעד: 3:1 ומעלה. מתחת ל-1:1 = הארגון מפסיד על כל לקוח.</div>
+      <div class="mt-16"><span class="pill pill-blue" style="direction: ltr;">Target: ≥ 3:1</span></div>
+    </div>
+  </div>
+  <p class="small-text fade-in-item text-center mt-16">💡 חציון גודל סבב גיוס בישראל ב-2025 קפץ ב-67% ל-$10M — היכולת להציג מדדים אלה היא קריטית</p>
+</div>
+
+<!-- ============================== SLIDE 29: ESG ============================== -->
+<div class="slide" data-slide="29">
+  <div class="section-label fade-in-item">🌍 ESG ושווי שוק</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 36px);">קיימות זה לא "נחמד" — זה <span class="title-gold">כסף</span></h2>
+  <div class="content-split fade-in-item" style="margin-top: 20px;">
+    <div>
+      <div class="card card-highlight" style="margin-bottom: 20px;">
+        <div class="card-title">📊 הממצא של Deloitte</div>
+        <div class="card-text" style="font-size: 16px; line-height: 1.8;">
+          מחקר על 300+ חברות ציבוריות הראה:<br>
+          חברות עם ציוני ESG גבוהים יותר נסחרות ב<span class="em-gold">מכפילי EV/EBITDA גבוהים יותר באופן מובהק סטטיסטית</span>.<br><br>
+          זהו ה-"Green Premium" — שוק ההון מתמחר קיימות.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">📋 ISSB Standards — IFRS S1 & S2</div>
+        <div class="card-text">
+          בתוקף מינואר 2024 ב-30+ מדינות. דצמבר 2025: ISSB פרסם תיקונים להפחתות GHG והתחיל עבודה על גילויים סביבתיים. לחברות ישראליות הנסחרות בחו"ל — זה כבר חובה.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="chart-container" style="padding: 24px;">
+        <div class="chart-title">ה-Green Premium — מכפילים לפי דירוג ESG</div>
+        <div style="display: flex; align-items: flex-end; justify-content: center; gap: 40px; height: 220px; margin-top: 24px;">
+          <div style="text-align: center;">
+            <div style="width: 80px; height: 100px; background: linear-gradient(to top, #f43f5e, #fb7185); border-radius: 8px 8px 0 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px;">
+              <span style="font-family: 'Rubik'; font-weight: 700; font-size: 18px; direction: ltr;">8.5x</span>
+            </div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">ESG נמוך</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 80px; height: 145px; background: linear-gradient(to top, #f59e0b, #fcd34d); border-radius: 8px 8px 0 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px;">
+              <span style="font-family: 'Rubik'; font-weight: 700; font-size: 18px; direction: ltr;">11.2x</span>
+            </div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">ESG בינוני</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 80px; height: 200px; background: linear-gradient(to top, #10b981, #34d399); border-radius: 8px 8px 0 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px;">
+              <span style="font-family: 'Rubik'; font-weight: 700; font-size: 18px; direction: ltr;">14.8x</span>
+            </div>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">ESG גבוה</div>
+          </div>
+        </div>
+        <p class="small-text text-center mt-16">EV/EBITDA מכפילים אילוסטרטיביים. מבוסס על מחקר Deloitte Switzerland, 300+ חברות</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 30: PREDICTIVE ANALYTICS ============================== -->
+<div class="slide" data-slide="30">
+  <div class="section-label fade-in-item">🔮 אנליטיקה חזויית</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 36px);">מ<span class="em-rose">מה קרה?</span> ל<span class="title-gold">מה יקרה?</span> ל<span class="em-green">מה לעשות?</span></h2>
+  <div class="content-full fade-in-item" style="margin-top: 24px;">
+    <div class="process-flow" style="direction: rtl;">
+      <div class="process-step" style="border-top: 3px solid var(--accent-rose);">
+        <div class="process-num" style="color: var(--accent-rose);">📋</div>
+        <div class="process-title">Descriptive</div>
+        <div class="process-desc" style="font-size: 14px;">מה קרה? דוחות, דשבורדים, KPIs. <strong>הרוב כאן.</strong></div>
+      </div>
+      <div class="process-arrow">←</div>
+      <div class="process-step" style="border-top: 3px solid var(--accent-orange);">
+        <div class="process-num" style="color: var(--accent-orange);">🔍</div>
+        <div class="process-title">Diagnostic</div>
+        <div class="process-desc" style="font-size: 14px;">למה זה קרה? ניתוח סטיות, Root Cause Analysis.</div>
+      </div>
+      <div class="process-arrow">←</div>
+      <div class="process-step" style="border-top: 3px solid var(--accent-blue);">
+        <div class="process-num" style="color: var(--accent-blue);">🔮</div>
+        <div class="process-title">Predictive</div>
+        <div class="process-desc" style="font-size: 14px;">מה יקרה? ML forecasting, תחזיות הכנסה, ניתוח סיכונים חזוי.</div>
+      </div>
+      <div class="process-arrow">←</div>
+      <div class="process-step" style="border-top: 3px solid var(--accent-emerald);">
+        <div class="process-num" style="color: var(--accent-emerald);">🎯</div>
+        <div class="process-title">Prescriptive</div>
+        <div class="process-desc" style="font-size: 14px;"><strong>מה לעשות?</strong> AI ממליץ על פעולות מיטביות. <span class="em-gold">היעד.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="content-split fade-in-item" style="margin-top: 24px; max-width: 1000px;">
+    <div class="card">
+      <div class="card-title">🏭 IBM Planning Analytics</div>
+      <div class="card-text">חיזוי 70,000 נקודות נתונים בחודש עם דיוק של 95-98%. ניתוח תרחישי What-If בזמן אמת.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📈 שוק האנליטיקה החזויית</div>
+      <div class="card-text">צפי ל-<span class="em-gold">$41.52 מיליארד</span> עד 2028. הצמיחה מונעת ע"י GenAI ותכנון תרחישי שמשתנה מרבעוני לרציף.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 31: THOUGHT Q4 ============================== -->
+<div class="slide" data-slide="31">
+  <div class="thought-box fade-in-item">
+    <div class="thought-title">💡 שאלה למחשבה — קבוצות קטנות (5 דקות)</div>
+    <div class="thought-question">
+      באיזה שלב של מודל האנליטיקה נמצא <span class="em-gold">הארגון שלכם?</span><br>
+      Descriptive → Diagnostic → Predictive → Prescriptive
+    </div>
+    <div class="thought-sub">
+      מהו הפער בין היכן שאתם נמצאים להיכן שאתם רוצים להיות?<br>
+      מה ה-"Next Best Action" — הצעד האחד שיקדם אתכם רמה אחת?
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 32: SECTION 5 DIVIDER ============================== -->
+<div class="slide section-divider" data-slide="32">
+  <span class="section-number">05</span>
+  <div class="section-label fade-in-item">פרק חמישי</div>
+  <h2 class="section-divider-title fade-in-item">CFO, <span class="title-gold">הנהלה ודירקטוריון</span></h2>
+  <p class="section-divider-sub fade-in-item">איך להפוך מספרים לסיפור שמניע החלטות,<br>ולבנות אמון עם הדירקטוריון שמאפשר הובלה</p>
+</div>
+
+<!-- ============================== SLIDE 33: FINANCIAL STORYTELLING ============================== -->
+<div class="slide" data-slide="33">
+  <div class="section-label fade-in-item">📖 סטוריטלינג פיננסי</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 36px);">ה-CFO שמספר <span class="title-gold">סיפורים</span> — לא רק מציג טבלאות</h2>
+  <div class="content-split fade-in-item" style="margin-top: 20px;">
+    <div>
+      <div class="card" style="margin-bottom: 20px; border-right: 4px solid var(--accent-rose);">
+        <div style="font-size: 14px; color: var(--accent-rose); font-weight: 600; margin-bottom: 8px;">❌ ככה לא</div>
+        <div class="card-text" style="font-size: 15px;">
+          "ההכנסות ברבעון ב-EMEA הגיעו ל-$12.4M, עלייה של 18% לעומת הרבעון המקביל. ב-Americas ההכנסות הגיעו ל-$8.2M, עלייה של 6%. השוליים ברבעון..."
+          <br><br>
+          <span style="color: var(--accent-rose);">→ הדירקטוריון מסתכל על הטלפון</span>
+        </div>
+      </div>
+      <div class="card" style="border-right: 4px solid var(--accent-emerald);">
+        <div style="font-size: 14px; color: var(--accent-emerald); font-weight: 600; margin-bottom: 8px;">✅ ככה כן</div>
+        <div class="card-text" style="font-size: 15px;">
+          "EMEA הפכה למנוע הצמיחה שלנו — עלייה של 18% לעומת 6% ב-Americas. אם נזיז 15% מתקציב השיווק של Q4 ל-EMEA, נוכל לתפוס עוד £400K. אני מבקש אישור היום."
+          <br><br>
+          <span style="color: var(--accent-emerald);">→ הדירקטוריון דן ומחליט</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card card-highlight">
+        <div class="card-title mb-16">🎯 מבנה שלוש המערכות</div>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="background: var(--accent-gold); color: #000; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 14px;">1</span>
+            <div>
+              <strong style="color: var(--text-primary);">Context</strong><br>
+              <span class="card-text">מה האתגר/הסיטואציה? למה אנחנו מדברים על זה עכשיו?</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="background: var(--accent-blue); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 14px;">2</span>
+            <div>
+              <strong style="color: var(--text-primary);">Insight</strong><br>
+              <span class="card-text">מה הנתונים מגלים? מה ההפתעה? מה לא צפינו?</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <span style="background: var(--accent-emerald); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 14px;">3</span>
+            <div>
+              <strong style="color: var(--text-primary);">Action</strong><br>
+              <span class="card-text">מה ההמלצה הספציפית? מה נדרש מהדירקטוריון?</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="small-text mt-16">💡 "אנשים לא זוכרים מספרים. אנשים זוכרים סיפורים שמספרים נמצאים בתוכם."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 34: BOARD DECK ============================== -->
+<div class="slide" data-slide="34">
+  <div class="section-label fade-in-item">📑 מבנה הדוח לדירקטוריון</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 36px);">ה-<span class="title-gold">10-Slide Board Deck</span> שעובד</h2>
+  <div class="content-split fade-in-item" style="margin-top: 20px;">
+    <div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; gap: 12px; align-items: center; padding: 12px 16px; background: var(--bg-card); border-radius: 10px; border-right: 3px solid var(--accent-gold);">
+          <span style="font-family: 'Rubik'; font-weight: 700; color: var(--accent-gold); direction: ltr; min-width: 24px;">01</span>
+          <span style="font-size: 15px;"><strong>Executive Summary</strong> — עמוד אחד, 3 מסרים מרכזיים</span>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center; padding: 12px 16px; background: var(--bg-card); border-radius: 10px;">
+          <span style="font-family: 'Rubik'; font-weight: 700; color: var(--text-muted); direction: ltr; min-width: 24px;">02</span>
+          <span style="font-size: 15px;">ביצועים פיננסיים — Actual vs Budget vs Forecast</span>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center; padding: 12px 16px; background: var(--bg-card); border-radius: 10px;">
+          <span style="font-family: 'Rubik'; font-weight: 700; color: var(--text-muted); direction: ltr; min-width: 24px;">03</span>
+          <span style="font-size: 15px;">נזילות ותזרים מזומנים — Runway ותחזית</span>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center; padding: 12px 16px; background: var(--bg-card); border-radius: 10px;">
+          <span style="font-family: 'Rubik'; font-weight: 700; color: var(--text-muted); direction: ltr; min-width: 24px;">04</span>
+          <span style="font-size: 15px;">סיכונים והזדמנויות — מפת חום</span>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center; padding: 12px 16px; background: var(--bg-card); border-radius: 10px;">
+          <span style="font-family: 'Rubik'; font-weight: 700; color: var(--text-muted); direction: ltr; min-width: 24px;">05</span>
+          <span style="font-size: 15px;">KPIs אסטרטגיים — עם Trend ו-Benchmark</span>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center; padding: 12px 16px; background: var(--bg-card); border-radius: 10px; border-right: 3px solid var(--accent-blue);">
+          <span style="font-family: 'Rubik'; font-weight: 700; color: var(--accent-blue); direction: ltr; min-width: 24px;">06-10</span>
+          <span style="font-size: 15px;">Deep Dives + נספחים (פירוט לפי ביקוש)</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card card-highlight" style="margin-bottom: 16px;">
+        <div class="card-title">⏰ תזמון וטקטיקה</div>
+        <div class="card-text" style="line-height: 1.8;">
+          <span class="em-gold">48-72 שעות לפני</span> — שליחת החומרים<br>
+          <span class="em-gold">סימון ברור</span> — Pre-Read | Presented | Discussion<br>
+          <span class="em-gold">קשר אישי</span> — עם כל חבר דירקטוריון בנפרד<br>
+          <span class="em-gold">חדשות רעות</span> — תמיד מגיעות ראשונות, מתואמות עם CEO
+        </div>
+      </div>
+      <div class="card" style="border-color: var(--accent-emerald);">
+        <div class="card-title">📊 ויזואליזציה שעובדת</div>
+        <div class="card-text">
+          <strong>עקרון Cole Nussbaumer Knaflic:</strong> כל אלמנט חזותי חייב מטרה. הפכו מידע משני לאפור, הדגישו את הנקודה האחת שחשובה, והתאימו סוג גרף לשאלה.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 35: GOLDEN RULES ============================== -->
+<div class="slide" data-slide="35">
+  <div class="section-label fade-in-item">⭐ כללי הזהב</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 36px);">7 כללי זהב <span class="title-gold">לתקשורת עם הדירקטוריון</span></h2>
+  <div class="content-full fade-in-item" style="margin-top: 24px; max-width: 900px; margin-right: auto; margin-left: auto;">
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div class="card" style="display: flex; gap: 16px; align-items: center; padding: 20px 24px;">
+        <span style="font-size: 32px;">🎯</span>
+        <div><strong style="color: var(--accent-gold);">הובילו עם המסקנה</strong> — לא עם הנתונים. ״מה אני רוצה שהם יחליטו?״ → ואז בנו את הסיפור לאחור.</div>
+      </div>
+      <div class="card" style="display: flex; gap: 16px; align-items: center; padding: 20px 24px;">
+        <span style="font-size: 32px;">🔗</span>
+        <div><strong style="color: var(--accent-gold);">חברו כל מספר לאסטרטגיה</strong> — ״ההוצאות על IT עלו 12%״ לא אומר כלום. ״ההשקעה ב-AI מחזירה $3.70 על כל דולר״ = החלטה.</div>
+      </div>
+      <div class="card" style="display: flex; gap: 16px; align-items: center; padding: 20px 24px;">
+        <span style="font-size: 32px;">🎭</span>
+        <div><strong style="color: var(--accent-gold);">דברו בשפה שלהם</strong> — דירקטורים חיצוניים רוצים ״תמונה גדולה״. מנכ״ל רוצה Action Items. ועדת ביקורת רוצה סיכונים.</div>
+      </div>
+      <div class="card" style="display: flex; gap: 16px; align-items: center; padding: 20px 24px;">
+        <span style="font-size: 32px;">📞</span>
+        <div><strong style="color: var(--accent-gold);">חדשות רעות — מהר ולא בהפתעה</strong> — תמיד ספרו למנכ״ל ראשון, תאמו תגובה, ואז עדכנו את הדירקטוריון.</div>
+      </div>
+      <div class="card" style="display: flex; gap: 16px; align-items: center; padding: 20px 24px;">
+        <span style="font-size: 32px;">📊</span>
+        <div><strong style="color: var(--accent-gold);">עקביות ברמת הדיווח</strong> — אותו פורמט, אותם KPIs, אותו סדר. שינוי פתאומי בפורמט מעורר חשדות.</div>
+      </div>
+      <div class="card" style="display: flex; gap: 16px; align-items: center; padding: 20px 24px;">
+        <span style="font-size: 32px;">🤝</span>
+        <div><strong style="color: var(--accent-gold);">בנו קשר אישי</strong> — הכירו כל דירקטור. קפה אחד-על-אחד שווה 10 מצגות. x3.5 בביצועים בארגונים עם תקשורת חזקה.</div>
+      </div>
+      <div class="card" style="display: flex; gap: 16px; align-items: center; padding: 20px 24px;">
+        <span style="font-size: 32px;">💪</span>
+        <div><strong style="color: var(--accent-gold);">גבו כל אומדן בנתונים</strong> — אם אתם אומרים ״בערך 15%״, הכינו תרחיש שמראה 12%, 15%, 18%. האמון מגיע מהפירוט.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 36: THOUGHT Q5 ============================== -->
+<div class="slide" data-slide="36">
+  <div class="thought-box fade-in-item">
+    <div class="thought-title">💡 תרגיל מעשי — זוגות (5 דקות)</div>
+    <div class="thought-question">
+      דמיינו שאתם צריכים לשכנע את הדירקטוריון <span class="em-gold">להשקיע NIS 2M בפלטפורמת AI</span> למחלקת הכספים.<br>
+      בנו את הפיץ׳ בשלושה משפטים — Context, Insight, Action.
+    </div>
+    <div class="thought-sub">
+      🎯 Context: מה הבעיה/ההזדמנות?<br>
+      📊 Insight: מה הנתונים מראים?<br>
+      ✅ Action: מה בדיוק מבקשים?
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 37: SECTION 6 DIVIDER ============================== -->
+<div class="slide section-divider" data-slide="37">
+  <span class="section-number">🇮🇱</span>
+  <div class="section-label fade-in-item">פרק שישי</div>
+  <h2 class="section-divider-title fade-in-item">הזירה <span class="title-gold">הישראלית</span></h2>
+  <p class="section-divider-sub fade-in-item">$15.6B גיוסי סטארטאפים, $74B אקזיטים,<br>ומחסור חמור ב-CFOs — ההזדמנות שלכם</p>
+</div>
+
+<!-- ============================== SLIDE 38: ISRAELI ECOSYSTEM ============================== -->
+<div class="slide" data-slide="38">
+  <div class="section-label fade-in-item">🇮🇱 האקוסיסטם הישראלי</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 36px);">ישראל בעידן <span class="title-gold">ה-AI</span> — מספרים מרכזיים</h2>
+  <div class="stat-grid fade-in-item" style="margin-top: 24px;">
+    <div class="stat-block" style="border-color: var(--accent-gold);">
+      <div class="stat-number">$15.6B</div>
+      <div class="stat-label">גיוסי סטארטאפים ב-2025</div>
+      <div class="stat-source">Startup Nation Central</div>
+    </div>
+    <div class="stat-block" style="border-color: var(--accent-emerald);">
+      <div class="stat-number">$74B</div>
+      <div class="stat-label">אקזיטים ב-2025 — שיא!</div>
+      <div class="stat-source">Startup Nation Central</div>
+    </div>
+    <div class="stat-block" style="border-color: var(--accent-blue);">
+      <div class="stat-number">$32B</div>
+      <div class="stat-label">רכישת Wiz ע״י Google — שיא ישראלי</div>
+    </div>
+    <div class="stat-block" style="border-color: var(--accent-purple);">
+      <div class="stat-number">~20%</div>
+      <div class="stat-label">חלק ההייטק מהתמ״ג הישראלי</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-number">4.9%</div>
+      <div class="stat-label">צמיחת תמ"ג צפויה 2026</div>
+      <div class="stat-source">OECD דצמבר 2025</div>
+    </div>
+  </div>
+  <div class="content-split fade-in-item" style="margin-top: 24px; max-width: 900px;">
+    <div class="card">
+      <div class="card-title">📊 eToro — חלון ה-IPO נפתח</div>
+      <div class="card-text">הנפקה של $5.64B בנאסד"ק במאי 2025. פתחה את הדרך לגל הנפקות ישראליות חדש.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏦 בנקים ישראליים — שיאי רווחים</div>
+      <div class="card-text">לאומי — 2.6 מיליארד ₪, הפועלים — 2.5 מיליארד ₪ ב-Q2 2025. השקעה מאסיבית בדיגיטל ו-AI.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 39: ISRAELI COMPANIES ============================== -->
+<div class="slide" data-slide="39">
+  <div class="section-label fade-in-item">🚀 חברות ישראליות שמשנות את הפיננסים</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 34px);">מ<span class="title-gold">תל אביב</span> — לעולם</h2>
+  <div class="content-quad fade-in-item" style="margin-top: 20px;">
+    <div class="card" style="border-top: 3px solid var(--accent-gold);">
+      <div class="card-title">💳 Tipalti</div>
+      <div style="font-size: 12px; color: var(--accent-emerald); margin-bottom: 8px;">$200M ARR | תל אביב</div>
+      <div class="card-text">פלטפורמת AP/AR מבוססת AI. השיקו סוכני AI לרכש, מיסוי ודיווח. עוזרת לאלפי חברות לנהל תשלומים גלובליים.</div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--accent-blue);">
+      <div class="card-title">🤖 Stampli</div>
+      <div style="font-size: 12px; color: var(--accent-emerald); margin-bottom: 8px;">$5B+ חשבוניות/חודש | גיוס $61M</div>
+      <div class="card-text">"Billy the Bot" — סוכן AI שמנהל את כל תהליך האישור, הקידוד והתשלום של חשבוניות באופן אוטונומי.</div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--accent-purple);">
+      <div class="card-title">📊 Pagaya</div>
+      <div style="font-size: 12px; color: var(--accent-emerald); margin-bottom: 8px;">NYSE: PGY | $1T הלוואות/שנה</div>
+      <div class="card-text">AI שמעבד טריליון דולר בבקשות הלוואה בשנה. הפכה את חיתום האשראי באמצעות ML. נסחרת בניו יורק.</div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--accent-emerald);">
+      <div class="card-title">💰 Melio</div>
+      <div style="font-size: 12px; color: var(--accent-emerald); margin-bottom: 8px;">נרכשה ע״י Xero ב-~$3B</div>
+      <div class="card-text">פלטפורמת B2B payments לעסקים קטנים ובינוניים. נרכשה ע"י Xero מניו זילנד — אקזיט משמעותי.</div>
+    </div>
+  </div>
+  <p class="small-text fade-in-item text-center mt-16">🇮🇱 חברות ישראליות בונות את הכלים שה-CFOs של העולם משתמשים בהם — היכרות עם הטכנולוגיה היא יתרון תחרותי</p>
+</div>
+
+<!-- ============================== SLIDE 40: CFO SHORTAGE ============================== -->
+<div class="slide" data-slide="40">
+  <div class="section-label fade-in-item">⚠️ המחסור ב-CFOs בישראל</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(24px, 2.5vw, 36px);">הבעיה = <span class="title-gold">ההזדמנות שלכם</span></h2>
+  <div class="content-split fade-in-item" style="margin-top: 24px;">
+    <div>
+      <div class="quote-block" style="margin-bottom: 20px;">
+        <div class="quote-text" style="font-size: 22px;">אין לנו מספיק CFOs בישראל.</div>
+        <div class="quote-author">— Aleph VC</div>
+      </div>
+      <div class="card">
+        <div class="card-title">📉 מה הבעיה?</div>
+        <div class="card-text" style="line-height: 1.8;">
+          ‏האקוסיסטם מייצר מייסדים ומהנדסים מעולים — אבל לא Pipeline מספק של מנהלי כספים אסטרטגיים.
+          <br><br>
+          בנקאי השקעות מתארים "בעיה אמיתית" במציאת מנהלי כספים שמוכנים לרודשואים של IPO.
+          <br><br>
+          הפער: בין רואה חשבון / Controller לבין CFO אסטרטגי שמוביל טרנספורמציה.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card card-highlight">
+        <div class="card-title">🎯 ההזדמנות שלכם</div>
+        <div class="card-text" style="font-size: 16px; line-height: 1.8;">
+          <span class="em-gold">1. דרישה גדלה</span> — כל סטארטאפ שמכוון ל-IPO צריך CFO.<br><br>
+          <span class="em-gold">2. AI כיתרון</span> — CFOs שמבינים AI מקבלים פרמיה בשוק.<br><br>
+          <span class="em-gold">3. גלובליות</span> — CFOs ישראלים עם ניסיון IFRS+US GAAP רלוונטיים בכל העולם.<br><br>
+          <span class="em-gold">4. מהירות</span> — בסטארטאפ ישראלי CFO נחשף ל-10 שנים של ניסיון תוך שנתיים.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 41: ANAT ASHKENAZI ============================== -->
+<div class="slide" data-slide="41">
+  <div class="section-label fade-in-item">🌟 סיפור השראה</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 40px);">ענת אשכנזי — מבנק הפועלים ל-<span class="title-gold">CFO של Google</span></h2>
+  <div class="content-split fade-in-item" style="margin-top: 24px;">
+    <div>
+      <div class="timeline" style="padding-right: 40px;">
+        <div class="timeline-item">
+          <div class="timeline-year">📚 ישראל</div>
+          <div class="timeline-content">תואר מ<strong>האוניברסיטה העברית</strong> ו<strong>אוניברסיטת תל אביב</strong>. התחלה ב<strong>בנק הפועלים</strong>.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">🏢 Eli Lilly</div>
+          <div class="timeline-content">קריירה של שני עשורים ב-Eli Lilly. עלתה ל-<strong>CFO</strong> של ענקית הפארמה.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">🔍 Google / Alphabet</div>
+          <div class="timeline-content">מונתה ל-<strong>CFO של Alphabet/Google</strong>. מדורגת <strong>#51</strong> ברשימת הנשים החזקות בעולם (Fortune).</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card card-highlight">
+        <div class="card-title">💎 מה הסיפור מלמד?</div>
+        <div class="card-text" style="font-size: 16px; line-height: 1.8;">
+          <span class="em-gold">הבסיס הישראלי</span> — הכשרה בחשבונאות ופיננסים בישראל יצרה בסיס מוצק שהצמיח קריירה גלובלית.<br><br>
+          <span class="em-gold">חשיבה אסטרטגית</span> — המעבר מ-Controller ל-CFO ל-Strategic Leader דרש התרחבות מתמדת מעבר למספרים.<br><br>
+          <span class="em-gold">המסלול פתוח</span> — מהכשרה ישראלית אפשר להגיע לפסגת ה-Finance העולמי. <br><br>
+          <strong>זה בדיוק המסלול שהקורס הזה מכוון אליו.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 42: 10 TAKEAWAYS ============================== -->
+<div class="slide" data-slide="42">
+  <div class="section-label fade-in-item">🏁 סיכום</div>
+  <h2 class="slide-title fade-in-item" style="font-size: clamp(26px, 3vw, 38px);">10 <span class="title-gold">Takeaways</span> — מה לקחת הביתה</h2>
+  <div class="content-split fade-in-item" style="margin-top: 20px; max-width: 1100px;">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div class="card" style="padding: 16px 20px; display: flex; gap: 12px; align-items: center;">
+        <span style="color: var(--accent-gold); font-family: 'Rubik'; font-weight: 900; font-size: 18px; direction: ltr; min-width: 24px;">01</span>
+        <span style="font-size: 15px;">ה-CFO של 2026 הוא <strong>שותף אסטרטגי</strong> — לא רואה חשבון בכיר</span>
+      </div>
+      <div class="card" style="padding: 16px 20px; display: flex; gap: 12px; align-items: center;">
+        <span style="color: var(--accent-gold); font-family: 'Rubik'; font-weight: 900; font-size: 18px; direction: ltr; min-width: 24px;">02</span>
+        <span style="font-size: 15px;"><strong>10% מ-CEOs</strong> הגיעו מתפקיד CFO — הדרך פתוחה למנהיגות</span>
+      </div>
+      <div class="card" style="padding: 16px 20px; display: flex; gap: 12px; align-items: center;">
+        <span style="color: var(--accent-gold); font-family: 'Rubik'; font-weight: 900; font-size: 18px; direction: ltr; min-width: 24px;">03</span>
+        <span style="font-size: 15px;"><strong>88% משתמשים ב-AI</strong> אבל 86% לא מפיקים ערך — סגירת הפער = היתרון שלכם</span>
+      </div>
+      <div class="card" style="padding: 16px 20px; display: flex; gap: 12px; align-items: center;">
+        <span style="color: var(--accent-gold); font-family: 'Rubik'; font-weight: 900; font-size: 18px; direction: ltr; min-width: 24px;">04</span>
+        <span style="font-size: 15px;"><strong>$3.70 ROI</strong> ממוצע על כל דולר ב-GenAI — ו-$10.30 ב-Top Performers</span>
+      </div>
+      <div class="card" style="padding: 16px 20px; display: flex; gap: 12px; align-items: center;">
+        <span style="color: var(--accent-gold); font-family: 'Rubik'; font-weight: 900; font-size: 18px; direction: ltr; min-width: 24px;">05</span>
+        <span style="font-size: 15px;"><strong>Agentic AI</strong> הוא הטרנד המגדיר — סוכנים שחושבים, מתכננים ומבצעים</span>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div class="card" style="padding: 16px 20px; display: flex; gap: 12px; align-items: center;">
+        <span style="color: var(--accent-blue-light); font-family: 'Rubik'; font-weight: 900; font-size: 18px; direction: ltr; min-width: 24px;">06</span>
+        <span style="font-size: 15px;">מעבר ל-<strong>EBITDA</strong>: Rule of 40, NRR, Burn Multiple, LTV/CAC</span>
+      </div>
+      <div class="card" style="padding: 16px 20px; display: flex; gap: 12px; align-items: center;">
+        <span style="color: var(--accent-blue-light); font-family: 'Rubik'; font-weight: 900; font-size: 18px; direction: ltr; min-width: 24px;">07</span>
+        <span style="font-size: 15px;"><strong>ESG = כסף</strong> — "Green Premium" מוכח סטטיסטית במכפילי שוק</span>
+      </div>
+      <div class="card" style="padding: 16px 20px; display: flex; gap: 12px; align-items: center;">
+        <span style="color: var(--accent-blue-light); font-family: 'Rubik'; font-weight: 900; font-size: 18px; direction: ltr; min-width: 24px;">08</span>
+        <span style="font-size: 15px;"><strong>Context → Insight → Action</strong> — הנוסחה לתקשורת עם דירקטוריון</span>
+      </div>
+      <div class="card" style="padding: 16px 20px; display: flex; gap: 12px; align-items: center;">
+        <span style="color: var(--accent-blue-light); font-family: 'Rubik'; font-weight: 900; font-size: 18px; direction: ltr; min-width: 24px;">09</span>
+        <span style="font-size: 15px;"><strong>מחסור ב-CFOs בישראל</strong> = ההזדמנות הגדולה ביותר שלכם</span>
+      </div>
+      <div class="card" style="padding: 16px 20px; display: flex; gap: 12px; align-items: center;">
+        <span style="color: var(--accent-blue-light); font-family: 'Rubik'; font-weight: 900; font-size: 18px; direction: ltr; min-width: 24px;">10</span>
+        <span style="font-size: 15px;"><strong>מהירות ללא בקרה = כאוס</strong> — גם ב-AI, הממשל חייב להוביל</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SLIDE 43: CLOSING ============================== -->
+<div class="slide" data-slide="43">
+  <div class="cover-bg"><div class="cover-grid"></div></div>
+  <div class="cover-content">
+    <div class="section-label fade-in-item" style="font-size: 16px; letter-spacing: 4px;">תודה רבה!</div>
+    <h2 class="slide-title fade-in-item" style="font-size: clamp(32px, 4vw, 56px); margin-top: 16px;">
+      <span class="title-gold">שאלות, תגובות</span><br>ודיון פתוח
+    </h2>
+    <div class="cover-divider fade-in-item"></div>
+    <p class="slide-subtitle fade-in-item" style="margin-bottom: 40px;">
+      זכרו: ה-CFOs שישקיעו בפיתוח היכולות האלה <strong>עכשיו</strong><br>
+      ימצאו את עצמם בעמדה להוביל את הטרנספורמציה<br>
+      <span class="em-gold">המשמעותית ביותר בתולדות הפיננסים</span>
+    </p>
+    <div class="fade-in-item" style="display: flex; gap: 24px; align-items: center;">
+      <div style="text-align: center;">
+        <div style="font-size: 20px; font-weight: 700;">ד״ר שי צבאן</div>
+        <div style="font-size: 14px; color: var(--text-secondary); margin-top: 4px;">הכשרת מנהלי כספים בעידן ה-AI — מחזור 2/26</div>
+      </div>
+    </div>
+    <div class="fade-in-item" style="margin-top: 32px;">
+      <span class="pill pill-gold">📅 נתראה במפגש הבא!</span>
+    </div>
+  </div>
+</div>
+
+</div><!-- end presentation -->
+
+<!-- ===== NAVIGATION BAR ===== -->
+<div class="nav-bar">
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)">→ הבא</button>
+  <div class="nav-counter"><span id="currentSlide">1</span> / <span id="totalSlides">44</span></div>
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">הקודם ←</button>
+</div>
+
+<div class="key-hint" id="keyHint">← → Arrow keys to navigate | F for fullscreen | M for menu</div>
+
+<script>
+// ===== PRESENTATION ENGINE =====
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let isAnimating = false;
+
+document.getElementById('totalSlides').textContent = total;
+
+function goToSlide(n) {
+  if (isAnimating || n === current || n < 0 || n >= total) return;
+  isAnimating = true;
+  
+  const direction = n > current ? 1 : -1;
+  
+  slides[current].classList.remove('active');
+  slides[current].classList.add(direction > 0 ? 'exit-left' : '');
+  
+  current = n;
+  
+  slides[current].classList.add('active');
+  
+  setTimeout(() => {
+    slides.forEach((s, i) => {
+      if (i !== current) {
+        s.classList.remove('active', 'exit-left');
+      }
+    });
+    isAnimating = false;
+  }, 600);
+  
+  updateUI();
+  animateBars();
+  closeMenu();
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next >= 0 && next < total) {
+    goToSlide(next);
+  }
+}
+
+function updateUI() {
+  document.getElementById('currentSlide').textContent = current + 1;
+  document.getElementById('progressFill').style.width = ((current + 1) / total * 100) + '%';
+  document.getElementById('prevBtn').style.opacity = current === 0 ? 0.3 : 1;
+  document.getElementById('nextBtn').style.opacity = current === total - 1 ? 0.3 : 1;
+}
+
+// ===== BAR CHART ANIMATION =====
+function animateBars() {
+  const activeSlide = slides[current];
+  const bars = activeSlide.querySelectorAll('.bar-fill');
+  bars.forEach((bar, i) => {
+    bar.classList.remove('animated');
+    setTimeout(() => bar.classList.add('animated'), 100 + i * 120);
+  });
+}
+
+// ===== KEYBOARD NAVIGATION =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') navigate(1);
+  else if (e.key === 'ArrowRight') navigate(-1);
+  else if (e.key === 'ArrowDown') navigate(1);
+  else if (e.key === 'ArrowUp') navigate(-1);
+  else if (e.key === ' ') { e.preventDefault(); navigate(1); }
+  else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+  else if (e.key === 'm' || e.key === 'M') toggleMenu();
+  else if (e.key === 'Escape') closeMenu();
+});
+
+// ===== TOUCH NAVIGATION =====
+let touchStartX = 0;
+document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 60) navigate(diff > 0 ? 1 : -1);
+});
+
+// ===== FULLSCREEN =====
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+
+// ===== MENU =====
+function toggleMenu() {
+  document.getElementById('menuPanel').classList.toggle('open');
+}
+
+function closeMenu() {
+  document.getElementById('menuPanel').classList.remove('open');
+}
+
+document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.section-menu')) closeMenu();
+});
+
+// ===== INITIAL SETUP =====
+animateBars();
+
+// Show keyboard hint briefly
+const hint = document.getElementById('keyHint');
+setTimeout(() => hint.classList.add('visible'), 2000);
+setTimeout(() => hint.classList.remove('visible'), 7000);
+</script>
+
+</body>
+</html>
