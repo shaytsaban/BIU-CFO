@@ -60,7 +60,6 @@
             overflow: hidden;
         }
 
-        /* Animated orbs */
         header::before {
             content: '';
             position: absolute;
@@ -182,7 +181,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* AI Particles decoration */
         .particles {
             position: absolute;
             inset: 0;
@@ -273,7 +271,6 @@
             z-index: 20;
         }
 
-        /* ========== CARDS ========== */
         .card {
             background: var(--card-bg);
             border-radius: 20px;
@@ -497,6 +494,11 @@
             transition: all 0.25s ease;
             text-decoration: none;
             color: var(--text-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .lecture-card:last-child {
+            margin-bottom: 0;
         }
 
         .lecture-card:hover {
@@ -809,6 +811,15 @@
                     <div class="lecture-info">
                         <h3>CFOs, Welcome to the New Era!</h3>
                         <p class="lecture-date"><i class="far fa-calendar-alt"></i> 15.2.2026</p>
+                        <p class="lecture-instructor">Dr. Shay Tsaban</p>
+                    </div>
+                </a>
+
+                <a href="lec2.html" class="lecture-card">
+                    <div class="lecture-number">2</div>
+                    <div class="lecture-info">
+                        <h3>CFO - Welcome to the basics of AI!</h3>
+                        <p class="lecture-date"><i class="far fa-calendar-alt"></i> 22.2.2026</p>
                         <p class="lecture-instructor">Dr. Shay Tsaban</p>
                     </div>
                     <span class="new-badge"><i class="fas fa-sparkles"></i> New</span>
