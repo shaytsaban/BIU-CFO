@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ניתוח פיננסי לקבלת החלטות | כלי AI חינמיים — ד״ר שי צבאן</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafbfd;
+  --surface: #ffffff;
+  --surface2: #f3f5f9;
+  --surface3: #e8ecf3;
+  --border: #dde2ed;
+  --border2: #c8cfde;
+  --text: #1a2236;
+  --text2: #4a5578;
+  --text3: #7a849e;
+  --accent: #2563eb;
+  --accent-light: #eff4ff;
+  --accent-mid: #bfdbfe;
+  --accent2: #7c3aed;
+  --accent2-light: #f3eeff;
+  --green: #059669;
+  --green-light: #ecfdf5;
+  --green-border: #a7f3d0;
+  --orange: #d97706;
+  --orange-light: #fffbeb;
+  --orange-border: #fde68a;
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --red-border: #fecaca;
+  --cyan: #0891b2;
+  --cyan-light: #ecfeff;
+  --cyan-border: #a5f3fc;
+  --warm: #92400e;
+  --warm-light: #fef3c7;
+  --chatgpt: #10a37f;
+  --claude: #c4956a;
+  --perplexity: #1a8fa8;
+  --grok: #1472b0;
+  --gemini: #7c3aed;
+  --deepseek: #2563eb;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.03);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
+  --radius: 14px;
+  --radius-sm: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.85;
+  font-size: 15.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── PROGRESS ─── */
+.progress-track {
+  position: fixed; top:0; left:0; right:0; height:3px; z-index:1000;
+  background: var(--border);
+}
+.progress-fill {
+  height:100%; width:0%; border-radius:0 0 3px 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transition: width 0.12s linear;
+}
+
+/* ─── TOP NAV ─── */
+.topnav {
+  position: sticky; top:0; z-index:999;
+  background: rgba(255,255,255,0.88); backdrop-filter: blur(14px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px; overflow-x: auto;
+  display: flex; justify-content: center;
+  -webkit-overflow-scrolling: touch;
+}
+.topnav::-webkit-scrollbar { height: 0; }
+.topnav-inner {
+  display: flex; gap: 2px; padding: 6px 0;
+  max-width: 1100px; width: 100%;
+  justify-content: center;
+}
+.topnav a {
+  display: flex; align-items: center; gap: 5px;
+  padding: 7px 13px; border-radius: 8px;
+  font-size: 12.5px; font-weight: 500; color: var(--text3);
+  text-decoration: none; white-space: nowrap;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+.topnav a:hover { background: var(--accent-light); color: var(--accent); }
+.topnav a.active {
+  background: var(--accent-light); color: var(--accent);
+  border-color: var(--accent-mid); font-weight: 600;
+}
+.topnav .tn-time { font-size: 10px; opacity: 0.55; font-weight: 400; }
+.topnav .tn-icon { font-size: 13px; }
+
+/* ─── CONTAINER ─── */
+.container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+.container-wide { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 92vh;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(170deg, #f0f4ff 0%, #fdfbf7 40%, #f5f0ff 100%);
+  position: relative; overflow: hidden;
+}
+.hero-pattern {
+  position: absolute; inset: 0; opacity: 0.4;
+  background-image: radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0);
+  background-size: 32px 32px;
+}
+.hero-blob {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18;
+}
+.hero-blob-1 { width:500px; height:500px; background:#2563eb; top:-120px; right:-80px; }
+.hero-blob-2 { width:400px; height:400px; background:#7c3aed; bottom:-100px; left:-60px; }
+.hero-blob-3 { width:300px; height:300px; background:#059669; bottom:60px; right:20%; }
+
+.hero-inner {
+  position: relative; z-index: 1; text-align: center;
+  max-width: 780px; padding: 40px 24px;
+}
+.hero-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: white; border: 1px solid var(--border);
+  padding: 6px 16px; border-radius: 100px;
+  font-size: 13px; font-weight: 500; color: var(--accent);
+  box-shadow: var(--shadow-sm); margin-bottom: 24px;
+}
+.hero h1 {
+  font-family: 'Rubik', sans-serif;
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 800; line-height: 1.18;
+  color: var(--text); margin-bottom: 18px;
+  letter-spacing: -0.5px;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-sub {
+  font-size: 17px; color: var(--text2); max-width: 620px;
+  margin: 0 auto 30px; line-height: 1.7;
+}
+.hero-pills {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.hero-pill {
+  display: flex; align-items: center; gap: 5px;
+  background: white; border: 1px solid var(--border);
+  padding: 8px 16px; border-radius: 10px;
+  font-size: 13px; font-weight: 500; color: var(--text2);
+  box-shadow: var(--shadow-sm);
+}
+.hero-pill strong { color: var(--text); }
+.hero-author {
+  font-size: 14px; color: var(--text3); margin-top: 10px;
+}
+.hero-author strong { color: var(--text2); }
+
+/* ─── SECTION ─── */
+.section { padding: 72px 0 60px; }
+.section + .section { border-top: 1px solid var(--border); }
+.section-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--accent-light); color: var(--accent);
+  padding: 5px 14px; border-radius: 8px;
+  font-size: 12px; font-weight: 600; margin-bottom: 14px;
+  letter-spacing: 0.2px;
+}
+.section h2 {
+  font-family: 'Rubik', sans-serif;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700; color: var(--text);
+  margin-bottom: 6px; line-height: 1.25;
+}
+.section h3 {
+  font-family: 'Rubik', sans-serif;
+  font-size: 19px; font-weight: 700;
+  color: var(--text); margin: 44px 0 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section h3 .h3-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--accent-light); color: var(--accent);
+  font-size: 14px; font-weight: 700; flex-shrink: 0;
+}
+.section-lead {
+  font-size: 16px; color: var(--text2); max-width: 720px;
+  margin-bottom: 36px; line-height: 1.8;
+}
+
+/* ─── LEARNING INTRO ("WHY THIS MATTERS") ─── */
+.learn-intro {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px 30px;
+  margin-bottom: 36px; box-shadow: var(--shadow-sm);
+  position: relative;
+  border-right: 4px solid var(--accent);
+}
+.learn-intro-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.6px;
+  margin-bottom: 10px;
+}
+.learn-intro p { color: var(--text2); font-size: 14.5px; line-height: 1.85; }
+.learn-intro strong { color: var(--text); }
+
+/* ─── CFO INSIGHT ─── */
+.cfo-box {
+  background: var(--warm-light); border: 1px solid var(--orange-border);
+  border-radius: var(--radius-sm); padding: 18px 22px;
+  margin: 18px 0; display: flex; gap: 14px; align-items: flex-start;
+}
+.cfo-box-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: white; border: 1px solid var(--orange-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.cfo-box-text { font-size: 13.5px; color: var(--warm); line-height: 1.75; }
+.cfo-box-text strong { color: var(--warm); }
+
+/* ─── PAUSE / REFLECT ─── */
+.pause {
+  background: var(--accent2-light); border: 1px solid #e0d4fc;
+  border-radius: var(--radius); padding: 24px 28px;
+  margin: 32px 0; text-align: center;
+}
+.pause-tag {
+  font-size: 12px; font-weight: 700; color: var(--accent2);
+  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;
+}
+.pause p { color: #5b21b6; font-size: 14px; line-height: 1.75; }
+.pause strong { color: #4c1d95; }
+
+/* ─── DEFINITION ─── */
+.defn {
+  background: var(--cyan-light); border: 1px solid var(--cyan-border);
+  border-radius: var(--radius-sm); padding: 18px 22px; margin: 14px 0;
+}
+.defn-term {
+  font-family: 'Rubik', sans-serif; font-weight: 700;
+  font-size: 15px; color: var(--cyan); margin-bottom: 3px;
+}
+.defn-formula {
+  font-family: 'IBM Plex Mono', monospace; font-size: 13.5px;
+  color: #155e75; margin: 6px 0; direction: ltr; text-align: left;
+  background: rgba(255,255,255,0.6); padding: 6px 12px; border-radius: 6px;
+  display: inline-block;
+}
+.defn-body { font-size: 13.5px; color: #164e63; line-height: 1.75; }
+.defn-body em { font-style: normal; color: var(--cyan); font-weight: 600; }
+
+/* ─── TOOL BADGES ─── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 6px;
+  font-size: 11.5px; font-weight: 600; border: 1px solid;
+}
+.badge-chatgpt { background: #ecfdf5; color: var(--chatgpt); border-color: #a7f3d0; }
+.badge-claude { background: #fef7ee; color: var(--claude); border-color: #f5d0a9; }
+.badge-perplexity { background: #ecfeff; color: var(--perplexity); border-color: #a5f3fc; }
+.badge-grok { background: #eff6ff; color: var(--grok); border-color: #bfdbfe; }
+.badge-gemini { background: #f3eeff; color: var(--gemini); border-color: #d8b4fe; }
+.badge-deepseek { background: #eff4ff; color: var(--deepseek); border-color: #bfdbfe; }
+.badge-free { background: #ecfdf5; color: #047857; border-color: #a7f3d0; font-size: 10px; }
+
+.badges { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+
+/* ─── CARD ─── */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow-sm); margin-bottom: 16px;
+  transition: box-shadow 0.25s, border-color 0.25s;
+}
+.card:hover { box-shadow: var(--shadow-md); border-color: var(--border2); }
+.card-title {
+  font-family: 'Rubik', sans-serif; font-weight: 600;
+  font-size: 16px; color: var(--text); margin-bottom: 8px;
+}
+
+/* ─── PROMPT ─── */
+.prompt-why {
+  background: var(--green-light); border: 1px solid var(--green-border);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  padding: 14px 20px; font-size: 13px; color: #065f46; line-height: 1.7;
+}
+.prompt-why strong { color: #047857; }
+.prompt-block {
+  background: #1e293b; border: 1px solid #334155;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  padding: 22px; margin-bottom: 16px; position: relative;
+  overflow: hidden;
+}
+.prompt-block::before {
+  content: 'PROMPT'; position: absolute; top: 10px; left: 14px;
+  background: var(--accent); color: white; font-size: 9px; font-weight: 700;
+  padding: 2px 8px; border-radius: 4px; letter-spacing: 1.5px;
+}
+.prompt-block code {
+  display: block; font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px; line-height: 1.85; color: #a5f3fc;
+  white-space: pre-wrap; direction: ltr; text-align: left;
+}
+.prompt-block-he code { direction: rtl; text-align: right; color: #bfdbfe; }
+.prompt-standalone {
+  border-radius: var(--radius-sm);
+}
+
+/* ─── GRIDS ─── */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 14px; }
+
+/* ─── TABLE ─── */
+.tbl-wrap {
+  background: white; border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--shadow-sm); margin: 16px 0;
+}
+.tbl { width:100%; border-collapse:collapse; font-size:13.5px; }
+.tbl th {
+  background: var(--surface2); padding: 12px 16px; text-align: right;
+  font-weight: 600; color: var(--text); border-bottom: 2px solid var(--border);
+  font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.3px;
+}
+.tbl td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text2); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td { background: var(--accent-light); }
+
+/* ─── TOOL CARD ─── */
+.tool-card {
+  background: white; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 22px; box-shadow: var(--shadow-sm); transition: all 0.25s;
+  border-top: 3px solid var(--border);
+}
+.tool-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.tool-card-name {
+  font-family: 'Rubik', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 2px;
+}
+.tool-card-url { font-size: 12px; color: var(--text3); margin-bottom: 10px; }
+.tool-card-use { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+/* ─── CALLOUT ─── */
+.callout {
+  border-radius: var(--radius-sm); padding: 20px 24px; margin: 20px 0;
+  border: 1px solid; border-right-width: 4px;
+}
+.callout-tip { background: var(--green-light); border-color: var(--green-border); }
+.callout-warn { background: var(--orange-light); border-color: var(--orange-border); }
+.callout-alert { background: var(--red-light); border-color: var(--red-border); }
+.callout-info { background: var(--accent-light); border-color: var(--accent-mid); }
+.callout-label {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 6px;
+}
+.callout-tip .callout-label { color: var(--green); }
+.callout-warn .callout-label { color: var(--orange); }
+.callout-alert .callout-label { color: var(--red); }
+.callout-info .callout-label { color: var(--accent); }
+
+/* ─── DATA SOURCE ─── */
+.data-src {
+  background: white; border: 1px solid var(--cyan-border);
+  border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow-sm); margin: 18px 0;
+}
+.data-src-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; color: var(--cyan);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
+}
+.data-src a { color: var(--accent); text-decoration: none; border-bottom: 1px dashed var(--accent-mid); }
+.data-src a:hover { border-bottom-style: solid; }
+.data-src p { color: var(--text2); font-size: 14px; line-height: 1.8; }
+
+/* ─── WORKFLOW ─── */
+.flow { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; margin: 24px 0; }
+.flow-step {
+  background: white; border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 18px; text-align: center; font-size: 13px; font-weight: 500;
+  box-shadow: var(--shadow-sm); min-width: 120px; color: var(--text);
+}
+.flow-arrow { color: var(--accent); font-size: 18px; padding: 0 8px; transform: scaleX(-1); font-weight: 700; }
+
+/* ─── STEP ─── */
+.step { display: flex; gap: 16px; margin: 18px 0; align-items: flex-start; }
+.step-n {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--accent); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Rubik', sans-serif; font-weight: 700;
+  font-size: 14px; flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(37,99,235,0.25);
+}
+.step-body { flex: 1; }
+.step-body h4 { font-weight: 600; color: var(--text); margin-bottom: 3px; font-size: 15px; }
+.step-body p { color: var(--text2); font-size: 13.5px; }
+
+/* ─── EXPAND ─── */
+.expand { border: 1px solid var(--border); border-radius: var(--radius); margin: 12px 0; overflow: hidden; box-shadow: var(--shadow-sm); }
+.expand-header {
+  background: white; padding: 16px 22px; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: 600; color: var(--text); font-size: 15px; transition: background 0.2s;
+  user-select: none;
+}
+.expand-header:hover { background: var(--surface2); }
+.expand-chevron {
+  width: 24px; height: 24px; border-radius: 6px; background: var(--surface2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: var(--text3); transition: transform 0.3s, background 0.2s;
+  flex-shrink: 0;
+}
+.expand.open .expand-chevron { transform: rotate(-90deg); background: var(--accent-light); color: var(--accent); }
+.expand-body { display: none; padding: 22px; background: var(--surface2); border-top: 1px solid var(--border); }
+.expand.open .expand-body { display: block; }
+
+/* ─── DASHBOARD PREVIEW ─── */
+.dash-demo {
+  background: #1e293b; border-radius: var(--radius); padding: 24px;
+  margin: 18px 0; color: #e2e8f0;
+}
+.dash-demo-label {
+  font-size: 11px; font-weight: 700; color: #94a3b8;
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
+}
+.dash-kpis { display: flex; gap: 10px; flex-wrap: wrap; }
+.dash-kpi {
+  flex: 1; min-width: 110px; background: #334155; border-radius: 10px;
+  padding: 14px; text-align: center;
+}
+.dash-kpi-val { font-family: 'Rubik', sans-serif; font-size: 22px; font-weight: 700; }
+.dash-kpi-lbl { font-size: 11px; color: #94a3b8; margin-top: 3px; }
+.kpi-up { color: #34d399; }
+.kpi-down { color: #f87171; }
+.kpi-flat { color: #fbbf24; }
+
+/* ─── CASE STUDY BOX ─── */
+.case-box {
+  background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 50%, #ecfdf5 100%);
+  border: 1px solid #fde68a; border-radius: var(--radius); padding: 28px;
+  margin: 28px 0; box-shadow: var(--shadow-sm);
+}
+.case-label {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: white; border: 1px solid #fbbf24;
+  padding: 4px 12px; border-radius: 6px;
+  font-size: 11px; font-weight: 700; color: #92400e; margin-bottom: 12px;
+}
+
+/* ─── EXERCISE ─── */
+.exercise {
+  background: white; border: 2px solid var(--green-border);
+  border-radius: var(--radius); padding: 26px; margin: 20px 0;
+  box-shadow: var(--shadow-sm);
+}
+.exercise-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; color: var(--green);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .flow { flex-direction: column; }
+  .flow-arrow { transform: rotate(-90deg); }
+  .hero-pills { flex-direction: column; align-items: center; }
+  .topnav-inner { justify-content: flex-start; }
+  .dash-kpis { flex-direction: column; }
+  .container { padding: 0 16px; }
+}
+@media print {
+  .topnav, .progress-track { display: none; }
+  .section { page-break-inside: avoid; }
+}
+
+/* ─── ANIMATIONS ─── */
+.reveal { opacity: 0; transform: translateY(18px); transition: all 0.55s cubic-bezier(0.22,1,0.36,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── MISC ─── */
+.break-section {
+  text-align: center; padding: 40px 24px;
+  background: linear-gradient(135deg, var(--surface2) 0%, var(--accent-light) 100%);
+}
+.footer {
+  text-align: center; padding: 48px 24px 32px;
+  border-top: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<div class="progress-track"><div class="progress-fill" id="pf"></div></div>
+
+<!-- ─── TOP NAV ─── -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="#part1" class="active"><span class="tn-icon">🎯</span> פתיחה <span class="tn-time">0:00</span></a>
+    <a href="#part2"><span class="tn-icon">🧰</span> מפת כלים <span class="tn-time">0:25</span></a>
+    <a href="#part3"><span class="tn-icon">📥</span> חילוץ נתונים <span class="tn-time">0:55</span></a>
+    <a href="#break"><span class="tn-icon">☕</span> הפסקה <span class="tn-time">1:30</span></a>
+    <a href="#part5"><span class="tn-icon">📊</span> ניתוח יחסים <span class="tn-time">1:45</span></a>
+    <a href="#part6"><span class="tn-icon">🔬</span> Case Study <span class="tn-time">2:20</span></a>
+    <a href="#part7"><span class="tn-icon">⚡</span> תרחישים <span class="tn-time">2:50</span></a>
+    <a href="#part8"><span class="tn-icon">🏁</span> סיכום <span class="tn-time">3:05</span></a>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<header class="hero" id="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-blob hero-blob-3"></div>
+  <div class="hero-inner">
+    <div class="hero-chip">📊 מדריך מעשי מקיף — 2026</div>
+    <h1>ניתוח פיננסי לקבלת החלטות<br>עם <em>כלי AI חינמיים</em></h1>
+    <p class="hero-sub">כלים כמותיים יישומיים מבוססי גיליון אלקטרוני, ניתוח דוחות חברה ציבורית כ-Case Study, ותפקידו האסטרטגי של סמנכ"ל הכספים בעידן הבינה המלאכותית</p>
+    <div class="hero-pills">
+      <div class="hero-pill">⏱️ <strong>3:15</strong>&nbsp;שעות</div>
+      <div class="hero-pill">🛠️ <strong>6</strong>&nbsp;כלי&nbsp;AI&nbsp;חינמיים</div>
+      <div class="hero-pill">📋 Case&nbsp;Study:&nbsp;<strong>שופרסל</strong></div>
+    </div>
+    <p class="hero-author"><strong>ד״ר שי צבאן</strong> · בית הספר ללימודי תעודה — אוניברסיטת בר-אילן</p>
+  </div>
+</header>
+
+
+<!-- ═══════════════ PART 1 ═══════════════ -->
+<section class="section" id="part1">
+<div class="container">
+
+  <div class="section-chip">⏱️ 0:00–0:25 · חלק 1</div>
+  <h2>מה השתנה בעולם הפיננסי — ולמה אנחנו כאן</h2>
+  <p class="section-lead">לפני שנכניס ידיים לעבודה — בואו נבין <em>למה</em> הכלים האלה רלוונטיים, ואיך הם משתלבים בתפקיד המתפתח של מנהל הכספים.</p>
+
+  <div class="learn-intro">
+    <div class="learn-intro-tag">💡 מה נלמד ולמה זה חשוב</div>
+    <p>
+      בשלוש השעות הקרובות נבצע <strong>ניתוח פיננסי מלא של חברה ציבורית ישראלית</strong> — מהורדת הנתונים ועד סיכום מנהלים עם המלצה. לא נדבר על AI בתאוריה — <strong>נעבוד עם הכלים בפועל, צעד אחרי צעד.</strong>
+      <br><br>
+      אבל קודם, חשוב להבין את ההקשר הרחב: תפקיד ה-CFO השתנה מהותית בשנים האחרונות, ומנהלי כספים שמאמצים כלים טכנולוגיים הופכים לשחקנים אסטרטגיים בארגון.
+    </p>
+  </div>
+
+  <h3><span class="h3-num">א</span> ה-CFO בעבר ובהווה</h3>
+
+  <p style="color:var(--text2);margin-bottom:16px">
+    לפני עשור, סמנכ"ל הכספים היה בעיקר "שומר הסף" — אחראי על דיוק הדיווח, עמידה ברגולציה, ובקרה תקציבית. היום? <strong>ה-CFO הפך לשותף האסטרטגי של המנכ"ל</strong> — מי שמתרגם מספרים להחלטות, מוביל טרנספורמציה, ומשפיע על כיוון הארגון.
+  </p>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr><th>ממד</th><th>CFO מסורתי</th><th>CFO אסטרטגי — 2026</th></tr>
+      <tr><td>מיקוד זמן</td><td>עבר — דיווח ובקרה</td><td>עתיד — חיזוי, תרחישים, אסטרטגיה</td></tr>
+      <tr><td>שפה מול הנהלה</td><td>"ההוצאות עלו ב-12%"</td><td>"ההשקעה תחזיר ×3.7 תוך 18 חודשים"</td></tr>
+      <tr><td>ניתוח פיננסי</td><td>ידני, רבעוני, בדיעבד</td><td>AI-assisted, רציף, פרואקטיבי</td></tr>
+      <tr><td>יחס לטכנולוגיה</td><td>"עוד כלי IT"</td><td>"מנוע ליצירת ערך ויתרון תחרותי"</td></tr>
+      <tr><td>דיאלוג עם דירקטוריון</td><td>מציג טבלאות</td><td>מייעץ, מאתגר הנחות, מציע אלטרנטיבות</td></tr>
+    </table>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-label">📊 נתונים מפתח</div>
+    <strong>10.26%</strong> מ-CEOs של Fortune 500 ב-2025 הגיעו ישירות מתפקיד CFO — גבוה ביותר בעשור. <strong>~60%</strong> מה-CFOs מקדישים יותר זמן לביצועים עסקיים לעומת שנה קודמת (PwC). <strong>כמעט שני שלישים</strong> מהחברות כבר מטמיעות AI בפיננסים (KPMG 2025).
+  </div>
+
+  <h3><span class="h3-num">ב</span> למה דווקא כלי AI חינמיים?</h3>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">💰 נגישות מיידית — אפס תקציב</div>
+      <p style="color:var(--text2);font-size:14px">אין צורך באישורי רכש, התקנות, או מחלקת IT. נכנסים לאתר, מעלים קובץ, מקבלים תובנות. כל אחד מכם יכול להתחיל <strong>עכשיו — תוך 30 שניות.</strong></p>
+    </div>
+    <div class="card">
+      <div class="card-title">🧠 יכולות שמפתיעות</div>
+      <p style="color:var(--text2);font-size:14px">מחקר שפורסם ב-University of Chicago (Kim et al., 2024) הראה ש-GPT-4 ניתח דוחות כספיים <strong>ברמה שווה לאנליסטים מקצועיים</strong> בחיזוי כיוון רווחים. מודלי AI עוברים בהצלחה את שלושת רמות ה-CFA.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <div class="callout-label">⚠️ עיקרון מנחה — לכל ההרצאה</div>
+    <strong>AI = טייס-משנה, לא הטייס.</strong> כל פלט של AI חייב לעבור ביקורת מקצועית שלכם. המומחיות, השיקול, וההבנה העסקית — זה מה שאתם מביאים. ה-AI רק מאיץ את הדרך.
+  </div>
+
+  <div class="pause">
+    <div class="pause-tag">⏸️ רגע של מחשבה</div>
+    <p>חשבו על משימת ניתוח שביצעתם לאחרונה — דוח לדירקטוריון, בדיקת כדאיות, ניתוח ספק.<br><strong>כמה זמן לקח? מה החלק שגזל הכי הרבה זמן?</strong><br>בסוף ההרצאה — תדעו לעשות את אותו הדבר בשבריר מהזמן.</p>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 2 ═══════════════ -->
+<section class="section" id="part2">
+<div class="container">
+
+  <div class="section-chip">⏱️ 0:25–0:55 · חלק 2</div>
+  <h2>הכרת הכלים: 6 כלי AI חינמיים</h2>
+  <p class="section-lead">כל כלי מצטיין בדבר אחר — כמו ארגז כלים של בעל מקצוע. נלמד מתי להשתמש בכל אחד, ונתנסה בעצמנו.</p>
+
+  <div class="learn-intro">
+    <div class="learn-intro-tag">💡 מה נלמד כאן</div>
+    <p>
+      נכיר <strong>שישה כלי AI שכולם זמינים בחינם</strong> ומספיקים לכל מה שנעשה היום. נבין מה היתרון של כל אחד ונבנה "מטריצת החלטה" — כדי שתמיד תדעו <strong>איזה כלי לפתוח ראשון</strong> בהתאם למשימה.
+    </p>
+  </div>
+
+  <div class="grid-3">
+    <div class="tool-card" style="border-top-color:var(--chatgpt)">
+      <div class="tool-card-name" style="color:var(--chatgpt)">ChatGPT</div>
+      <div class="tool-card-url">chatgpt.com · <span class="badge badge-free">חינמי — GPT-4o</span></div>
+      <div class="tool-card-use"><strong>למה:</strong> ניתוח קבצי Excel/CSV, יצירת גרפים, כתיבת נוסחאות, הרצת חישובים<br><strong>יתרון:</strong> מריץ Python בפועל על הנתונים שלכם — לא רק "מנחש"</div>
+    </div>
+    <div class="tool-card" style="border-top-color:var(--claude)">
+      <div class="tool-card-name" style="color:var(--claude)">Claude</div>
+      <div class="tool-card-url">claude.ai · <span class="badge badge-free">חינמי — Sonnet</span></div>
+      <div class="tool-card-use"><strong>למה:</strong> קריאת PDF ארוכים, ניתוח עומק, יצירת דשבורדים, תקצירי מנהלים<br><strong>יתרון:</strong> קורא עד ~200K tokens (≈500 עמודי טקסט)</div>
+    </div>
+    <div class="tool-card" style="border-top-color:var(--perplexity)">
+      <div class="tool-card-name" style="color:var(--perplexity)">Perplexity</div>
+      <div class="tool-card-url">perplexity.ai · <span class="badge badge-free">חינמי — ללא הרשמה</span></div>
+      <div class="tool-card-use"><strong>למה:</strong> מחקר שוק, מתחרים, בנצ'מרקים ענפיים, חדשות<br><strong>יתרון:</strong> מחפש בזמן אמת + מציין מקורות אוטומטית</div>
+    </div>
+    <div class="tool-card" style="border-top-color:var(--grok)">
+      <div class="tool-card-name" style="color:var(--grok)">Grok</div>
+      <div class="tool-card-url">grok.com · <span class="badge badge-free">חינמי — בסיסי</span></div>
+      <div class="tool-card-use"><strong>למה:</strong> סנטימנט שוק, חדשות בזמן אמת, מידע עדכני על חברות<br><strong>יתרון:</strong> גישה לנתוני X/Twitter חיים</div>
+    </div>
+    <div class="tool-card" style="border-top-color:var(--gemini)">
+      <div class="tool-card-name" style="color:var(--gemini)">Gemini</div>
+      <div class="tool-card-url">gemini.google.com · <span class="badge badge-free">חינמי — 2.5 Flash</span></div>
+      <div class="tool-card-use"><strong>למה:</strong> עבודה ישירה עם Google Sheets/Docs, יצירת נוסחאות<br><strong>יתרון:</strong> שילוב נייטיבי עם Google Workspace</div>
+    </div>
+    <div class="tool-card" style="border-top-color:var(--deepseek)">
+      <div class="tool-card-name" style="color:var(--deepseek)">DeepSeek</div>
+      <div class="tool-card-url">chat.deepseek.com · <span class="badge badge-free">חינמי לחלוטין</span></div>
+      <div class="tool-card-use"><strong>למה:</strong> חישובים מתמטיים מורכבים, אימות נוסחאות<br><strong>יתרון:</strong> מודל R1 מראה כל שלב בחישוב — שקיפות מלאה</div>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">א</span> מטריצת החלטה: איזה כלי למשימה?</h3>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr><th>משימה פיננסית</th><th>הכלי</th><th>למה?</th></tr>
+      <tr><td>ניתוח קובץ Excel/CSV</td><td><span class="badge badge-chatgpt">ChatGPT</span></td><td>מריץ Python ישירות — גרפים, חישובים, ניקוי</td></tr>
+      <tr><td>קריאת דוח שנתי PDF</td><td><span class="badge badge-claude">Claude</span></td><td>בולע דוח שלם ומבין קשרים בין סעיפים</td></tr>
+      <tr><td>מחקר מתחרים + בנצ'מרק</td><td><span class="badge badge-perplexity">Perplexity</span></td><td>חיפוש עדכני + מקורות מצוטטים</td></tr>
+      <tr><td>חדשות ואירועים על חברה</td><td><span class="badge badge-grok">Grok</span></td><td>גישה לנתוני רשתות חברתיות בזמן אמת</td></tr>
+      <tr><td>יצירת נוסחאות לגיליון</td><td><span class="badge badge-chatgpt">ChatGPT</span> <span class="badge badge-gemini">Gemini</span></td><td>נוסחאות מדויקות בתחביר Excel</td></tr>
+      <tr><td>אימות חישוב מתמטי</td><td><span class="badge badge-deepseek">DeepSeek</span></td><td>מראה כל שלב — שקיפות מלאה</td></tr>
+    </table>
+  </div>
+
+  <div class="cfo-box">
+    <div class="cfo-box-icon">👔</div>
+    <div class="cfo-box-text">
+      <strong>הקשר לעבודה שלכם:</strong> כשמכינים חומרים לדירקטוריון — מתחילים עם Perplexity (מחקר רקע), עוברים ל-ChatGPT (ניתוח הנתונים), ומסיימים ב-Claude (תקציר + דשבורד). שלושה כלים = מצגת מוכנה.
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ב</span> תרגיל ראשון: הכירו את הכלים</h3>
+
+  <div class="exercise">
+    <div class="exercise-tag">🎯 תרגיל · 10 דקות</div>
+    <p style="margin-bottom:10px">פתחו <strong>שניים</strong> מהכלים (לדוגמה: chatgpt.com + perplexity.ai) והקלידו בכל אחד את אותו הפרומפט:</p>
+    <div class="prompt-why">
+      <strong>למה הפרומפט בנוי ככה:</strong> אנחנו בודקים איך כל כלי מגיב לאותה שאלה. שימו לב: ChatGPT ייתן תשובה מבוססת ידע כללי; Perplexity יצרף מקורות עדכניים. ההבדל — הוא הלקח.
+    </div>
+    <div class="prompt-block prompt-block-he prompt-standalone">
+      <code>מהם 5 היחסים הפיננסיים הכי חשובים שסמנכ"ל כספים
+צריך לעקוב אחריהם מדי רבעון?
+לכל יחס תן: שם, נוסחה, טווח בריא,
+ומתי צריך להידלק נורה אדומה.
+הצג בטבלה.</code>
+    </div>
+    <p style="color:var(--text3);font-size:13px;margin-top:8px">🔍 <strong>לדיון:</strong> מי נתן יותר הקשר? מי היה מדויק יותר? מי הוסיף מקורות?</p>
+  </div>
+
+  <div class="pause">
+    <div class="pause-tag">⏸️ תובנה ראשונה</div>
+    <p>שמתם לב? שני כלים שונים — תשובות שונות.<br><strong>לכן תמיד נעבוד עם יותר מכלי אחד.</strong> בהמשך נראה איך לשלב ביניהם בצורה שיטתית.</p>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 3 ═══════════════ -->
+<section class="section" id="part3">
+<div class="container">
+
+  <div class="section-chip">⏱️ 0:55–1:30 · חלק 3</div>
+  <h2>חילוץ וניקוי נתונים פיננסיים</h2>
+  <p class="section-lead">הצעד הראשון בכל ניתוח: להפוך נתונים גולמיים לנתונים שאפשר לעבוד איתם. כאן AI חוסך את רוב הזמן.</p>
+
+  <div class="learn-intro">
+    <div class="learn-intro-tag">💡 מה נלמד כאן</div>
+    <p>
+      <strong>הבעיה:</strong> נתונים פיננסיים מגיעים בפורמטים לא נוחים — PDF, טבלאות מקוננות, דוחות מעוצבים. לפני שאפשר לנתח — צריך <strong>לחלץ את המספרים ולסדר אותם</strong> בגיליון עבידי.
+      <br><br>
+      <strong>מה נעשה:</strong> נוריד נתונים אמיתיים של <strong>שופרסל בע"מ</strong> ונלמד איך AI מחלץ דוחות כספיים ישירות לפורמט Excel.
+      <br><br>
+      <strong>למה חשוב:</strong> חילוץ ידני לוקח שעות, ועלול להכניס שגיאות. AI עושה את זה בדקה — ומשחרר אתכם לעבודה האמיתית: הניתוח.
+    </p>
+  </div>
+
+  <h3><span class="h3-num">א</span> מאיפה מורידים נתונים — מקורות חינמיים</h3>
+
+  <div class="data-src">
+    <div class="data-src-tag">📥 מקורות נתונים חינמיים</div>
+    <p>
+      <strong>חברה לתרגול: שופרסל בע"מ</strong> (סימול בורסה: SAE) — רשת המזון הגדולה בישראל. נבחרה כי: חברה ציבורית ישראלית מוכרת, נתונים זמינים בחינם, ענף קמעונאי מוכר לכולם.
+    </p>
+    <br>
+    <p>
+      🔗 <strong>אופציה 1 — Yahoo Finance (מומלץ):</strong><br>
+      &nbsp;&nbsp;&nbsp;<a href="https://finance.yahoo.com/quote/SAE.TA/financials/" target="_blank">finance.yahoo.com/quote/SAE.TA/financials</a><br>
+      &nbsp;&nbsp;&nbsp;→ לחצו Income Statement / Balance Sheet / Cash Flow → לחצו "Download" ↓ → CSV<br><br>
+      🔗 <strong>אופציה 2 — מאי"ה (עברית, PDF):</strong><br>
+      &nbsp;&nbsp;&nbsp;<a href="https://magna.isa.gov.il" target="_blank">magna.isa.gov.il</a> → חיפוש "שופרסל" → דוח תקופתי אחרון<br><br>
+      🔗 <strong>אופציה 3 — Macrotrends (אנגלית, ממשק נוח):</strong><br>
+      &nbsp;&nbsp;&nbsp;<a href="https://www.macrotrends.net/stocks/charts/SHUFF/shufersal/financial-statements" target="_blank">macrotrends.net — Shufersal</a> → עד 10 שנים היסטוריות
+    </p>
+  </div>
+
+  <h3><span class="h3-num">ב</span> תהליך העבודה</h3>
+
+  <div class="flow">
+    <div class="flow-step">📥 הורדת נתונים<br><small style="color:var(--text3)">Yahoo / מאי"ה</small></div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-step">🤖 חילוץ AI<br><small style="color:var(--text3)">ChatGPT / Claude</small></div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-step">📊 גיליון Excel<br><small style="color:var(--text3)">מובנה + נוסחאות</small></div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-step">📈 ניתוח + תובנות<br><small style="color:var(--text3)">חלקים 5–6</small></div>
+  </div>
+
+  <h3><span class="h3-num">ג</span> חילוץ מ-PDF — בקשה מ-Claude</h3>
+  <p style="color:var(--text2);margin-bottom:8px;font-size:14px">הורדתם PDF מאתר מאי"ה? מצוין. נבקש מ-Claude לחלץ את הדוחות:</p>
+
+  <div class="prompt-why">
+    <strong>למה הפרומפט בנוי ככה:</strong> אנחנו לא סתם מבקשים "לקרוא" — אנחנו מנחים ל: (1) חילוץ סעיפים ספציפיים, (2) ארגון בטבלה, (3) חישוב מדדים ראשוניים כבר עכשיו, (4) סימון אי-ודאויות ב-[?]. המבנה חוסך "הלוך-חזור" של שאלות נוספות.
+  </div>
+  <div class="prompt-block prompt-block-he">
+    <code>העליתי את הדוח השנתי של שופרסל.
+חלץ לי את שלושת הדוחות הכספיים
+בפורמט CSV שאוכל להדביק ישירות באקסל:
+
+דוח 1 — רווח והפסד (3 שנים):
+הכנסות, עלות המכר, רווח גולמי,
+הוצאות מכירה ושיווק, הוצאות הנהלה וכלליות,
+רווח תפעולי, הוצאות/הכנסות מימון,
+רווח לפני מס, מס הכנסה, רווח נקי, רווח למניה
+
+דוח 2 — מאזן (שנתיים):
+רכוש שוטף (פירוט), רכוש לא-שוטף, סה"כ נכסים,
+התחייבויות שוטפות, התחייבויות ל"ז, הון עצמי
+
+דוח 3 — תזרים מזומנים (שנתיים):
+תזרים שוטף, תזרים מהשקעות, תזרים ממימון
+
+חשב מיד: מרווח גולמי %, מרווח תפעולי %,
+שינוי YoY בהכנסות, FCF.
+סמן ב-[?] כל נתון שאתה לא בטוח לגביו.</code>
+  </div>
+
+  <h3><span class="h3-num">ד</span> חילוץ מ-CSV (Yahoo Finance) — ChatGPT</h3>
+
+  <div class="prompt-why">
+    <strong>למה כלי אחר:</strong> אם הורדתם CSV מ-Yahoo — הנתונים כבר מובנים, אבל באנגלית ולפעמים בפורמט לא נוח. ChatGPT מריץ Python בפועל על הקובץ.
+  </div>
+  <div class="prompt-block">
+    <code>I uploaded Shufersal (SAE.TA) financials
+from Yahoo Finance (CSV files).
+
+Please:
+1. Read all files, combine into one clean table
+2. Calculate: Gross Margin %, Operating Margin %,
+   Net Margin %, YoY Revenue/Net Income growth
+3. Export as a downloadable CSV for Excel
+4. Flag any anomalies or changes over 20%</code>
+  </div>
+
+  <div class="cfo-box">
+    <div class="cfo-box-icon">👔</div>
+    <div class="cfo-box-text">
+      <strong>הקשר לעבודה:</strong> כמה פעמים קיבלתם דוח PDF מספק או חברת בת והייתם צריכים "לחפור" מספרים ידנית? עם AI — מעלים קובץ, כותבים מה צריכים, מקבלים טבלה. <strong>בפעם הבאה — תדעו בדיוק מה לעשות.</strong>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ה</span> מה זה "דשבורד" — ולמה הוא שימושי</h3>
+
+  <div class="defn">
+    <div class="defn-term">דשבורד (Dashboard) — לוח מחוונים</div>
+    <div class="defn-body">עמוד ויזואלי אחד שמרכז את כל המדדים החשובים — גרפים, מספרי מפתח (KPIs), מגמות — כדי שמקבל ההחלטות יוכל <em>להבין את מצב החברה במבט אחד</em>, בלי לדפדף בין טבלאות. דשבורד טוב עונה על "מה קורה אצלנו?" תוך 10 שניות.</div>
+  </div>
+
+  <p style="color:var(--text2);font-size:14px;margin-bottom:12px"><strong>מתי שימושי:</strong> ישיבות דירקטוריון, סקירה חודשית, עדכון להנהלה, מעקב תחזית מול ביצוע. הנה דוגמה:</p>
+
+  <div class="dash-demo">
+    <div class="dash-demo-label">📊 דוגמה — דשבורד KPI של שופרסל</div>
+    <div class="dash-kpis">
+      <div class="dash-kpi"><div class="dash-kpi-val kpi-up">₪15.2B</div><div class="dash-kpi-lbl">הכנסות · ▲4.2%</div></div>
+      <div class="dash-kpi"><div class="dash-kpi-val kpi-up">28.1%</div><div class="dash-kpi-lbl">מרווח גולמי · ▲0.3pp</div></div>
+      <div class="dash-kpi"><div class="dash-kpi-val kpi-flat">1.08</div><div class="dash-kpi-lbl">יחס שוטף · ◄</div></div>
+      <div class="dash-kpi"><div class="dash-kpi-val kpi-down">₪280M</div><div class="dash-kpi-lbl">FCF · ▼12%</div></div>
+    </div>
+    <p style="font-size:11px;color:#64748b;text-align:center;margin-top:12px">4 מספרים + חיצים = הסיפור תוך 5 שניות. ירוק = טוב, אדום = דורש תשומת לב.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-tag">🎯 תרגיל · 15 דקות</div>
+    <div class="step"><div class="step-n">1</div><div class="step-body"><h4>הורידו נתונים</h4><p>היכנסו ל-<a href="https://finance.yahoo.com/quote/SAE.TA/financials/" target="_blank" style="color:var(--accent)">Yahoo Finance — SAE.TA</a> → הורידו Income Statement כ-CSV</p></div></div>
+    <div class="step"><div class="step-n">2</div><div class="step-body"><h4>העלו ל-ChatGPT</h4><p>📎 → בחרו את הקובץ → הקלידו: "Analyze this file. Show margins and YoY growth as a table."</p></div></div>
+    <div class="step"><div class="step-n">3</div><div class="step-body"><h4>הורידו את התוצאה</h4><p>בקשו: "Export as CSV" → פתחו באקסל → בדקו שהמספרים הגיוניים</p></div></div>
+  </div>
+
+  <div class="pause">
+    <div class="pause-tag">⏸️ בדקו את עצמכם</div>
+    <p>קיבלתם טבלה עם מרווחים ושיעורי שינוי?<br>מרווח גולמי של רשת מזון — ~28%. הגיוני?<br><strong>אם משהו נראה לא הגיוני — זה בדיוק למה צריך אתכם. AI לא תמיד צודק.</strong></p>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════ BREAK ═══════════════ -->
+<section class="break-section" id="break">
+  <div class="section-chip" style="background:white">⏱️ 1:30–1:45 · הפסקה</div>
+  <h2 style="font-size:26px;margin:12px 0 8px;font-family:'Rubik',sans-serif;font-weight:700">☕ הפסקה — 15 דקות</h2>
+  <p style="color:var(--text2);font-size:14px;max-width:480px;margin:0 auto">ודאו שיש לכם קובץ עם נתוני שופרסל. אחרי ההפסקה — נתחיל לנתח יחסים פיננסיים. שם הקסם מתחיל.</p>
+</section>
+
+
+<!-- ═══════════════ PART 5 ═══════════════ -->
+<section class="section" id="part5">
+<div class="container">
+
+  <div class="section-chip">⏱️ 1:45–2:20 · חלק 5</div>
+  <h2>ניתוח יחסים פיננסיים עם AI</h2>
+  <p class="section-lead">יחסים פיננסיים הם "שפת הגוף" של חברה. כמו רופא שבודק לחץ דם, דופק וחום — אנחנו בודקים נזילות, רווחיות, מינוף ויעילות. <strong>המספרים הגולמיים לא מספרים הרבה; היחס ביניהם — הוא הסיפור.</strong></p>
+
+  <div class="learn-intro">
+    <div class="learn-intro-tag">💡 מה נלמד כאן</div>
+    <p>
+      <strong>מה נעשה:</strong> במקום לחשב כל יחס ידנית — נבקש מ-AI לחשב את כולם בבת אחת, להשוות לממוצע הענפי, ולהדגיש בעיות.
+      <br><br>
+      <strong>מה נלמד:</strong> לא רק <em>איך</em> מחשבים — אלא <strong>מה כל יחס אומר</strong>, מתי להיבהל, ומתי לא.
+    </p>
+  </div>
+
+  <!-- LIQUIDITY -->
+  <div class="expand open">
+    <div class="expand-header" onclick="this.parentElement.classList.toggle('open')">
+      <span>📘 1. נזילות — האם החברה יכולה לשלם את חובותיה?</span>
+      <span class="expand-chevron">◀</span>
+    </div>
+    <div class="expand-body">
+      <p style="color:var(--text2);font-size:14px;margin-bottom:14px"><strong>השאלה המרכזית:</strong> אם כל הספקים ידרשו תשלום מחר — האם יש מספיק מזומן? זה הדבר הראשון שבנקאי או ספק יבדוק.</p>
+      <div class="defn">
+        <div class="defn-term">יחס שוטף (Current Ratio)</div>
+        <div class="defn-formula">Current Ratio = Current Assets ÷ Current Liabilities</div>
+        <div class="defn-body">כמה שקלים של נכסים שוטפים על כל שקל חוב שוטף. מעל <em>1.5</em> = בריא. מתחת ל-<em>1.0</em> = בעיה.</div>
+      </div>
+      <div class="defn">
+        <div class="defn-term">יחס מהיר (Quick Ratio)</div>
+        <div class="defn-formula">Quick Ratio = (Current Assets − Inventory) ÷ Current Liabilities</div>
+        <div class="defn-body">כמו יחס שוטף, אבל <em>בלי מלאי</em> — כי מלאי לא תמיד ניתן למכור מהר. רלוונטי במיוחד לקמעונאות.</div>
+      </div>
+      <div class="cfo-box"><div class="cfo-box-icon">👔</div><div class="cfo-box-text"><strong>למה זה חשוב לכם:</strong> יחס שוטף שיורד בהתמדה = דגל אדום שמחייב פעולה — גם אם הרווח נראה טוב. זו "בדיקת הדם" הראשונה.</div></div>
+    </div>
+  </div>
+
+  <!-- PROFITABILITY -->
+  <div class="expand">
+    <div class="expand-header" onclick="this.parentElement.classList.toggle('open')">
+      <span>📗 2. רווחיות — כמה החברה מרוויחה מכל שקל מכירה?</span>
+      <span class="expand-chevron">◀</span>
+    </div>
+    <div class="expand-body">
+      <div class="defn"><div class="defn-term">מרווח גולמי (Gross Margin)</div><div class="defn-formula">Gross Margin = (Revenue − COGS) ÷ Revenue × 100%</div><div class="defn-body">מה נשאר אחרי עלות הסחורה. ברשתות מזון: <em>25-30%</em>. ירידה = לחץ תחרותי או עליית עלויות.</div></div>
+      <div class="defn"><div class="defn-term">תשואה על ההון — ROE (Return on Equity)</div><div class="defn-formula">ROE = Net Income ÷ Shareholders' Equity × 100%</div><div class="defn-body">כמה רווח מיוצר על כל שקל שהמשקיעים השקיעו. מעל <em>15%</em> = מצוין. אבל צריך להבין <em>מאיפה</em> ה-ROE מגיע — לזה יש את ניתוח DuPont (בהמשך).</div></div>
+      <div class="defn"><div class="defn-term">ROIC — תשואה על הון מושקע (Return on Invested Capital)</div><div class="defn-formula">ROIC = NOPAT ÷ Invested Capital</div><div class="defn-body"><em>NOPAT</em> = רווח תפעולי × (1 − שיעור מס). <em>Invested Capital</em> = הון עצמי + חוב נושא ריבית. מדויק יותר מ-ROE כי מתייחס לכל ההון שהושקע. <strong>אם ROIC > WACC — החברה יוצרת ערך.</strong></div></div>
+      <div class="defn"><div class="defn-term">EVA — ערך כלכלי מוסף (Economic Value Added)</div><div class="defn-formula">EVA = NOPAT − (Invested Capital × WACC)</div><div class="defn-body">כמה ערך כלכלי <em>אמיתי</em> נוצר <strong>מעבר לעלות ההון</strong>. EVA חיובי = יצירת ערך. EVA שלילי = הרס ערך, גם אם החברה "רווחית" חשבונאית. מדד שאומר: "האם כדאי שהחברה הזו קיימת?"</div></div>
+    </div>
+  </div>
+
+  <!-- LEVERAGE -->
+  <div class="expand">
+    <div class="expand-header" onclick="this.parentElement.classList.toggle('open')">
+      <span>📕 3. מינוף — כמה החברה חייבת?</span>
+      <span class="expand-chevron">◀</span>
+    </div>
+    <div class="expand-body">
+      <div class="defn"><div class="defn-term">יחס חוב להון (Debt-to-Equity)</div><div class="defn-formula">D/E = Total Liabilities ÷ Shareholders' Equity</div><div class="defn-body">מעל <em>2.0</em> ברוב הענפים = מינוף גבוה. בקמעונאות מזון: <em>1.0–1.5</em> = סביר.</div></div>
+      <div class="defn"><div class="defn-term">יחס כיסוי ריבית (Interest Coverage)</div><div class="defn-formula">Interest Coverage = EBIT ÷ Interest Expense</div><div class="defn-body">כמה פעמים הרווח התפעולי מכסה ריבית. מתחת ל-<em>3</em> = סיכון. מתחת ל-<em>1.5</em> = סכנה.</div></div>
+    </div>
+  </div>
+
+  <!-- EFFICIENCY -->
+  <div class="expand">
+    <div class="expand-header" onclick="this.parentElement.classList.toggle('open')">
+      <span>📙 4. יעילות — כמה מהר כסף זורם?</span>
+      <span class="expand-chevron">◀</span>
+    </div>
+    <div class="expand-body">
+      <div class="defn"><div class="defn-term">מחזור המרה למזומן (Cash Conversion Cycle — CCC)</div><div class="defn-formula">CCC = Days Inventory + Days Receivable − Days Payable</div><div class="defn-body">כמה ימים עוברים מתשלום לספק ועד קבלת מזומן מלקוח. <em>ככל שקצר יותר — טוב יותר.</em> CCC שלילי (כמו אמזון) = הלקוחות משלמים לפני שהחברה משלמת לספקים.</div></div>
+    </div>
+  </div>
+
+  <!-- DUPONT -->
+  <div class="expand">
+    <div class="expand-header" onclick="this.parentElement.classList.toggle('open')">
+      <span>📓 5. ניתוח DuPont — מאיפה באמת מגיע ה-ROE?</span>
+      <span class="expand-chevron">◀</span>
+    </div>
+    <div class="expand-body">
+      <p style="color:var(--text2);font-size:14px;margin-bottom:14px">שיטה שפותחה בחברת DuPont ב-1920 ומשמשת עד היום. הרעיון: <strong>ROE הוא לא מספר אחד — הוא מורכב ממספר גורמים.</strong> כשמפרקים אותו, מבינים מאיפה הרווחיות באה ומה מסכן אותה.</p>
+      <div class="defn">
+        <div class="defn-term">DuPont 3 גורמים (הקלאסי)</div>
+        <div class="defn-formula">ROE = Net Margin × Asset Turnover × Equity Multiplier</div>
+        <div class="defn-body">
+          <em>Net Margin</em> (רווח/הכנסות) = כמה נשאר מכל שקל מכירה<br>
+          <em>Asset Turnover</em> (הכנסות/נכסים) = כמה יעילה בשימוש בנכסים<br>
+          <em>Equity Multiplier</em> (נכסים/הון) = כמה מינוף<br><br>
+          <strong>דוגמה:</strong> שתי חברות עם ROE של 18%. באחת — מרווח גבוה ומינוף נמוך (בריא). בשנייה — מרווח נמוך ומינוף גבוה (מסוכן). בלי DuPont — לא הייתם מבחינים.
+        </div>
+      </div>
+      <div class="cfo-box"><div class="cfo-box-icon">👔</div><div class="cfo-box-text"><strong>טיפ לדירקטוריון:</strong> כשמציגים ROE — תמיד פרקו ל-3 גורמים. "ה-ROE עלה כי מרווח שיפר ב-0.5 נקודה, בעוד המינוף נשאר יציב." זה הופך אתכם מ"מציגי טבלאות" ל"מייעצים אסטרטגיים".</div></div>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ו</span> ה"פרומפט המאסטר" — ניתוח מלא בבקשה אחת</h3>
+
+  <div class="prompt-why">
+    <strong>למה בבקשה אחת:</strong> במקום 20+ בקשות נפרדות, שולחים בקשה מקיפה עם מבנה ברור. המפתח: הגדרת תפקיד (אנליסט CFA) + מבנה 5 קטגוריות + דרישת פלט (נוסחה, ערך, בנצ'מרק, דגל).
+  </div>
+  <div class="prompt-block">
+    <code>Role: Senior financial analyst (CFA).
+Company: Shufersal Ltd (Israeli food retail).
+
+[PASTE YOUR DATA HERE]
+
+Perform COMPLETE ratio analysis in 5 sections:
+
+1. LIQUIDITY: Current, Quick, Cash Ratio
+2. PROFITABILITY: Gross/Op/Net Margin, ROE
+   (3-factor DuPont), ROA, ROIC
+3. LEVERAGE: D/E, D/A, Interest Coverage,
+   Net Debt/EBITDA
+4. EFFICIENCY: Inventory/Receivables/Payables
+   Turnover, Cash Conversion Cycle
+5. DUPONT: 3-factor tree, what drives ROE
+
+For EACH ratio show:
+| Ratio | Formula | 2022 | 2023 | 2024 | Trend |
+| Industry Avg | 🟢🟡🔴 | Interpretation |
+
+End with: TOP 3 STRENGTHS + TOP 3 RED FLAGS
+Show all formulas. Use Israeli food retail
+benchmarks.</code>
+  </div>
+
+  <h3><span class="h3-num">ז</span> אימות חישובים עם DeepSeek</h3>
+
+  <div class="prompt-why">
+    <strong>למה נדרש אימות:</strong> AI יכול לטעות בחישובים. DeepSeek R1 הוא "מודל חשיבה" שמראה כל שלב — כמו מחשבון ביקורת. נאמת 2-3 יחסים קריטיים.
+  </div>
+  <div class="prompt-block">
+    <code>Verify step by step:
+Shufersal 2024: Net Income 580M ILS,
+Revenue 15,200M, Assets 12,800M, Equity 3,900M
+
+Calculate ROE using 3-factor DuPont.
+Show EVERY step. Then: what drives ROE?</code>
+  </div>
+
+  <div class="pause">
+    <div class="pause-tag">⏸️ בואו נסכם לפני שממשיכים</div>
+    <p>עד כאן למדנו: <strong>(1)</strong> לחלץ נתונים, <strong>(2)</strong> לחשב יחסים פיננסיים, <strong>(3)</strong> לאמת חישובים, <strong>(4)</strong> להשוות למתחרים.<br>עכשיו — נשלב הכל ב-Case Study מלא על שופרסל.</p>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 6 ═══════════════ -->
+<section class="section" id="part6">
+<div class="container">
+
+  <div class="section-chip">⏱️ 2:20–2:50 · חלק 6</div>
+  <h2>Case Study: ניתוח מלא של שופרסל</h2>
+  <p class="section-lead">נרכיב את כל מה שלמדנו לתהליך אחד שלם — מסקירת הרקע עד סיכום מנהלים עם המלצה. 6 שלבים, ~30 דקות.</p>
+
+  <div class="case-box">
+    <div class="case-label">📋 CASE STUDY</div>
+    <p style="color:#78350f;font-size:14px">
+      <strong>שופרסל בע"מ</strong> (SAE) — רשת המזון הגדולה בישראל. ~300 סניפים, הכנסות ~₪15 מיליארד, 3 מגזרים: קמעונאות, נדל"ן, Be (דראגסטורים). נתונים: Yahoo Finance, מאי"ה, אתר קשרי משקיעים של שופרסל.
+    </p>
+  </div>
+
+  <div class="expand open">
+    <div class="expand-header" onclick="this.parentElement.classList.toggle('open')"><span>שלב 1: סקירת רקע (5 דק') — Perplexity</span><span class="expand-chevron">◀</span></div>
+    <div class="expand-body">
+      <p style="color:var(--text2);font-size:14px;margin-bottom:8px"><strong>מה עושים:</strong> לפני מספרים — מבינים את הסיפור. מה החברה עושה? מה המצב בשוק? מה השתנה?</p>
+      <div class="badges"><span class="badge badge-perplexity">Perplexity</span></div>
+      <div class="prompt-block prompt-standalone"><code>Financial analyst briefing on Shufersal Ltd:
+1. Business model and revenue segments
+2. Top 3 competitors and market share
+3. Key developments last 12 months
+4. Industry challenges
+5. Analyst consensus (buy/hold/sell)
+Include sources.</code></div>
+    </div>
+  </div>
+
+  <div class="expand">
+    <div class="expand-header" onclick="this.parentElement.classList.toggle('open')"><span>שלב 2: חילוץ דוחות (5 דק') — Claude / ChatGPT</span><span class="expand-chevron">◀</span></div>
+    <div class="expand-body"><p style="color:var(--text2);font-size:14px">השתמשו בפרומפטים מחלק 3. העלו CSV מ-Yahoo או PDF מ-מאי"ה.</p></div>
+  </div>
+
+  <div class="expand">
+    <div class="expand-header" onclick="this.parentElement.classList.toggle('open')"><span>שלב 3: ניתוח יחסים + DuPont (5 דק') — ChatGPT</span><span class="expand-chevron">◀</span></div>
+    <div class="expand-body"><p style="color:var(--text2);font-size:14px">הריצו את ה"פרומפט המאסטר" מחלק 5 עם הנתונים שחילצתם.</p></div>
+  </div>
+
+  <div class="expand">
+    <div class="expand-header" onclick="this.parentElement.classList.toggle('open')"><span>שלב 4: איכות רווחים + תזרים (5 דק') — ChatGPT / Claude</span><span class="expand-chevron">◀</span></div>
+    <div class="expand-body">
+      <p style="color:var(--text2);font-size:14px;margin-bottom:8px"><strong>מה בודקים:</strong> האם הרווח "אמיתי"? כלומר — האם יש מזומן שתומך ברווח החשבונאי?</p>
+      <div class="defn"><div class="defn-term">יחס איכות רווחים (Earnings Quality)</div><div class="defn-formula">EQ = Operating Cash Flow ÷ Net Income</div><div class="defn-body">EQ > 1 = רווח מגובה במזומן (טוב). EQ &lt; 1 = רווח "על הנייר" (חשוד).</div></div>
+      <div class="prompt-block prompt-standalone"><code>Analyze Shufersal cash flow quality:
+1. Earnings Quality (OCF/NI) — 3 years
+2. FCF and FCF Margin trend
+3. Accrual Ratio: (NI - OCF) / Total Assets
+4. Are receivables growing > revenue? (red flag)
+5. CapEx as % of Revenue
+Show 🟢🟡🔴 ratings for each.</code></div>
+    </div>
+  </div>
+
+  <div class="expand">
+    <div class="expand-header" onclick="this.parentElement.classList.toggle('open')"><span>שלב 5: תחזית + תרחישים (5 דק') — ChatGPT</span><span class="expand-chevron">◀</span></div>
+    <div class="expand-body">
+      <p style="color:var(--text2);font-size:14px;margin-bottom:8px"><strong>מה עושים:</strong> מעבר מ"מה היה" ל"מה יהיה" — תחזית פשוטה עם טבלת רגישות.</p>
+      <div class="prompt-block prompt-standalone"><code>Build 2-year forecast for Shufersal:
+- Revenue growth: 3yr avg
+- Margins: last year as base
+- CapEx: historical % of revenue
+
+Create SENSITIVITY TABLE (CSV for Excel):
+Revenue: -2%, 0%, +3%, +5%, +8%
+× Op Margin: -1pp, base, +1pp</code></div>
+    </div>
+  </div>
+
+  <div class="expand">
+    <div class="expand-header" onclick="this.parentElement.classList.toggle('open')"><span>שלב 6: סיכום מנהלים (5 דק') — Claude</span><span class="expand-chevron">◀</span></div>
+    <div class="expand-body">
+      <p style="color:var(--text2);font-size:14px;margin-bottom:8px"><strong>Bottom Line Up Front:</strong> מתחילים בהמלצה, ואז מנמקים — כמו אנליסט בוועדת השקעות.</p>
+      <div class="badges"><span class="badge badge-claude">Claude</span></div>
+      <div class="prompt-block prompt-block-he prompt-standalone"><code>על בסיס הניתוח של שופרסל, כתוב תקציר מנהלים:
+
+1. המלצה בשורה אחת
+2. 3 נקודות חוזק — עם נתון לכל אחת
+3. 3 סיכונים — עם נתון לכל אחד
+4. 3 דברים לעקוב ברבעון הבא
+
+מקסימום עמוד אחד. מספרים > מילים.
+זהו תרגיל לימודי בלבד.</code></div>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-label">⏱️ סה"כ</div>
+    6 שלבים × ~5 דקות = <strong>~30 דקות לניתוח מלא.</strong> ניתוח ידני דומה לוקח 15-20 שעות. ה-AI חסך ~97% מהזמן — ואתם הוספתם שיקול דעת, ביקורת, והבנה עסקית.
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 7 ═══════════════ -->
+<section class="section" id="part7">
+<div class="container">
+
+  <div class="section-chip">⏱️ 2:50–3:05 · חלק 7</div>
+  <h2>תרחישים מהשטח — ממשרד ה-CFO</h2>
+
+  <div class="learn-intro">
+    <div class="learn-intro-tag">💡 מה נלמד כאן</div>
+    <p>3 תרחישים שמגיעים <strong>מהשגרה האמיתית</strong>: הכנת דוח דירקטוריון, זיהוי מניפולציה, בדיקת ספק.</p>
+  </div>
+
+  <!-- Scenario 1 -->
+  <div class="card" style="border-right:4px solid var(--accent)">
+    <div class="card-title">📊 תרחיש 1: דוח רבעוני לדירקטוריון</div>
+    <div class="cfo-box" style="margin-top:10px"><div class="cfo-box-icon">👔</div><div class="cfo-box-text"><strong>המצב:</strong> יום ראשון בבוקר. יו"ר הדירקטוריון רוצה עדכון רבעוני עד הערב — עם גרפים, השוואה לתקציב, ונקודות לדיון.</div></div>
+    <div class="flow" style="margin:14px 0">
+      <div class="flow-step"><span class="badge badge-chatgpt" style="font-size:10px">ChatGPT</span><br><small>ניתוח</small></div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-step"><span class="badge badge-perplexity" style="font-size:10px">Perplexity</span><br><small>בנצ'מרק</small></div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-step"><span class="badge badge-claude" style="font-size:10px">Claude</span><br><small>תקציר + דשבורד</small></div>
+    </div>
+  </div>
+
+  <!-- Scenario 2 -->
+  <div class="card" style="border-right:4px solid var(--red)">
+    <div class="card-title">🔴 תרחיש 2: זיהוי Red Flags</div>
+    <div class="cfo-box" style="margin-top:10px"><div class="cfo-box-icon">👔</div><div class="cfo-box-text"><strong>המצב:</strong> חברת בת מציגה "רבעון מצוין". אבל אתם חשדניים — בואו נבדוק אם הרווח "אמיתי".</div></div>
+    <div class="defn" style="margin-top:10px"><div class="defn-term">Beneish M-Score — מדד למניפולציה חשבונאית</div><div class="defn-formula">M-Score = combination of 8 financial ratios</div><div class="defn-body">אם M-Score > -1.78 → חשד למניפולציה. המדד מחפש דפוסים כמו: צמיחת מכירות שלא תואמת תזרים, שינויים בפחת, ועוד.</div></div>
+  </div>
+
+  <!-- Scenario 3 -->
+  <div class="card" style="border-right:4px solid var(--green)">
+    <div class="card-title">✅ תרחיש 3: בדיקת ספק / שותף עסקי</div>
+    <div class="cfo-box" style="margin-top:10px"><div class="cfo-box-icon">👔</div><div class="cfo-box-text"><strong>המצב:</strong> מנהל הרכש רוצה לחתום חוזה עם ספק חדש. לפני שחותמים — צריך לוודא שהספק יציב פיננסית.</div></div>
+    <div class="prompt-why" style="margin-top:10px"><strong>הלוגיקה:</strong> Perplexity מחפש מידע ציבורי + ChatGPT מנתח דוחות אם הספק ציבורי. תוצאה: דוח בריאות פיננסית של עמוד אחד.</div>
+    <div class="prompt-block prompt-standalone"><code>Quick financial health check for [Supplier]:
+1. Public? → get latest financials
+2. Liquidity: Current & Quick Ratio
+3. Debt: D/E, Interest Coverage
+4. Profitability trend: 3yr margins
+5. Legal issues or credit warnings?
+6. Risk: 🟢🟡🔴
+Recommendation: APPROVE / CONDITIONAL / REJECT</code></div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 8 ═══════════════ -->
+<section class="section" id="part8">
+<div class="container">
+
+  <div class="section-chip">⏱️ 3:05–3:15 · סיכום</div>
+  <h2>מה לוקחים הלאה</h2>
+
+  <h3><span class="h3-num">א</span> מפת הניווט — מ-0 לניתוח מלא</h3>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr><th>שלב</th><th>כלי</th><th>מה עושים</th><th>זמן</th></tr>
+      <tr><td>מחקר רקע</td><td><span class="badge badge-perplexity" style="font-size:10px">Perplexity</span></td><td>סקירת חברה + מתחרים + מגמות</td><td>5'</td></tr>
+      <tr><td>חילוץ דוחות</td><td><span class="badge badge-claude" style="font-size:10px">Claude</span></td><td>PDF/CSV → טבלה מסודרת</td><td>5'</td></tr>
+      <tr><td>ניתוח יחסים</td><td><span class="badge badge-chatgpt" style="font-size:10px">ChatGPT</span></td><td>5 קטגוריות + DuPont</td><td>5'</td></tr>
+      <tr><td>אימות</td><td><span class="badge badge-deepseek" style="font-size:10px">DeepSeek</span></td><td>בדיקת חישובים שלב-אחר-שלב</td><td>3'</td></tr>
+      <tr><td>בנצ'מרק</td><td><span class="badge badge-perplexity" style="font-size:10px">Perplexity</span></td><td>השוואה לממוצעים ומתחרים</td><td>3'</td></tr>
+      <tr><td>נוסחאות Excel</td><td><span class="badge badge-chatgpt" style="font-size:10px">ChatGPT</span></td><td>נוסחאות מוכנות להדבקה</td><td>5'</td></tr>
+      <tr><td>תחזית + תרחישים</td><td><span class="badge badge-chatgpt" style="font-size:10px">ChatGPT</span></td><td>תחזית 2 שנים + טבלת רגישות</td><td>5'</td></tr>
+      <tr><td>סיכום / דשבורד</td><td><span class="badge badge-claude" style="font-size:10px">Claude</span></td><td>תקציר מנהלים / דשבורד HTML</td><td>5'</td></tr>
+      <tr style="background:var(--accent-light)"><td><strong>סה"כ</strong></td><td></td><td></td><td><strong>~36'</strong></td></tr>
+    </table>
+  </div>
+
+  <h3><span class="h3-num">ב</span> 5 עקרונות לעבודה נכונה</h3>
+
+  <div class="grid-2">
+    <div class="card"><div class="card-title">1️⃣ Cross-Check תמיד</div><p style="color:var(--text2);font-size:13.5px">חישובים קריטיים — בדקו בשני כלים. DeepSeek מצוין לאימות.</p></div>
+    <div class="card"><div class="card-title">2️⃣ הקשר = איכות</div><p style="color:var(--text2);font-size:13.5px">ככל שתתנו יותר הקשר בפרומפט — התוצאה תהיה מדויקת וישימה יותר.</p></div>
+    <div class="card"><div class="card-title">3️⃣ הכלי הנכון למשימה</div><p style="color:var(--text2);font-size:13.5px">Perplexity=מחקר. ChatGPT=קבצים. Claude=PDF ארוכים. DeepSeek=חישובים.</p></div>
+    <div class="card"><div class="card-title">4️⃣ שמרו ספריית Prompts</div><p style="color:var(--text2);font-size:13.5px">פרומפט שעובד — שמרו בקובץ. בפעם הבאה: העתקה → התאמה → 5 דקות.</p></div>
+  </div>
+
+  <div class="card" style="border-right:4px solid var(--accent);background:var(--accent-light)">
+    <div class="card-title">5️⃣ המומחיות שלכם = הערך שאין לו תחליף</div>
+    <p style="color:var(--text2);font-size:14px">AI מאיץ את העבודה הטכנית. אבל <strong>לזהות שמשהו "מריח רע" במספרים, להבין השלכות עסקיות, לקבל החלטה בתנאי אי-ודאות</strong> — זה אתם. זה מה שהופך מנהל כספים לשותף אסטרטגי.</p>
+  </div>
+
+  <div class="callout callout-alert">
+    <div class="callout-label">🔒 אבטחת מידע — קו אדום</div>
+    <strong>לעולם אל תעלו לכלי AI חינמי:</strong> נתונים פנימיים לפני פרסום · מידע אישי · חוזים סודיים · מסמכי M&A · סיסמאות.
+    <br><strong>לתרגול — נתונים ציבוריים בלבד.</strong> לעבודה פנימית — Enterprise editions עם Zero Data Retention.
+  </div>
+
+  <h3><span class="h3-num">ג</span> קישורים וכלים</h3>
+
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <tr><th>משאב</th><th>כתובת</th><th>שימוש</th></tr>
+      <tr><td>Yahoo Finance — שופרסל</td><td style="direction:ltr;font-size:12px">finance.yahoo.com/quote/SAE.TA</td><td>דוחות להורדה</td></tr>
+      <tr><td>מאי"ה</td><td style="direction:ltr;font-size:12px">magna.isa.gov.il</td><td>דוחות ישראליות (עברית)</td></tr>
+      <tr><td>Macrotrends</td><td style="direction:ltr;font-size:12px">macrotrends.net</td><td>10 שנים היסטוריות</td></tr>
+      <tr><td>Damodaran (NYU)</td><td style="direction:ltr;font-size:12px">pages.stern.nyu.edu/~adamodar</td><td>Beta, WACC, בנצ'מרקים</td></tr>
+      <tr><td>ChatGPT</td><td style="direction:ltr;font-size:12px">chatgpt.com</td><td>ניתוח קבצים, נוסחאות</td></tr>
+      <tr><td>Claude</td><td style="direction:ltr;font-size:12px">claude.ai</td><td>PDFs, דשבורדים, תקצירים</td></tr>
+      <tr><td>Perplexity</td><td style="direction:ltr;font-size:12px">perplexity.ai</td><td>מחקר עם מקורות</td></tr>
+      <tr><td>DeepSeek</td><td style="direction:ltr;font-size:12px">chat.deepseek.com</td><td>אימות חישובים</td></tr>
+    </table>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<div class="footer">
+  <p style="font-family:'Rubik',sans-serif;font-size:22px;font-weight:700;color:var(--accent);margin-bottom:8px">
+    הכלים חינמיים. המומחיות שלכם — היא בעלת הערך.
+  </p>
+  <p style="color:var(--text3);font-size:14px"><strong>ד״ר שי צבאן</strong> · בית הספר ללימודי תעודה — אוניברסיטת בר-אילן</p>
+  <p style="color:var(--text3);font-size:11px;margin-top:8px">© 2026 · ניתוח פיננסי לקבלת החלטות — כלים כמותיים יישומיים בעידן ה-AI</p>
+</div>
+
+<script>
+// Progress bar
+window.addEventListener('scroll',()=>{
+  const f=document.getElementById('pf');
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  f.style.width=Math.min(100,window.scrollY/h*100)+'%';
+});
+
+// Active nav link
+const sects=['part1','part2','part3','break','part5','part6','part7','part8'];
+const navLinks=document.querySelectorAll('.topnav a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sects.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&window.scrollY>=el.offsetTop-120) cur=id;
+  });
+  navLinks.forEach(l=>{
+    l.classList.toggle('active',l.getAttribute('href')==='#'+cur);
+  });
+},{passive:true});
+
+// Expand toggle
+document.querySelectorAll('.expand-header').forEach(h=>{
+  h.addEventListener('click',()=>h.parentElement.classList.toggle('open'));
+});
+
+// Reveal on scroll
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:0.06,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.card,.callout,.learn-intro,.cfo-box,.pause,.defn,.data-src,.exercise,.case-box,.prompt-block,.tbl-wrap,.dash-demo,.tool-card').forEach(el=>{
+  el.classList.add('reveal');obs.observe(el);
+});
+</script>
+</body>
+</html>
