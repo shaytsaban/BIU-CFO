@@ -1,1 +1,1362 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מדריך פדגוגי מקיף: ניתוח פיננסי מתקדם וסוכני AI - קורס מלא</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --clr-ink: #1a1a2e;
+            --clr-accent: #0f4c75;
+            --clr-highlight: #3282b8;
+            --clr-warm: #bbe1fa;
+            --clr-paper: #f7f9fc;
+            --clr-danger: #c0392b;
+            --clr-success: #27ae60;
+            --clr-gold: #d4a017;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Heebo', sans-serif;
+            background-color: var(--clr-paper);
+            color: var(--clr-ink);
+            line-height: 2;
+            font-size: 1.1rem;
+            scroll-behavior: smooth;
+        }
 
+        /* ---- SIDEBAR ---- */
+        .sidebar {
+            position: sticky;
+            top: 1.5rem;
+            max-height: calc(100vh - 3rem);
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+        .sidebar::-webkit-scrollbar { width: 5px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #b0bec5; border-radius: 10px; }
+        .sidebar a { transition: all .2s; display: block; padding: 0.35rem 0; }
+        .sidebar a:hover { color: var(--clr-highlight); transform: translateX(-4px); }
+
+        /* ---- REUSABLE PANELS ---- */
+        .glass-panel {
+            background: rgba(255,255,255,0.97);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+        }
+
+        /* Concept / Definition Box */
+        .concept-box {
+            background: linear-gradient(135deg, #e8f4fd 0%, #f0f9ff 100%);
+            border-right: 7px solid var(--clr-highlight);
+            padding: 2rem 2.25rem;
+            border-radius: 0.75rem;
+            margin: 2.5rem 0;
+        }
+        .concept-box h4 { color: var(--clr-accent); font-weight: 900; margin-bottom: 1rem; font-size: 1.25rem; }
+
+        /* Warning / Limitation Box */
+        .warning-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
+            border-right: 7px solid var(--clr-danger);
+            padding: 2rem 2.25rem;
+            border-radius: 0.75rem;
+            margin: 2.5rem 0;
+        }
+        .warning-box h4 { color: var(--clr-danger); font-weight: 900; margin-bottom: 1rem; font-size: 1.25rem; }
+
+        /* Tip Box */
+        .tip-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            border-right: 7px solid var(--clr-success);
+            padding: 2rem 2.25rem;
+            border-radius: 0.75rem;
+            margin: 2.5rem 0;
+        }
+        .tip-box h4 { color: #166534; font-weight: 900; margin-bottom: 1rem; font-size: 1.25rem; }
+
+        /* Exercise Box */
+        .exercise-box {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef9c3 100%);
+            border: 3px dashed var(--clr-gold);
+            padding: 2rem 2.25rem;
+            border-radius: 0.75rem;
+            margin: 2.5rem 0;
+        }
+        .exercise-box h4 { color: #92400e; font-weight: 900; margin-bottom: 1rem; font-size: 1.25rem; }
+
+        /* Dark Tech Guide */
+        .tech-guide {
+            background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            padding: 2.5rem;
+            border-radius: 1.25rem;
+            margin: 3rem 0;
+            border-bottom: 6px solid var(--clr-highlight);
+        }
+        .tech-guide h4 { color: #93c5fd; font-weight: 900; margin-bottom: 1.5rem; font-size: 1.4rem; border-bottom: 1px solid #334155; padding-bottom: 0.75rem; }
+
+        /* Prompt Box */
+        .prompt-box {
+            background: #020617;
+            color: #34d399;
+            font-family: 'Courier New', monospace;
+            padding: 1.75rem;
+            border-radius: 0.75rem;
+            direction: ltr;
+            text-align: left;
+            margin: 2rem 0;
+            border-left: 6px solid #34d399;
+            white-space: pre-wrap;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            box-shadow: inset 0 4px 16px rgba(0,0,0,0.5);
+            overflow-x: auto;
+        }
+
+        /* Pedagogical Summary */
+        .ped-summary {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 2px solid #fcd34d;
+            border-radius: 1rem;
+            padding: 2.25rem;
+            margin: 2.5rem 0;
+        }
+        .ped-summary h4 { color: #92400e; font-weight: 900; margin-bottom: 1rem; font-size: 1.3rem; border-bottom: 2px solid #fcd34d; padding-bottom: 0.5rem; }
+
+        /* Comparison Grid */
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+        .compare-pros { background: #f0fdf4; border: 2px solid #86efac; padding: 1.75rem; border-radius: 0.75rem; }
+        .compare-cons { background: #fef2f2; border: 2px solid #fca5a5; padding: 1.75rem; border-radius: 0.75rem; }
+
+        /* Timeline Badge */
+        .time-badge {
+            background: var(--clr-ink);
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 900;
+            font-size: 1rem;
+            display: inline-block;
+            margin-bottom: 1.75rem;
+            letter-spacing: 0.03em;
+        }
+
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; margin: 2rem 0; background: #fff; border-radius: 0.5rem; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        th, td { border: 1px solid #e2e8f0; padding: 1rem 1.25rem; text-align: right; font-size: 0.95rem; }
+        th { background: #f1f5f9; font-weight: 800; color: var(--clr-ink); }
+        tr:nth-child(even) { background: #f8fafc; }
+
+        /* Case Study Wrapper */
+        .case-study { background: #fff; border: 2px solid #e2e8f0; border-radius: 1.25rem; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.05); margin: 2.5rem 0; }
+        .case-header { padding: 1.25rem 2rem; font-weight: 900; font-size: 1.35rem; color: #fff; }
+        .case-body { padding: 2.25rem; }
+
+        /* Section divider */
+        .section-divider { height: 3px; background: linear-gradient(90deg, transparent, var(--clr-highlight), transparent); margin: 5rem 0; border: none; }
+
+        /* Smooth link style */
+        a.action-link { color: var(--clr-highlight); text-decoration: underline; font-weight: 700; }
+
+        /* Numbered step */
+        .step-num {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 2.2rem; height: 2.2rem; border-radius: 50%;
+            background: var(--clr-accent); color: #fff; font-weight: 900; font-size: 1rem;
+            margin-left: 0.75rem; flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .compare-grid { grid-template-columns: 1fr; }
+            body { font-size: 1rem; line-height: 1.85; }
+        }
+    </style>
+</head>
+<body class="antialiased pb-32">
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="relative overflow-hidden bg-gradient-to-bl from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white pt-20 pb-16 px-4 sm:px-6 lg:px-8 border-b-[6px] border-[var(--clr-highlight)] mb-14">
+    <div class="absolute inset-0 opacity-[0.04]" style="background-image:url('data:image/svg+xml;utf8,<svg width=\"40\" height=\"40\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"2\" cy=\"2\" r=\"1\" fill=\"white\"/></svg>');"></div>
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12 relative z-10">
+        <div class="flex-1">
+            <span class="bg-[var(--clr-highlight)] text-white text-xs font-bold px-5 py-2 rounded-full uppercase tracking-widest mb-6 inline-block shadow-lg">קורס הכשרת מנהלי כספים - 2026</span>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight">
+                ניתוח פיננסי מתקדם<br>
+                <span class="text-[#93c5fd]">בעידן סוכני הבינה המלאכותית</span>
+            </h1>
+            <p class="text-xl text-slate-300 max-w-3xl leading-relaxed">
+                מדריך מקיף ועצמאי למנהלי כספים, אנליסטים פיננסיים וסטודנטים. המדריך לא מניח ידע קודם בבינה מלאכותית ומלווה אתכם צעד-אחר-צעד — מהורדת דוח מהבורסה ועד בניית מודל הערכת שווי מלא בעזרת כלי AI. בכל שלב נסביר מה קורה "מאחורי הקלעים", נזהיר מטעויות נפוצות, ונתרגל עם דוגמאות מעשיות.
+            </p>
+        </div>
+        <div class="glass-panel text-[var(--clr-ink)] p-8 rounded-2xl border-t-[6px] border-[var(--clr-highlight)] w-full lg:w-[420px] shadow-2xl flex-shrink-0">
+            <p class="font-black text-2xl mb-2">ד"ר שי צבאן</p>
+            <p class="text-sm text-slate-500 mb-6 font-semibold">בית הספר ללימודי תעודה — אוניברסיטת בר-אילן</p>
+            <div class="space-y-3 text-sm font-bold text-slate-700 bg-blue-50/80 p-5 rounded-xl">
+                <div class="flex justify-between border-b border-blue-100 pb-2"><span>משך ההרצאה:</span> <span class="text-[var(--clr-accent)]">180 דקות (3 שעות)</span></div>
+                <div class="flex justify-between border-b border-blue-100 pb-2"><span>קהל יעד:</span> <span>סמנכ"לי כספים, אנליסטים, סטודנטים</span></div>
+                <div class="flex justify-between border-b border-blue-100 pb-2"><span>דרישות מוקדמות:</span> <span>ללא (הכל מוסבר מאפס)</span></div>
+                <div class="flex justify-between border-b border-blue-100 pb-2"><span>מטרת על:</span> <span>ניהול סוכני AI באופן עצמאי</span></div>
+                <div class="flex justify-between"><span>תוצר סופי:</span> <span>מודל DCF + תחזית תקציבית</span></div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-14">
+
+<!-- ============================================================
+     SIDEBAR
+     ============================================================ -->
+<aside class="w-full lg:w-[22%] hidden lg:block">
+    <nav class="sidebar glass-panel p-7 rounded-2xl">
+        <h3 class="font-black text-xl mb-6 text-slate-800 border-b-4 border-blue-100 pb-3">מפת הדרכים</h3>
+        <ul class="space-y-3 text-[0.85rem] font-bold text-slate-600">
+            <li><a href="#s0">0. הקדמה: מבנה השיעור ומטרותיו</a></li>
+            <li><a href="#s1">1. מהפכת ה-AI בעולם הפיננסי</a></li>
+            <li class="pr-4 border-r-2 border-slate-200"><a href="#s1-glossary">מילון מושגי יסוד</a></li>
+            <li class="pr-4 border-r-2 border-slate-200"><a href="#s1-limits">⚠ מגבלות כלים חינמיים</a></li>
+            <li><a href="#s2">2. מקורות נתונים: מאי"ה ו-SEC</a></li>
+            <li class="pr-4 border-r-2 border-slate-200"><a href="#case1">קייס 1: שופרסל (ישראל)</a></li>
+            <li class="pr-4 border-r-2 border-slate-200"><a href="#case2">קייס 2: אפל (ארה"ב)</a></li>
+            <li><a href="#s3">3. אבטחת מידע וכלים ארגוניים</a></li>
+            <li class="pr-4 border-r-2 border-slate-200"><a href="#s3-antigravity">מערכת Antigravity</a></li>
+            <li><a href="#s4">4. FP&A וניתוח שונויות (PVM)</a></li>
+            <li class="pr-4 border-r-2 border-slate-200"><a href="#case3">קייס 3: סטיית תקציב</a></li>
+            <li><a href="#s5">5. תרחישים וניהול מזומנים</a></li>
+            <li class="pr-4 border-r-2 border-slate-200"><a href="#case4">קייס 4: סימולציית הישרדות</a></li>
+            <li><a href="#s6">6. Masterclass: הערכת שווי DCF</a></li>
+            <li class="pr-4 border-r-2 border-slate-200"><a href="#case5">קייס 5: מודל DCF מלא</a></li>
+            <li><a href="#s7">7. סיכום וצעדים הבאים</a></li>
+        </ul>
+    </nav>
+</aside>
+
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
+<main class="w-full lg:w-[78%] space-y-24">
+
+<!-- ========== SECTION 0: COURSE OVERVIEW ========== -->
+<section id="s0" class="scroll-mt-28">
+    <span class="time-badge">00:00 – 00:10</span>
+    <h2 class="text-4xl font-black text-slate-800 mb-8">0. הקדמה: מה נלמד, למה זה חשוב, ומה צריכים להביא</h2>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        ברוכים הבאים. לפני שנתחיל לדבר על בינה מלאכותית, בורסות ודוחות כספיים, חשוב לעצור רגע ולהבין בדיוק מה הולך לקרות בשלוש השעות הקרובות, למה זה חשוב עבורכם, ומה התוצאה שתצאו איתה הביתה.
+    </p>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        המדריך הזה נבנה כך שכל אחד ואחת יכולים לעקוב אחריו — גם אם מעולם לא פתחתם חשבון ב-ChatGPT, גם אם המושג "בינה מלאכותית" נשמע לכם כמו מדע בדיוני, וגם אם אתם כבר עובדים עם כלי AI ורוצים להעמיק. בכל נושא נתחיל מההסבר הבסיסי ביותר ונתקדם אל היישום המעשי. אם משהו לא ברור — זו לא הבעיה שלכם, זו הבעיה שלנו. תשאלו.
+    </p>
+
+    <div class="concept-box">
+        <h4>📋 מבנה השיעור — שלוש שעות, שישה נושאים</h4>
+        <p class="text-slate-700 text-sm mb-4">
+            השיעור מחולק לשישה חלקים מרכזיים. כל חלק בנוי לפי אותו עיקרון: קודם מבינים את הרקע התיאורטי (מה ולמה), אחר כך רואים את הכלי הטכני (איך), ולבסוף מתרגלים עם דוגמה אמיתית (קייס). הנה המפה:
+        </p>
+        <table>
+            <tr><th>שעה</th><th>נושא</th><th>מה נעשה בפועל</th></tr>
+            <tr><td>00:00–00:10</td><td>הקדמה</td><td>הכרות עם מבנה הקורס והכלים</td></tr>
+            <tr><td>00:10–00:35</td><td>1. מהפכת ה-AI + מילון מושגים</td><td>הבנה של מה זה AI, LLM, ומגבלות כלים חינמיים</td></tr>
+            <tr><td>00:35–01:15</td><td>2. מקורות נתונים: מאי"ה ו-10-K</td><td>הורדת דוחות + קייסים 1-2 (שופרסל ואפל)</td></tr>
+            <tr><td>01:15–01:50</td><td>3. אבטחת מידע ו-Antigravity</td><td>הבדלים בין כלים חינמיים לארגוניים, התקנה</td></tr>
+            <tr><td>01:50–02:25</td><td>4. FP&A וניתוח שונויות (PVM)</td><td>קייס 3: ניתוח סטיית תקציב</td></tr>
+            <tr><td>02:25–02:50</td><td>5. תרחישים וניהול מזומנים</td><td>קייס 4: סימולציית הישרדות</td></tr>
+            <tr><td>02:50–03:20</td><td>6. Masterclass: הערכת שווי DCF</td><td>קייס 5: בניית מודל הערכת שווי מלא</td></tr>
+        </table>
+    </div>
+
+    <div class="tip-box">
+        <h4>💡 מה צריכים להביא (או להכין מראש)</h4>
+        <p class="text-sm text-slate-700">
+            <strong>מחשב נייד</strong> — עם גישה לאינטרנט. נעבוד בזמן אמת.<br>
+            <strong>חשבון בכלי AI אחד לפחות</strong> — רצוי Claude (claude.ai) או ChatGPT (chat.openai.com). אפשר להשתמש בגרסה החינמית, ונסביר בדיוק מתי ואיך.<br>
+            <strong>סקרנות</strong> — אין שאלות טיפשיות. יש שאלות שלא נשאלו.
+        </p>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ========== SECTION 1: AI REVOLUTION ========== -->
+<section id="s1" class="scroll-mt-28">
+    <span class="time-badge">00:10 – 00:35</span>
+    <h2 class="text-4xl font-black text-slate-800 mb-8">1. המהפכה: למה מנהל כספים צריך בינה מלאכותית?</h2>
+
+    <h3 class="text-2xl font-bold text-slate-800 mb-4">1.1 העולם לפני — "עבודה שחורה" פיננסית</h3>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        בואו נדבר גלויות. רוב זמנו של מנהל כספים — לפי סקרים, כ-60%-70% — מוקדש למה שנקרא "עבודה שחורה": איסוף נתונים ממערכות שונות, העתקה-הדבקה ממיילים לאקסל, בנייה ידנית של טבלאות פיבוט, עיצוב מצגות שנראות אותו דבר כל חודש, ותיקון נוסחאות שנשברו כי מישהו מחק שורה בטעות. זה לא מה שלמדתם באוניברסיטה. זה לא מה שמנהל כספים צריך לעשות. אבל זו המציאות.
+    </p>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        התוצאה היא שהזמן שנותר לניתוח אסטרטגי — הבנת מגמות, זיהוי סיכונים, המלצות לדירקטוריון — הוא קטן ודחוס. מנהלי כספים מוצאים את עצמם "רצים על אוטומט" ולא חושבים מספיק לעומק.
+    </p>
+
+    <h3 class="text-2xl font-bold text-slate-800 mb-4">1.2 העולם אחרי — "צבא אנליסטים וירטואליים"</h3>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        כלי בינה מלאכותית כמו Claude, ChatGPT ו-Gemini משנים את חוקי המשחק. הם לא מחליפים את מנהל הכספים — הם הופכים אותו למנהל של צוות אנליסטים וירטואליים שעובדים 24/7, לא מתלוננים, ולא שוכחים נוסחה. כשאתם נותנים ל-AI דוח של 250 עמודים ומבקשים ממנו לחלץ 5 מספרים ספציפיים ולחשב יחסים פיננסיים — אתם עושים ב-3 דקות מה שלוקח 4 שעות ידנית.
+    </p>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        אבל — וזה "אבל" מאוד חשוב — ה-AI הוא כלי. כלי חזק מאוד, אבל כלי. הוא לא מבין מה "נכון" במובן המקצועי. הוא יכול לחשב ROE בצורה מושלמת, אבל הוא לא יודע אם ה-ROE הזה הגיוני עבור חברה בענף הקמעונאות בישראל. המומחיות שלכם היא מה שהופך מספר גולמי לתובנה עסקית. בלעדיכם — ה-AI זה מחשבון מתוחכם. עם הניסיון שלכם — הוא הופך לנשק אסטרטגי.
+    </p>
+
+    <div class="concept-box">
+        <h4>📖 אנלוגיה שעוזרת להבין: ה-AI כמו מתמחה מבריק</h4>
+        <p class="text-slate-700 text-sm">
+            דמיינו שקיבלתם מתמחה חדש למשרד. המתמחה הזה קרא את כל ספרי חשבונאות ומימון שנכתבו אי פעם — אלפי ספרים. הוא יכול לבצע חישובים מורכבים בשניות. הוא כותב עברית ואנגלית מושלמות. אבל: הוא מעולם לא ישב בישיבת דירקטוריון. הוא לא מבין פוליטיקה ארגונית. הוא לא יודע שהספק הספציפי שלכם תמיד מאחר ב-30 יום. ולפעמים — הוא ממציא מספרים ועושה פנים שהוא בטוח בעצמו (תופעה שנקראת "הזיה" — Hallucination). לכן, כמו עם כל מתמחה — צריך לבדוק את העבודה שלו.
+        </p>
+    </div>
+
+    <!-- GLOSSARY -->
+    <div id="s1-glossary" class="scroll-mt-28"></div>
+    <h3 class="text-2xl font-bold text-slate-800 mt-12 mb-4">1.3 מילון מושגי יסוד — בואו נדבר באותה שפה</h3>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        לפני שנתקדם, חשוב שנגדיר את המושגים שנשתמש בהם לאורך כל המדריך. אל תדלגו על החלק הזה — הוא הבסיס לכל מה שיבוא אחר כך.
+    </p>
+
+    <table>
+        <tr><th style="width:25%">מושג</th><th style="width:35%">הסבר פשוט</th><th style="width:40%">דוגמה מעולם הפיננסים</th></tr>
+        <tr>
+            <td><strong>AI (בינה מלאכותית)</strong></td>
+            <td>מערכת מחשב שמסוגלת לבצע משימות שבעבר רק אדם יכול היה לעשות — כמו קריאת טקסט, הבנת שאלה ויצירת תשובה.</td>
+            <td>אתם מעלים דוח כספי של 200 עמודים ושואלים "מה הרווח הנקי?" — המערכת מוצאת את התשובה בתוך שניות.</td>
+        </tr>
+        <tr>
+            <td><strong>Generative AI (AI יוצרת)</strong></td>
+            <td>סוג מיוחד של AI שלא רק מנתח — אלא גם <em>יוצר</em> תוכן חדש: טקסט, קוד, טבלאות, תרשימים. בניגוד לתוכנה רגילה שעושה רק מה שתכנתו לה.</td>
+            <td>אתם אומרים "כתוב לי סיכום של שלושה משפטים על מצב החברה" — והמערכת כותבת פסקה שמעולם לא נכתבה לפני כן.</td>
+        </tr>
+        <tr>
+            <td><strong>LLM (מודל שפה גדול)</strong></td>
+            <td>ה"מוח" שמאחורי כלים כמו ChatGPT ו-Claude. מודל מתמטי עצום שאומן על טריליוני מילים — ספרים, מאמרים, דוחות, אתרי אינטרנט. הוא לא "מבין" כמו בן אדם, אלא מזהה דפוסים סטטיסטיים בשפה.</td>
+            <td>כשהמודל רואה את המילים "רווח גולמי" — הוא "יודע" שסביר שהמילה הבאה תהיה מספר, ושהמספר הזה יהיה בדרך כלל בין 20% ל-80% מההכנסות, תלוי בענף.</td>
+        </tr>
+        <tr>
+            <td><strong>Prompt (פרומפט / הנחיה)</strong></td>
+            <td>ההוראה שאתם נותנים ל-AI. כמו "שאלה" או "משימה". ככל שהפרומפט ברור ומפורט יותר — כך התשובה תהיה טובה יותר.</td>
+            <td>פרומפט גרוע: "נתח את החברה." פרומפט טוב: "נתח את שולי הרווח הגולמי של שופרסל ב-3 השנים האחרונות, הצג בטבלה, והסבר את הסיבה לשינוי."</td>
+        </tr>
+        <tr>
+            <td><strong>Context Window (חלון הקשר)</strong></td>
+            <td>כמות המידע שה-AI יכולה "לזכור" בבת אחת. זה כמו שולחן העבודה שלה — כמה דפים אפשר לפרוס עליו. מודלים מתקדמים יכולים "לזכור" עשרות אלפי מילים בו-זמנית.</td>
+            <td>Claude יכול לקרוא דוח שנתי של 500 עמודים ולענות על שאלה מעמוד 422. ב-ChatGPT החינמי (GPT-4o mini), חלון ההקשר קטן יותר — דוח ארוך עלול "להיחתך".</td>
+        </tr>
+        <tr>
+            <td><strong>Hallucination (הזיה)</strong></td>
+            <td>כש-AI ממציא מידע שנשמע אמיתי אבל לא נכון. זו אחת הסכנות הגדולות ביותר. ה-AI לא אומר "אני לא יודע" — הוא ממציא תשובה בביטחון מלא.</td>
+            <td>אתם שואלים "מה הרווח הנקי של שופרסל ב-2024?" — וה-AI עונה "187 מיליון ש"ח" — מספר שנשמע הגיוני אבל פשוט לא נכון. תמיד לבדוק מול המקור.</td>
+        </tr>
+        <tr>
+            <td><strong>Token (אסימון)</strong></td>
+            <td>יחידת מדידה של טקסט עבור AI. מילה באנגלית = בערך 1 טוקן. מילה בעברית = 2-4 טוקנים (כי עברית פחות נפוצה באימון). חשוב כי זה משפיע על עלות וגודל החלון.</td>
+            <td>דוח שנתי של 100 עמודים = בערך 50,000 טוקנים באנגלית. בעברית, אותו דוח עשוי "לעלות" 150,000 טוקנים — פי 3.</td>
+        </tr>
+        <tr>
+            <td><strong>RAG (Retrieval-Augmented Generation)</strong></td>
+            <td>טכנולוגיה שמאפשרת ל-AI "לחפש" בתוך מסמכים שלכם ולהשתמש במידע הזה בתשובות — במקום להסתמך רק על מה שהוא למד באימון.</td>
+            <td>במקום שה-AI "ינחש" את נתוני החברה שלכם, הוא מחפש בתוך תיקיית האקסלים הארגונית ומצטט ישירות מהמסמכים שלכם.</td>
+        </tr>
+        <tr>
+            <td><strong>Agent (סוכן AI)</strong></td>
+            <td>AI שלא רק עונה על שאלות — אלא יכול לבצע פעולות: לחפש בקבצים, ליצור גרפים, להריץ קוד, ואפילו להפעיל מערכות אחרות.</td>
+            <td>"סוכן פיננסי" שמקבל גישה לנתוני המכירות שלכם, מריץ ניתוח שונויות אוטומטי כל חודש, ושולח לכם סיכום למייל.</td>
+        </tr>
+    </table>
+
+    <!-- FREE TOOL LIMITATIONS -->
+    <div id="s1-limits" class="scroll-mt-28"></div>
+    <h3 class="text-2xl font-bold text-slate-800 mt-14 mb-4">1.4 ⚠ מגבלות הכלים החינמיים — מה שחשוב לדעת לפני שמתחילים</h3>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        רוב הסטודנטים (וגם אנשי מקצוע רבים) מתחילים עם הגרסה החינמית של ChatGPT או Claude. זה לגמרי בסדר ללמידה ולתרגול — אבל חשוב מאוד להבין מה הגרסה החינמית <strong>יכולה</strong> ומה היא <strong>לא יכולה</strong>. חוסר הבנה של המגבלות מוביל לתסכול ולטעויות.
+    </p>
+
+    <div class="warning-box">
+        <h4>🚨 מגבלה מספר 1: פרטיות — כל מה שאתם כותבים עלול לשמש לאימון</h4>
+        <p class="text-sm text-slate-700 mb-3">
+            בגרסאות החינמיות של ChatGPT, Gemini, ורוב הכלים — הטקסט שאתם מזינים עלול לשמש לאימון המודל בעתיד. המשמעות המעשית: <strong>אסור להעלות נתונים סודיים של החברה, מידע על לקוחות, נתוני שכר, או כל מידע שלא הייתם מפרסמים בעיתון.</strong>
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            Claude (claude.ai) בגרסה החינמית לא משתמש בשיחות שלכם לאימון כברירת מחדל — אבל גם כאן, לא מומלץ להעלות נתוני חברה רגישים בגרסה החינמית. תמיד קראו את תנאי השימוש של הכלי שאתם משתמשים בו.
+        </p>
+        <p class="text-sm text-slate-700">
+            <strong>הכלל: לצורכי לימוד — עבדו עם נתונים ציבוריים בלבד</strong> (דוחות מהבורסה, נתוני SEC). לעבודה עם נתוני החברה שלכם — תצטרכו מנוי ארגוני (Enterprise) או מערכת כמו Antigravity (נדבר על זה בהמשך).
+        </p>
+    </div>
+
+    <div class="warning-box">
+        <h4>🚨 מגבלה מספר 2: מכסת שימוש מוגבלת</h4>
+        <p class="text-sm text-slate-700 mb-3">
+            הגרסאות החינמיות מגבילות את כמות ההודעות שניתן לשלוח. ב-ChatGPT החינמי, למשל, לאחר מספר שאלות (שמשתנה) תקבלו הודעה שצריך לחכות, או שתועברו למודל פחות חזק (GPT-4o mini במקום GPT-4o). ב-Claude החינמי, יש מגבלת הודעות יומית שמשתנה לפי עומס.
+        </p>
+        <p class="text-sm text-slate-700">
+            <strong>מה זה אומר בפועל:</strong> אם אתם באמצע ניתוח מורכב של דוח שנתי ופתאום ה-AI עוצר — זה מתסכל. התכננו מראש: רכזו את השאלות, כתבו פרומפטים מפורטים שמקבלים הכל בבת אחת, ואל תבזבזו הודעות על שאלות כמו "מה שלומך".
+        </p>
+    </div>
+
+    <div class="warning-box">
+        <h4>🚨 מגבלה מספר 3: העלאת קבצים — מגבלת גודל וסוג</h4>
+        <p class="text-sm text-slate-700 mb-3">
+            בגרסאות החינמיות, ההעלאה של קבצים מוגבלת. לדוגמה: קובץ PDF גדול מ-25 עמודים עלול להתקבל אבל "להיחתך" — ה-AI יראה רק חלק ממנו ולא יגיד לכם שהוא פספס עמודים. קבצי Excel מסובכים עם מאקרו עלולים להיקרא בצורה חלקית.
+        </p>
+        <p class="text-sm text-slate-700">
+            <strong>מה עושים:</strong> אם הדוח ארוך, חלקו אותו לחלקים קטנים יותר. העלו רק את הפרקים הרלוונטיים (דוח רווח והפסד, מאזן) ולא את כל ה-250 עמודים. בגרסה בתשלום, חלון ההקשר גדול הרבה יותר ומאפשר לעבוד עם מסמכים מלאים.
+        </p>
+    </div>
+
+    <div class="warning-box">
+        <h4>🚨 מגבלה מספר 4: עברית — "אזרח סוג ב'" בעולם ה-AI</h4>
+        <p class="text-sm text-slate-700 mb-3">
+            מודלי השפה אומנו בעיקר על טקסטים באנגלית. עברית מהווה פחות מ-1% מנתוני האימון. המשמעות:
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            (א) ה-AI יכול לעשות טעויות בהבנת מונחים חשבונאיים בעברית. למשל, הוא עלול לבלבל בין "רווח תפעולי" ל"רווח מפעולות רגילות".<br>
+            (ב) העלות בטוקנים גבוהה יותר — כל מילה בעברית "עולה" יותר, מה שאומר שהמכסה החינמית נגמרת מהר יותר.<br>
+            (ג) דוחות בעברית שנסרקו כ-PDF (תמונה) ייקראו פחות טוב מדוחות באנגלית.
+        </p>
+        <p class="text-sm text-slate-700">
+            <strong>הטיפ:</strong> כשאתם מנתחים דוח ישראלי בעברית, שקלו לתת את ההוראות (הפרומפט) באנגלית ולבקש תשובה באנגלית. התוצאות בדרך כלל מדויקות יותר. אחר כך אפשר לבקש תרגום.
+        </p>
+    </div>
+
+    <div class="warning-box">
+        <h4>🚨 מגבלה מספר 5: הזיות (Hallucinations) — ה-AI ממציא מספרים בביטחון</h4>
+        <p class="text-sm text-slate-700 mb-3">
+            זו המגבלה הכי מסוכנת. כשאתם שואלים את ה-AI שאלה שהוא לא יודע את התשובה לה — הוא לא יגיד "אני לא יודע". הוא יציג תשובה שנשמעת מקצועית, מוגמרת, ועם מספרים — שהם שקריים לחלוטין.
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            דוגמה מהשטח: סטודנט ביקש מ-ChatGPT "מה היה שער הדולר ב-15 בינואר 2024?" — וקיבל תשובה מדויקת ובטוחה (3.62 ש"ח). הבעיה? השער האמיתי היה שונה. ה-AI "המציא" מספר שנשמע סביר.
+        </p>
+        <p class="text-sm text-slate-700">
+            <strong>הכלל הברזל:</strong> כל מספר שה-AI מייצר — בדקו אותו מול המקור. אם ה-AI אמר "הכנסות שופרסל 2024: 15.2 מיליארד" — פתחו את הדוח ובדקו. אם ה-AI לא העלה את הנתון מתוך קובץ שאתם נתתם לו — אל תסמכו עליו.
+        </p>
+    </div>
+
+    <div class="warning-box">
+        <h4>🚨 מגבלה מספר 6: אין גישה למידע בזמן אמת (ברוב המקרים)</h4>
+        <p class="text-sm text-slate-700 mb-3">
+            הגרסאות החינמיות של רוב הכלים אינן מחוברות לאינטרנט בזמן אמת (או שהגישה מוגבלת). אם תשאלו "מה מחיר המניה של טבע עכשיו?" — התשובה עלולה להיות מיושנת בחודשים.
+        </p>
+        <p class="text-sm text-slate-700">
+            <strong>מה עושים:</strong> השתמשו ב-AI לניתוח נתונים שאתם מספקים לו — לא כמקור מידע עדכני. הורידו את הנתונים מהבורסה, העלו אותם ל-AI, ובקשו ממנו לנתח. אל תשאלו "מה שער המניה" — תגידו לו "שער המניה הוא X, נתח את ה-...".
+        </p>
+    </div>
+
+    <!-- COMPARISON TABLE -->
+    <h3 class="text-2xl font-bold text-slate-800 mt-14 mb-4">1.5 השוואה: חינמי מול בתשלום — מה מתאים למה?</h3>
+
+    <table>
+        <tr><th>קריטריון</th><th>גרסה חינמית (Claude Free / GPT Free)</th><th>גרסה בתשלום (Pro / Plus)</th><th>מנוי ארגוני (Enterprise / Antigravity)</th></tr>
+        <tr><td>עלות</td><td>₪0</td><td>$20–$60/חודש</td><td>$500+/חודש (לצוות)</td></tr>
+        <tr><td>פרטיות</td><td>⚠ מוגבלת — לא להעלות נתונים סודיים</td><td>⚠ משופרת — אבל עדיין לא ארגוני</td><td>✅ מלאה — Zero Retention</td></tr>
+        <tr><td>מכסת שאלות</td><td>~10-30 שאלות/יום</td><td>כמה מאות/יום</td><td>ללא הגבלה</td></tr>
+        <tr><td>גודל קובץ</td><td>קטן — מסמכים עד ~25 עמ'</td><td>בינוני — עד ~100 עמ'</td><td>ללא הגבלה מעשית</td></tr>
+        <tr><td>מודל AI</td><td>חלש יותר (GPT-4o mini / Claude Haiku)</td><td>חזק (GPT-4o / Claude Sonnet/Opus)</td><td>החזק ביותר + התאמה ארגונית</td></tr>
+        <tr><td>חיבור לקבצים ארגוניים</td><td>❌</td><td>❌</td><td>✅ (RAG)</td></tr>
+        <tr><td>מתאים ל...</td><td>לימוד, ניסויים, נתונים ציבוריים</td><td>עבודה אישית אינטנסיבית</td><td>עבודה ארגונית עם נתונים רגישים</td></tr>
+    </table>
+
+    <div class="tip-box">
+        <h4>💡 המלצה פרקטית לסטודנטים</h4>
+        <p class="text-sm text-slate-700">
+            לצורכי הקורס הזה, הגרסה החינמית מספיקה לחלוטין. אנחנו נעבוד עם דוחות ציבוריים (שופרסל, אפל) שאפשר להוריד בחינם מהאינטרנט. רק זכרו: כשתחזרו למשרד ותרצו לנתח נתוני חברה פנימיים — תצטרכו גרסה ארגונית.
+        </p>
+    </div>
+
+    <div class="exercise-box">
+        <h4>🎯 תרגיל מעשי 1: היכרות ראשונה עם AI</h4>
+        <p class="text-sm text-slate-700 mb-3">פתחו את Claude (claude.ai) או ChatGPT (chat.openai.com). רשמו את הפרומפט הבא:</p>
+        <div class="prompt-box">
+אתה מומחה בפיננסים. הסבר לי בשלושה משפטים פשוטים:
+1. מה זה ROE (תשואה להון)?
+2. למה זה חשוב למשקיע?
+3. מה ייחשב ROE "טוב" בענף הבנקאות בישראל?
+        </div>
+        <p class="text-sm text-slate-700">
+            <strong>מה לבדוק:</strong> האם התשובה ברורה? האם המספר שניתן (למשל "ROE טוב בבנקאות: 10%-15%") הגיוני? נסו לאמת אותו מול מקור אחר. שימו לב אם ה-AI אומר "בערך" או נותן מספר חד — זה מרמז על רמת הביטחון שלו.
+        </p>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ========== SECTION 2: DATA SOURCES ========== -->
+<section id="s2" class="scroll-mt-28">
+    <span class="time-badge">00:35 – 01:15</span>
+    <h2 class="text-4xl font-black text-slate-800 mb-8">2. חומרי הגלם: מקורות נתונים רשמיים</h2>
+
+    <h3 class="text-2xl font-bold text-slate-800 mb-4">2.1 למה צריכים מקור נתונים רשמי?</h3>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        ניתוח פיננסי טוב מתחיל תמיד בנתונים אמינים. אם הנתונים שגויים — כל הניתוח שנבנה עליהם שגוי. זהו עיקרון יסוד שנקרא GIGO — "Garbage In, Garbage Out" (זבל נכנס, זבל יוצא). זה נכון שבעתיים כשעובדים עם AI: אם תעלו לו נתונים שגויים, הוא ינתח אותם בצורה מושלמת ויציג לכם תוצאות מרהיבות — שהן שגויות לחלוטין. ולא יהיה לו שום מושג שמשהו לא בסדר.
+    </p>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        לכן, נשתמש אך ורק במקורות רשמיים ומפוקחים. בישראל — מערכת מאי"ה/מגנא של רשות ניירות ערך. בארה"ב — מערכת EDGAR של ה-SEC. אלו מערכות שבהן חברות ציבוריות <strong>חייבות על פי חוק</strong> לפרסם את דוחותיהן, והנתונים מבוקרים ע"י רואי חשבון.
+    </p>
+
+    <h3 class="text-2xl font-bold text-slate-800 mt-12 mb-4">2.2 ישראל: מערכת מאי"ה (MAYA) / מגנא</h3>
+
+    <div class="concept-box">
+        <h4>📖 מה זה מאי"ה?</h4>
+        <p class="text-slate-700 text-sm">
+            "מאי"ה" זהו ראשי תיבות של "מערכת אינטרנט להודעות ישות מדווחת". בפועל, זהו אתר האינטרנט שבו כל חברה שנסחרת בבורסה בתל אביב חייבת לפרסם את כל הדיווחים שלה: דוחות כספיים שנתיים ורבעוניים, דיווחים מיידיים (כמו שינוי מנכ"ל או עסקה מהותית), ותשקיפים. הכתובת היא <a href="https://magna.isa.gov.il" class="action-link" target="_blank">magna.isa.gov.il</a> (האתר המעודכן נקרא "מגנא").
+        </p>
+    </div>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        הורדת דוח ממאי"ה היא פעולה פשוטה, אבל יש כמה "מלכודות" שחשוב להכיר. הנה ההליך צעד-אחר-צעד:
+    </p>
+
+    <div class="bg-white p-8 rounded-2xl border-2 border-blue-100 shadow-md mb-8">
+        <h4 class="font-bold text-lg text-slate-800 mb-4">מדריך הורדת דוח ממאי"ה — צעד אחר צעד</h4>
+        <p class="text-sm text-slate-700 mb-3">
+            <span class="step-num">1</span> <strong>כניסה לאתר:</strong> פתחו דפדפן וגלשו לכתובת <a href="https://magna.isa.gov.il" class="action-link" target="_blank">magna.isa.gov.il</a>. האתר נטען באיטיות לפעמים — אל תילחצו.
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            <span class="step-num">2</span> <strong>חיפוש חברה:</strong> בשורת החיפוש, הקלידו את שם החברה (למשל "שופרסל"). שימו לב: לפעמים השם הרשמי שונה מהשם המוכר (למשל, "טבע תעשיות פרמצבטיות" ולא רק "טבע").
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            <span class="step-num">3</span> <strong>סינון סוג דוח:</strong> בדף של החברה, תראו עשרות דיווחים. אנחנו מחפשים <strong>"דוח תקופתי"</strong> (זהו הדוח השנתי) או <strong>"דוח רבעוני"</strong>. סננו לפי "דוח תקופתי ושנתי".
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            <span class="step-num">4</span> <strong>הורדת ה-PDF:</strong> לחצו על הדוח הרלוונטי. ייפתח עמוד עם קישורים לקבצים. הורידו את ה-PDF המלא. שימו לב: לעיתים יש כמה קבצים (דוח כספי, דוח דירקטוריון, נספחים). הקובץ שמעניין אותנו הוא <strong>"דוחות כספיים"</strong>.
+        </p>
+        <p class="text-sm text-slate-700">
+            <span class="step-num">5</span> <strong>בדיקה:</strong> פתחו את ה-PDF וודאו שהוא קריא. לפעמים דוחות ישנים הם סריקות (תמונות) ולא טקסט — מה שמקשה על ה-AI לקרוא אותם.
+        </p>
+    </div>
+
+    <div class="warning-box">
+        <h4>⚠ מלכודות נפוצות בהורדה ממאי"ה</h4>
+        <p class="text-sm text-slate-700">
+            <strong>מלכודת 1:</strong> דוחות ישנים (לפני 2015 בערך) הם לעיתים סריקות של מסמכים מודפסים. ה-AI יתקשה לקרוא אותם ויעשה טעויות בזיהוי המספרים.<br>
+            <strong>מלכודת 2:</strong> יש חברות עם שמות דומים. ודאו שאתם מסתכלים על החברה הנכונה (בדקו את מספר התאגיד).<br>
+            <strong>מלכודת 3:</strong> הדוח הכספי בעברית משתמש במונחים לפי IFRS (תקינה בינלאומית) — לא US GAAP. אם תבקשו מה-AI להשוות לחברה אמריקאית, ודאו שהוא מודע להבדלי תקנים.
+        </p>
+    </div>
+
+    <h3 class="text-2xl font-bold text-slate-800 mt-12 mb-4">2.3 ארה"ב: מערכת EDGAR ודוחות 10-K</h3>
+
+    <div class="concept-box">
+        <h4>📖 מה זה דוח 10-K?</h4>
+        <p class="text-slate-700 text-sm">
+            דוח 10-K הוא הדוח השנתי המקיף ביותר שחברות אמריקאיות ציבוריות מחויבות להגיש ל-SEC (רשות ניירות ערך של ארה"ב). הדוח כולל דוחות כספיים מלאים, דיון וניתוח של ההנהלה (MD&A), פירוט סיכונים, מידע על תגמולי מנהלים, ועוד. זהו ה"תנ"ך" של כל אנליסט מניות. הוא נכתב באנגלית ולפי כללי US GAAP.
+        </p>
+        <p class="text-slate-700 text-sm mt-3">
+            <strong>הערה חשובה:</strong> קיים גם דוח 10-Q — זהו הדוח הרבעוני (כל רבעון). הוא קצר יותר ופחות מפורט. לניתוח שנתי מקיף — ה-10-K עדיף.
+        </p>
+    </div>
+
+    <div class="bg-white p-8 rounded-2xl border-2 border-indigo-100 shadow-md mb-8">
+        <h4 class="font-bold text-lg text-slate-800 mb-4">מדריך הורדת דוח 10-K מ-EDGAR — צעד אחר צעד</h4>
+        <p class="text-sm text-slate-700 mb-3">
+            <span class="step-num">1</span> <strong>כניסה:</strong> גלשו ל-<a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany" class="action-link" target="_blank">SEC EDGAR Company Search</a>.
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            <span class="step-num">2</span> <strong>חיפוש:</strong> בשדה "Company Name" הקלידו את שם החברה (למשל: Apple) או בשדה "Ticker" את סימול המניה (למשל: AAPL). לחצו "Search".
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            <span class="step-num">3</span> <strong>סינון:</strong> בשדה "Filing type" כתבו <strong>10-K</strong> ולחצו Search שוב. תקבלו רשימה של כל הדוחות השנתיים שהחברה הגישה.
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            <span class="step-num">4</span> <strong>בחירת דוח:</strong> לחצו על הדוח האחרון (הראשון ברשימה). ייפתח עמוד עם רשימת קבצים. חפשו את הקובץ עם הסיומת ".htm" או ".pdf" שגודלו הגדול ביותר — זהו הדוח המלא.
+        </p>
+        <p class="text-sm text-slate-700">
+            <span class="step-num">5</span> <strong>שמירה:</strong> הורידו את הקובץ למחשב. טיפ: גרסת ה-HTML קלה יותר ל-AI לקרוא מאשר גרסת ה-PDF.
+        </p>
+    </div>
+
+    <div class="tip-box">
+        <h4>💡 טיפ מקצועי: Interactive Data ו-XBRL</h4>
+        <p class="text-sm text-slate-700">
+            ב-EDGAR יש גם "Interactive Data" — גרסה שבה הנתונים הכספיים מתויגים בפורמט מכונה (XBRL). זה יכול לחסוך הרבה עבודה כי ה-AI יכול לחלץ מספרים ישירות בלי "לקרוא" טבלה. אם אתם מתקדמים — נסו את זה.
+        </p>
+    </div>
+
+    <!-- CASE 1: SHUFERSAL -->
+    <div id="case1" class="case-study mt-14 scroll-mt-28">
+        <div class="case-header bg-[var(--clr-accent)]">קייס 1: ניתוח שופרסל מתוך דוח שנתי (מאי"ה)</div>
+        <div class="case-body">
+
+            <h4 class="font-bold text-lg text-slate-800 mb-3">הסיטואציה</h4>
+            <p class="text-slate-700 mb-6">
+                אתם אנליסטים בחברת השקעות. הבוס שלכם מבקש "ניתוח מהיר" על שופרסל — ענקית הקמעונאות הישראלית. הוא רוצה לדעת: האם הרווחיות של שופרסל משתפרת או מידרדרת? מה גורם לשינוי? הורדתם את הדוח השנתי (PDF, ~250 עמודים) ממאי"ה.
+            </p>
+
+            <h4 class="font-bold text-lg text-slate-800 mb-3">מה עושים? שלוש גישות</h4>
+            <p class="text-slate-700 mb-3">
+                <strong>גישה ישנה (ללא AI):</strong> פותחים את ה-PDF, מחפשים ידנית את דוח רווח והפסד (בערך עמוד 80-90), מעתיקים מספרים לאקסל, בונים נוסחאות. זמן משוער: 3-4 שעות.
+            </p>
+            <p class="text-slate-700 mb-3">
+                <strong>גישה חדשה (AI חינמי):</strong> מעלים את ה-PDF (או חלקים ממנו) ל-Claude/ChatGPT ומבקשים ניתוח. זמן: 10-15 דקות. אבל — צריכים לבדוק שהמספרים נכונים.
+            </p>
+            <p class="text-slate-700 mb-6">
+                <strong>גישה ארגונית (Antigravity):</strong> הסוכן מחובר ישירות לתיקיית הדוחות. אומרים לו "נתח את שופרסל" — והוא מושך את הנתונים בעצמו. זמן: 2-3 דקות.
+            </p>
+
+            <h4 class="font-bold text-lg text-slate-800 mb-3">הפרומפט (גישת AI חינמי)</h4>
+            <p class="text-slate-700 text-sm mb-2">
+                העלו את ה-PDF ל-Claude (או חלקים ממנו — את הדוחות הכספיים), וכתבו את ההוראה הבאה:
+            </p>
+            <div class="prompt-box">
+אתה אנליסט פיננסי בכיר המתמחה בשוק הישראלי.
+
+קרא את דוח ה-PDF המצורף של חברת שופרסל בע"מ.
+
+בצע את המשימות הבאות בזהירות:
+
+1. חלץ לטבלה מסודרת את נתוני המפתח ל-3 השנים 
+   האחרונות שמופיעות בדוח:
+   - הכנסות (revenues)
+   - עלות המכירות (cost of sales)
+   - רווח גולמי (gross profit)
+   - רווח תפעולי (operating profit)
+   - רווח נקי (net profit)
+   - סך נכסים (total assets)
+   - הון עצמי (equity)
+   - התחייבויות פיננסיות נטו (net financial debt)
+
+2. חשב את היחסים הפיננסיים הבאים לכל שנה:
+   - שולי רווח גולמי (Gross Margin %)
+   - שולי רווח תפעולי (Operating Margin %)
+   - שולי רווח נקי (Net Margin %)
+   - ROE (תשואה להון = רווח נקי / הון עצמי)
+   - ROA (תשואה לנכסים = רווח נקי / סך נכסים)
+
+3. בצע ניתוח DuPont (פירוק ה-ROE ל-3 מרכיבים):
+   - Net Profit Margin (שולי רווח נקי)
+   - Asset Turnover (מחזור נכסים = הכנסות / סך נכסים)
+   - Equity Multiplier (מינוף = סך נכסים / הון עצמי)
+
+4. כתוב פסקה של 5-6 משפטים שמסבירה במילים 
+   פשוטות: מה גרם לשינוי ברווחיות בשנה האחרונה?
+   האם זה בגלל שיפור בפעילות, שינוי במינוף,
+   או גורם אחר?
+
+חשוב: ציין את מספרי העמודים שמהם לקחת את 
+הנתונים. אם נתון לא נמצא בדוח — כתוב "לא נמצא" 
+ואל תנחש.
+            </div>
+
+            <div class="ped-summary">
+                <h4>👨‍🏫 סיכום פדגוגי: מה קרה כאן ומה למדנו</h4>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>מה ה-AI עשה:</strong> הוא "קרא" את ה-PDF — טכנולוגיית OCR מתקדמת (זיהוי תווים אופטי) מאפשרת לו לזהות טקסט גם מתוך PDF סרוק. הוא מצא את הטבלאות הפיננסיות, חילץ את המספרים, ביצע חישובים מתמטיים, וניסח תובנות.
+                </p>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>מה חסכנו:</strong> במקום 3-4 שעות של נבירה ידנית, קיבלנו תוצאה תוך דקות. אבל — השקענו 5-10 דקות בבדיקת המספרים מול הדוח.
+                </p>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>מה יכול להשתבש:</strong> (א) ה-AI עלול לקחת מספרים מהערות שוליים ולא מהדוחות העיקריים. (ב) דוחות בעברית כוללים מגזרי פעילות — ה-AI עלול לסכום מגזר אחד ולהציג אותו כסה"כ. (ג) ה-AI עלול לבלבל בין "רווח מיוחס לבעלי המניות" ל"רווח כולל" — שני מספרים שונים.
+                </p>
+                <p class="text-sm text-slate-700">
+                    <strong>הכלל:</strong> שימו לב שביקשנו "ציין את מספרי העמודים". זה טריק חשוב — זה מכריח את ה-AI לשקף מאיפה לקח את הנתונים, ומקל עליכם לבדוק.
+                </p>
+            </div>
+
+            <div class="exercise-box">
+                <h4>🎯 תרגיל מעשי 2: נסו בעצמכם עם חברה ישראלית</h4>
+                <p class="text-sm text-slate-700">
+                    היכנסו ל-<a href="https://magna.isa.gov.il" class="action-link" target="_blank">מגנא</a>, הורידו דוח שנתי של חברה שמעניינת אתכם (למשל: טבע, אלביט, בנק הפועלים), העלו ל-Claude, והשתמשו בפרומפט שלמעלה. השוו את התוצאות מול הדוח המקורי — האם ה-AI צדק?
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CASE 2: APPLE -->
+    <div id="case2" class="case-study mt-14 scroll-mt-28">
+        <div class="case-header bg-indigo-700">קייס 2: ניתוח אפל (Apple Inc.) מתוך דוח 10-K</div>
+        <div class="case-body">
+
+            <h4 class="font-bold text-lg text-slate-800 mb-3">הסיטואציה</h4>
+            <p class="text-slate-700 mb-6">
+                אפל היא אחת החברות הגדולות בעולם. דוח ה-10-K שלה כולל פירוט עצום: חלוקה גאוגרפית (אמריקה, אירופה, סין, יפן), חלוקה לפי מוצר (iPhone, iPad, Mac, Wearables, Services), ופרק ארוך של "דיון וניתוח ההנהלה" (MD&A) שבו הם מסבירים מה קרה ומדוע. אנחנו רוצים להפוך את ה-80 עמודים האלה לטבלת סיכום של עמוד אחד.
+            </p>
+
+            <h4 class="font-bold text-lg text-slate-800 mb-3">הפרומפט</h4>
+            <div class="prompt-box">
+Role: Global Equity Analyst specializing in Technology.
+Dataset: Apple Inc. (AAPL) latest 10-K Filing (attached PDF).
+
+IMPORTANT: Only use data that appears explicitly in the 
+document. If a number is not found, write "N/A".
+
+Tasks:
+1. Create a table showing Revenue breakdown by Product 
+   Category (iPhone, iPad, Mac, Wearables/Home/Accessories, 
+   Services) for the last 3 fiscal years in the report.
+   Include: Revenue ($M), % of Total, YoY Growth %.
+
+2. Create a second table showing Revenue by Geographic 
+   Segment (Americas, Europe, Greater China, Japan, 
+   Rest of Asia Pacific) for the same period.
+
+3. Calculate and present these financial ratios for each 
+   year:
+   - Gross Margin % (overall and by segment if available)
+   - Operating Margin %
+   - Net Margin %
+   - Return on Equity (ROE)
+   - Free Cash Flow Yield (FCF / Market Cap - note: you 
+     may need to estimate market cap from shares 
+     outstanding × approximate share price)
+
+4. From the "Risk Factors" section (Item 1A), summarize 
+   the top 5 risks Apple identifies, in 1-2 sentences 
+   each.
+
+5. From the MD&A section (Item 7), identify: What does 
+   management say about the future of the Services 
+   segment? Is it growing? What is driving the growth?
+
+6. Write a 1-paragraph investment thesis: Based on the 
+   data, is Apple a "growth" stock or a "value" stock 
+   in its current stage? Support with numbers.
+            </div>
+
+            <div class="ped-summary">
+                <h4>👨‍🏫 סיכום פדגוגי: ניתוח חברה גלובלית — מה למדנו</h4>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>מה מיוחד כאן:</strong> בקייס הזה, ה-AI לא רק מחלץ מספרים — הוא מבצע ניתוח סמנטי (הבנת משמעות הטקסט). הוא קורא פרקים שלמים של טקסט חופשי שנכתב ע"י הנהלת אפל ומזקק מתוכם תובנות. זהו שימוש שממש קשה לבצע ידנית — קריאת 30 עמודי Risk Factors ותמצות ל-5 נקודות עיקריות.
+                </p>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>תובנות טיפוסיות:</strong> אנליסטים שמריצים את הפרומפט הזה מגלים שמגזר ה-Services (Apple Music, iCloud, App Store) צומח בקצב מהיר הרבה יותר ממגזר ה-Hardware, ושהשולי רווח שלו גבוהים בהרבה. זו תובנה שמשנה את הערכת השווי של אפל — מחברת חומרה לחברת שירותים.
+                </p>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>מגבלות כלי חינמי:</strong> דוח 10-K של אפל ארוך מאוד (~80-100 עמודים). בגרסה חינמית של ChatGPT, ייתכן שחלק מהדוח "ייחתך" ולא ייקרא. בדקו: אם ה-AI לא עונה על אחת המשימות — סביר שהוא לא ראה את החלק הרלוונטי בדוח. נסו להעלות רק את החלקים הספציפיים.
+                </p>
+                <p class="text-sm text-slate-700">
+                    <strong>זהירות מתקנים חשבונאיים:</strong> אפל מדווחת לפי US GAAP (תקני חשבונאות אמריקאיים). חברות ישראליות מדווחות לפי IFRS (תקנים בינלאומיים). ה-AI עלול לבלבל בין מונחים שנראים דומים אבל שונים — למשל, הטיפול בשכירויות (Leases) שונה בין שני התקנים. אם אתם משווים חברה ישראלית לאמריקאית, ציינו זאת מפורשות בפרומפט.
+                </p>
+            </div>
+
+            <div class="concept-box">
+                <h4>📖 הבדלי תקנים: IFRS מול US GAAP — למה זה חשוב?</h4>
+                <p class="text-slate-700 text-sm">
+                    חברות ישראליות מדווחות לפי IFRS (International Financial Reporting Standards). חברות אמריקאיות מדווחות לפי US GAAP (Generally Accepted Accounting Principles). ההבדלים נראים טכניים אבל יכולים לשנות מספרים בצורה משמעותית. למשל: הטיפול בעלויות פיתוח (IFRS מאפשר היוון, GAAP דורש הוצאה מיידית), מדידת נדל"ן להשקעה (IFRS מאפשר שווי הוגן, GAAP דורש עלות), והכרה בהכנסות (הבדלים עדינים בתזמון). כשאתם מבקשים מ-AI להשוות חברות מתקנים שונים — ציינו זאת.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ========== SECTION 3: SECURITY & ANTIGRAVITY ========== -->
+<section id="s3" class="scroll-mt-28">
+    <span class="time-badge">01:15 – 01:50</span>
+    <h2 class="text-4xl font-black text-slate-800 mb-8">3. אבטחת מידע: מכלי חינמי למערכת ארגונית</h2>
+
+    <h3 class="text-2xl font-bold text-slate-800 mb-4">3.1 למה אי אפשר פשוט להשתמש ב-ChatGPT החינמי במשרד?</h3>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        עד עכשיו עבדנו עם נתונים ציבוריים (דוחות מהבורסה). אבל ברגע שתחזרו למשרד ותרצו לנתח את נתוני החברה שלכם — נתוני שכר, מכירות פנימיות, עלויות ייצור, תחזיות — אתם חייבים לעצור ולחשוב על אבטחת מידע.
+    </p>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        כשאתם כותבים משהו ב-ChatGPT החינמי או בגרסאות חינמיות אחרות, המידע עובר לשרתים של חברה אמריקאית (OpenAI, Google, Anthropic). בגרסאות מסוימות, המידע הזה עלול לשמש לאימון המודל — מה שאומר שמישהו אחר בעולם עלול לקבל תשובה שמבוססת על הנתונים שלכם. גם אם זה לא קורה — עצם העובדה שמידע רגיש (כמו רשימת שכר) עוזב את רשת החברה מהווה הפרה של מדיניות אבטחת מידע ברוב הארגונים, ועלולה להוות עבירה על חוק הגנת הפרטיות.
+    </p>
+
+    <div class="warning-box">
+        <h4>🚨 דוגמאות למידע שאסור להעלות לכלי AI חינמי</h4>
+        <p class="text-sm text-slate-700">
+            שמות עובדים ומשכורות. נתוני מכירות לפי לקוח. עלויות ייצור ותמחור. תחזיות פנימיות ותקציבים. חוזים עם ספקים. פרוטוקולים של דירקטוריון. מידע על עסקאות M&A בתכנון. כל מידע שמוגדר "סודי" או "פנימי" בחברה.
+        </p>
+    </div>
+
+    <h3 class="text-2xl font-bold text-slate-800 mt-12 mb-4">3.2 הפתרונות: שלוש רמות אבטחה</h3>
+
+    <table>
+        <tr><th>רמה</th><th>מה זה</th><th>דוגמאות</th><th>מתאים ל...</th></tr>
+        <tr>
+            <td><strong>1. חינמי / אישי</strong></td>
+            <td>ChatGPT Free, Claude Free, Gemini</td>
+            <td>נתונים ציבוריים בלבד</td>
+            <td>לימוד, מחקר, ניתוח דוחות ציבוריים</td>
+        </tr>
+        <tr>
+            <td><strong>2. מנוי מקצועי</strong></td>
+            <td>ChatGPT Plus/Pro, Claude Pro</td>
+            <td>אפשרות לכבות אימון על הנתונים שלך (opt-out)</td>
+            <td>עבודה אישית שאינה סודית ביותר</td>
+        </tr>
+        <tr>
+            <td><strong>3. ארגוני / Enterprise</strong></td>
+            <td>ChatGPT Enterprise, Claude for Business, Antigravity, Microsoft Copilot for M365</td>
+            <td>Zero Retention, חומת אש ארגונית, SOC2</td>
+            <td>כל סוגי המידע — כולל סודי</td>
+        </tr>
+    </table>
+
+    <div id="s3-antigravity" class="scroll-mt-28"></div>
+    <h3 class="text-2xl font-bold text-slate-800 mt-14 mb-4">3.3 Antigravity: מערכת AI ארגונית מאובטחת</h3>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        Antigravity היא דוגמה למה שנקרא "AI Gateway" — מערכת ביניים שנמצאת בין המשתמשים בארגון לבין מודלי ה-AI (כמו GPT-4 או Claude). המערכת מוודאת שכל מידע שעובר מוגן, מוצפן, ולא נשמר אצל ספק ה-AI. בפועל, היא עוטפת את ChatGPT/Claude ב"שכבת הגנה" ארגונית.
+    </p>
+
+    <div class="tech-guide">
+        <h4>מדריך שימוש ב-Antigravity — צעד אחר צעד</h4>
+
+        <p class="text-sm text-slate-300 mb-6">
+            ההדרכה הבאה מיועדת לארגונים שכבר רכשו רישיון Antigravity. אם אין לכם גישה — אפשר לעקוב ולהבין את הרעיונות, ולתרגל את הפרומפטים בגרסה החינמית עם נתונים ציבוריים.
+        </p>
+
+        <p class="text-sm text-slate-300 mb-6">
+            <strong>שלב 1 — הרשמה והגדרת הרשאות:</strong> פנו למחלקת ה-IT בארגון וקבלו גישה לפורטל Antigravity. המערכת פועלת בדפדפן (אין צורך בהתקנה על המחשב). הזדהו עם ה-SSO (Single Sign-On) של הארגון. מחלקת ה-IT תגדיר מה מותר ומה אסור — למשל, האם מותר להעלות קבצי HR.
+        </p>
+        <p class="text-sm text-slate-300 mb-6">
+            <strong>שלב 2 — בחירת מודל AI:</strong> בתוך הממשק, תוכלו לבחור את ה"מנוע" שירוץ מאחורי הקלעים. לחישובים פיננסיים ולניתוח דוחות, מומלצים GPT-4o או Claude Sonnet/Opus. המערכת חותמת חוזה Zero Retention עם ספק ה-AI — מה שאומר שהנתונים שלכם לא נשמרים בשרתים של הספק ולא משמשים לאימון.
+        </p>
+        <p class="text-sm text-slate-300 mb-6">
+            <strong>שלב 3 — חיבור בסיס ידע (RAG):</strong> כאן הקסם האמיתי קורה. לחצו על "Add Data Source" וקשרו תיקייה מהשרת הארגוני — למשל, תיקיית "דוחות כספיים 2024". המערכת סורקת את כל הקבצים (אקסלים, PDFs, Word), מפרקת אותם ליחידות קטנות, ומאנדקסת אותם. מעתה, כשתשאלו שאלה — ה-AI יחפש קודם בתוך הקבצים שלכם ויצטט ישירות מהם.
+        </p>
+        <p class="text-sm text-slate-300 mb-6">
+            <strong>שלב 4 — יצירת סוכן (Agent) פיננסי:</strong> סוכן הוא "ישות" שמוגדרת למשימה ספציפית. למשל, נגדיר סוכן בשם "CFO Analyst" עם ההוראה: "התפקיד שלך הוא סמנכ"ל כספים. ענה רק על סמך הנתונים בקבצים המחוברים. אם חסר נתון — אמור בפירוש שהנתון חסר ואל תנחש." אפשר ליצור כמה סוכנים — אחד לתקציב, אחד למכירות, אחד לדיווח.
+        </p>
+        <p class="text-sm text-slate-300">
+            <strong>שלב 5 — שימוש יומיומי:</strong> פתחו שיחה עם הסוכן ושאלו שאלות בשפה טבעית: "מה היו ההכנסות שלנו ברבעון 3 לפי מגזר?" — הסוכן חופר באקסלים, מוצא את הנתון, ומציג אותו עם הפניה לקובץ המקור. אפשר גם לבקש ממנו לייצר גרפים, להשוות תקופות, ולכתוב סיכומים להנהלה.
+        </p>
+    </div>
+
+    <div class="compare-grid">
+        <div class="compare-pros">
+            <h5 class="font-black text-green-800 mb-3">✅ יתרונות Antigravity</h5>
+            <p class="text-sm text-slate-700 mb-2"><strong>פרטיות מוחלטת:</strong> המידע לא מאמן את המודל ולא נשמר אצל הספק.</p>
+            <p class="text-sm text-slate-700 mb-2"><strong>חיבור ישיר:</strong> לא צריך להעתיק-להדביק מאקסל. הסוכן קורא ישירות מהקבצים.</p>
+            <p class="text-sm text-slate-700 mb-2"><strong>ניהול סוכנים:</strong> אפשר ליצור סוכנים ייעודיים לכל משימה.</p>
+            <p class="text-sm text-slate-700"><strong>אודיט:</strong> כל שאלה ותשובה נרשמות — חשוב לציות רגולטורי.</p>
+        </div>
+        <div class="compare-cons">
+            <h5 class="font-black text-red-800 mb-3">❌ חסרונות ומגבלות</h5>
+            <p class="text-sm text-slate-700 mb-2"><strong>עלות:</strong> מנוי ארגוני עולה מאות עד אלפי דולרים בחודש.</p>
+            <p class="text-sm text-slate-700 mb-2"><strong>מהירות:</strong> שכבות האבטחה הנוספות מאטות לפעמים את התגובה.</p>
+            <p class="text-sm text-slate-700 mb-2"><strong>תלות ב-IT:</strong> ההגדרה הראשונית (חיבור תיקיות, הרשאות) דורשת אישורי IT.</p>
+            <p class="text-sm text-slate-700"><strong>עקומת למידה:</strong> צריך ללמוד את הממשק ואת אופן הגדרת הסוכנים.</p>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>🎯 תרגיל מעשי 3: הגדרת System Prompt לסוכן פיננסי</h4>
+        <p class="text-sm text-slate-700 mb-3">
+            גם אם אין לכם Antigravity, תרגלו כתיבת "הגדרת תפקיד" — כי העיקרון זהה בכל כלי AI. פתחו Claude/ChatGPT, והזינו את הפרומפט הבא כהודעה ראשונה בשיחה:
+        </p>
+        <div class="prompt-box">
+You are a Senior Financial Controller at an Israeli 
+publicly traded company.
+
+Rules:
+- Answer ONLY based on data I provide (files or text).
+- If data is missing, say "Data not available" — never 
+  guess or estimate.
+- All monetary values in NIS (₪) unless stated otherwise.
+- Use IFRS terminology.
+- When presenting numbers, always show the calculation.
+- Flag any data quality issues you notice (e.g., numbers 
+  that don't add up, missing periods).
+
+Acknowledge these rules and wait for my first question.
+        </div>
+        <p class="text-sm text-slate-700">
+            אחרי שה-AI מאשר, שלחו לו נתונים (אפילו מומצאים) ובדקו שהוא מקפיד על הכללים — במיוחד על הכלל "אל תנחש".
+        </p>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ========== SECTION 4: FP&A / PVM ========== -->
+<section id="s4" class="scroll-mt-28">
+    <span class="time-badge">01:50 – 02:25</span>
+    <h2 class="text-4xl font-black text-slate-800 mb-8">4. FP&A — תכנון פיננסי וניתוח שונויות</h2>
+
+    <h3 class="text-2xl font-bold text-slate-800 mb-4">4.1 מה זה FP&A?</h3>
+
+    <div class="concept-box">
+        <h4>📖 FP&A — Financial Planning & Analysis</h4>
+        <p class="text-slate-700 text-sm">
+            FP&A זהו התפקיד (ולפעמים המחלקה) בארגון שאחראית על שלושה דברים: (1) <strong>תכנון</strong> — בניית תקציב ותחזיות לשנה הקרובה, (2) <strong>ניתוח</strong> — הבנה של מה קרה בפועל ולמה, ו-(3) <strong>דיווח</strong> — הצגת המידע להנהלה בצורה ברורה שמאפשרת קבלת החלטות. FP&A הוא ה"שפה" שבה סמנכ"ל הכספים מדבר עם המנכ"ל.
+        </p>
+    </div>
+
+    <h3 class="text-2xl font-bold text-slate-800 mt-10 mb-4">4.2 ניתוח שונויות — "למה הרווחנו פחות ממה שתכננו?"</h3>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        זהו אחד הכלים המרכזיים ביותר של FP&A. התרחיש: בתחילת השנה, בניתם תקציב ותכננתם רווח של 10 מיליון שקל. בסוף הרבעון, הרווח בפועל הוא 8 מיליון שקל בלבד. המנכ"ל שואל: "למה חסרים 2 מיליון?" — ואתם צריכים לתת תשובה מדויקת, לא "אמ... הכנסות היו נמוכות יותר".
+    </p>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        ניתוח שונויות (Variance Analysis) מפרק את הפער בין התוכנית לביצוע לגורמים ספציפיים. הכלי הפופולרי ביותר לכך נקרא <strong>PVM — Price, Volume, Mix</strong>.
+    </p>
+
+    <div class="concept-box">
+        <h4>📖 מודל PVM — פירוק שונויות לשלושה גורמים</h4>
+        <p class="text-slate-700 text-sm mb-3">
+            PVM מפרק את ההפרש בין "מה תכננו" ל"מה קרה" לשלושה מרכיבים:
+        </p>
+        <p class="text-slate-700 text-sm mb-3">
+            <strong>Price (מחיר):</strong> האם שינוי במחיר היחידה גרם לסטייה? למשל: תכננתם למכור כל יחידה ב-100₪, אבל בפועל נתתם הנחה ומכרתם ב-90₪. הפער = סטיית מחיר.
+        </p>
+        <p class="text-slate-700 text-sm mb-3">
+            <strong>Volume (כמות):</strong> האם שינוי בכמות היחידות שנמכרו גרם לסטייה? למשל: תכננתם למכור 1,000 יחידות, אבל בפועל מכרתם רק 800. הפער = סטיית כמות.
+        </p>
+        <p class="text-slate-700 text-sm mb-3">
+            <strong>Mix (תמהיל):</strong> האם שינוי בתמהיל המוצרים גרם לסטייה? למשל: תכננתם שמוצר A (שולי רווח 40%) יהווה 60% מהמכירות, אבל בפועל מוצר B (שולי רווח 15%) היה 60%. סה"כ מכרתם את אותו מספר יחידות — אבל הרווח נשחק בגלל תמהיל גרוע.
+        </p>
+        <p class="text-slate-700 text-sm">
+            <strong>למה זה חשוב:</strong> בלי PVM, המנכ"ל ישמע "הכנסות ירדו" ויצעק על מנהל המכירות. עם PVM, אתם יכולים להגיד "מנהל המכירות מכר יותר יחידות מהתוכנית (Volume חיובי), אבל נתן הנחות מוגזמות (Price שלילי) ומכר בעיקר מהמוצרים הזולים (Mix שלילי). הבעיה היא מדיניות ההנחות, לא הביצועים."
+        </p>
+    </div>
+
+    <h3 class="text-2xl font-bold text-slate-800 mt-10 mb-4">4.3 דוגמה מספרית מלאה</h3>
+
+    <p class="text-lg text-slate-700 mb-4 leading-relaxed">
+        לפני שנכנס ל-AI, בואו נבין את המספרים ידנית. חברה מוכרת שני מוצרים:
+    </p>
+
+    <table>
+        <tr><th></th><th colspan="3">תוכנית (Budget)</th><th colspan="3">ביצוע (Actual)</th></tr>
+        <tr><th>מוצר</th><th>מחיר</th><th>כמות</th><th>הכנסה</th><th>מחיר</th><th>כמות</th><th>הכנסה</th></tr>
+        <tr><td>מוצר A (פרימיום)</td><td>100₪</td><td>600</td><td>60,000₪</td><td>90₪</td><td>500</td><td>45,000₪</td></tr>
+        <tr><td>מוצר B (בסיסי)</td><td>50₪</td><td>400</td><td>20,000₪</td><td>50₪</td><td>700</td><td>35,000₪</td></tr>
+        <tr><td><strong>סה"כ</strong></td><td></td><td><strong>1,000</strong></td><td><strong>80,000₪</strong></td><td></td><td><strong>1,200</strong></td><td><strong>80,000₪</strong></td></tr>
+    </table>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        מבט ראשון: "ההכנסות בדיוק כמו שתכננו — 80,000₪. הכל בסדר!" — אבל האם באמת הכל בסדר? לא. מוצר A (הרווחי) מכר פחות ובמחיר נמוך יותר, ומוצר B (הפחות רווחי) מכר הרבה יותר. אם שולי הרווח של A הם 40% ושל B הם 15%, אז הרווח בפועל נמוך בהרבה מהתוכנית — למרות שההכנסות זהות. זה בדיוק מה ש-PVM חושף.
+    </p>
+
+    <!-- CASE 3 -->
+    <div id="case3" class="case-study mt-14 scroll-mt-28">
+        <div class="case-header bg-[#b45309]">קייס 3: ניתוח סטיית תקציב עם AI</div>
+        <div class="case-body">
+
+            <h4 class="font-bold text-lg text-slate-800 mb-3">הסיטואציה</h4>
+            <p class="text-slate-700 mb-6">
+                אתם סמנכ"ל הכספים. המנכ"ל מתקשר ואומר: "ראיתי שהרווח התפעולי שלנו ברבעון 3 נמוך ב-200 אלף דולר מהתקציב. מה קרה?" יש לכם קובץ אקסל עם נתוני מכירות בפועל ותקציב.
+            </p>
+            <p class="text-slate-700 mb-6">
+                <strong>בגרסה חינמית:</strong> הכינו טבלה עם הנתונים (אפשר להעתיק מאקסל) והדביקו בתוך ה-AI. <strong>בגרסה ארגונית (Antigravity):</strong> הסוכן מחובר ישירות לקובץ האקסל.
+            </p>
+
+            <h4 class="font-bold text-lg text-slate-800 mb-3">הפרומפט</h4>
+            <div class="prompt-box">
+System: You are an FP&A Expert.
+
+Context: I have sales data for Q3 comparing Actual 
+results to Budget. The company has 3 product lines:
+- Product A (Premium): Budget price $120, Actual $105
+- Product B (Standard): Budget price $80, Actual $80
+- Product C (Economy): Budget price $40, Actual $38
+
+Volume data:
+- Product A: Budget 2,000 units, Actual 1,500 units
+- Product B: Budget 3,000 units, Actual 3,200 units
+- Product C: Budget 1,000 units, Actual 2,800 units
+
+Gross margins: A=45%, B=30%, C=12%.
+
+Tasks:
+1. Calculate total Revenue variance (Actual vs Budget) 
+   and break it down into:
+   - Price Variance
+   - Volume Variance
+   - Mix Variance
+   Show all calculations step by step.
+
+2. Calculate the Gross Profit variance and explain which 
+   product line contributed most to the shortfall.
+
+3. Write a 5-sentence executive summary for the CEO 
+   explaining: What happened? Why? What should we do?
+
+4. Suggest 3 concrete actions to improve profitability 
+   next quarter.
+            </div>
+
+            <div class="ped-summary">
+                <h4>👨‍🏫 סיכום פדגוגי: מה AI עושה כאן שלא יכולנו לעשות מהר בעצמנו?</h4>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>החישובים:</strong> ה-AI מבצע את הפירוק המתמטי של PVM — שזה חישוב שדורש כמה שלבים ונוטה לטעויות ידניות. הוא מראה את הנוסחאות וה"עבודה" — מה שמאפשר לכם לבדוק.
+                </p>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>התובנה:</strong> ה-AI לא רק מחשב — הוא גם מנסח. הסיכום להנהלה נכתב בשפה עסקית ברורה: "מכרנו יותר יחידות מהמתוכנן, אבל התמהיל השתנה לטובת המוצר הזול ביותר, והמחיר של מוצר A ירד ב-12.5%. התוצאה: הכנסות דומות, רווח גולמי נמוך."
+                </p>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>ההמלצות:</strong> ה-AI מציע פעולות קונקרטיות — כמו הקשחת מדיניות הנחות, התמקדות בשיווק מוצר A, ובחינת עלויות מוצר C. אלה המלצות הגיוניות, אבל אתם צריכים לסנן אותן דרך ההבנה שלכם את השוק.
+                </p>
+                <p class="text-sm text-slate-700">
+                    <strong>מגבלות כלי חינמי כאן:</strong> בגרסה חינמית, לא ניתן לחבר ישירות קובץ אקסל. תצטרכו להעתיק-להדביק את הנתונים כטקסט. זה עובד, אבל פחות נוח — ויש סיכון שתעתיקו לא נכון. בגרסה ארגונית, הסוכן קורא את הקובץ בעצמו.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ========== SECTION 5: SCENARIOS ========== -->
+<section id="s5" class="scroll-mt-28">
+    <span class="time-badge">02:25 – 02:50</span>
+    <h2 class="text-4xl font-black text-slate-800 mb-8">5. ניהול סיכונים: תרחישים וניהול מזומנים</h2>
+
+    <h3 class="text-2xl font-bold text-slate-800 mb-4">5.1 מה זה Cash Runway ולמה זה קריטי?</h3>
+
+    <div class="concept-box">
+        <h4>📖 Cash Runway — מסלול המזומנים</h4>
+        <p class="text-slate-700 text-sm">
+            Cash Runway עונה על השאלה הפשוטה והמפחידה: "כמה חודשים החברה יכולה לשרוד עם הקצב הנוכחי של שריפת מזומנים (Cash Burn)?" הנוסחה הבסיסית היא: <strong>Runway = יתרת מזומנים ÷ שריפה חודשית נטו</strong>. "שריפה נטו" = הוצאות חודשיות פחות הכנסות חודשיות. אם ההוצאות 200K$ והכנסות 50K$, השריפה הנטו היא 150K$. עם 2M$ בקופה, ה-Runway הוא כ-13 חודשים.
+        </p>
+    </div>
+
+    <h3 class="text-2xl font-bold text-slate-800 mt-10 mb-4">5.2 ניתוח רגישות — "מה הכנוב שהכי משפיע?"</h3>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        ניתוח רגישות (Sensitivity Analysis) בודק מה קורה כשמשנים פרמטר אחד ושומרים על כל השאר קבוע. למשל: מה קורה ל-Runway אם הכנסות יורדות ב-50%? מה קורה אם מפטרים 20% מהצוות? מה קורה אם שני הדברים קורים ביחד (תרחיש אימים)?
+    </p>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        ניתוח רגישות הוא אחד השימושים החזקים ביותר ב-AI, כי אתם יכולים לבקש עשרות תרחישים בשפה טבעית — בלי לבנות גיליון אקסל מורכב עם שורות של IF ו-INDEX/MATCH.
+    </p>
+
+    <!-- CASE 4 -->
+    <div id="case4" class="case-study mt-10 scroll-mt-28">
+        <div class="case-header bg-[#7c3aed]">קייס 4: סימולציית הישרדות (Runway Simulation)</div>
+        <div class="case-body">
+
+            <h4 class="font-bold text-lg text-slate-800 mb-3">הסיטואציה</h4>
+            <p class="text-slate-700 mb-6">
+                אתם סמנכ"ל הכספים של סטארטאפ. המשקיעים שואלים: "מה קורה אם הסבב הבא לא מגיע? כמה חודשים יש לנו?" אתם צריכים לבנות תחזית לכמה תרחישים ולהציג אותה בישיבת דירקטוריון.
+            </p>
+
+            <h4 class="font-bold text-lg text-slate-800 mb-3">הפרומפט</h4>
+            <div class="prompt-box">
+Role: Startup CFO running a cash runway analysis.
+
+Current financial position:
+- Cash on hand: $2,500,000
+- Monthly operating expenses: $200,000
+  (breakdown: Salaries $140K, Rent $20K, Cloud $15K, 
+   Marketing $15K, Other $10K)
+- Monthly revenue: $50,000 (growing 5% month-over-month)
+
+Run the following scenarios (month-by-month projection 
+for 24 months):
+
+Scenario A (Base Case): 
+Revenue continues growing at 5% MoM. Costs stable.
+
+Scenario B (Revenue Freeze): 
+Revenue stays flat at $50K/month. Costs stable.
+
+Scenario C (Market Crisis): 
+Revenue drops to $0 immediately. Costs stable.
+
+Scenario D (Aggressive Cost Cut): 
+Revenue drops to $0. We immediately cut: Marketing 
+to $0, reduce salaries by 30%, eliminate Other.
+
+Scenario E (Pivot): 
+Revenue drops to $0 for 3 months, then returns at 
+$30K/month growing 10% MoM. Costs cut by 20%.
+
+For each scenario, calculate:
+1. Month-by-month cash balance (table).
+2. "Death Date" — the month cash reaches $0.
+3. Months of runway remaining.
+
+Then provide:
+4. A comparison table showing all 5 scenarios side 
+   by side (runway in months).
+5. Sensitivity analysis: Which single variable (revenue 
+   growth rate vs. cost cutting) has the biggest impact 
+   on extending runway?
+6. Your recommendation: What should the CEO prioritize 
+   — revenue growth or cost cutting? Why?
+            </div>
+
+            <div class="ped-summary">
+                <h4>👨‍🏫 סיכום פדגוגי: תרחישים — מה למדנו?</h4>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>מה ה-AI עשה:</strong> הוא ביצע חישוב איטרטיבי — חודש אחרי חודש, הוא חישב הכנסות, הוצאות, ויתרת מזומנים. זה חישוב פשוט מבחינה מתמטית, אבל מייגע ומועד לטעויות כשעושים אותו ידנית ל-24 חודשים ול-5 תרחישים (= 120 שורות חישוב).
+                </p>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>התובנה המפתיעה:</strong> ברוב המקרים, AI מגלה שקיצוץ הוצאות "קונה" יותר חודשי הישרדות מאשר ניסיון להגדיל הכנסות — במיוחד בזמן משבר. הסיבה: הכנסות הן לא ודאיות (אולי לא תצליחו להגדיל אותן), אבל קיצוץ הוצאות הוא בשליטה שלכם.
+                </p>
+                <p class="text-sm text-slate-700 mb-3">
+                    <strong>מגבלות:</strong> ה-AI מניח הנחות ליניאריות פשוטות. במציאות, קיצוץ של 30% בשכר יגרום לעזיבת עובדים מפתח, מה שיפגע ביכולת לייצר הכנסות. ה-AI לא "חושב" על אפקטים מסדר שני כאלה — אלא אם תבקשו ממנו מפורשות.
+                </p>
+                <p class="text-sm text-slate-700">
+                    <strong>שימוש בכלי חינמי:</strong> הקייס הזה עובד מצוין בגרסה חינמית, כי כל הנתונים ניתנים בפרומפט עצמו (אין צורך בהעלאת קובץ). אפשר לתרגל אותו עכשיו.
+                </p>
+            </div>
+
+            <div class="exercise-box">
+                <h4>🎯 תרגיל מעשי 4: בנו תרחיש משלכם</h4>
+                <p class="text-sm text-slate-700">
+                    שנו את המספרים בפרומפט כך שיתאימו לחברה (אמיתית או דמיונית) שאתם מכירים. נסו להוסיף תרחיש שישי משלכם — למשל "מה קורה אם לקוח מרכזי עוזב ו-30% מההכנסות נעלמות בחודש?" הריצו ובדקו את התוצאות.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ========== SECTION 6: DCF MASTERCLASS ========== -->
+<section id="s6" class="scroll-mt-28">
+    <span class="time-badge bg-[var(--clr-accent)]">02:50 – 03:20</span>
+    <h2 class="text-4xl font-black text-slate-800 mb-8">6. Masterclass: הערכת שווי בשיטת DCF</h2>
+
+    <h3 class="text-2xl font-bold text-slate-800 mb-4">6.1 מה זה DCF ולמה זו "השיטה המקצועית"?</h3>
+
+    <div class="concept-box">
+        <h4>📖 DCF — Discounted Cash Flow (תזרים מזומנים מהוון)</h4>
+        <p class="text-slate-700 text-sm mb-3">
+            DCF היא שיטת הערכת שווי שנחשבת ל"סטנדרט הזהב" בעולם הפיננסי. הרעיון המרכזי: <strong>שווי של חברה נקבע לפי כמות המזומנים שהיא תייצר בעתיד, מהוונת (מוזלת) להיום.</strong>
+        </p>
+        <p class="text-slate-700 text-sm mb-3">
+            למה "מהוונת"? בגלל עיקרון <strong>ערך הזמן של הכסף</strong>: 1,000₪ שאקבל היום שווים יותר מ-1,000₪ שאקבל בעוד 5 שנים. למה? כי את ה-1,000₪ של היום אני יכול להשקיע ולקבל ריבית. בנוסף, יש סיכון שלא אקבל את הכסף בעתיד. בנוסף, יש אינפלציה שמכרסמת בערך הכסף.
+        </p>
+        <p class="text-slate-700 text-sm">
+            <strong>דוגמה פשוטה:</strong> אם מישהו מבטיח לתת לי 1,000₪ בעוד שנה, ושיעור ההיוון הוא 10%, אז הערך של ההבטחה הזו היום הוא: 1,000 ÷ 1.10 = 909₪. זהו ה"ערך הנוכחי" (Present Value) של 1,000₪ בעוד שנה.
+        </p>
+    </div>
+
+    <h3 class="text-2xl font-bold text-slate-800 mt-10 mb-4">6.2 הצעדים לבניית מודל DCF</h3>
+
+    <p class="text-lg text-slate-700 mb-6 leading-relaxed">
+        בניית מודל DCF כוללת חמישה שלבים. בואו נעבור עליהם אחד-אחד, ואחר כך נבקש מה-AI לבנות את המודל המלא.
+    </p>
+
+    <p class="text-lg text-slate-700 mb-3">
+        <strong>שלב 1 — חיזוי תזרים המזומנים החופשי (Free Cash Flow / FCF):</strong>
+        FCF = רווח תפעולי × (1 - שיעור מס) + פחת והפחתות - השקעות הוניות (CapEx) - שינוי בהון חוזר. אנחנו חוזים את ה-FCF ל-5 שנים קדימה, בדרך כלל על בסיס שיעורי הצמיחה ההיסטוריים של החברה.
+    </p>
+    <p class="text-lg text-slate-700 mb-3">
+        <strong>שלב 2 — קביעת שיעור ההיוון (WACC):</strong>
+        WACC = Weighted Average Cost of Capital = עלות ההון המשוקללת. זהו "המחיר" שהחברה משלמת עבור הכסף שלה — שקלול של עלות החוב (ריבית על הלוואות) ועלות ההון העצמי (התשואה שהמשקיעים דורשים). שיעור טיפוסי: 8%-12%.
+    </p>
+    <p class="text-lg text-slate-700 mb-3">
+        <strong>שלב 3 — חישוב ערך שארית (Terminal Value):</strong>
+        מה קורה אחרי 5 שנים? אנחנו מניחים שהחברה ממשיכה לייצר מזומנים "לנצח" בקצב צמיחה קבוע ונמוך (בדרך כלל 2%-3% — קצב צמיחת הכלכלה). הנוסחה: TV = FCF של שנה 6 ÷ (WACC - שיעור צמיחה). הערך הזה בדרך כלל מהווה 60%-80% מהשווי הכולל — מה שמראה כמה רגיש המודל להנחות ארוכות טווח.
+    </p>
+    <p class="text-lg text-slate-700 mb-3">
+        <strong>שלב 4 — היוון לערך נוכחי:</strong>
+        לוקחים כל FCF שנתי ואת ה-Terminal Value, ומחלקים ב-(1+WACC)^n, כאשר n = מספר השנים. סוכמים הכל ומקבלים את שווי הפעילות (Enterprise Value).
+    </p>
+    <p class="text-lg text-slate-700 mb-6">
+        <strong>שלב 5 — ממומן (Enterprise Value) לשווי מניה:</strong>
+        שווי ההון = Enterprise Value - חוב נטו + מזומן. שווי מניה = שווי ההון ÷ מספר מניות.
+    </p>
+
+    <div class="warning-box">
+        <h4>🚨 "אשליית הדיוק" — האזהרה הכי חשובה במדריך הזה</h4>
+        <p class="text-sm text-slate-700 mb-3">
+            DCF ייתן לכם מספר שנראה מדויק מאוד — למשל: "שווי החברה: 142,537,000 דולר". זה מספר עם שש ספרות. אבל הוא מבוסס על הנחות שכולן אומדנים: שיעור צמיחה של 5% (למה לא 4% או 6%?), WACC של 10% (למה לא 9% או 11%?), צמיחה לנצח של 2% (למה לא 3%?).
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            נסיון: אם תשנו את ה-WACC מ-10% ל-11% — שווי החברה עשוי לצנוח ב-15%-20%. אם תשנו את שיעור הצמיחה מ-5% ל-3% — השווי ירד ב-25%. ההנחות משפיעות יותר מהנתונים.
+        </p>
+        <p class="text-sm text-slate-700">
+            <strong>הכלל:</strong> ה-AI הוא מחשבון משוכלל שמבצע את ה"מכניקה" של DCF. אתם הפרשנים שצריכים לקבוע אם ההנחות הגיוניות. אל תציגו לדירקטוריון מספר בודד — הציגו טווח. אל תגידו "החברה שווה 142M" — תגידו "בתרחיש סביר: 120M-165M".
+        </p>
+    </div>
+
+    <!-- CASE 5 -->
+    <div id="case5" class="case-study mt-14 scroll-mt-28">
+        <div class="case-header bg-[#0f172a]" style="border-bottom:4px solid var(--clr-highlight);">קייס 5: בניית מודל DCF מלא</div>
+        <div class="case-body bg-[#0f172a] text-slate-200">
+
+            <h4 class="font-bold text-lg text-blue-300 mb-3">הסיטואציה</h4>
+            <p class="text-slate-300 mb-6">
+                אתם חלק מצוות M&A (מיזוגים ורכישות) שבוחן רכישה של "חברת יעד" (Target Company X). המנהלים רוצים לדעת: "כמה החברה שווה?" יש לכם נתונים היסטוריים של 3 שנים.
+            </p>
+
+            <h4 class="font-bold text-lg text-blue-300 mb-3">הפרומפט</h4>
+            <div class="prompt-box" style="background:#000; border-color:#60a5fa;">
+Role: Senior M&A Analyst at an investment bank.
+
+Task: Build a complete 5-year DCF model for 
+"Target Company X" based on the following historical 
+data:
+
+Historical Data ($ millions):
+Year          |  2023   |  2024   |  2025
+Revenue       |  180    |  210    |  245
+EBITDA        |  36     |  46     |  55
+EBITDA Margin |  20%    |  22%    |  22.4%
+CapEx         |  12     |  14     |  16
+D&A           |  8      |  9      |  10
+Working Cap Δ |  +3     |  +4     |  +5
+Tax Rate      |  23%    |  23%    |  23%
+
+Assumptions for the model:
+- Revenue growth: 12% in Year 1, declining by 2pp each 
+  year (i.e., 12%, 10%, 8%, 6%, 4%)
+- EBITDA Margin: stable at 22%
+- CapEx: 6.5% of Revenue
+- D&A: 4% of Revenue
+- Working Capital increase: 2% of Revenue growth
+- WACC: 10%
+- Terminal Growth Rate: 2.5%
+- Net Debt: $30M
+- Shares Outstanding: 10M
+
+Step-by-step deliverables:
+
+1. PROJECTED INCOME (Year 1-5): Revenue, EBITDA, EBIT, 
+   Tax, NOPAT (Net Operating Profit After Tax).
+
+2. FREE CASH FLOW (Year 1-5): NOPAT + D&A - CapEx 
+   - Working Capital Change.
+
+3. TERMINAL VALUE: Using Gordon Growth Model.
+
+4. PRESENT VALUE: Discount each year's FCF and Terminal 
+   Value at WACC.
+
+5. ENTERPRISE VALUE: Sum of all discounted cash flows.
+
+6. EQUITY VALUE: Enterprise Value - Net Debt.
+
+7. IMPLIED SHARE PRICE: Equity Value / Shares Outstanding.
+
+8. SENSITIVITY TABLE: Show how the implied share price 
+   changes when WACC varies from 8% to 12% (in 0.5% 
+   steps) and Terminal Growth varies from 1.5% to 3.5% 
+   (in 0.5% steps).
+
+9. Write a 1-paragraph conclusion: What is your 
+   recommended valuation range? What are the key 
+   assumptions that the buyer should validate?
+
+Show ALL formulas and intermediate calculations.
+            </div>
+
+            <div class="ped-summary" style="background:linear-gradient(135deg,#1e293b,#334155); border-color:#475569;">
+                <h4 class="text-blue-300" style="border-color:#475569;">👨‍🏫 סיכום פדגוגי: DCF עם AI — מה למדנו?</h4>
+                <p class="text-sm text-slate-300 mb-3">
+                    <strong>מה ה-AI מייצר:</strong> מודל DCF מלא עם כל הטבלאות, הנוסחאות, וטבלת רגישות. אם הייתם בונים את זה ידנית באקסל — זה היה לוקח 2-3 שעות. עם AI — 3-5 דקות. החיסכון הוא עצום.
+                </p>
+                <p class="text-sm text-slate-300 mb-3">
+                    <strong>מה חייבים לבדוק:</strong> (א) שהנוסחאות נכונות — בדקו ידנית שורה אחת לפחות. (ב) שה-AI לא שינה הנחות בלי לספר לכם. (ג) שה-Terminal Value לא מופרע — אם הוא מהווה יותר מ-80% מהשווי, ההנחות ארוכות הטווח שולטות במודל וצריך להיות מאוד זהירים. (ד) שהמספרים הגיוניים — אם השווי למניה יוצא $3,000 כשהמניה נסחרת ב-$30, כנראה יש טעות.
+                </p>
+                <p class="text-sm text-slate-300 mb-3">
+                    <strong>טבלת הרגישות:</strong> זהו הכלי הכי חשוב בפלט. היא מראה כמה השווי רגיש לשינויים קטנים בהנחות. הציגו אותה לדירקטוריון — היא מראה שאין תשובה אחת, יש טווח.
+                </p>
+                <p class="text-sm text-slate-300">
+                    <strong>מגבלות כלי חינמי:</strong> הקייס הזה עובד בגרסה חינמית כי כל הנתונים בפרומפט. אבל: אם תרצו ש-AI ירוץ על נתונים היסטוריים אמיתיים מתוך קובץ אקסל — תצטרכו להעלות קובץ (מוגבל בחינמי) או להשתמש במערכת ארגונית.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>🎯 תרגיל מעשי 5: בדקו את ה-AI</h4>
+        <p class="text-sm text-slate-700">
+            הריצו את פרומפט ה-DCF. קחו את ה-FCF של שנה 1 שה-AI חישב, ובדקו אותו ידנית: Revenue × EBITDA Margin = EBITDA. EBITDA - D&A = EBIT. EBIT × (1-Tax) = NOPAT. NOPAT + D&A - CapEx - WC Change = FCF. האם קיבלתם את אותו מספר? אם לא — מצאתם "הזיה" (hallucination).
+        </p>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ========== SECTION 7: WRAP-UP ========== -->
+<section id="s7" class="scroll-mt-28">
+    <span class="time-badge">03:10 – 03:20</span>
+    <h2 class="text-4xl font-black text-slate-800 mb-8">7. סיכום, כללי אצבע, וצעדים הבאים</h2>
+
+    <h3 class="text-2xl font-bold text-slate-800 mb-4">7.1 עשרה כללי אצבע לעבודה עם AI בפיננסים</h3>
+
+    <div class="bg-white p-8 rounded-2xl border-2 border-slate-200 shadow-md mb-10">
+        <p class="text-slate-700 mb-4"><span class="step-num">1</span> <strong>נתונים פנימה — בדיקה החוצה.</strong> תמיד תנו ל-AI נתונים ממקור רשמי. תמיד בדקו את הפלט מול המקור.</p>
+        <p class="text-slate-700 mb-4"><span class="step-num">2</span> <strong>פרומפט מפורט = תשובה טובה.</strong> ככל שההוראות ברורות יותר — התוצאה מדויקת יותר. אל תכתבו "נתח את החברה". כתבו מה בדיוק אתם רוצים.</p>
+        <p class="text-slate-700 mb-4"><span class="step-num">3</span> <strong>בקשו נוסחאות.</strong> כשה-AI מציג מספר — בקשו ממנו להראות את החישוב. ככה אפשר לבדוק.</p>
+        <p class="text-slate-700 mb-4"><span class="step-num">4</span> <strong>אל תסמכו על מספרים "מהזיכרון".</strong> אם לא נתתם ל-AI קובץ — אל תסמכו על מספרים שהוא מציג. הם עלולים להיות הזיות.</p>
+        <p class="text-slate-700 mb-4"><span class="step-num">5</span> <strong>חינמי = ציבורי בלבד.</strong> לעולם אל תעלו נתונים סודיים לכלי AI חינמי.</p>
+        <p class="text-slate-700 mb-4"><span class="step-num">6</span> <strong>הציגו טווח, לא מספר.</strong> בכל הערכת שווי, הציגו טווח ולא ערך בודד. השתמשו בטבלת רגישות.</p>
+        <p class="text-slate-700 mb-4"><span class="step-num">7</span> <strong>ציינו את התקן.</strong> כשמשווים חברות — ציינו אם זה IFRS או US GAAP. ה-AI לא תמיד יבחין.</p>
+        <p class="text-slate-700 mb-4"><span class="step-num">8</span> <strong>עברית vs. אנגלית.</strong> לדוחות ישראליים — שקלו לתת הוראות באנגלית ולקבל תשובה באנגלית. התוצאות בדרך כלל מדויקות יותר.</p>
+        <p class="text-slate-700 mb-4"><span class="step-num">9</span> <strong>בקשו "אל תנחש".</strong> הוסיפו תמיד בפרומפט: "If data is not available, say so — do not estimate."</p>
+        <p class="text-slate-700"><span class="step-num">10</span> <strong>ה-AI הוא כלי — אתם המומחים.</strong> ה-AI חוסך שעות של עבודה מכנית. אבל ההבנה העסקית, הפרשנות, ואחריות ההחלטות — תמיד שלכם.</p>
+    </div>
+
+    <h3 class="text-2xl font-bold text-slate-800 mt-12 mb-4">7.2 סיכום: חינמי מול ארגוני — מתי להשתמש במה?</h3>
+
+    <table>
+        <tr><th>משימה</th><th>כלי חינמי ☑️</th><th>כלי ארגוני ☑️</th></tr>
+        <tr><td>ניתוח דוח שנתי ציבורי (בורסה)</td><td>✅ מתאים</td><td>✅ מתאים</td></tr>
+        <tr><td>לימוד מושגים פיננסיים</td><td>✅ מצוין לזה</td><td>✅ מתאים</td></tr>
+        <tr><td>ניתוח תקציב פנימי של החברה</td><td>❌ אסור (נתונים סודיים)</td><td>✅ מתאים</td></tr>
+        <tr><td>PVM על נתוני מכירות פנימיים</td><td>❌ אסור</td><td>✅ מתאים</td></tr>
+        <tr><td>מודל DCF עם נתונים ציבוריים</td><td>✅ מתאים</td><td>✅ מתאים</td></tr>
+        <tr><td>מודל DCF עם נתונים פנימיים</td><td>❌ אסור</td><td>✅ מתאים</td></tr>
+        <tr><td>דוח לדירקטוריון עם נתוני שכר</td><td>❌ אסור</td><td>✅ מתאים</td></tr>
+        <tr><td>תרגיל אקדמי / לימודי</td><td>✅ מצוין</td><td>מיותר</td></tr>
+    </table>
+
+    <h3 class="text-2xl font-bold text-slate-800 mt-12 mb-4">7.3 צעדים הבאים: מה לעשות אחרי השיעור</h3>
+
+    <div class="tip-box">
+        <h4>💡 תוכנית פעולה אישית — שבוע אחרי ההרצאה</h4>
+        <p class="text-sm text-slate-700 mb-3">
+            <strong>יום 1-2:</strong> פתחו חשבון Claude (claude.ai) אם עדיין לא. הריצו את תרגיל 1 (מושגי יסוד) ותרגיל 2 (ניתוח חברה ישראלית). תרגלו כתיבת פרומפטים ברורים.
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            <strong>יום 3-4:</strong> הורידו דוח 10-K של חברה שמעניינת אתכם מ-EDGAR. הריצו את הפרומפט של קייס 2 (אפל) על החברה שבחרתם. בדקו את התוצאות.
+        </p>
+        <p class="text-sm text-slate-700 mb-3">
+            <strong>יום 5-6:</strong> הריצו את פרומפט ה-DCF (קייס 5) עם נתונים ציבוריים. בדקו ידנית חישוב אחד. נסו לשנות את ה-WACC ולראות איך זה משפיע.
+        </p>
+        <p class="text-sm text-slate-700">
+            <strong>יום 7:</strong> דברו עם ה-IT בארגון שלכם על אפשרות לעבוד עם כלי AI ארגוני. הכינו רשימה של 3 משימות שאתם עושים ידנית ושאפשר לייעל עם AI.
+        </p>
+    </div>
+
+    <div class="concept-box">
+        <h4>📖 משפט סיום</h4>
+        <p class="text-slate-700 text-sm">
+            הבינה המלאכותית לא הולכת להחליף מנהלי כספים. אבל מנהלי כספים שמשתמשים ב-AI ביעילות הולכים להחליף את אלה שלא. המיומנות החדשה היא לא "לדעת לתכנת" — אלא <strong>לדעת לשאול את השאלה הנכונה, לספק נתונים נקיים, ולבדוק את התוצאות באופן ביקורתי.</strong> אלה מיומנויות שכבר יש לכם — רק צריך להפנות אותן לכיוון חדש.
+        </p>
+    </div>
+</section>
+
+</main>
+</div>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="bg-[#0f172a] text-slate-400 py-14 mt-28 border-t-[6px] border-[var(--clr-highlight)] text-center">
+    <div class="max-w-4xl mx-auto px-4">
+        <h4 class="text-white text-xl font-black mb-2">ד"ר שי צבאן</h4>
+        <p class="text-md">בית הספר ללימודי תעודה — אוניברסיטת בר-אילן — 2026</p>
+        <p class="mt-5 text-sm opacity-60 italic leading-relaxed max-w-2xl mx-auto">
+            "הבינה המלאכותית לא תחליף את סמנכ"ל הכספים, אבל סמנכ"ל כספים שמשתמש ב-AI יחליף את זה שלא."
+        </p>
+        <p class="mt-8 text-xs opacity-40">מדריך זה נועד למטרות לימוד בלבד. אין לראות בתוכנו ייעוץ השקעות או ייעוץ מקצועי.</p>
+    </div>
+</footer>
+
+<script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
+</body>
+</html>
