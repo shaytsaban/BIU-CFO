@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>שיעור תרגול — ניתוח פיננסי עם AI | ד״ר שי צבאן</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --surface2: #eef1f8;
+  --surface3: #dfe4ef;
+  --border: #d0d6e5;
+  --text: #1b2340;
+  --text2: #4a5270;
+  --text3: #7c839e;
+  --accent: #1d4ed8;
+  --accent-light: #eef2ff;
+  --accent-mid: #bfdbfe;
+  --accent2: #7c3aed;
+  --accent2-light: #f5f3ff;
+  --green: #059669;
+  --green-light: #ecfdf5;
+  --green-border: #a7f3d0;
+  --orange: #d97706;
+  --orange-light: #fffbeb;
+  --orange-border: #fde68a;
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --red-border: #fecaca;
+  --cyan: #0891b2;
+  --cyan-light: #ecfeff;
+  --cyan-border: #a5f3fc;
+  --warm: #92400e;
+  --warm-light: #fef3c7;
+  --chatgpt: #10a37f;
+  --claude: #c4956a;
+  --perplexity: #1a8fa8;
+  --deepseek: #2563eb;
+  --gemini: #7c3aed;
+  --grok: #1472b0;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.07);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.09);
+  --radius: 14px;
+  --radius-sm: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family:'Heebo',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.9;
+  font-size:15.5px;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ─── PROGRESS ─── */
+.progress-track { position:fixed; top:0; left:0; right:0; height:4px; z-index:1000; background:var(--border); }
+.progress-fill { height:100%; width:0%; border-radius:0 0 3px 3px; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width 0.12s linear; }
+
+/* ─── TOP NAV ─── */
+.topnav {
+  position:sticky; top:0; z-index:999;
+  background:rgba(255,255,255,0.92); backdrop-filter:blur(14px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  padding:0 16px; overflow-x:auto;
+  display:flex; justify-content:center;
+}
+.topnav::-webkit-scrollbar { height:0; }
+.topnav-inner { display:flex; gap:2px; padding:6px 0; max-width:1100px; width:100%; justify-content:center; }
+.topnav a {
+  display:flex; align-items:center; gap:4px;
+  padding:7px 12px; border-radius:8px;
+  font-size:12px; font-weight:500; color:var(--text3);
+  text-decoration:none; white-space:nowrap;
+  transition:all 0.2s; border:1px solid transparent;
+}
+.topnav a:hover { background:var(--accent-light); color:var(--accent); }
+.topnav a.active { background:var(--accent-light); color:var(--accent); border-color:var(--accent-mid); font-weight:600; }
+
+/* ─── CONTAINER ─── */
+.container { max-width:880px; margin:0 auto; padding:0 24px; }
+
+/* ─── HERO ─── */
+.hero {
+  min-height:78vh; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(160deg,#e8eeff 0%,#fdfbf7 40%,#f0ebff 100%);
+  position:relative; overflow:hidden;
+}
+.hero-pattern {
+  position:absolute; inset:0; opacity:0.35;
+  background-image:radial-gradient(circle at 1px 1px,var(--border) 1px,transparent 0);
+  background-size:28px 28px;
+}
+.hero-blob { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.15; }
+.hero-blob-1 { width:450px; height:450px; background:#1d4ed8; top:-100px; right:-60px; }
+.hero-blob-2 { width:350px; height:350px; background:#7c3aed; bottom:-80px; left:-40px; }
+.hero-inner { position:relative; z-index:1; text-align:center; max-width:780px; padding:40px 24px; }
+.hero-chip {
+  display:inline-flex; align-items:center; gap:6px;
+  background:white; border:1px solid var(--border);
+  padding:6px 16px; border-radius:100px;
+  font-size:13px; font-weight:600; color:var(--accent2);
+  box-shadow:var(--shadow-sm); margin-bottom:24px;
+}
+.hero h1 {
+  font-family:'Rubik',sans-serif;
+  font-size:clamp(28px,5vw,48px);
+  font-weight:800; line-height:1.2;
+  color:var(--text); margin-bottom:16px;
+}
+.hero h1 em { font-style:normal; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.hero-sub { font-size:16px; color:var(--text2); max-width:640px; margin:0 auto 24px; line-height:1.75; }
+.hero-meta { font-size:13.5px; color:var(--text3); }
+.hero-meta strong { color:var(--text2); }
+
+/* ─── SECTION ─── */
+.section { padding:64px 0 52px; }
+.section + .section { border-top:1px solid var(--border); }
+.section-chip {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--accent-light); color:var(--accent);
+  padding:5px 14px; border-radius:8px;
+  font-size:12px; font-weight:700; margin-bottom:14px;
+  letter-spacing:0.2px;
+}
+.section h2 {
+  font-family:'Rubik',sans-serif;
+  font-size:clamp(22px,3vw,32px);
+  font-weight:700; color:var(--text);
+  margin-bottom:8px; line-height:1.3;
+}
+.section-lead { font-size:15px; color:var(--text2); max-width:720px; margin-bottom:32px; line-height:1.85; }
+.section h3 {
+  font-family:'Rubik',sans-serif;
+  font-size:18px; font-weight:700;
+  color:var(--text); margin:38px 0 12px;
+  display:flex; align-items:center; gap:10px;
+}
+.h3-num {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:28px; height:28px; border-radius:8px;
+  background:var(--accent-light); color:var(--accent);
+  font-size:13px; font-weight:700; flex-shrink:0;
+}
+
+/* ─── CALLOUT BOXES ─── */
+.box { border-radius:var(--radius-sm); padding:22px 26px; margin:18px 0; border:1px solid; border-right-width:5px; }
+.box-label { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+.box p, .box li { font-size:14px; line-height:1.85; }
+.box-blue { background:var(--accent-light); border-color:var(--accent-mid); }
+.box-blue .box-label { color:var(--accent); }
+.box-green { background:var(--green-light); border-color:var(--green-border); }
+.box-green .box-label { color:var(--green); }
+.box-orange { background:var(--orange-light); border-color:var(--orange-border); }
+.box-orange .box-label { color:var(--orange); }
+.box-red { background:var(--red-light); border-color:var(--red-border); }
+.box-red .box-label { color:var(--red); }
+.box-cyan { background:var(--cyan-light); border-color:var(--cyan-border); }
+.box-cyan .box-label { color:var(--cyan); }
+.box-purple { background:var(--accent2-light); border-color:#d8b4fe; }
+.box-purple .box-label { color:var(--accent2); }
+
+/* ─── ASK BOX ─── */
+.ask-box {
+  background:linear-gradient(135deg,#fef3c7,#fef9c3);
+  border:2px dashed #fbbf24; border-radius:var(--radius);
+  padding:20px 26px; margin:24px 0; text-align:center;
+}
+.ask-box p { color:#92400e; font-size:15px; font-weight:600; line-height:1.7; }
+
+/* ─── DEFINITION ─── */
+.defn {
+  background:var(--cyan-light); border:1px solid var(--cyan-border);
+  border-radius:var(--radius-sm); padding:18px 22px; margin:14px 0;
+}
+.defn-term { font-family:'Rubik',sans-serif; font-weight:700; font-size:15px; color:var(--cyan); margin-bottom:3px; }
+.defn-formula {
+  font-family:'IBM Plex Mono',monospace; font-size:13.5px;
+  color:#155e75; margin:6px 0; direction:ltr; text-align:left;
+  background:rgba(255,255,255,0.6); padding:6px 12px; border-radius:6px;
+  display:inline-block;
+}
+.defn-body { font-size:13.5px; color:#164e63; line-height:1.8; }
+.defn-body em { font-style:normal; color:var(--cyan); font-weight:600; }
+
+/* ─── PROMPT ─── */
+.prompt-why {
+  background:var(--green-light); border:1px solid var(--green-border);
+  border-radius:var(--radius-sm) var(--radius-sm) 0 0;
+  padding:14px 20px; font-size:13px; color:#065f46; line-height:1.7;
+}
+.prompt-why strong { color:#047857; }
+.prompt-block {
+  background:#1e293b; border:1px solid #334155;
+  border-radius:0 0 var(--radius-sm) var(--radius-sm);
+  padding:22px; margin-bottom:16px; position:relative; overflow:hidden;
+}
+.prompt-block.standalone { border-radius:var(--radius-sm); }
+.prompt-block::before {
+  content:'PROMPT'; position:absolute; top:10px; left:14px;
+  background:var(--accent); color:white; font-size:9px; font-weight:700;
+  padding:2px 8px; border-radius:4px; letter-spacing:1.5px;
+}
+.prompt-block code {
+  display:block; font-family:'IBM Plex Mono',monospace;
+  font-size:13px; line-height:1.85; color:#a5f3fc;
+  white-space:pre-wrap; direction:ltr; text-align:left;
+}
+.prompt-he code { direction:rtl; text-align:right; color:#bfdbfe; }
+
+/* ─── EXERCISE ─── */
+.exercise {
+  background:white; border:2px solid var(--green-border);
+  border-radius:var(--radius); padding:24px; margin:22px 0;
+  box-shadow:var(--shadow-sm);
+}
+.exercise-tag {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:12px; font-weight:700; color:var(--green);
+  text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;
+}
+
+/* ─── BADGE ─── */
+.badge {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:3px 10px; border-radius:6px;
+  font-size:11.5px; font-weight:600; border:1px solid;
+}
+.badge-chatgpt { background:#ecfdf5; color:var(--chatgpt); border-color:#a7f3d0; }
+.badge-claude { background:#fef7ee; color:var(--claude); border-color:#f5d0a9; }
+.badge-perplexity { background:#ecfeff; color:var(--perplexity); border-color:#a5f3fc; }
+.badge-deepseek { background:#eff4ff; color:var(--deepseek); border-color:#bfdbfe; }
+.badges { display:flex; gap:6px; flex-wrap:wrap; margin:8px 0; }
+
+/* ─── TABLE ─── */
+.tbl-wrap {
+  background:white; border:1px solid var(--border); border-radius:var(--radius);
+  overflow-x:auto; box-shadow:var(--shadow-sm); margin:16px 0;
+}
+.tbl { width:100%; border-collapse:collapse; font-size:13.5px; }
+.tbl th {
+  background:var(--surface2); padding:12px 16px; text-align:right;
+  font-weight:600; color:var(--text); border-bottom:2px solid var(--border);
+  font-size:12.5px; letter-spacing:0.3px;
+}
+.tbl td { padding:11px 16px; border-bottom:1px solid var(--border); color:var(--text2); }
+.tbl tr:last-child td { border-bottom:none; }
+.tbl tr:hover td { background:var(--accent-light); }
+
+/* ─── STEP ─── */
+.step { display:flex; gap:14px; margin:16px 0; align-items:flex-start; }
+.step-n {
+  width:32px; height:32px; border-radius:50%;
+  background:var(--accent); color:white;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Rubik',sans-serif; font-weight:700;
+  font-size:14px; flex-shrink:0;
+  box-shadow:0 2px 6px rgba(29,78,216,0.25);
+}
+.step-body { flex:1; }
+.step-body h4 { font-weight:600; color:var(--text); margin-bottom:2px; font-size:15px; }
+.step-body p { color:var(--text2); font-size:13.5px; }
+
+/* ─── CARD ─── */
+.card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:22px;
+  box-shadow:var(--shadow-sm); margin-bottom:14px;
+}
+.card-title { font-family:'Rubik',sans-serif; font-weight:600; font-size:15.5px; color:var(--text); margin-bottom:6px; }
+
+/* ─── GRID ─── */
+.grid-2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; }
+.grid-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+
+/* ─── PITFALL ─── */
+.pitfall {
+  background:#fff5f5; border:1px solid var(--red-border); border-right:4px solid var(--red);
+  border-radius:var(--radius-sm); padding:16px 20px; margin:12px 0;
+}
+.pitfall-label { font-size:12px; font-weight:700; color:var(--red); margin-bottom:4px; }
+.pitfall p { font-size:13.5px; color:#991b1b; line-height:1.75; }
+.pitfall strong { color:#7f1d1d; }
+
+/* ─── BREAK ─── */
+.break-section {
+  text-align:center; padding:36px 24px;
+  background:linear-gradient(135deg,var(--surface2) 0%,var(--accent-light) 100%);
+}
+
+/* ─── FOOTER ─── */
+.footer { text-align:center; padding:44px 24px 28px; border-top:1px solid var(--border); }
+
+/* ═════════════════════════════════════════
+   FLOWCHART / DIAGRAM SYSTEM
+   ═════════════════════════════════════════ */
+
+/* ── Horizontal Flow ── */
+.hflow {
+  display:flex; align-items:center; justify-content:center;
+  gap:0; flex-wrap:wrap; margin:24px 0; padding:18px;
+  background:white; border:1px solid var(--border);
+  border-radius:var(--radius); box-shadow:var(--shadow-sm);
+}
+.hflow-node {
+  background:var(--surface2); border:2px solid var(--border);
+  border-radius:12px; padding:12px 18px; text-align:center;
+  font-size:13px; font-weight:500; color:var(--text);
+  min-width:120px; position:relative;
+  transition:all 0.2s;
+}
+.hflow-node:hover { border-color:var(--accent); box-shadow:var(--shadow-md); }
+.hflow-node small { display:block; font-size:11px; color:var(--text3); margin-top:2px; font-weight:400; }
+.hflow-node .node-icon { font-size:22px; display:block; margin-bottom:4px; }
+.hflow-arrow {
+  color:var(--accent); font-size:20px; padding:0 8px; font-weight:700;
+  transform:scaleX(-1); flex-shrink:0;
+}
+.hflow-node.node-accent { background:var(--accent-light); border-color:var(--accent-mid); }
+.hflow-node.node-green { background:var(--green-light); border-color:var(--green-border); }
+.hflow-node.node-red { background:var(--red-light); border-color:var(--red-border); }
+.hflow-node.node-orange { background:var(--orange-light); border-color:var(--orange-border); }
+.hflow-node.node-purple { background:var(--accent2-light); border-color:#d8b4fe; }
+.hflow-node.node-cyan { background:var(--cyan-light); border-color:var(--cyan-border); }
+
+/* ── Vertical Flow ── */
+.vflow {
+  display:flex; flex-direction:column; align-items:center;
+  gap:0; margin:24px auto; max-width:420px;
+  background:white; border:1px solid var(--border);
+  border-radius:var(--radius); padding:24px 20px;
+  box-shadow:var(--shadow-sm);
+}
+.vflow-title {
+  font-family:'Rubik',sans-serif; font-weight:700; font-size:14px;
+  color:var(--accent); text-transform:uppercase; letter-spacing:0.5px;
+  margin-bottom:14px; text-align:center;
+}
+.vflow-node {
+  background:var(--surface2); border:2px solid var(--border);
+  border-radius:12px; padding:12px 22px; text-align:center;
+  font-size:13.5px; font-weight:500; color:var(--text);
+  width:100%; max-width:340px; transition:all 0.2s;
+}
+.vflow-node:hover { border-color:var(--accent); }
+.vflow-node small { display:block; font-size:11px; color:var(--text3); font-weight:400; }
+.vflow-arrow-down {
+  color:var(--accent); font-size:22px; line-height:1; padding:4px 0;
+}
+.vflow-node.node-accent { background:var(--accent-light); border-color:var(--accent-mid); }
+.vflow-node.node-green { background:var(--green-light); border-color:var(--green-border); }
+.vflow-node.node-red { background:var(--red-light); border-color:var(--red-border); }
+
+/* ── Decision Tree ── */
+.dtree {
+  background:white; border:1px solid var(--border);
+  border-radius:var(--radius); padding:24px;
+  box-shadow:var(--shadow-sm); margin:24px 0;
+}
+.dtree-title {
+  font-family:'Rubik',sans-serif; font-weight:700; font-size:15px;
+  color:var(--text); margin-bottom:16px; text-align:center;
+}
+.dtree-q {
+  background:var(--accent-light); border:2px solid var(--accent-mid);
+  border-radius:50px; padding:10px 24px; text-align:center;
+  font-weight:600; font-size:14px; color:var(--accent);
+  max-width:400px; margin:0 auto 12px;
+}
+.dtree-branches { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.dtree-branch {
+  flex:1; min-width:180px; max-width:260px;
+  border:2px solid var(--border); border-radius:var(--radius-sm);
+  padding:16px; text-align:center; transition:all 0.2s;
+}
+.dtree-branch:hover { box-shadow:var(--shadow-md); }
+.dtree-branch-label {
+  display:inline-block; font-size:11px; font-weight:700; color:white;
+  padding:2px 10px; border-radius:6px; margin-bottom:8px;
+}
+.dtree-branch-label.yes { background:var(--green); }
+.dtree-branch-label.no { background:var(--red); }
+.dtree-branch-label.maybe { background:var(--orange); }
+.dtree-branch p { font-size:12.5px; color:var(--text2); line-height:1.6; }
+.dtree-branch .dtree-result {
+  margin-top:8px; padding:6px 12px; border-radius:8px;
+  font-size:12px; font-weight:700;
+}
+.dtree-result.use-perplexity { background:#ecfeff; color:var(--perplexity); }
+.dtree-result.use-chatgpt { background:#ecfdf5; color:var(--chatgpt); }
+.dtree-result.use-claude { background:#fef7ee; color:var(--claude); }
+.dtree-result.use-deepseek { background:#eff4ff; color:var(--deepseek); }
+
+/* ── Comparison Bar ── */
+.compare-visual {
+  background:white; border:1px solid var(--border);
+  border-radius:var(--radius); padding:24px; margin:24px 0;
+  box-shadow:var(--shadow-sm);
+}
+.compare-visual-title {
+  font-family:'Rubik',sans-serif; font-weight:700; font-size:15px;
+  color:var(--text); margin-bottom:16px; text-align:center;
+}
+.compare-row {
+  display:flex; align-items:center; gap:12px; margin:10px 0;
+  padding:10px 14px; border-radius:10px; background:var(--surface2);
+}
+.compare-label {
+  width:90px; font-size:12px; font-weight:600; color:var(--text);
+  text-align:right; flex-shrink:0;
+}
+.compare-bars { flex:1; display:flex; gap:4px; align-items:center; }
+.compare-bar {
+  height:28px; border-radius:6px; display:flex;
+  align-items:center; justify-content:center;
+  font-size:10px; font-weight:700; color:white;
+  min-width:40px; transition:all 0.3s;
+}
+.compare-bar:hover { filter:brightness(1.1); transform:scaleY(1.12); }
+
+/* ── Pipeline Diagram ── */
+.pipeline {
+  display:flex; align-items:stretch; justify-content:center;
+  gap:0; margin:24px 0; padding:4px;
+  overflow-x:auto;
+}
+.pipe-stage {
+  position:relative; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center;
+  padding:16px 24px 16px 32px; min-width:140px;
+  font-size:13px; font-weight:600; color:white;
+  clip-path:polygon(0% 0%, calc(100% - 16px) 0%, 100% 50%, calc(100% - 16px) 100%, 0% 100%, 16px 50%);
+}
+.pipe-stage:first-child { clip-path:polygon(0% 0%, calc(100% - 16px) 0%, 100% 50%, calc(100% - 16px) 100%, 0% 100%); padding-right:24px; }
+.pipe-stage small { font-weight:400; font-size:10px; opacity:0.85; display:block; margin-top:2px; }
+.pipe-1 { background:var(--perplexity); }
+.pipe-2 { background:var(--claude); }
+.pipe-3 { background:var(--chatgpt); }
+.pipe-4 { background:var(--deepseek); }
+.pipe-5 { background:var(--accent2); }
+.pipe-6 { background:var(--accent); }
+
+/* ── Gauge / Meter ── */
+.gauge-row {
+  display:flex; align-items:center; gap:12px; margin:8px 0;
+}
+.gauge-label { width:110px; font-size:12.5px; font-weight:500; color:var(--text2); text-align:right; flex-shrink:0; }
+.gauge-track {
+  flex:1; height:14px; background:var(--surface3); border-radius:7px;
+  overflow:hidden; position:relative;
+}
+.gauge-fill { height:100%; border-radius:7px; transition:width 0.5s ease; }
+.gauge-val { font-size:11px; font-weight:700; width:40px; text-align:left; flex-shrink:0; }
+
+/* ── Responsive ── */
+@media (max-width:768px) {
+  .grid-2,.grid-3 { grid-template-columns:1fr; }
+  .hflow { flex-direction:column; }
+  .hflow-arrow { transform:rotate(-90deg); }
+  .dtree-branches { flex-direction:column; align-items:center; }
+  .pipeline { flex-direction:column; align-items:stretch; }
+  .pipe-stage { clip-path:none!important; border-radius:8px; padding:12px 16px; margin:2px 0; }
+  .topnav-inner { justify-content:flex-start; }
+  .container { padding:0 16px; }
+  .compare-row { flex-wrap:wrap; }
+}
+@media print {
+  .topnav,.progress-track { display:none; }
+  .section { page-break-inside:avoid; }
+}
+
+/* ─── ANIMATIONS ─── */
+.reveal { opacity:0; transform:translateY(16px); transition:all 0.5s cubic-bezier(0.22,1,0.36,1); }
+.reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="progress-track"><div class="progress-fill" id="pf"></div></div>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="#p0" class="active">🏠 פתיחה</a>
+    <a href="#p1">🧰 כלים</a>
+    <a href="#p2">✍️ פרומפטים</a>
+    <a href="#p3">📥 נתונים</a>
+    <a href="#brk">☕</a>
+    <a href="#p4">📊 יחסים</a>
+    <a href="#p5">📋 FP&A</a>
+    <a href="#p6">💰 DCF</a>
+    <a href="#p7">🔒 אבטחה</a>
+    <a href="#p8">🏁 סיכום</a>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<header class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-inner">
+    <div class="hero-chip">🔄 שיעור תרגול — ללא חומר חדש</div>
+    <h1>עוצרים, חוזרים, ומבינים <em>באמת</em></h1>
+    <p class="hero-sub">שלוש שעות תרגול טכני מעשי — מבוסס אך ורק על מה שכבר נלמד בהרצאות 2 ו-3. בלי חומר חדש, בלי הפתעות. רק הבנה עמוקה, תרגול מודרך, ופינוי של כל הקשיים.</p>
+    <p class="hero-meta">⏱️ <strong>3 שעות</strong> · 🎯 <strong>תרגול טכני בלבד</strong> · 📊 <strong>ניתוח פיננסי + AI</strong></p>
+    <p class="hero-meta" style="margin-top:8px"><strong>ד״ר שי צבאן</strong> · בית הספר ללימודי תעודה — אוניברסיטת בר-אילן</p>
+  </div>
+</header>
+
+
+<!-- ═══════════════ PART 0: OPENING ═══════════════ -->
+<section class="section" id="p0">
+<div class="container">
+  <div class="section-chip">⏱️ 0:00–0:10 · פתיחה</div>
+  <h2>לפני שמתחילים — מה השיעור הזה ומה הוא לא</h2>
+
+  <div class="box box-blue">
+    <div class="box-label">💡 המטרה של היום</div>
+    <p>השיעור הזה <strong>לא מכניס שום חומר חדש</strong>. כל מה שנעשה כבר הוצג בהרצאות 2 ו-3. המטרה: לעבור לאט, בהירות, וצעד-אחר-צעד — כדי שמי שנתקע יצא עם הבנה מוצקה.</p>
+  </div>
+
+  <!-- PIPELINE: COURSE MAP -->
+  <div class="pipeline" style="margin:28px 0">
+    <div class="pipe-stage pipe-1">🧰 כלים<small>0:10</small></div>
+    <div class="pipe-stage pipe-2">✍️ פרומפטים<small>0:20</small></div>
+    <div class="pipe-stage pipe-3">📥 נתונים<small>0:35</small></div>
+    <div class="pipe-stage" style="background:#94a3b8">☕<small>0:55</small></div>
+    <div class="pipe-stage pipe-4">📊 יחסים<small>1:10</small></div>
+    <div class="pipe-stage pipe-5">📋 FP&A<small>1:40</small></div>
+    <div class="pipe-stage pipe-6">💰 DCF<small>2:05</small></div>
+    <div class="pipe-stage" style="background:#334155">🔒 אבטחה<small>2:25</small></div>
+  </div>
+
+  <div class="ask-box">
+    <p>🙋 לפני שממשיכים — מה הנושא שהכי הקשה עליכם?<br>אין שאלות טיפשיות. הקשיים שלכם = מפת הדרכים שלנו.</p>
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 1: TOOLS ═══════════════ -->
+<section class="section" id="p1">
+<div class="container">
+  <div class="section-chip">⏱️ 0:10–0:20 · חלק 1</div>
+  <h2>חזרה: ארגז הכלים — מי עושה מה?</h2>
+  <p class="section-lead">בהרצאות ראינו 6 כלי AI חינמיים. הרבה סטודנטים אמרו: "יש המון כלים — לא ברור לי מתי לפתוח מה." בואו נפשט.</p>
+
+  <h3><span class="h3-num">א</span> עץ החלטה: איזה כלי פותחים ראשון?</h3>
+
+  <!-- DECISION TREE: TOOL SELECTION -->
+  <div class="dtree">
+    <div class="dtree-title">🌳 עץ ההחלטה — בחירת כלי AI לפי משימה</div>
+    <div class="dtree-q">מה אני צריך לעשות?</div>
+    <div class="dtree-branches">
+      <div class="dtree-branch" style="border-color:var(--perplexity)">
+        <div class="dtree-branch-label" style="background:var(--perplexity)">מחקר</div>
+        <p>חקירת חברה, מתחרים, שוק, בנצ'מרקים ענפיים</p>
+        <div class="dtree-result use-perplexity">→ Perplexity</div>
+        <p style="margin-top:6px;font-size:11px;color:var(--text3)">מחפש באינטרנט + מצטט מקורות</p>
+      </div>
+      <div class="dtree-branch" style="border-color:var(--chatgpt)">
+        <div class="dtree-branch-label" style="background:var(--chatgpt)">חישובים</div>
+        <p>ניתוח קובץ Excel/CSV, גרפים, נוסחאות</p>
+        <div class="dtree-result use-chatgpt">→ ChatGPT</div>
+        <p style="margin-top:6px;font-size:11px;color:var(--text3)">מריץ Python ישירות על הנתונים</p>
+      </div>
+      <div class="dtree-branch" style="border-color:var(--claude)">
+        <div class="dtree-branch-label" style="background:var(--claude)">קריאה + כתיבה</div>
+        <p>PDF ארוך, סיכום מנהלים, דשבורד</p>
+        <div class="dtree-result use-claude">→ Claude</div>
+        <p style="margin-top:6px;font-size:11px;color:var(--text3)">חלון הקשר ענק — 500 עמודים</p>
+      </div>
+      <div class="dtree-branch" style="border-color:var(--deepseek)">
+        <div class="dtree-branch-label" style="background:var(--deepseek)">אימות</div>
+        <p>בדיקת חישוב, אימות נוסחה, Cross-Check</p>
+        <div class="dtree-result use-deepseek">→ DeepSeek</div>
+        <p style="margin-top:6px;font-size:11px;color:var(--text3)">מראה כל שלב — שקיפות מלאה</p>
+      </div>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ב</span> השוואה ויזואלית — כל כלי ביכולת שלו</h3>
+
+  <!-- COMPARISON BARS -->
+  <div class="compare-visual">
+    <div class="compare-visual-title">📊 כוחות יחסיים של הכלים — לפי סוג משימה</div>
+    <div class="compare-row">
+      <div class="compare-label">ניתוח קבצים</div>
+      <div class="compare-bars">
+        <div class="compare-bar" style="width:95%;background:var(--chatgpt)">ChatGPT ★</div>
+        <div class="compare-bar" style="width:60%;background:var(--claude)">Claude</div>
+      </div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-label">קריאת PDF</div>
+      <div class="compare-bars">
+        <div class="compare-bar" style="width:55%;background:var(--chatgpt)">ChatGPT</div>
+        <div class="compare-bar" style="width:95%;background:var(--claude)">Claude ★</div>
+      </div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-label">מחקר שוק</div>
+      <div class="compare-bars">
+        <div class="compare-bar" style="width:95%;background:var(--perplexity)">Perplexity ★</div>
+        <div class="compare-bar" style="width:45%;background:var(--grok)">Grok</div>
+      </div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-label">אימות חישובים</div>
+      <div class="compare-bars">
+        <div class="compare-bar" style="width:95%;background:var(--deepseek)">DeepSeek ★</div>
+        <div class="compare-bar" style="width:50%;background:var(--chatgpt)">ChatGPT</div>
+      </div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-label">כתיבת סיכום</div>
+      <div class="compare-bars">
+        <div class="compare-bar" style="width:90%;background:var(--claude)">Claude ★</div>
+        <div class="compare-bar" style="width:70%;background:var(--chatgpt)">ChatGPT</div>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--text3);text-align:center;margin-top:10px">★ = הכלי המומלץ למשימה זו. הרוחב מייצג חוזק יחסי (לא ציון אבסולוטי).</p>
+  </div>
+
+  <h3><span class="h3-num">ג</span> "רגע, מה ההבדל בין ChatGPT ל-Claude?"</h3>
+
+  <div class="grid-2">
+    <div class="card" style="border-top:4px solid var(--chatgpt)">
+      <div class="card-title" style="color:var(--chatgpt)">ChatGPT — ה"מחשב"</div>
+      <p style="color:var(--text2);font-size:14px"><strong>מריץ קוד Python ישירות</strong> על הקובץ שלכם. לא מנחש — מחשב. מעולה לניתוח נתונים, גרפים, נוסחאות.</p>
+    </div>
+    <div class="card" style="border-top:4px solid var(--claude)">
+      <div class="card-title" style="color:var(--claude)">Claude — ה"קורא"</div>
+      <p style="color:var(--text2);font-size:14px"><strong>חלון הקשר הגדול ביותר</strong> — קורא PDF שלם. מצוין לקריאת דוחות ארוכים, סיכומים, דשבורדים.</p>
+    </div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-label">❌ קושי נפוץ: "ה-AI נתן מספר שגוי"</div>
+    <p>אם לא העליתם קובץ — ה-AI <strong>ממציא</strong> (Hallucination). הוא לא אומר "לא יודע". הוא מציג מספר בביטחון מלא שהוא בדוי. <strong>כלל: בלי קובץ = בלי אמון על מספרים.</strong></p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-tag">🎯 תרגיל · 3 דקות</div>
+    <p>פתחו Perplexity + ChatGPT. שאלו את שניהם: <em>"מהו שולי הרווח הגולמי הממוצע בענף קמעונאות המזון בישראל?"</em> — מי מצטט מקורות? מי מנחש? → Perplexity אמין יותר כאן.</p>
+  </div>
+
+  <div class="ask-box">
+    <p>🙋 יש כלי שניסיתם ונתקעתם? מה קרה?</p>
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 2: PROMPTS ═══════════════ -->
+<section class="section" id="p2">
+<div class="container">
+  <div class="section-chip">⏱️ 0:20–0:35 · חלק 2</div>
+  <h2>חזרה: איך כותבים פרומפט טוב?</h2>
+  <p class="section-lead">הפרומפט = ההוראה ל-AI. פרומפט טוב = תשובה טובה. פרומפט עמום = זבל.</p>
+
+  <h3><span class="h3-num">א</span> ארבעת מרכיבי פרומפט מצוין</h3>
+
+  <!-- VERTICAL FLOW: PROMPT STRUCTURE -->
+  <div class="hflow">
+    <div class="hflow-node node-accent">
+      <div class="node-icon">🎭</div>
+      <strong>תפקיד (Role)</strong>
+      <small>"אתה אנליסט CFA בכיר"</small>
+    </div>
+    <div class="hflow-arrow">→</div>
+    <div class="hflow-node node-green">
+      <div class="node-icon">🌍</div>
+      <strong>הקשר (Context)</strong>
+      <small>"שופרסל, קמעונאות, ישראל"</small>
+    </div>
+    <div class="hflow-arrow">→</div>
+    <div class="hflow-node node-orange">
+      <div class="node-icon">📝</div>
+      <strong>משימה (Task)</strong>
+      <small>"חשב 5 יחסים בטבלה"</small>
+    </div>
+    <div class="hflow-arrow">→</div>
+    <div class="hflow-node node-red">
+      <div class="node-icon">🚧</div>
+      <strong>הגבלות (Rules)</strong>
+      <small>"אל תנחש, הראה נוסחאות"</small>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ב</span> תהליך כתיבת פרומפט — מאפס ועד שליחה</h3>
+
+  <!-- VERTICAL FLOW: PROMPT WRITING PROCESS -->
+  <div class="vflow">
+    <div class="vflow-title">📝 תהליך עיצוב פרומפט</div>
+    <div class="vflow-node">📌 מה אני רוצה להשיג?<small>הגדרת המטרה</small></div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node">🎭 מי צריך לענות?<small>בחירת Role</small></div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node">📊 אילו נתונים יש לי?<small>הכנת Data</small></div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node node-accent">✍️ ניסוח הפרומפט<small>Role + Context + Task + Rules</small></div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node">🤖 שליחה לכלי + קבלת תשובה</div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node node-green">✅ בדיקה: הגיוני? מספרים נכונים?<small>אם לא → תיקון ושליחה מחדש</small></div>
+  </div>
+
+  <h3><span class="h3-num">ג</span> פרומפט גרוע מול פרומפט טוב</h3>
+
+  <div class="grid-2">
+    <div class="pitfall" style="margin:0">
+      <div class="pitfall-label">❌ פרומפט גרוע</div>
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px">"נתח את שופרסל"</p>
+      <p style="margin-top:6px">אין תפקיד, אין הקשר, אין מבנה, אין הגבלות → תשובה גנרית עם מספרים בדויים.</p>
+    </div>
+    <div class="box box-green" style="margin:0">
+      <div class="box-label">✅ פרומפט טוב</div>
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.7">Role: CFA analyst<br>Company: Shufersal, Israel<br>[DATA]<br>Calculate: ROE DuPont 3-factor<br>Show formula + result<br>If missing → write "N/A"</p>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ד</span> עץ החלטה: עברית או אנגלית?</h3>
+
+  <!-- DECISION TREE: LANGUAGE -->
+  <div class="dtree">
+    <div class="dtree-title">🌐 עברית או אנגלית?</div>
+    <div class="dtree-q">מה סוג המשימה?</div>
+    <div class="dtree-branches">
+      <div class="dtree-branch" style="border-color:var(--accent)">
+        <div class="dtree-branch-label" style="background:var(--accent)">חישובים / נוסחאות</div>
+        <p>ניתוח יחסים, DCF, PVM, נוסחאות Excel</p>
+        <div class="dtree-result" style="background:var(--accent-light);color:var(--accent)">→ פרומפט באנגלית 🇺🇸</div>
+        <p style="margin-top:4px;font-size:11px;color:var(--text3)">מדויק יותר + חוסך טוקנים</p>
+      </div>
+      <div class="dtree-branch" style="border-color:var(--green)">
+        <div class="dtree-branch-label yes">פלט לקורא ישראלי</div>
+        <p>סיכום מנהלים, דוח דירקטוריון</p>
+        <div class="dtree-result" style="background:var(--green-light);color:var(--green)">→ הוראות EN, פלט HE</div>
+        <p style="margin-top:4px;font-size:11px;color:var(--text3)">"Present summary in Hebrew"</p>
+      </div>
+      <div class="dtree-branch" style="border-color:var(--orange)">
+        <div class="dtree-branch-label maybe">דוח בעברית (מאי"ה)</div>
+        <p>חילוץ מ-PDF ישראלי</p>
+        <div class="dtree-result" style="background:var(--orange-light);color:var(--orange)">→ שילוב: EN+HE</div>
+        <p style="margin-top:4px;font-size:11px;color:var(--text3)">הוראות EN, נתונים כמו שהם</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="box box-orange">
+    <div class="box-label">💡 טיפ מתקדם</div>
+    <p>קשה לכתוב פרומפט מאפס? <strong>השתמשו ב-AI אחד כדי לנסח פרומפט לשני!</strong> פתחו Claude → "עזור לי לנסח פרומפט ל-ChatGPT שינתח דוח כספי" → קבלו פרומפט מנוסח → שלחו ל-ChatGPT עם הקובץ.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-tag">🎯 תרגיל · 5 דקות</div>
+    <p>כתבו פרומפט שמבקש ROE DuPont לחברה דמיונית. הקפידו על 4 המרכיבים: Role, Context, Task, Rules. הריצו ובדקו.</p>
+  </div>
+
+  <div class="ask-box">
+    <p>🙋 הפרומפטים שלכם לא מחזירים תוצאות טובות? בואו ננתח דוגמה יחד.</p>
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 3: DATA ═══════════════ -->
+<section class="section" id="p3">
+<div class="container">
+  <div class="section-chip">⏱️ 0:35–0:55 · חלק 3</div>
+  <h2>חזרה: חילוץ נתונים — מאיפה ואיך</h2>
+  <p class="section-lead">לפני שמנתחים — צריך נתונים. שלושה מקורות חינמיים. בואו נתרגל מ-0.</p>
+
+  <h3><span class="h3-num">א</span> עץ החלטה: מאיפה מורידים נתונים?</h3>
+
+  <!-- DECISION TREE: DATA SOURCE -->
+  <div class="dtree">
+    <div class="dtree-title">📥 מאיפה מורידים?</div>
+    <div class="dtree-q">על איזו חברה עובדים?</div>
+    <div class="dtree-branches">
+      <div class="dtree-branch" style="border-color:var(--accent)">
+        <div class="dtree-branch-label" style="background:var(--accent)">🇮🇱 חברה ישראלית</div>
+        <p>נסחרת בבורסת ת"א</p>
+        <div class="dtree-result" style="background:var(--accent-light);color:var(--accent)">→ מאי"ה (PDF בעברית)</div>
+        <p style="margin-top:4px;font-size:11px;color:var(--text3)">magna.isa.gov.il</p>
+      </div>
+      <div class="dtree-branch" style="border-color:var(--accent2)">
+        <div class="dtree-branch-label" style="background:var(--accent2)">🇺🇸 חברה אמריקאית</div>
+        <p>נסחרת ב-NYSE / NASDAQ</p>
+        <div class="dtree-result" style="background:var(--accent2-light);color:var(--accent2)">→ SEC EDGAR (10-K)</div>
+        <p style="margin-top:4px;font-size:11px;color:var(--text3)">sec.gov/edgar</p>
+      </div>
+      <div class="dtree-branch" style="border-color:var(--green)">
+        <div class="dtree-branch-label yes">רוצה CSV מוכן</div>
+        <p>נתונים מסודרים, מוכנים לניתוח</p>
+        <div class="dtree-result" style="background:var(--green-light);color:var(--green)">→ Yahoo Finance</div>
+        <p style="margin-top:4px;font-size:11px;color:var(--text3)">finance.yahoo.com → Download</p>
+      </div>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ב</span> תהליך העבודה — מהורדה לניתוח</h3>
+
+  <!-- HORIZONTAL FLOW: DATA PIPELINE -->
+  <div class="hflow">
+    <div class="hflow-node node-accent">
+      <div class="node-icon">📥</div>
+      <strong>הורדת נתונים</strong>
+      <small>Yahoo / מאי"ה / EDGAR</small>
+    </div>
+    <div class="hflow-arrow">→</div>
+    <div class="hflow-node node-purple">
+      <div class="node-icon">🤖</div>
+      <strong>חילוץ AI</strong>
+      <small>Claude=PDF · ChatGPT=CSV</small>
+    </div>
+    <div class="hflow-arrow">→</div>
+    <div class="hflow-node node-red">
+      <div class="node-icon">🔍</div>
+      <strong>בדיקה ידנית</strong>
+      <small>2-3 מספרים מול המקור</small>
+    </div>
+    <div class="hflow-arrow">→</div>
+    <div class="hflow-node node-green">
+      <div class="node-icon">📊</div>
+      <strong>ניתוח</strong>
+      <small>יחסים / DuPont / DCF</small>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ג</span> איזה כלי לאיזה פורמט?</h3>
+
+  <!-- DECISION TREE: TOOL FOR FORMAT -->
+  <div class="dtree">
+    <div class="dtree-title">📄 קיבלתי קובץ — מה פותחים?</div>
+    <div class="dtree-q">מה הפורמט של הקובץ?</div>
+    <div class="dtree-branches">
+      <div class="dtree-branch" style="border-color:var(--claude)">
+        <div class="dtree-branch-label" style="background:var(--claude)">PDF</div>
+        <p>דוח שנתי ממאי"ה, 10-K מ-EDGAR</p>
+        <div class="dtree-result use-claude">→ Claude</div>
+        <p style="margin-top:4px;font-size:11px;color:var(--text3)">קורא מסמכים ארוכים</p>
+      </div>
+      <div class="dtree-branch" style="border-color:var(--chatgpt)">
+        <div class="dtree-branch-label" style="background:var(--chatgpt)">CSV / Excel</div>
+        <p>נתונים מ-Yahoo Finance, גיליון חברה</p>
+        <div class="dtree-result use-chatgpt">→ ChatGPT</div>
+        <p style="margin-top:4px;font-size:11px;color:var(--text3)">מריץ Python ישירות</p>
+      </div>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ד</span> הפרומפטים</h3>
+
+  <div class="prompt-why"><strong>חילוץ מ-PDF (Claude):</strong> מפרטים מה לחלץ, באיזה פורמט, מה לחשב, ו"סמן [?] מה שלא בטוח".</div>
+  <div class="prompt-block prompt-he">
+    <code>העליתי את הדוח השנתי של שופרסל.
+חלץ את שלושת הדוחות הכספיים בפורמט CSV:
+
+דוח 1 — רווח והפסד (3 שנים):
+הכנסות, עלות המכר, רווח גולמי,
+הוצאות תפעוליות, רווח תפעולי,
+הוצאות מימון, רווח נקי
+
+חשב: מרווח גולמי %, מרווח תפעולי %, FCF.
+ציין מספרי עמודים. סמן ב-[?] נתון לא ודאי.</code>
+  </div>
+
+  <div class="prompt-why"><strong>חילוץ מ-CSV (ChatGPT):</strong> ChatGPT מריץ Python ישירות — לא מנחש.</div>
+  <div class="prompt-block">
+    <code>I uploaded Shufersal (SAE.TA) financials from Yahoo Finance.
+
+1. Read all files, combine into one clean table
+2. Calculate: Gross Margin %, Operating Margin %,
+   Net Margin %, YoY Revenue growth
+3. Export as downloadable CSV for Excel
+4. Flag any anomalies or changes over 20%</code>
+  </div>
+
+  <h3><span class="h3-num">ה</span> מלכודות נפוצות</h3>
+
+  <!-- VISUAL: PITFALL FLOW -->
+  <div class="hflow" style="background:var(--red-light);border-color:var(--red-border)">
+    <div class="hflow-node node-red">
+      <div class="node-icon">⚠️</div>
+      <strong>PDF ישן (סריקה)</strong>
+      <small>לפני 2015 = תמונות</small>
+    </div>
+    <div class="hflow-arrow" style="color:var(--red)">⚡</div>
+    <div class="hflow-node node-red">
+      <div class="node-icon">⚠️</div>
+      <strong>שמות דומים</strong>
+      <small>בדקו מספר תאגיד</small>
+    </div>
+    <div class="hflow-arrow" style="color:var(--red)">⚡</div>
+    <div class="hflow-node node-red">
+      <div class="node-icon">⚠️</div>
+      <strong>IFRS ≠ US GAAP</strong>
+      <small>ציינו בפרומפט!</small>
+    </div>
+    <div class="hflow-arrow" style="color:var(--red)">⚡</div>
+    <div class="hflow-node node-red">
+      <div class="node-icon">⚠️</div>
+      <strong>PDF ארוך נחתך</strong>
+      <small>העלו רק חלקים רלוונטיים</small>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-tag">🎯 תרגיל · 10 דקות</div>
+    <div class="step"><div class="step-n">1</div><div class="step-body"><h4>הורידו CSV מ-Yahoo Finance</h4><p>SAE.TA → Income Statement → Download</p></div></div>
+    <div class="step"><div class="step-n">2</div><div class="step-body"><h4>העלו ל-ChatGPT + פרומפט</h4><p>📎 → בחרו הקובץ → הדביקו הפרומפט</p></div></div>
+    <div class="step"><div class="step-n">3</div><div class="step-body"><h4>בדיקה!</h4><p>מרווח גולמי של רשת מזון ≈ 28%. אם קיבלתם 60% → משהו לא בסדר!</p></div></div>
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════ BREAK ═══════════════ -->
+<section class="break-section" id="brk">
+  <div class="section-chip" style="background:white">⏱️ 0:55–1:10 · הפסקה</div>
+  <h2 style="font-size:24px;margin:12px 0 8px;font-family:'Rubik',sans-serif;font-weight:700">☕ הפסקה — 15 דקות</h2>
+  <p style="color:var(--text2);font-size:14px;max-width:500px;margin:0 auto">ודאו שיש לכם קובץ נתונים מוכן. אחרי ההפסקה — ניתוח יחסים פיננסיים.</p>
+</section>
+
+
+<!-- ═══════════════ PART 4: RATIOS ═══════════════ -->
+<section class="section" id="p4">
+<div class="container">
+  <div class="section-chip">⏱️ 1:10–1:40 · חלק 4</div>
+  <h2>חזרה: יחסים פיננסיים + DuPont</h2>
+  <p class="section-lead">יחסים = "בדיקת דם" של חברה. בודקים נזילות, רווחיות, מינוף ויעילות.</p>
+
+  <h3><span class="h3-num">א</span> מפת 5 הקטגוריות</h3>
+
+  <!-- PIPELINE: 5 CATEGORIES -->
+  <div class="pipeline">
+    <div class="pipe-stage" style="background:#2563eb">📘 נזילות<small>יכולה לשלם?</small></div>
+    <div class="pipe-stage" style="background:#059669">📗 רווחיות<small>כמה מרוויחה?</small></div>
+    <div class="pipe-stage" style="background:#dc2626">📕 מינוף<small>כמה חייבת?</small></div>
+    <div class="pipe-stage" style="background:#d97706">📙 יעילות<small>כמה מהר?</small></div>
+    <div class="pipe-stage" style="background:#7c3aed">📓 DuPont<small>מאיפה ה-ROE?</small></div>
+  </div>
+
+  <!-- LIQUIDITY -->
+  <div class="card" style="border-right:5px solid var(--accent)">
+    <div class="card-title">📘 1. נזילות — "האם החברה יכולה לשלם מחר?"</div>
+    <div class="defn" style="margin-top:10px">
+      <div class="defn-term">יחס שוטף (Current Ratio)</div>
+      <div class="defn-formula">Current Ratio = נכסים שוטפים ÷ התחייבויות שוטפות</div>
+      <div class="defn-body">✅ מעל <em>1.5</em> = בריא · ⚠️ 1.0-1.5 = מעקב · 🔴 מתחת ל-<em>1.0</em> = בעיה</div>
+    </div>
+    <div class="defn">
+      <div class="defn-term">יחס מהיר (Quick Ratio)</div>
+      <div class="defn-formula">Quick = (שוטפים − מלאי) ÷ התחייבויות שוטפות</div>
+      <div class="defn-body">כמו שוטף אבל <em>בלי מלאי</em> — כי מלאי לא תמיד נזיל. חשוב בקמעונאות.</div>
+    </div>
+  </div>
+
+  <!-- PROFITABILITY -->
+  <div class="card" style="border-right:5px solid var(--green)">
+    <div class="card-title">📗 2. רווחיות — "כמה נשאר מכל שקל?"</div>
+    <div class="defn" style="margin-top:10px">
+      <div class="defn-term">מרווח גולמי (Gross Margin)</div>
+      <div class="defn-formula">Gross Margin = (הכנסות − עלות מכר) ÷ הכנסות × 100%</div>
+      <div class="defn-body">מזון: <em>25-30%</em>. טכנולוגיה: <em>60-80%</em>.</div>
+    </div>
+    <div class="defn">
+      <div class="defn-term">ROE — תשואה על ההון</div>
+      <div class="defn-formula">ROE = רווח נקי ÷ הון עצמי × 100%</div>
+      <div class="defn-body">מעל <em>15%</em> = מצוין. אבל צריך DuPont כדי להבין <em>מאיפה</em>.</div>
+    </div>
+    <div class="defn">
+      <div class="defn-term">EVA — ערך כלכלי מוסף</div>
+      <div class="defn-formula">EVA = NOPAT − (הון מושקע × WACC)</div>
+      <div class="defn-body">חיובי = יוצרת ערך. שלילי = הורסת ערך <em>גם אם "רווחית" חשבונאית</em>.</div>
+    </div>
+  </div>
+
+  <!-- LEVERAGE -->
+  <div class="card" style="border-right:5px solid var(--red)">
+    <div class="card-title">📕 3. מינוף — "כמה חייבת?"</div>
+    <div class="defn" style="margin-top:10px">
+      <div class="defn-term">D/E — חוב להון</div>
+      <div class="defn-formula">D/E = סה"כ התחייבויות ÷ הון עצמי</div>
+      <div class="defn-body">מעל <em>2.0</em> = גבוה. קמעונאות מזון: <em>1.0-1.5</em> = סביר.</div>
+    </div>
+    <div class="defn">
+      <div class="defn-term">כיסוי ריבית (Interest Coverage)</div>
+      <div class="defn-formula">Interest Coverage = EBIT ÷ הוצאות ריבית</div>
+      <div class="defn-body">מתחת ל-<em>3</em> = סיכון. מתחת ל-<em>1.5</em> = סכנה.</div>
+    </div>
+  </div>
+
+  <!-- EFFICIENCY -->
+  <div class="card" style="border-right:5px solid var(--orange)">
+    <div class="card-title">📙 4. יעילות — "כמה מהר הכסף זורם?"</div>
+    <div class="defn" style="margin-top:10px">
+      <div class="defn-term">CCC — מחזור המרה למזומן</div>
+      <div class="defn-formula">CCC = ימי מלאי + ימי לקוחות − ימי ספקים</div>
+      <div class="defn-body">קצר = טוב. שלילי (כמו אמזון) = מצוין.</div>
+    </div>
+  </div>
+
+  <!-- DUPONT VISUAL -->
+  <div class="card" style="border-right:5px solid var(--accent2)">
+    <div class="card-title">📓 5. ניתוח DuPont — "מאיפה באמת מגיע ה-ROE?"</div>
+
+    <!-- DuPont FLOW DIAGRAM -->
+    <div class="hflow" style="margin:14px 0;background:var(--accent2-light);border-color:#d8b4fe">
+      <div class="hflow-node" style="border-color:var(--accent2);background:white">
+        <strong style="color:var(--accent2)">ROE</strong>
+        <small>תשואה להון</small>
+      </div>
+      <div class="hflow-arrow" style="color:var(--accent2)">=</div>
+      <div class="hflow-node node-green">
+        <strong>Net Margin</strong>
+        <small>רווח/הכנסות</small>
+        <small>כמה רווחית?</small>
+      </div>
+      <div class="hflow-arrow" style="color:var(--accent2)">×</div>
+      <div class="hflow-node node-orange">
+        <strong>Asset Turnover</strong>
+        <small>הכנסות/נכסים</small>
+        <small>כמה יעילה?</small>
+      </div>
+      <div class="hflow-arrow" style="color:var(--accent2)">×</div>
+      <div class="hflow-node node-red">
+        <strong>Equity Multiplier</strong>
+        <small>נכסים/הון</small>
+        <small>כמה ממונפת?</small>
+      </div>
+    </div>
+
+    <div class="box box-purple" style="margin:12px 0 0">
+      <div class="box-label">💡 למה זה חשוב?</div>
+      <p>שתי חברות עם ROE=18%. באחת — מרווח גבוה ומינוף נמוך (בריא ✅). בשנייה — מרווח נמוך ומינוף גבוה (מסוכן 🔴). <strong>בלי DuPont, לא תבחינו.</strong></p>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ב</span> תהליך האימות — Cross-Check</h3>
+
+  <!-- VERIFICATION FLOW -->
+  <div class="hflow" style="background:var(--green-light);border-color:var(--green-border)">
+    <div class="hflow-node" style="border-color:var(--chatgpt)">
+      <div class="node-icon">🤖</div>
+      <strong>ChatGPT מחשב</strong>
+      <small>פרומפט מאסטר</small>
+    </div>
+    <div class="hflow-arrow" style="color:var(--green)">→</div>
+    <div class="hflow-node node-orange">
+      <div class="node-icon">🧐</div>
+      <strong>בוחרים 2-3 יחסים</strong>
+      <small>הקריטיים ביותר</small>
+    </div>
+    <div class="hflow-arrow" style="color:var(--green)">→</div>
+    <div class="hflow-node" style="border-color:var(--deepseek)">
+      <div class="node-icon">✅</div>
+      <strong>DeepSeek מאמת</strong>
+      <small>שלב-אחר-שלב</small>
+    </div>
+    <div class="hflow-arrow" style="color:var(--green)">→</div>
+    <div class="hflow-node node-green">
+      <div class="node-icon">✓</div>
+      <strong>תואמים?</strong>
+      <small>כן = סגור. לא = תיקון</small>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-tag">🎯 תרגיל · 15 דקות</div>
+    <p>הריצו את הפרומפט המאסטר על נתוני שופרסל. בחרו יחס אחד (ROE DuPont) ואמתו ב-DeepSeek. תואם?</p>
+  </div>
+
+  <div class="ask-box">
+    <p>🙋 יש יחס שלא ברור למה חשוב? או שהנוסחה מבלבלת? עכשיו הזמן!</p>
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 5: FP&A ═══════════════ -->
+<section class="section" id="p5">
+<div class="container">
+  <div class="section-chip">⏱️ 1:40–2:05 · חלק 5</div>
+  <h2>חזרה: FP&A, ניתוח שונויות, ותרחישים</h2>
+  <p class="section-lead">מ"מה היה" (יחסים) → ל"למה" (PVM) → ל"מה יהיה" (תרחישים).</p>
+
+  <!-- PIPELINE: FP&A FLOW -->
+  <div class="pipeline" style="margin-bottom:28px">
+    <div class="pipe-stage" style="background:#334155">📊 מה היה<small>יחסים פיננסיים</small></div>
+    <div class="pipe-stage" style="background:#d97706">🔍 למה<small>PVM שונויות</small></div>
+    <div class="pipe-stage" style="background:#7c3aed">🔮 מה יהיה<small>תרחישים / Runway</small></div>
+  </div>
+
+  <h3><span class="h3-num">א</span> PVM — Price, Volume, Mix</h3>
+
+  <!-- PVM VISUAL BREAKDOWN -->
+  <div class="hflow">
+    <div class="hflow-node" style="border-color:var(--red);min-width:150px">
+      <div class="node-icon">💰</div>
+      <strong style="color:var(--red)">Price</strong>
+      <small>שינוי במחיר?</small>
+      <small>תכננו 100₪ → מכרנו 90₪</small>
+    </div>
+    <div class="hflow-arrow">+</div>
+    <div class="hflow-node" style="border-color:var(--accent);min-width:150px">
+      <div class="node-icon">📦</div>
+      <strong style="color:var(--accent)">Volume</strong>
+      <small>שינוי בכמות?</small>
+      <small>תכננו 1,000 → מכרנו 800</small>
+    </div>
+    <div class="hflow-arrow">+</div>
+    <div class="hflow-node" style="border-color:var(--orange);min-width:150px">
+      <div class="node-icon">🎯</div>
+      <strong style="color:var(--orange)">Mix</strong>
+      <small>שינוי בתמהיל?</small>
+      <small>פחות מוצר A, יותר מוצר B</small>
+    </div>
+    <div class="hflow-arrow">=</div>
+    <div class="hflow-node node-purple" style="min-width:150px">
+      <div class="node-icon">📉</div>
+      <strong>סטייה כוללת</strong>
+      <small>למה הרווחנו פחות?</small>
+    </div>
+  </div>
+
+  <div class="box box-blue">
+    <div class="box-label">💡 דוגמה מהירה</div>
+    <p>תוכנית: A(100₪×600) + B(50₪×400) = <strong>80,000₪</strong>. ביצוע: A(90₪×500) + B(50₪×700) = <strong>80,000₪</strong>.</p>
+    <p style="margin-top:4px">הכנסות <em>זהות</em> — אבל שולי A=40% ושל B=15%. <strong>הרווח נשחק דרמטית</strong>. PVM חושף את זה.</p>
+  </div>
+
+  <h3><span class="h3-num">ב</span> Cash Runway — כמה חודשים נשרוד?</h3>
+
+  <div class="defn">
+    <div class="defn-term">Cash Runway</div>
+    <div class="defn-formula">Runway = מזומנים ÷ שריפה חודשית נטו</div>
+    <div class="defn-body">הוצאות $200K, הכנסות $50K → שריפה = $150K/חודש. עם $2M בקופה → <em>~13 חודשים.</em></div>
+  </div>
+
+  <!-- SCENARIO COMPARISON VISUAL -->
+  <div class="compare-visual">
+    <div class="compare-visual-title">📊 5 תרחישים — כמה חודשי Runway?</div>
+    <div class="gauge-row">
+      <div class="gauge-label">A: Base Case</div>
+      <div class="gauge-track"><div class="gauge-fill" style="width:100%;background:var(--green)"></div></div>
+      <div class="gauge-val" style="color:var(--green)">24+</div>
+    </div>
+    <div class="gauge-row">
+      <div class="gauge-label">B: Revenue Freeze</div>
+      <div class="gauge-track"><div class="gauge-fill" style="width:70%;background:var(--accent)"></div></div>
+      <div class="gauge-val" style="color:var(--accent)">17</div>
+    </div>
+    <div class="gauge-row">
+      <div class="gauge-label">C: Revenue = $0</div>
+      <div class="gauge-track"><div class="gauge-fill" style="width:52%;background:var(--orange)"></div></div>
+      <div class="gauge-val" style="color:var(--orange)">12.5</div>
+    </div>
+    <div class="gauge-row">
+      <div class="gauge-label">D: $0 + Cost Cut</div>
+      <div class="gauge-track"><div class="gauge-fill" style="width:80%;background:var(--accent2)"></div></div>
+      <div class="gauge-val" style="color:var(--accent2)">19</div>
+    </div>
+    <div class="gauge-row">
+      <div class="gauge-label">E: Pivot</div>
+      <div class="gauge-track"><div class="gauge-fill" style="width:65%;background:var(--cyan)"></div></div>
+      <div class="gauge-val" style="color:var(--cyan)">15</div>
+    </div>
+    <p style="font-size:11px;color:var(--text3);text-align:center;margin-top:8px">ערכים לדוגמה — AI מחשב את המדויקים</p>
+  </div>
+
+  <div class="box box-green">
+    <div class="box-label">✅ תובנה</div>
+    <p>קיצוץ הוצאות (D) מוסיף ~6.5 חודשים — יותר מכל שינוי אחר. כי הוצאות בשליטתכם, הכנסות לא.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-tag">🎯 תרגיל · 10 דקות</div>
+    <p>הריצו את פרומפט ה-PVM (3 מוצרים) ב-ChatGPT. בדקו שהחישוב הגיוני. ה-AI חישב Volume חיובי? הגיוני?</p>
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 6: DCF ═══════════════ -->
+<section class="section" id="p6">
+<div class="container">
+  <div class="section-chip">⏱️ 2:05–2:25 · חלק 6</div>
+  <h2>חזרה: הערכת שווי DCF — צעד אחר צעד</h2>
+  <p class="section-lead">DCF = "סטנדרט הזהב" בהערכת שווי. כמה מזומנים החברה תייצר? כמה זה שווה היום?</p>
+
+  <h3><span class="h3-num">א</span> 5 הצעדים — תרשים זרימה</h3>
+
+  <!-- DCF VERTICAL FLOW -->
+  <div class="vflow" style="max-width:500px">
+    <div class="vflow-title">💰 DCF — 5 שלבים</div>
+    <div class="vflow-node node-accent">
+      <strong>שלב 1: חיזוי FCF — 5 שנים</strong>
+      <small>FCF = NOPAT + D&A − CapEx − ΔWC</small>
+    </div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node">
+      <strong>שלב 2: קביעת WACC</strong>
+      <small>עלות ההון המשוקללת (8-12%)</small>
+    </div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node" style="background:var(--orange-light);border-color:var(--orange-border)">
+      <strong>שלב 3: Terminal Value</strong>
+      <small>TV = FCF₆ ÷ (WACC − g) · ⚠️ 60-80% מהשווי!</small>
+    </div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node">
+      <strong>שלב 4: היוון לערך נוכחי</strong>
+      <small>כל FCF ÷ (1+WACC)ⁿ → סכום = EV</small>
+    </div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node node-green">
+      <strong>שלב 5: EV → שווי מניה</strong>
+      <small>EV − חוב + מזומן ÷ מניות = שווי</small>
+    </div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-label">🚨 "אשליית הדיוק"</div>
+    <p>DCF ייתן "142,537,000$" — אבל שינוי WACC מ-10% ל-11% → ירידה 15-20%! <strong>הציגו טווח + טבלת רגישות, לא מספר בודד.</strong></p>
+  </div>
+
+  <h3><span class="h3-num">ב</span> טבלת רגישות — מה משפיע על מה?</h3>
+
+  <!-- SENSITIVITY HEATMAP VISUAL -->
+  <div class="compare-visual">
+    <div class="compare-visual-title">🌡️ רגישות: WACC × Terminal Growth → שווי מניה</div>
+    <div class="tbl-wrap" style="margin:0;border:none;box-shadow:none">
+      <table class="tbl" style="font-size:12px;text-align:center">
+        <tr><th style="text-align:center">WACC ↓ \ g →</th><th style="text-align:center">1.5%</th><th style="text-align:center">2.0%</th><th style="text-align:center">2.5%</th><th style="text-align:center">3.0%</th><th style="text-align:center">3.5%</th></tr>
+        <tr><td><strong>8%</strong></td><td style="background:#bbf7d0;color:#166534">$38</td><td style="background:#86efac;color:#166534">$42</td><td style="background:#4ade80;color:#166534">$47</td><td style="background:#22c55e;color:white">$54</td><td style="background:#16a34a;color:white">$63</td></tr>
+        <tr><td><strong>9%</strong></td><td style="background:#d9f99d;color:#3f6212">$30</td><td style="background:#bef264;color:#3f6212">$33</td><td style="background:#a3e635;color:#3f6212">$37</td><td style="background:#84cc16;color:white">$41</td><td style="background:#65a30d;color:white">$47</td></tr>
+        <tr><td><strong>10%</strong></td><td style="background:#fef08a;color:#854d0e">$25</td><td style="background:#fde047;color:#854d0e">$27</td><td style="background:#facc15;color:#854d0e"><strong>$30</strong></td><td style="background:#eab308;color:white">$33</td><td style="background:#ca8a04;color:white">$37</td></tr>
+        <tr><td><strong>11%</strong></td><td style="background:#fed7aa;color:#9a3412">$21</td><td style="background:#fdba74;color:#9a3412">$23</td><td style="background:#fb923c;color:white">$25</td><td style="background:#f97316;color:white">$27</td><td style="background:#ea580c;color:white">$30</td></tr>
+        <tr><td><strong>12%</strong></td><td style="background:#fecaca;color:#991b1b">$18</td><td style="background:#fca5a5;color:#991b1b">$19</td><td style="background:#f87171;color:white">$21</td><td style="background:#ef4444;color:white">$23</td><td style="background:#dc2626;color:white">$25</td></tr>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--text3);text-align:center;margin-top:8px">ערכים לדוגמה. טווח: $18-$63 — הבדל של פי 3.5 בין הנחות!</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-tag">🎯 תרגיל · 10 דקות</div>
+    <p>הריצו את פרומפט ה-DCF. קחו FCF שנה 1 ובדקו ידנית: Revenue × EBITDA% = EBITDA → −D&A = EBIT → ×(1−Tax) = NOPAT → +D&A −CapEx −WC = FCF. תואם?</p>
+  </div>
+
+  <div class="ask-box">
+    <p>🙋 DCF = הנושא הכי מאתגר. מה לא ברור? שלב? מושג? הנחה?</p>
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 7: SECURITY ═══════════════ -->
+<section class="section" id="p7">
+<div class="container">
+  <div class="section-chip">⏱️ 2:25–2:40 · חלק 7</div>
+  <h2>חזרה: אבטחת מידע ו-Antigravity</h2>
+  <p class="section-lead">כל מה שלמדנו עובד עם נתונים ציבוריים. מה קורה כשחוזרים למשרד?</p>
+
+  <h3><span class="h3-num">א</span> עץ החלטה: האם מותר להעלות?</h3>
+
+  <!-- SECURITY DECISION TREE -->
+  <div class="dtree">
+    <div class="dtree-title">🔒 האם מותר להעלות את הנתונים לכלי AI?</div>
+    <div class="dtree-q">מה סוג הנתונים?</div>
+    <div class="dtree-branches">
+      <div class="dtree-branch" style="border-color:var(--green)">
+        <div class="dtree-branch-label yes">נתונים ציבוריים</div>
+        <p>דוחות מהבורסה, מאי"ה, EDGAR, Yahoo Finance</p>
+        <div class="dtree-result" style="background:var(--green-light);color:var(--green)">✅ מותר — כלי חינמי OK</div>
+      </div>
+      <div class="dtree-branch" style="border-color:var(--orange)">
+        <div class="dtree-branch-label maybe">אישי לא רגיש</div>
+        <p>עבודה אישית שאינה סודית</p>
+        <div class="dtree-result" style="background:var(--orange-light);color:var(--orange)">⚠️ מנוי Pro (opt-out)</div>
+      </div>
+      <div class="dtree-branch" style="border-color:var(--red)">
+        <div class="dtree-branch-label no">נתונים פנימיים / סודיים</div>
+        <p>שכר, מכירות, חוזים, M&A, תקציב</p>
+        <div class="dtree-result" style="background:var(--red-light);color:var(--red)">🔴 רק ארגוני (Antigravity)</div>
+      </div>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ב</span> שלוש רמות — השוואה ויזואלית</h3>
+
+  <!-- SECURITY LEVELS COMPARISON -->
+  <div class="compare-visual">
+    <div class="compare-visual-title">🔐 שלוש רמות אבטחה — השוואה</div>
+    <div class="compare-row">
+      <div class="compare-label">פרטיות</div>
+      <div class="compare-bars">
+        <div class="compare-bar" style="width:25%;background:var(--red)">חינמי ⚠️</div>
+        <div class="compare-bar" style="width:50%;background:var(--orange)">Pro ⚠️</div>
+        <div class="compare-bar" style="width:95%;background:var(--green)">ארגוני ✅</div>
+      </div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-label">מכסת שאלות</div>
+      <div class="compare-bars">
+        <div class="compare-bar" style="width:20%;background:var(--red)">~10-30/יום</div>
+        <div class="compare-bar" style="width:55%;background:var(--orange)">מאות</div>
+        <div class="compare-bar" style="width:95%;background:var(--green)">ללא הגבלה</div>
+      </div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-label">גודל קובץ</div>
+      <div class="compare-bars">
+        <div class="compare-bar" style="width:20%;background:var(--red)">~25 עמ'</div>
+        <div class="compare-bar" style="width:50%;background:var(--orange)">~100 עמ'</div>
+        <div class="compare-bar" style="width:95%;background:var(--green)">ללא הגבלה</div>
+      </div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-label">חיבור לקבצים</div>
+      <div class="compare-bars">
+        <div class="compare-bar" style="width:10%;background:var(--red)">❌</div>
+        <div class="compare-bar" style="width:10%;background:var(--orange)">❌</div>
+        <div class="compare-bar" style="width:95%;background:var(--green)">✅ RAG</div>
+      </div>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ג</span> Antigravity — תהליך ההתקנה והשימוש</h3>
+
+  <!-- ANTIGRAVITY SETUP FLOW -->
+  <div class="vflow" style="max-width:500px">
+    <div class="vflow-title">🛡️ Antigravity — 5 שלבי הקמה</div>
+    <div class="vflow-node">
+      <strong>1. הרשמה + SSO</strong>
+      <small>פנייה ל-IT → גישה לפורטל → הזדהות ארגונית</small>
+    </div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node">
+      <strong>2. בחירת מודל AI</strong>
+      <small>GPT-4o / Claude Sonnet — Zero Retention מובטח</small>
+    </div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node node-accent">
+      <strong>3. חיבור בסיס ידע (RAG)</strong>
+      <small>Add Data Source → קישור תיקייה מהשרת</small>
+    </div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node">
+      <strong>4. יצירת סוכן (Agent)</strong>
+      <small>System Prompt: "CFO Analyst — אל תנחש"</small>
+    </div>
+    <div class="vflow-arrow-down">↓</div>
+    <div class="vflow-node node-green">
+      <strong>5. שימוש יומיומי</strong>
+      <small>"מה ההכנסות שלנו ברבעון 3?" → תשובה עם מקור</small>
+    </div>
+  </div>
+
+  <h3><span class="h3-num">ד</span> חינמי מול Antigravity — הבדל מעשי</h3>
+
+  <!-- COMPARISON: FREE vs ANTIGRAVITY -->
+  <div class="grid-2">
+    <div class="card" style="border-top:4px solid var(--text3)">
+      <div class="card-title">🆓 כלי חינמי</div>
+      <div class="hflow" style="padding:8px;margin:8px 0;border:none;box-shadow:none;background:var(--surface2)">
+        <div class="hflow-node" style="min-width:80px;padding:8px;font-size:11px">מוריד PDF</div>
+        <div class="hflow-arrow" style="font-size:14px">→</div>
+        <div class="hflow-node" style="min-width:80px;padding:8px;font-size:11px">מעלה ל-AI</div>
+        <div class="hflow-arrow" style="font-size:14px">→</div>
+        <div class="hflow-node" style="min-width:80px;padding:8px;font-size:11px">פרומפט</div>
+        <div class="hflow-arrow" style="font-size:14px">→</div>
+        <div class="hflow-node" style="min-width:80px;padding:8px;font-size:11px">בדיקה</div>
+      </div>
+      <p style="color:var(--text3);font-size:13px;text-align:center">⏱️ ~10-15 דקות לניתוח</p>
+    </div>
+    <div class="card" style="border-top:4px solid var(--green)">
+      <div class="card-title">🛡️ Antigravity</div>
+      <div class="hflow" style="padding:8px;margin:8px 0;border:none;box-shadow:none;background:var(--green-light)">
+        <div class="hflow-node node-green" style="min-width:120px;padding:8px;font-size:11px">"נתח את שופרסל"</div>
+        <div class="hflow-arrow" style="font-size:14px;color:var(--green)">→</div>
+        <div class="hflow-node node-green" style="min-width:120px;padding:8px;font-size:11px">סוכן מושך קבצים</div>
+        <div class="hflow-arrow" style="font-size:14px;color:var(--green)">→</div>
+        <div class="hflow-node node-green" style="min-width:120px;padding:8px;font-size:11px">תשובה + מקור</div>
+      </div>
+      <p style="color:var(--green);font-size:13px;text-align:center">⏱️ ~2-3 דקות לניתוח</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-tag">🎯 תרגיל · 5 דקות</div>
+    <p>תרגלו כתיבת System Prompt לסוכן פיננסי (עובד גם בכלי חינמי):</p>
+    <div class="prompt-block standalone">
+      <code>You are a Senior Financial Controller at an Israeli
+publicly traded company.
+
+Rules:
+- Answer ONLY based on data I provide.
+- If data is missing, say "Data not available" — never guess.
+- All values in NIS. Use IFRS terminology.
+- Always show the calculation.
+
+Acknowledge and wait for my first question.</code>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════ PART 8: SUMMARY ═══════════════ -->
+<section class="section" id="p8">
+<div class="container">
+  <div class="section-chip">⏱️ 2:40–2:50 · סיכום</div>
+  <h2>סיכום: התהליך המלא + 10 כללים</h2>
+
+  <h3><span class="h3-num">א</span> הפייפליין המלא — מ-0 לניתוח</h3>
+
+  <!-- FULL PIPELINE -->
+  <div class="pipeline">
+    <div class="pipe-stage pipe-1">🔍 מחקר<small>Perplexity · 5'</small></div>
+    <div class="pipe-stage pipe-2">📄 חילוץ<small>Claude · 5'</small></div>
+    <div class="pipe-stage pipe-3">📊 ניתוח<small>ChatGPT · 5'</small></div>
+    <div class="pipe-stage pipe-4">✅ אימות<small>DeepSeek · 3'</small></div>
+    <div class="pipe-stage pipe-5">📈 תחזית<small>ChatGPT · 5'</small></div>
+    <div class="pipe-stage pipe-6">📋 סיכום<small>Claude · 5'</small></div>
+  </div>
+  <p style="text-align:center;color:var(--text3);font-size:13px;margin-bottom:28px">סה"כ: ~28 דקות מול 15-20 שעות ידנית. <strong>חיסכון של ~97%.</strong></p>
+
+  <h3><span class="h3-num">ב</span> 10 כללי אצבע</h3>
+
+  <div class="card" style="border-right:4px solid var(--accent)">
+    <p style="color:var(--text2);font-size:14px;line-height:2.1">
+      <strong>1.</strong> בדקו פלט מול מקור — תמיד.<br>
+      <strong>2.</strong> פרומפט מפורט = תשובה טובה.<br>
+      <strong>3.</strong> בקשו נוסחאות — לא רק תוצאות.<br>
+      <strong>4.</strong> בלי קובץ = בלי אמון על מספרים.<br>
+      <strong>5.</strong> חינמי = ציבורי בלבד.<br>
+      <strong>6.</strong> טווח + רגישות, לא מספר בודד.<br>
+      <strong>7.</strong> ציינו IFRS / US GAAP בהשוואות.<br>
+      <strong>8.</strong> פרומפטים פיננסיים → עדיף אנגלית.<br>
+      <strong>9.</strong> "If data missing → N/A. Do not guess."<br>
+      <strong>10.</strong> <strong>אתם המומחים.</strong> AI = מחשבון מהיר. הפרשנות = שלכם.
+    </p>
+  </div>
+
+  <div class="box box-green">
+    <div class="box-label">🎓 המשפט שכדאי לזכור</div>
+    <p style="font-size:16px;font-family:'Rubik',sans-serif;font-weight:600;color:#065f46">AI לא הולך להחליף מנהלי כספים. אבל מנהלי כספים שמשתמשים ב-AI — הולכים להחליף את אלה שלא.</p>
+  </div>
+
+  <div class="ask-box">
+    <p>🙋 שאלה אחרונה: מה הדבר הכי חשוב שלמדתם היום? ומה עדיין צריך חיזוק?</p>
+  </div>
+</div>
+</section>
+
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<div class="footer">
+  <p style="font-family:'Rubik',sans-serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:8px">
+    הכלים חינמיים. המומחיות שלכם — היא בעלת הערך.
+  </p>
+  <p style="color:var(--text3);font-size:14px"><strong>ד״ר שי צבאן</strong> · בית הספר ללימודי תעודה — אוניברסיטת בר-אילן</p>
+  <p style="color:var(--text3);font-size:11px;margin-top:8px">© 2026 · שיעור תרגול — ניתוח פיננסי עם כלי AI חינמיים</p>
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const f=document.getElementById('pf');
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  if(h>0) f.style.width=Math.min(100,window.scrollY/h*100)+'%';
+},{passive:true});
+
+const sects=['p0','p1','p2','p3','brk','p4','p5','p6','p7','p8'];
+const navLinks=document.querySelectorAll('.topnav a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sects.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&window.scrollY>=el.offsetTop-120) cur=id;
+  });
+  navLinks.forEach(l=>{
+    l.classList.toggle('active',l.getAttribute('href')==='#'+cur);
+  });
+},{passive:true});
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:0.06,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.card,.box,.defn,.exercise,.pitfall,.ask-box,.tbl-wrap,.step,.prompt-block,.prompt-why,.hflow,.vflow,.dtree,.compare-visual,.pipeline').forEach(el=>{
+  el.classList.add('reveal');obs.observe(el);
+});
+</script>
+</body>
+</html>
