@@ -1,0 +1,2467 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ניתוח דוחות, יחסים ומדדים פיננסיים בעידן ה-AI · קורס סמנכ"לי כספים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ============ Design Tokens ============ */
+:root{
+  --bg-0:#0b0e1a;
+  --bg-1:#111530;
+  --bg-2:#1a1f47;
+  --ink:#f3f4ff;
+  --ink-dim:#b7bcd9;
+  --ink-faint:#7a809e;
+  --primary:#6366f1;          /* indigo */
+  --primary-2:#8b5cf6;        /* violet */
+  --accent:#22d3ee;           /* cyan */
+  --accent-2:#06b6d4;
+  --hot:#f43f5e;              /* coral */
+  --gold:#fbbf24;
+  --green:#10b981;
+  --amber:#f59e0b;
+  --red:#ef4444;
+  --surface:rgba(255,255,255,.05);
+  --surface-2:rgba(255,255,255,.08);
+  --border:rgba(255,255,255,.12);
+  --shadow:0 20px 60px -20px rgba(99,102,241,.5);
+  --radius:18px;
+  --serif:"Frank Ruhl Libre", serif;
+  --sans:"Heebo", system-ui, -apple-system, sans-serif;
+  --mono:"JetBrains Mono", monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--bg-0);
+  direction:rtl;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Animated gradient background */
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background:
+    radial-gradient(1000px 600px at 15% 20%, rgba(99,102,241,.25), transparent 60%),
+    radial-gradient(800px 500px at 85% 80%, rgba(34,211,238,.18), transparent 60%),
+    radial-gradient(600px 400px at 50% 50%, rgba(139,92,246,.15), transparent 60%);
+  z-index:-2;
+  animation:bgshift 20s ease-in-out infinite;
+}
+body::after{
+  content:"";
+  position:fixed;inset:0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.06) 1px, transparent 0);
+  background-size:32px 32px;
+  z-index:-1;
+  pointer-events:none;
+}
+@keyframes bgshift{
+  0%,100%{filter:hue-rotate(0deg)}
+  50%{filter:hue-rotate(20deg)}
+}
+
+/* ============ Slide Container ============ */
+.deck{
+  width:100vw;height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+.slide{
+  position:absolute;inset:0;
+  padding:60px 80px 80px;
+  display:none;
+  flex-direction:column;
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .5s ease, transform .5s ease;
+  overflow-y:auto;
+}
+.slide.active{
+  display:flex;
+  opacity:1;
+  transform:translateY(0);
+}
+.slide.active>*{
+  animation:slideUp .7s cubic-bezier(.2,.8,.2,1) backwards;
+}
+.slide.active>*:nth-child(1){animation-delay:.05s}
+.slide.active>*:nth-child(2){animation-delay:.15s}
+.slide.active>*:nth-child(3){animation-delay:.25s}
+.slide.active>*:nth-child(4){animation-delay:.35s}
+.slide.active>*:nth-child(5){animation-delay:.45s}
+.slide.active>*:nth-child(6){animation-delay:.55s}
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* Custom scrollbar */
+.slide::-webkit-scrollbar{width:8px}
+.slide::-webkit-scrollbar-track{background:transparent}
+.slide::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* ============ Top Bar ============ */
+.topbar{
+  position:fixed;top:0;left:0;right:0;
+  height:4px;
+  background:rgba(255,255,255,.08);
+  z-index:100;
+}
+.progress{
+  height:100%;
+  background:linear-gradient(90deg, var(--primary), var(--accent), var(--hot));
+  width:0%;
+  transition:width .4s ease;
+  box-shadow:0 0 20px rgba(99,102,241,.7);
+}
+
+/* ============ Bottom Bar ============ */
+.bottombar{
+  position:fixed;bottom:0;left:0;right:0;
+  padding:14px 28px;
+  display:flex;justify-content:space-between;align-items:center;
+  background:linear-gradient(180deg, transparent, rgba(11,14,26,.9));
+  z-index:100;
+  font-size:13px;
+  color:var(--ink-dim);
+}
+.nav-controls{display:flex;gap:8px;align-items:center}
+.nav-btn{
+  width:38px;height:38px;
+  border-radius:10px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--ink);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+  font-size:16px;
+}
+.nav-btn:hover{background:var(--surface-2);border-color:var(--primary);transform:translateY(-2px)}
+.slide-counter{
+  font-family:var(--mono);
+  font-size:14px;
+  padding:6px 14px;
+  background:var(--surface);
+  border-radius:20px;
+  border:1px solid var(--border);
+}
+.timer-box{
+  font-family:var(--mono);
+  font-size:13px;
+  padding:6px 14px;
+  background:var(--surface);
+  border-radius:20px;
+  border:1px solid var(--border);
+  display:flex;gap:8px;align-items:center;
+}
+.timer-box.running{border-color:var(--green);color:var(--green)}
+.timer-box.paused{border-color:var(--amber);color:var(--amber)}
+
+/* ============ Typography ============ */
+h1{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(2.5rem, 5vw, 4.5rem);
+  line-height:1.05;
+  letter-spacing:-.02em;
+  margin-bottom:24px;
+  background:linear-gradient(135deg, #fff 0%, #b7bcd9 50%, #8b5cf6 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+h2{
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:clamp(2rem, 3.5vw, 3rem);
+  line-height:1.15;
+  margin-bottom:20px;
+  color:var(--ink);
+}
+h3{
+  font-family:var(--sans);
+  font-weight:700;
+  font-size:1.5rem;
+  margin-bottom:14px;
+  color:var(--ink);
+}
+h4{
+  font-weight:600;
+  font-size:1.15rem;
+  margin-bottom:10px;
+  color:var(--ink-dim);
+}
+p{font-size:1.1rem;color:var(--ink-dim);margin-bottom:12px}
+.lead{font-size:1.3rem;color:var(--ink);line-height:1.6}
+strong{color:var(--ink);font-weight:700}
+em{color:var(--accent);font-style:normal;font-weight:600}
+code{
+  font-family:var(--mono);
+  background:var(--surface-2);
+  padding:2px 8px;
+  border-radius:6px;
+  font-size:.9em;
+  color:var(--accent);
+}
+
+/* ============ Reusable Components ============ */
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 14px;
+  border-radius:999px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink-dim);
+  margin-bottom:20px;
+}
+.chip.hot{background:rgba(244,63,94,.15);border-color:rgba(244,63,94,.4);color:#fda4b1}
+.chip.cool{background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.4);color:#67e8f9}
+.chip.gold{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.4);color:#fcd34d}
+.chip.violet{background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.4);color:#c4b5fd}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  backdrop-filter:blur(12px);
+  transition:all .3s;
+}
+.card:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:var(--shadow)}
+.card .icon{
+  width:44px;height:44px;
+  border-radius:12px;
+  background:linear-gradient(135deg, var(--primary), var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  margin-bottom:14px;
+}
+
+.grid{display:grid;gap:20px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+
+.callout{
+  background:linear-gradient(135deg, rgba(99,102,241,.15), rgba(34,211,238,.1));
+  border-right:4px solid var(--primary);
+  border-radius:12px;
+  padding:18px 22px;
+  margin:16px 0;
+}
+.callout.hot{
+  background:linear-gradient(135deg, rgba(244,63,94,.15), rgba(251,191,36,.1));
+  border-right-color:var(--hot);
+}
+.callout.green{
+  background:linear-gradient(135deg, rgba(16,185,129,.15), rgba(34,211,238,.1));
+  border-right-color:var(--green);
+}
+
+.pill-stat{
+  display:inline-block;
+  padding:10px 18px;
+  border-radius:12px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  margin:4px;
+}
+.pill-stat .num{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:1.8rem;
+  background:linear-gradient(135deg, var(--accent), var(--primary));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  display:block;
+  line-height:1;
+}
+.pill-stat .lbl{font-size:.85rem;color:var(--ink-faint);margin-top:4px}
+
+/* ============ Cover Slide ============ */
+.cover{
+  align-items:center;justify-content:center;
+  text-align:center;
+  background:
+    radial-gradient(ellipse at center top, rgba(139,92,246,.3), transparent 60%),
+    radial-gradient(ellipse at center bottom, rgba(34,211,238,.2), transparent 60%);
+}
+.cover .kicker{
+  font-family:var(--mono);
+  font-size:14px;
+  letter-spacing:.3em;
+  color:var(--accent);
+  margin-bottom:30px;
+  text-transform:uppercase;
+}
+.cover h1{
+  font-size:clamp(3rem, 7vw, 6rem);
+  margin-bottom:30px;
+  max-width:1200px;
+}
+.cover .subtitle{
+  font-size:1.5rem;
+  color:var(--ink-dim);
+  max-width:800px;
+  margin-bottom:50px;
+}
+.cover .meta{
+  display:flex;gap:40px;
+  justify-content:center;
+  font-size:1rem;color:var(--ink-faint);
+}
+.cover .meta strong{color:var(--ink)}
+
+/* Orbit animation on cover */
+.orbit{
+  position:absolute;
+  width:600px;height:600px;
+  border-radius:50%;
+  border:1px dashed rgba(255,255,255,.1);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  animation:rotate 60s linear infinite;
+  pointer-events:none;
+}
+.orbit:nth-child(2){width:900px;height:900px;animation-duration:90s;animation-direction:reverse}
+.orbit::before,.orbit::after{
+  content:"";
+  position:absolute;
+  width:10px;height:10px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 20px var(--accent);
+}
+.orbit::before{top:-5px;left:50%}
+.orbit::after{bottom:-5px;left:30%;background:var(--hot);box-shadow:0 0 20px var(--hot)}
+@keyframes rotate{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* ============ Section Divider ============ */
+.divider-slide{
+  justify-content:center;
+  text-align:center;
+}
+.divider-slide .part-num{
+  font-family:var(--mono);
+  font-size:140px;
+  font-weight:900;
+  background:linear-gradient(135deg, var(--primary), var(--hot));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  line-height:1;
+  margin-bottom:20px;
+  opacity:.9;
+}
+.divider-slide h1{margin-bottom:30px}
+.divider-slide .timing{
+  display:inline-block;
+  padding:10px 24px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:999px;
+  font-family:var(--mono);
+  font-size:14px;
+  color:var(--accent);
+}
+
+/* ============ Quiz ============ */
+.quiz{
+  background:linear-gradient(135deg, rgba(139,92,246,.1), rgba(99,102,241,.05));
+  border:1px solid rgba(139,92,246,.3);
+  border-radius:var(--radius);
+  padding:28px 32px;
+  margin:16px 0;
+}
+.quiz .q-label{
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--accent);
+  margin-bottom:8px;
+  letter-spacing:.2em;
+}
+.quiz .q-text{
+  font-size:1.4rem;
+  font-weight:600;
+  color:var(--ink);
+  margin-bottom:20px;
+  line-height:1.4;
+}
+.quiz-options{display:grid;gap:10px}
+.quiz-opt{
+  padding:14px 18px;
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  cursor:pointer;
+  transition:all .2s;
+  font-size:1.05rem;
+  text-align:right;
+  color:var(--ink);
+  font-family:var(--sans);
+}
+.quiz-opt:hover{background:var(--surface-2);border-color:var(--primary);transform:translateX(-4px)}
+.quiz-opt.correct{
+  background:rgba(16,185,129,.15);
+  border-color:var(--green);
+  color:#6ee7b7;
+}
+.quiz-opt.wrong{
+  background:rgba(239,68,68,.15);
+  border-color:var(--red);
+  color:#fca5a5;
+}
+.quiz-feedback{
+  margin-top:16px;
+  padding:14px 18px;
+  background:var(--surface-2);
+  border-radius:10px;
+  font-size:.95rem;
+  color:var(--ink-dim);
+  display:none;
+}
+.quiz-feedback.show{display:block;animation:slideUp .4s}
+
+/* ============ Calculator ============ */
+.calc{
+  background:linear-gradient(135deg, rgba(34,211,238,.08), rgba(99,102,241,.05));
+  border:1px solid rgba(34,211,238,.3);
+  border-radius:var(--radius);
+  padding:24px 28px;
+}
+.calc h3{color:var(--accent)}
+.calc-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  align-items:start;
+}
+.calc-inputs{display:flex;flex-direction:column;gap:12px}
+.calc-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.calc-row label{font-size:.95rem;color:var(--ink-dim);font-weight:500;flex:1}
+.calc-row input{
+  width:140px;
+  padding:8px 12px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:1rem;
+  text-align:center;
+}
+.calc-row input:focus{outline:none;border-color:var(--accent);background:var(--surface-2)}
+.calc-output{
+  background:var(--surface);
+  border-radius:12px;
+  padding:20px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.calc-result{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:10px;
+  border-bottom:1px dashed var(--border);
+}
+.calc-result:last-child{border:none;padding:0}
+.calc-result .name{font-size:.95rem;color:var(--ink-dim)}
+.calc-result .val{
+  font-family:var(--mono);
+  font-weight:700;
+  font-size:1.3rem;
+  color:var(--accent);
+}
+.calc-result .val.warn{color:var(--amber)}
+.calc-result .val.bad{color:var(--red)}
+.calc-result .val.good{color:var(--green)}
+
+/* ============ Data Table ============ */
+table.data{
+  width:100%;
+  border-collapse:collapse;
+  margin:12px 0;
+  font-size:.98rem;
+}
+table.data th{
+  text-align:right;
+  padding:12px 14px;
+  background:var(--surface-2);
+  font-weight:700;
+  color:var(--ink);
+  border-bottom:2px solid var(--primary);
+  font-size:.92rem;
+}
+table.data td{
+  padding:11px 14px;
+  border-bottom:1px solid var(--border);
+  color:var(--ink-dim);
+}
+table.data tr:hover td{background:var(--surface)}
+table.data .num{font-family:var(--mono);color:var(--ink);font-weight:600}
+table.data .good{color:var(--green);font-weight:700}
+table.data .bad{color:var(--red);font-weight:700}
+table.data .warn{color:var(--amber);font-weight:700}
+
+/* ============ Timeline ============ */
+.timeline{
+  position:relative;
+  padding:10px 0;
+}
+.timeline::before{
+  content:"";
+  position:absolute;
+  right:20px;top:0;bottom:0;
+  width:2px;
+  background:linear-gradient(180deg, var(--primary), var(--hot));
+}
+.t-event{
+  position:relative;
+  padding:10px 55px 18px 0;
+}
+.t-event::before{
+  content:"";
+  position:absolute;
+  right:14px;top:14px;
+  width:14px;height:14px;
+  border-radius:50%;
+  background:var(--bg-0);
+  border:3px solid var(--accent);
+  box-shadow:0 0 15px var(--accent);
+}
+.t-event .date{
+  font-family:var(--mono);
+  font-size:.85rem;
+  color:var(--accent);
+  font-weight:600;
+}
+.t-event .title-t{font-weight:700;color:var(--ink);margin:4px 0}
+.t-event .desc{color:var(--ink-dim);font-size:.95rem}
+
+/* ============ Hero Number ============ */
+.hero-num{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(4rem, 10vw, 9rem);
+  line-height:1;
+  background:linear-gradient(135deg, var(--hot), var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  margin:20px 0;
+}
+
+/* ============ Comparison ============ */
+.compare{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:20px;
+  align-items:stretch;
+  margin:20px 0;
+}
+.compare-col{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px;
+}
+.compare-col.bad{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.05)}
+.compare-col.good{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.05)}
+.compare-col h4{font-size:1.2rem;margin-bottom:14px}
+.compare-col ul{list-style:none;padding:0}
+.compare-col li{padding:6px 0;font-size:.95rem;color:var(--ink-dim)}
+.compare-col li::before{content:"◆ ";color:var(--accent)}
+.compare-vs{
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);
+  font-size:2rem;
+  font-weight:900;
+  color:var(--ink-faint);
+}
+
+/* ============ Buttons ============ */
+button.btn{
+  padding:10px 20px;
+  background:linear-gradient(135deg, var(--primary), var(--accent));
+  border:none;
+  border-radius:10px;
+  color:#fff;
+  font-family:var(--sans);
+  font-weight:600;
+  font-size:1rem;
+  cursor:pointer;
+  transition:all .2s;
+}
+button.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+button.btn:active{transform:translateY(0)}
+button.btn.ghost{
+  background:transparent;
+  border:1.5px solid var(--border);
+  color:var(--ink);
+}
+button.btn.ghost:hover{border-color:var(--primary);background:var(--surface)}
+
+/* ============ Benford Chart ============ */
+.benford{
+  display:flex;gap:8px;align-items:flex-end;
+  height:180px;margin:20px 0;
+  padding:10px 0 30px;
+  border-bottom:2px solid var(--border);
+  position:relative;
+}
+.bf-bar{
+  flex:1;
+  background:linear-gradient(180deg, var(--accent), var(--primary));
+  border-radius:6px 6px 0 0;
+  position:relative;
+  transition:all .4s;
+  min-height:4px;
+}
+.bf-bar.expected{background:linear-gradient(180deg, rgba(16,185,129,.8), rgba(16,185,129,.4));}
+.bf-bar.actual{background:linear-gradient(180deg, var(--hot), var(--amber));}
+.bf-bar::after{
+  content:attr(data-digit);
+  position:absolute;
+  bottom:-22px;left:50%;
+  transform:translateX(-50%);
+  font-family:var(--mono);
+  font-size:.85rem;
+  color:var(--ink-dim);
+}
+.bf-bar::before{
+  content:attr(data-val);
+  position:absolute;
+  top:-20px;left:50%;
+  transform:translateX(-50%);
+  font-family:var(--mono);
+  font-size:.75rem;
+  color:var(--ink-dim);
+  white-space:nowrap;
+}
+
+/* ============ Speaker Notes ============ */
+.notes-panel{
+  position:fixed;
+  bottom:60px;right:20px;
+  width:360px;
+  max-height:40vh;
+  background:rgba(26,31,71,.95);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px 22px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(20px);
+  z-index:90;
+  overflow-y:auto;
+  display:none;
+  font-size:.9rem;
+}
+.notes-panel.show{display:block;animation:slideUp .3s}
+.notes-panel .label{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.2em;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.notes-panel h5{color:var(--ink);margin-bottom:8px;font-size:1rem}
+.notes-panel p{font-size:.9rem;margin-bottom:8px;color:var(--ink-dim)}
+
+/* ============ Fraud Detective Sim ============ */
+.detective{
+  background:linear-gradient(135deg, rgba(244,63,94,.08), rgba(251,191,36,.05));
+  border:1px solid rgba(244,63,94,.3);
+  border-radius:var(--radius);
+  padding:24px;
+}
+.detective-case{
+  background:var(--surface);
+  border-radius:12px;
+  padding:16px;
+  margin:10px 0;
+}
+
+/* ============ Credit Approval Sim ============ */
+.credit-sim{
+  background:linear-gradient(135deg, rgba(16,185,129,.08), rgba(99,102,241,.05));
+  border:1px solid rgba(16,185,129,.3);
+  border-radius:var(--radius);
+  padding:24px 28px;
+}
+.credit-bar{
+  height:34px;
+  background:linear-gradient(90deg, var(--red) 0%, var(--amber) 40%, var(--green) 100%);
+  border-radius:20px;
+  position:relative;
+  margin:16px 0 24px;
+  overflow:visible;
+}
+.credit-needle{
+  position:absolute;
+  top:-6px;
+  width:6px;height:46px;
+  background:var(--ink);
+  border-radius:3px;
+  box-shadow:0 0 15px rgba(255,255,255,.6);
+  transition:right .7s cubic-bezier(.4,2,.3,1);
+  right:50%;
+}
+.credit-badges{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.85rem;color:var(--ink-faint);margin-top:4px}
+
+/* Stamp */
+.stamp{
+  display:inline-block;
+  padding:8px 20px;
+  border:3px solid;
+  border-radius:6px;
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:1.3rem;
+  letter-spacing:.1em;
+  transform:rotate(-4deg);
+  text-transform:uppercase;
+}
+.stamp.approved{color:var(--green);border-color:var(--green);background:rgba(16,185,129,.1)}
+.stamp.denied{color:var(--red);border-color:var(--red);background:rgba(239,68,68,.1)}
+.stamp.caution{color:var(--amber);border-color:var(--amber);background:rgba(245,158,11,.1)}
+
+/* ============ Responsive small screens ============ */
+@media (max-width:900px){
+  .slide{padding:30px 24px 80px}
+  h1{font-size:2.2rem}
+  h2{font-size:1.6rem}
+  .grid-3,.grid-4{grid-template-columns:1fr 1fr}
+  .grid-2{grid-template-columns:1fr}
+  .compare{grid-template-columns:1fr}
+  .calc-grid{grid-template-columns:1fr}
+  .cover h1{font-size:2.5rem}
+}
+
+/* Print / export */
+@media print{
+  .slide{display:flex !important;page-break-after:always;position:relative;height:auto}
+  .bottombar,.topbar,.notes-panel{display:none}
+}
+
+/* Keyboard help overlay */
+.kbd-help{
+  position:fixed;top:40px;left:40px;
+  background:rgba(26,31,71,.95);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px 20px;
+  font-size:.85rem;
+  color:var(--ink-dim);
+  display:none;
+  z-index:200;
+  backdrop-filter:blur(20px);
+}
+.kbd-help.show{display:block;animation:slideUp .3s}
+.kbd-help kbd{
+  font-family:var(--mono);
+  background:var(--surface-2);
+  padding:2px 8px;
+  border-radius:5px;
+  border:1px solid var(--border);
+  color:var(--accent);
+  font-size:.8rem;
+}
+.kbd-help .row{margin:6px 0;display:flex;gap:10px;align-items:center}
+
+/* Flashing dot for "live" */
+.live-dot{
+  display:inline-block;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--hot);
+  animation:pulse 1.5s infinite;
+  margin-left:6px;
+  vertical-align:middle;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(244,63,94,.6)}
+  50%{opacity:.6;box-shadow:0 0 0 8px rgba(244,63,94,0)}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="progress" id="progress"></div></div>
+
+<div class="deck" id="deck">
+
+<!-- ========================================================== -->
+<!-- SLIDE 1: COVER                                              -->
+<!-- ========================================================== -->
+<section class="slide cover">
+  <div class="orbit"></div>
+  <div class="orbit"></div>
+  <div class="kicker">קורס סמנכ"לי ומנהלי כספים · מפגש מרתון 5 שעות</div>
+  <h1>ניתוח דוחות, יחסים ומדדים פיננסיים בעידן ה-AI</h1>
+  <p class="subtitle">ממקרים מהשטח — אשראי, גיוס הון, הערכות שווי והונאות — אל הכלים החדשים שמשנים את תפקיד ה-CFO</p>
+  <div class="meta">
+    <div>מציג: <strong>ד"ר אבי טילמן</strong></div>
+    <div>כתב: <strong>ד"ר שי צבאן</strong></div>
+    <div>סייע בעריכה: <strong>רו"ח אביב רופל</strong></div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 2: AGENDA                                             -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip">סדר יום · 5 שעות · 5 חלקים</span>
+  <h1>מה מחכה לנו היום</h1>
+  <div class="grid grid-3" style="margin-top:30px">
+    <div class="card">
+      <div class="icon">①</div>
+      <h3>מבוא: מה השתנה?</h3>
+      <p>תפקיד ה-CFO ב-2026, מסגרת חמש הקומות, מה AI באמת משנה בניתוח דוחות</p>
+      <div class="chip cool" style="margin-top:10px">60 דק'</div>
+    </div>
+    <div class="card">
+      <div class="icon">②</div>
+      <h3>נזילות ומבנה הון</h3>
+      <p>SVB שקרס עם יחסים מצוינים, טבע, דנקנר, מחשבון חי, תרגיל "זהה את החברה"</p>
+      <div class="chip cool" style="margin-top:10px">60 דק'</div>
+    </div>
+    <div class="card">
+      <div class="icon">③</div>
+      <h3>רווחיות ודופונט</h3>
+      <p>WeWork ו-Community Adjusted EBITDA, Luckin Coffee, מחשבון דופונט אינטראקטיבי</p>
+      <div class="chip cool" style="margin-top:10px">60 דק'</div>
+    </div>
+    <div class="card">
+      <div class="icon">④</div>
+      <h3>אשראי וגיוס הון</h3>
+      <p>Altman Z-Score, Evergrande, Credit Suisse, סימולטור אישור אשראי חי</p>
+      <div class="chip cool" style="margin-top:10px">60 דק'</div>
+    </div>
+    <div class="card">
+      <div class="icon">⑤</div>
+      <h3>AI והונאות</h3>
+      <p>Enron, Wirecard, FTX, חוק Benford, Red Flags בעידן ה-AI, העתיד</p>
+      <div class="chip cool" style="margin-top:10px">60 דק'</div>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg, rgba(251,191,36,.1), rgba(244,63,94,.1));border-color:rgba(251,191,36,.3)">
+      <div class="icon" style="background:linear-gradient(135deg, var(--gold), var(--hot))">✦</div>
+      <h3>ערך מוסף לאורך היום</h3>
+      <p>חידונים, מחשבונים חיים, מקרים אמיתיים, דיונים — כל השקפים בידכם להמשך</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 3: WHY NOW                                            -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">למה דווקא עכשיו? · 2026</span>
+  <h1>התפקיד של ה-CFO השתנה בתוך 24 חודשים</h1>
+  <div class="compare" style="margin-top:30px">
+    <div class="compare-col bad">
+      <h4 style="color:#fca5a5">ה-CFO הקלאסי (2020)</h4>
+      <ul>
+        <li>סוגר ספרים רבעוני ידני</li>
+        <li>מנתח יחסים בעזרת Excel</li>
+        <li>מציג דוחות אחרי אירוע</li>
+        <li>אנליסט אחד מכסה ענף</li>
+        <li>הערכת אשראי: 2-3 שבועות</li>
+        <li>Red flags מתגלים בדיעבד</li>
+      </ul>
+    </div>
+    <div class="compare-vs">↔</div>
+    <div class="compare-col good">
+      <h4 style="color:#6ee7b7">ה-CFO של 2026</h4>
+      <ul>
+        <li>Continuous Close — דיווח יומי</li>
+        <li>LLM מנתח 200 עמודי 10-K ב-3 דקות</li>
+        <li>Predictive Analytics לפני אירוע</li>
+        <li>AI מכסה אלפי חברות מקבילות</li>
+        <li>הערכת אשראי: שעות ספורות</li>
+        <li>Anomaly detection בזמן אמת</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout hot" style="margin-top:24px">
+    <strong>מחקר Gartner 2025:</strong> 71% מ-CFOs מדווחים שעד 2027 לפחות 40% מהזמן שלהם יוקדש לניתוח Forward-looking במקום דיווח היסטורי. הסיבה העיקרית — אוטומציה של משימות שגרה.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 4: POLL - WHERE ARE YOU?                              -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip violet">סקר פתיחה</span>
+  <h2>איפה אתם עומדים היום?</h2>
+  <div class="quiz">
+    <div class="q-label">QUESTION 01 · הצבעה</div>
+    <div class="q-text">באיזו מידה אתם משתמשים ב-AI בעבודה השוטפת של ניתוח דוחות?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="pollVote(this,1)">א · לא משתמש כלל — עדיין ב-Excel ו-SAP</div>
+      <div class="quiz-opt" onclick="pollVote(this,2)">ב · שימוש מזדמן ב-ChatGPT/Claude לטקסט בלבד</div>
+      <div class="quiz-opt" onclick="pollVote(this,3)">ג · שימוש קבוע בכלי AI ייעודיים (AlphaSense, Bloomberg GPT)</div>
+      <div class="quiz-opt" onclick="pollVote(this,4)">ד · מערכות BI עם AI מובנה + סוכנים אוטונומיים</div>
+    </div>
+    <div class="quiz-feedback" id="pollFb">
+      ללא קשר לתשובה — הקורס הזה ייתן לכם מסגרת לא להיות מופתעים מהשינוי. הסכנה הגדולה ביותר של CFO ב-2026 היא <em>לא</em> להתעדכן, ולגלות שה-CEO כבר יודע מה-AI דברים שאתם לא ראיתם בדוחות.
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 5: 5-FLOOR FRAMEWORK                                  -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip">מסגרת העבודה של המפגש</span>
+  <h1>חמש הקומות של ניתוח דוחות</h1>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div class="card"><div class="icon">🏛</div><h3>קומה 1 · הקריאה</h3><p>הבנה של מה הדוח אומר — שורות, סעיפים, ביאורים. AI חוסך 70% מהזמן בקומה הזו.</p></div>
+    <div class="card"><div class="icon">📊</div><h3>קומה 2 · היחסים</h3><p>חישוב נזילות, רווחיות, מינוף, יעילות. המספרים עצמם — <em>קל</em>. הפרשנות — קשה.</p></div>
+    <div class="card"><div class="icon">🔍</div><h3>קומה 3 · ההשוואה</h3><p>Benchmarking ענפי, Peer analysis, שינויי מגמה. AI משווה מול אלפי חברות במקביל.</p></div>
+    <div class="card"><div class="icon">⚠</div><h3>קומה 4 · הסיכון</h3><p>זיהוי Red Flags, אנומליות, איכות דיווח. כאן ה-AI מדהים — אבל לא שלם בלי CFO.</p></div>
+    <div class="card" style="grid-column:span 2;background:linear-gradient(135deg, rgba(251,191,36,.1), rgba(244,63,94,.05));border-color:rgba(251,191,36,.3)">
+      <div class="icon" style="background:linear-gradient(135deg, var(--gold), var(--hot))">👑</div>
+      <h3>קומה 5 · ההחלטה</h3>
+      <p>כאן AI לא מחליף אותך. ההחלטה — לאשר אשראי, להנפיק, לרכוש, לסגור — עדיין אנושית. זה הערך המוסף של סמנכ"ל כספים בעידן חדש: לא מי שעושה את החישוב, אלא מי שמחליט מה לעשות איתו.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- PART 2 DIVIDER                                              -->
+<!-- ========================================================== -->
+<section class="slide divider-slide">
+  <div class="part-num">02</div>
+  <h1>נזילות ומבנה הון</h1>
+  <p class="lead" style="max-width:700px;margin:0 auto 20px">SVB, טבע, דנקנר — וכמה יחסים לא מצילים חברה כשהתזרים נגמר</p>
+  <div class="timing">60 דקות · 6 מקרים · מחשבון חי · תרגיל</div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 7: LIQUIDITY BASICS (REMINDER)                        -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip cool">רענון קצר · לאנשי מקצוע</span>
+  <h2>יחסי הנזילות — מה באמת חשוב לזכור</h2>
+  <div class="grid grid-3" style="margin-top:20px">
+    <div class="card">
+      <h3 style="color:var(--accent)">Current Ratio</h3>
+      <p style="font-family:var(--mono);font-size:1.2rem;color:var(--ink);margin:10px 0">נכסים שוטפים / התחייבויות שוטפות</p>
+      <p>תקן: 1.5-2.0. <strong>אבל</strong> — נזילות של מלאי תלויה בענף. מלאי של דיור-בנייה ≠ מלאי של סופרמרקט.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent)">Quick Ratio</h3>
+      <p style="font-family:var(--mono);font-size:1.2rem;color:var(--ink);margin:10px 0">(שוטפים – מלאי) / התחייבויות שוטפות</p>
+      <p>התקן הקלאסי: 1.0. <strong>למה זה לא מספיק?</strong> — Quick של SVB היה מעולה יום לפני הקריסה.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent)">Cash Ratio</h3>
+      <p style="font-family:var(--mono);font-size:1.2rem;color:var(--ink);margin:10px 0">מזומן ושווי / התחייבויות שוטפות</p>
+      <p>הכי שמרני. <strong>המדד הכי חשוב</strong> בהערכת סיכון פשיטת רגל לטווח קצר.</p>
+    </div>
+  </div>
+  <div class="callout green" style="margin-top:20px">
+    <strong>תובנה ממשית לסמנכ"ל כספים 2026:</strong> כל שלושת היחסים האלה יכולים להיות מושלמים בעוד החברה שלכם בדרך לקריסה. הסיפור האמיתי — ב-<em>איכות הנכסים השוטפים</em> ובתזמון הפקיעה מול תזמון הקריאה לכסף.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 8: SVB CASE                                           -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">מקרה 1 · בינלאומי</span>
+  <h1>Silicon Valley Bank · 10 במרץ 2023</h1>
+  <p class="lead">הבנק ה-16 בגודלו בארה"ב, עם יחסי נזילות מעולים, קרס תוך 48 שעות. איך?</p>
+
+  <div class="grid grid-2" style="margin-top:24px">
+    <div>
+      <h3>המספרים יום לפני הקריסה (דוח 2022)</h3>
+      <table class="data">
+        <tr><th>פרמטר</th><th>ערך</th><th>בסטטוס</th></tr>
+        <tr><td>Current Ratio</td><td class="num">1.08</td><td class="good">תקין לבנק</td></tr>
+        <tr><td>Tier-1 Capital</td><td class="num">15.4%</td><td class="good">הרבה מעל הדרישה</td></tr>
+        <tr><td>נכסים כוללים</td><td class="num">$209B</td><td>—</td></tr>
+        <tr><td>הון עצמי</td><td class="num">$16B</td><td class="good">יציב</td></tr>
+        <tr><td>רווח נקי 2022</td><td class="num">$1.5B</td><td class="good">צמיחה</td></tr>
+      </table>
+    </div>
+    <div>
+      <h3>הבעיה שהיחסים לא גילו</h3>
+      <div class="callout hot">
+        <strong>Held-to-Maturity (HTM):</strong> 91$ מיליארד ב-Treasuries לטווח ארוך, שנרכשו בתקופת ריבית אפסית. עם עליית הריבית של הפד ב-2022-23, הערך הכלכלי שלהם ירד ב-15$ מיליארד — שלא דווח כהפסד כי לא נסחרו.
+      </div>
+      <p style="margin-top:16px"><strong>הסיפור בשלוש שורות:</strong></p>
+      <p>1 · הבנק התמחה בסטארטאפים — 55% מלקוחות = טק עם פיקדונות גדולים.</p>
+      <p>2 · ב-2022 הטק "התייבש" — הסטארטאפים שרפו מזומנים והתחילו למשוך.</p>
+      <p>3 · כדי למלא את המשיכות הבנק נאלץ <em>למכור</em> HTM עם הפסד של $1.8B — זה הרגע שהבנק התפוצץ.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 9: SVB TIMELINE                                       -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">SVB · 48 השעות שהחזיקו את השווקים בנשימה</span>
+  <h2>איך 48 שעות הפילו את הבנק ה-16 בגודלו בארה"ב</h2>
+  <div class="timeline" style="margin-top:20px">
+    <div class="t-event">
+      <div class="date">ד' 8.3.2023 · 16:30</div>
+      <div class="title-t">הודעה על גיוס הון של $2.25B</div>
+      <div class="desc">במקביל — מכירת ניירות ערך בהפסד של $1.8B. ההודעה נועדה להרגיע. היא עשתה את ההיפך.</div>
+    </div>
+    <div class="t-event">
+      <div class="date">ה' 9.3 · שעות הבוקר</div>
+      <div class="title-t">קרן Founders Fund של פיטר תיאל ממליצה ללקוחות — "תמשכו"</div>
+      <div class="desc">בטוויטר ובטלפונים. תוך 10 שעות — ניסיון משיכה של $42B (כ-25% מהפיקדונות).</div>
+    </div>
+    <div class="t-event">
+      <div class="date">ה' 9.3 · סגירת מסחר</div>
+      <div class="title-t">המניה (SIVB) צללה 60% ביום אחד</div>
+      <div class="desc">שווי שוק נמחק ב-$80B תוך יום מסחר.</div>
+    </div>
+    <div class="t-event">
+      <div class="date">ו' 10.3 · בוקר</div>
+      <div class="title-t">FDIC תופסת את הבנק</div>
+      <div class="desc">הקריסה הבנקאית השנייה בגודלה בהיסטוריית ארה"ב. 10 ימים אחר כך — Signature Bank. שבוע אחר כך — Credit Suisse.</div>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:20px">
+    <strong>למוד לסמנכ"ל כספים:</strong> נזילות בטוויטר = כסף נוזלי בפועל. ב-2008 הריצה על וושינגטון מיוצ'אל לקחה שבועיים. ב-2023 — 48 שעות. ההצפנה לאותות חברתיים הפכה לחלק בלתי נפרד מניתוח נזילות.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 10: QUIZ                                              -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip violet">חידון · שאלה 2</span>
+  <h2>מה מהבאים היה האות המוקדם הגדול ביותר לקריסת SVB?</h2>
+  <div class="quiz">
+    <div class="q-label">QUESTION 02</div>
+    <div class="q-text">הסתכלו על הדוח של Q3 2022 (חצי שנה לפני הקריסה) — איזה מדד <strong>זעק</strong> כבר אז?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="check(this,false,'q2')">א · ירידה בעתודה לחובות מסופקים</div>
+      <div class="quiz-opt" onclick="check(this,false,'q2')">ב · ירידה ב-Net Interest Margin</div>
+      <div class="quiz-opt" onclick="check(this,true,'q2')">ג · ביאור על Held-to-Maturity unrealized losses של מעל $15B</div>
+      <div class="quiz-opt" onclick="check(this,false,'q2')">ד · ירידה ב-ROE של 2%</div>
+    </div>
+    <div class="quiz-feedback" id="q2fb">
+      <strong>התשובה הנכונה: ג.</strong> בדוח Q3 2022 דווח ביאור על הפסדים לא ממומשים של כ-$15.9B בתיק HTM. זו "פצצה עם מנגנון השהיה" — כל עוד הבנק לא נאלץ למכור, ההפסד לא נרשם. ברגע שנאלץ (בגלל משיכות פיקדונות), ההפסד יהפוך לוודאי.<br><br>
+      <strong>ה-take-away:</strong> <em>הביאורים חשובים יותר מהדוח עצמו</em>. AI מודרני מסוגל לסרוק את כל הביאורים של 100 בנקים במקביל ולזהות חשיפות דומות — משהו שאנליסט אנושי לא יעשה בשבועיים.
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 11: LIQUIDITY CALCULATOR                              -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip cool">מחשבון חי</span>
+  <h2>מחשבון יחסי נזילות — שחקו עם המספרים</h2>
+  <p>הכניסו נתונים ממאזן לבחירתכם וראו מיד איך היחסים מתנהגים. בלחיצת כפתור — תוכלו לטעון תרחישים אמיתיים.</p>
+  <div class="calc" style="margin-top:20px">
+    <div class="calc-grid">
+      <div class="calc-inputs">
+        <h3>קלט · נתוני מאזן (במיליוני ₪)</h3>
+        <div class="calc-row"><label>מזומנים ושווי מזומנים</label><input type="number" id="liq_cash" value="150" oninput="calcLiq()"></div>
+        <div class="calc-row"><label>השקעות סחירות</label><input type="number" id="liq_inv" value="80" oninput="calcLiq()"></div>
+        <div class="calc-row"><label>לקוחות ואשראי</label><input type="number" id="liq_ar" value="220" oninput="calcLiq()"></div>
+        <div class="calc-row"><label>מלאי</label><input type="number" id="liq_stock" value="310" oninput="calcLiq()"></div>
+        <div class="calc-row"><label>התחייבויות שוטפות</label><input type="number" id="liq_cl" value="540" oninput="calcLiq()"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn ghost" onclick="loadScenario('svb')">📉 SVB טרום קריסה</button>
+          <button class="btn ghost" onclick="loadScenario('amazon')">🛒 אמזון (אפקט שלילי)</button>
+          <button class="btn ghost" onclick="loadScenario('teva')">💊 טבע 2017</button>
+          <button class="btn ghost" onclick="loadScenario('apple')">🍎 Apple 2024</button>
+        </div>
+      </div>
+      <div class="calc-output">
+        <h3>תוצאה · יחסי נזילות</h3>
+        <div class="calc-result"><div class="name">Current Ratio</div><div class="val" id="liq_cr">—</div></div>
+        <div class="calc-result"><div class="name">Quick Ratio</div><div class="val" id="liq_qr">—</div></div>
+        <div class="calc-result"><div class="name">Cash Ratio</div><div class="val" id="liq_csr">—</div></div>
+        <div class="calc-result"><div class="name">Working Capital</div><div class="val" id="liq_wc">—</div></div>
+        <div class="calc-result" style="padding-top:10px;border-top:2px solid var(--primary);margin-top:6px"><div class="name">הערכה כוללת</div><div class="val" id="liq_verdict">—</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:16px">
+    <strong>תרגיל כיתה:</strong> קחו דוח של חברה שאתם מכירים. חשבו את שלושת היחסים. עכשיו שאלו — מה יהיה אם הלקוחות הגדולים שלכם ידחו את התשלומים ב-60 יום? ה-Quick Ratio שלכם כולל AR — אבל AR בסכנה זה לא Quick.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 12: TEVA CASE                                         -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">מקרה 2 · ישראלי · דגל</span>
+  <h1>טבע · איך חברה הגדולה של ישראל צברה $35 מיליארד חוב</h1>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div>
+      <h3>2010-2016 · "עידן הזהב" שקבר את החברה</h3>
+      <p><strong>2010:</strong> רכישת Cephalon ב-$6.8B — חלקית במזומן, חלקית בהנפקת חוב.</p>
+      <p><strong>2015:</strong> רכישת Rimsa (מקסיקו) — מתגלה שזו "הונאה חוקית" עם רישומי מכירות פיקטיביים. טבע תבעה והפסידה.</p>
+      <p><strong>אוגוסט 2016:</strong> רכישת Actavis מ-Allergan — <em>$40.5B</em>. הקופה הטבעית — $3.5B במזומן בלבד. השאר? חוב.</p>
+      <div class="callout hot" style="margin-top:12px">
+        <strong>הבעיה:</strong> יום אחרי הסגירה, ה-FDA אישר גנריקה ל-Copaxone (תרופת הדגל של טבע, 20% מההכנסות). ההכנסות נחתכו ב-$2B בשנה. המינוף — נשאר.
+      </div>
+    </div>
+    <div>
+      <h3>המספרים המפחידים</h3>
+      <table class="data">
+        <tr><th>שנה</th><th>חוב נטו</th><th>Debt/EBITDA</th></tr>
+        <tr><td>2015</td><td class="num">$9.9B</td><td class="num good">2.0x</td></tr>
+        <tr><td>2016 (אחרי Actavis)</td><td class="num">$35.8B</td><td class="num bad">4.9x</td></tr>
+        <tr><td>2017 (אחרי Copaxone Generic)</td><td class="num">$32.5B</td><td class="num bad">6.8x</td></tr>
+        <tr><td>2019 (במהלך הסדר)</td><td class="num">$27B</td><td class="num warn">5.2x</td></tr>
+        <tr><td>2024</td><td class="num">$16.3B</td><td class="num warn">3.9x</td></tr>
+      </table>
+      <p style="margin-top:16px"><strong>S&P הוריד דירוג:</strong> BBB+ → BB (junk) בפברואר 2018. חציית סף Investment Grade גרמה לקרנות רבות <em>חובה</em> למכור — עוד לחץ על המחיר.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 13: TEVA LESSONS                                      -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip gold">לקחים — טבע</span>
+  <h2>שלוש תובנות לסמנכ"ל כספים מהסיפור הטבעי</h2>
+  <div class="grid grid-3" style="margin-top:20px">
+    <div class="card">
+      <div class="icon">①</div>
+      <h3>Leverage ≠ Strategy</h3>
+      <p>הסיפור הוא לא של מינוף גבוה — הוא של מינוף <em>מאופטם להנחת תזרים ספציפית</em>. הנחה אחת שלא התקיימה (Copaxone generic) הפילה את כל המודל.</p>
+    </div>
+    <div class="card">
+      <div class="icon">②</div>
+      <h3>Patent Cliff = Forecast</h3>
+      <p>תאריך סיום הפטנט הוא לא סיכון — הוא עובדה ידועה. AI מסוגל להעמיד את לוח הפטנטים מול עקום ההחזר של החוב ולהראות את הפער באופן ויזואלי.</p>
+    </div>
+    <div class="card">
+      <div class="icon">③</div>
+      <h3>M&A Due Diligence</h3>
+      <p>Rimsa עלתה $2.3B ונגמרה בספירלת תביעות. הונאה חוקית לפי ה-GAAP המקומי אבל חומרית לשווי. AI לייצור Red Flags על שותפי M&A — זול, יחסית.</p>
+    </div>
+  </div>
+  <div class="quiz" style="margin-top:24px">
+    <div class="q-label">QUESTION 03</div>
+    <div class="q-text">חברה מציעה לכם לאשר אשראי של 200$ מיליון. Debt/EBITDA שלהם הגיע ל-4.2. מה הדגל האדום החשוב ביותר לבחון?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="check(this,false,'q3')">א · האם ה-EBITDA עצמו יציב</div>
+      <div class="quiz-opt" onclick="check(this,false,'q3')">ב · מה Interest Coverage Ratio</div>
+      <div class="quiz-opt" onclick="check(this,true,'q3')">ג · מה תלוי ה-EBITDA במוצר/לקוח/חוזה בודד שיכול להיעלם</div>
+      <div class="quiz-opt" onclick="check(this,false,'q3')">ד · מה ה-Current Ratio</div>
+    </div>
+    <div class="quiz-feedback" id="q3fb">
+      <strong>תשובה נכונה: ג.</strong> 4.2 מינוף אפשרי — <em>אם</em> ה-EBITDA מבוזר. אם 40% תלוי במוצר אחד עם פטנט שפוקע בעוד שנתיים, ה-Debt/EBITDA יכול להקפיץ ל-8-10 בין לילה. זה בדיוק מה שקרה לטבע. הבדיקה חייבת לכלול ניתוח <em>איכות</em> ה-EBITDA, לא רק כמותו.
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 14: IDB / DANKNER                                     -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">מקרה 3 · ישראלי</span>
+  <h1>IDB ודנקנר · "פירמידת המינוף" הישראלית</h1>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div>
+      <h3>המבנה: 5 שכבות של חברות אחזקות</h3>
+      <p style="font-family:var(--mono);line-height:2;font-size:.95rem">
+        נוחי דנקנר (פרטי)<br>
+        ↓ 27.5%<br>
+        Tomahawk / גנדן הולדינגס<br>
+        ↓ 56%<br>
+        IDB אחזקות<br>
+        ↓ 73%<br>
+        IDB פתוח<br>
+        ↓ 77%<br>
+        דיסקונט השקעות<br>
+        ↓ ←— כאן כל הנכסים האמיתיים
+      </p>
+      <p style="margin-top:12px">נוחי שלט ב-70$ מיליארד נכסים עם הון אישי של פחות מ-250$ מיליון — <strong>מינוף פעיל של 1:280</strong>.</p>
+    </div>
+    <div>
+      <h3>למה היחסים הסולו נראו תקינים?</h3>
+      <div class="callout hot">
+        כל חברה בנפרד הציגה Debt/Equity של 2-3 — קבילים. אבל <em>כפל המינוף בין השכבות</em> יצר חשיפה מערכתית לסיכון.
+      </div>
+      <p style="margin-top:14px"><strong>הטריגר:</strong> 2012 — נפט הקריסטה בוונצואלה (אחזקה ב-Makhteshim-Agan, התבוססה רכישת כור ב-2006) + ירידת ערך כלל תעשיות = פגיעה בתזרים דיסקונט ← אי-יכולת להעלות דיבידנד לשכבה עליונה ← פירוק פירמידה.</p>
+      <p><strong>הסוף:</strong> הסדר חוב 2013 של כ-2 מיליארד ₪. נוחי דנקנר הוסר. זיסר, אלשטיין ואחרים קיבלו שליטה.</p>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:16px">
+    <strong>החשוב לזכור:</strong> דוח סולו של חברה ציבורית יכול "להסתיר" סיכון מערכתי דרך פירמידה. <em>חוק הריכוזיות (2013)</em> של ישראל נולד בדיוק בגלל המקרה הזה — אסר פירמידות של יותר משתי שכבות.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 15: IDENTIFY THE COMPANY - EXERCISE                   -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip violet">תרגיל כיתה · "זהה את החברה"</span>
+  <h1>מולכם 4 חברות ישראליות — רק היחסים</h1>
+  <p class="lead">לכל חברה יש פרופיל פיננסי ייחודי. סנמסמו — לפי היחסים, מי החברה?</p>
+  <table class="data" style="margin-top:20px">
+    <thead>
+      <tr>
+        <th>יחס (FY2024)</th>
+        <th>חברה א'</th>
+        <th>חברה ב'</th>
+        <th>חברה ג'</th>
+        <th>חברה ד'</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Current Ratio</td><td class="num">0.7</td><td class="num">2.1</td><td class="num">1.1</td><td class="num">3.8</td></tr>
+      <tr><td>Debt / Equity</td><td class="num bad">4.2</td><td class="num">0.3</td><td class="num warn">1.6</td><td class="num good">0.05</td></tr>
+      <tr><td>ROE</td><td class="num">11%</td><td class="num good">38%</td><td class="num">14%</td><td class="num good">22%</td></tr>
+      <tr><td>Gross Margin</td><td class="num">28%</td><td class="num good">86%</td><td class="num">22%</td><td class="num good">61%</td></tr>
+      <tr><td>Inventory Days</td><td class="num">—</td><td class="num">—</td><td class="num warn">182</td><td class="num">55</td></tr>
+      <tr><td>CAPEX / Revenue</td><td class="num warn">7%</td><td class="num">2%</td><td class="num">18%</td><td class="num">3%</td></tr>
+      <tr><td>ענף משוער</td><td class="warn">?</td><td class="warn">?</td><td class="warn">?</td><td class="warn">?</td></tr>
+    </tbody>
+  </table>
+  <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+    <button class="btn" onclick="revealCompanies()">✦ חשוף את התשובה</button>
+    <button class="btn ghost" onclick="resetReveal()">איפוס</button>
+  </div>
+  <div id="companiesReveal" class="callout green" style="display:none;margin-top:16px">
+    <strong>תשובות:</strong><br>
+    <strong>א ·</strong> <em>עזריאלי קבוצה</em> — REIT נדל"ן. מינוף גבוה מול שכירויות יציבות. Current Ratio נמוך סביר בענף.<br>
+    <strong>ב ·</strong> <em>Check Point</em> — תוכנת סייבר. מרווח גולמי של 86% = SaaS גולמי טהור. כמעט ללא חוב.<br>
+    <strong>ג ·</strong> <em>שטראוס</em> — מזון וקמעונאות. מלאי של 182 יום = עונתיות + מגוון רחב.<br>
+    <strong>ד ·</strong> <em>Wix</em> — טכנולוגיה. כמעט ללא חוב (0.05), מרווחי SaaS, CAPEX נמוך.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- PART 3 DIVIDER                                              -->
+<!-- ========================================================== -->
+<section class="slide divider-slide">
+  <div class="part-num">03</div>
+  <h1>רווחיות, יעילות ומדדים Non-GAAP</h1>
+  <p class="lead" style="max-width:700px;margin:0 auto 20px">DuPont, WeWork, ו-"Community Adjusted EBITDA" שנכנס להיסטוריה</p>
+  <div class="timing">60 דקות · 5 מקרים · מחשבון DuPont · דיון</div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 17: PROFITABILITY OVERVIEW                            -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip">רענון למקצוענים</span>
+  <h2>פירמידת הרווחיות — מקצה אל קצה</h2>
+  <div class="grid grid-4" style="margin-top:20px">
+    <div class="card"><h4 style="color:var(--accent)">Gross Margin</h4><p style="font-family:var(--mono);font-size:.95rem">(הכנסות – עלות)/הכנסות</p><p>מעיד על כוח התמחור. SaaS = 70-90%, Retail = 20-40%.</p></div>
+    <div class="card"><h4 style="color:var(--accent)">Operating Margin</h4><p style="font-family:var(--mono);font-size:.95rem">רווח תפעולי/הכנסות</p><p>מה נשאר אחרי תפעול. הכי משמעותי להשוואה בין ענפים.</p></div>
+    <div class="card"><h4 style="color:var(--accent)">Net Margin</h4><p style="font-family:var(--mono);font-size:.95rem">רווח נקי/הכנסות</p><p>כולל הכל — מס, ריבית, חד-פעמיים. הכי רחב — ופחות איכותי.</p></div>
+    <div class="card"><h4 style="color:var(--accent)">EBITDA Margin</h4><p style="font-family:var(--mono);font-size:.95rem">EBITDA/הכנסות</p><p>היפופוטם של ווקסטרים — פופולרי אבל מסוכן בסביבה עתירת חוב.</p></div>
+  </div>
+  <div class="callout hot" style="margin-top:20px">
+    <strong>אזהרה חשובה:</strong> EBITDA הומצא בסוף שנות ה-80 על ידי משקיעי LBO כדי להראות שחברות מונפות יכולות להחזיר חוב. <em>Warren Buffett, 2000:</em> "When managers talk about EBITDA, they're telling you to ignore the fact that capex exists. It's a number that doesn't exist in accounting."
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 18: DUPONT INTRO                                      -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip cool">המסגרת המסורתית — והלא מיושנת</span>
+  <h1>ניתוח DuPont · פירוק ROE לשלושה גורמים</h1>
+  <div class="callout" style="margin-top:20px">
+    <p style="font-family:var(--mono);font-size:1.25rem;color:var(--ink);text-align:center;margin:0">
+      ROE = <strong>Net Margin</strong> × <strong>Asset Turnover</strong> × <strong>Equity Multiplier</strong>
+    </p>
+    <p style="font-family:var(--mono);font-size:1rem;color:var(--ink-dim);text-align:center;margin-top:8px">
+      רווח נקי/מכירות × מכירות/נכסים × נכסים/הון
+    </p>
+  </div>
+  <div class="grid grid-3" style="margin-top:24px">
+    <div class="card">
+      <h3 style="color:var(--accent)">רווחיות</h3>
+      <p>"כמה אני מרוויח מכל שקל מכירות"</p>
+      <p><strong>חברת SaaS</strong> — גבוה (25%+)</p>
+      <p><strong>קמעונאות מזון</strong> — נמוך (2-5%)</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent)">יעילות</h3>
+      <p>"כמה מכירות אני מפיק מכל שקל נכסים"</p>
+      <p><strong>טכנולוגיה</strong> — גבוה (1.5+)</p>
+      <p><strong>נדל"ן</strong> — נמוך (0.1-0.3)</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent)">מינוף</h3>
+      <p>"כמה נכסים אני מחזיק מעל כל שקל הון"</p>
+      <p><strong>בנקים</strong> — גבוה (10-15)</p>
+      <p><strong>חברת טק</strong> — נמוך (1.2-1.5)</p>
+    </div>
+  </div>
+  <div class="callout green" style="margin-top:20px">
+    <strong>המפתח:</strong> שתי חברות עם ROE זהה של 18% — אחת הגיעה דרך מרווח של 20% והשנייה דרך מינוף של 5. אלו שני סיפורים אחרים לגמרי.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 19: DUPONT CALCULATOR                                 -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip cool">מחשבון חי · DuPont</span>
+  <h2>פירוק DuPont אינטראקטיבי</h2>
+  <p>שחקו עם הנתונים — הקישוריות בין המרכיבים מיד נראית.</p>
+  <div class="calc" style="margin-top:20px">
+    <div class="calc-grid">
+      <div class="calc-inputs">
+        <h3>קלט</h3>
+        <div class="calc-row"><label>רווח נקי</label><input type="number" id="dp_ni" value="120" oninput="calcDupont()"></div>
+        <div class="calc-row"><label>מכירות</label><input type="number" id="dp_rev" value="800" oninput="calcDupont()"></div>
+        <div class="calc-row"><label>סה"כ נכסים</label><input type="number" id="dp_assets" value="1500" oninput="calcDupont()"></div>
+        <div class="calc-row"><label>הון עצמי</label><input type="number" id="dp_eq" value="450" oninput="calcDupont()"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn ghost" onclick="loadDupont('sap')">🏢 SAP</button>
+          <button class="btn ghost" onclick="loadDupont('walmart')">🛒 Walmart</button>
+          <button class="btn ghost" onclick="loadDupont('jpm')">🏦 JPMorgan</button>
+          <button class="btn ghost" onclick="loadDupont('nvidia')">🎮 NVIDIA</button>
+        </div>
+      </div>
+      <div class="calc-output">
+        <h3>פירוק</h3>
+        <div class="calc-result"><div class="name">Net Margin</div><div class="val" id="dp_nm">—</div></div>
+        <div class="calc-result"><div class="name">× Asset Turnover</div><div class="val" id="dp_at">—</div></div>
+        <div class="calc-result"><div class="name">× Equity Multiplier</div><div class="val" id="dp_em">—</div></div>
+        <div class="calc-result" style="border-top:2px solid var(--primary);padding-top:10px"><div class="name"><strong>= ROE</strong></div><div class="val" id="dp_roe">—</div></div>
+        <div class="calc-result"><div class="name">ROA (בנקים: מעל 1%)</div><div class="val" id="dp_roa">—</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 20: WEWORK CASE                                       -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">מקרה 4 · בינלאומי · Non-GAAP גון-אמיתי</span>
+  <h1>WeWork · "Community Adjusted EBITDA"</h1>
+  <p class="lead">כאשר שוכרים משרד הופך להיות ענף טכנולוגיה — ומדד תפור קטן מעוות את כל הסיפור</p>
+  <div class="grid grid-2" style="margin-top:24px">
+    <div>
+      <h3>הקסם של WeWork 2017-2019</h3>
+      <table class="data">
+        <tr><th>מדד</th><th>2018</th></tr>
+        <tr><td>הכנסות</td><td class="num">$1.8B</td></tr>
+        <tr><td>הפסד תפעולי</td><td class="num bad">($1.9B)</td></tr>
+        <tr><td><em>Community Adjusted EBITDA</em></td><td class="num good">+$467M</td></tr>
+        <tr><td>שווי גיוס (Softbank)</td><td class="num">$47B</td></tr>
+      </table>
+      <div class="callout hot" style="margin-top:14px">
+        <strong>"Community Adjusted EBITDA":</strong> EBITDA בניכוי <em>גם</em> הוצאות שכר דירה, שיווק, פיתוח, קרן מוניטין, וכל דבר אחר "שאינו תפעולי". בעצם — זה פשוט הכנסות פחות עלות ישירה של ריהוט. בלעדי זה, החברה שרפה $2B בשנה.
+      </div>
+    </div>
+    <div>
+      <h3>הגילוי · ספטמבר 2019 (תשקיף S-1)</h3>
+      <p>ה-S-1 חשף את המדד. ה-SEC דרש גילוי נוסף. אנליסטים קראו ביאורים. הכותרת הבינלאומית:</p>
+      <div class="callout" style="margin-top:10px">
+        <em>"Is WeWork a tech company or a real estate company?"</em> — Financial Times, ספטמבר 2019
+      </div>
+      <p style="margin-top:14px"><strong>מה קרה הלאה?</strong></p>
+      <p>ה-IPO בוטל. השווי ירד מ-$47B ל-$8B תוך חודשיים. Adam Neumann הוצא. Softbank רשמה הפסד של $6.5B. ב-2023 החברה הגיעה לפשיטת רגל.</p>
+      <p><strong>שיעור:</strong> כל Non-GAAP תפור חברתית — זו אזהרה. אם החברה צריכה להמציא מדד כדי להראות רווחיות, ככל הנראה אין לה.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 21: NON-GAAP DANGER                                   -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">Red Flags · Non-GAAP</span>
+  <h2>5 דגלים אדומים במדדי Non-GAAP</h2>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div class="card">
+      <div class="icon" style="background:linear-gradient(135deg,var(--hot),var(--amber))">⚠</div>
+      <h3>1 · מדד תפור</h3>
+      <p>"Community Adjusted EBITDA" (WeWork). "Adjusted Operating Loss" (Uber). אם המדד יוצא ספציפי לחברה — עצור.</p>
+    </div>
+    <div class="card">
+      <div class="icon" style="background:linear-gradient(135deg,var(--hot),var(--amber))">⚠</div>
+      <h3>2 · התאמות חוזרות</h3>
+      <p>"חד-פעמי" 4 רבעונים רצוף = קבוע. Restructuring charges שמגיעים כל שנה = זו התשואה האמיתית.</p>
+    </div>
+    <div class="card">
+      <div class="icon" style="background:linear-gradient(135deg,var(--hot),var(--amber))">⚠</div>
+      <h3>3 · Add-back של SBC</h3>
+      <p>Stock-Based Compensation = הוצאה אמיתית. כשמנקים אותה מה-EBITDA, מסתירים דילול בעלי מניות.</p>
+    </div>
+    <div class="card">
+      <div class="icon" style="background:linear-gradient(135deg,var(--hot),var(--amber))">⚠</div>
+      <h3>4 · הפרש גדול מול GAAP</h3>
+      <p>אם Adjusted EPS גדול פי 3 מ-GAAP EPS — החברה מתפעלת מחיר/מנייה. שנה הבאה — ההפרש יכול לקטון.</p>
+    </div>
+    <div class="card" style="grid-column:span 2;background:linear-gradient(135deg, rgba(244,63,94,.1), rgba(251,191,36,.05));border-color:rgba(244,63,94,.3)">
+      <div class="icon" style="background:linear-gradient(135deg,var(--hot),var(--red))">🚩</div>
+      <h3>5 · המנכ"ל/CFO מקבלים בונוס על ה-Non-GAAP</h3>
+      <p>אם המדד שבו נמדד התגמול הוא גם המדד התפור — יש לחץ אמיתי להמציא התאמות. זה נושא חם ב-Gold Standard של Enhanced Disclosure לפי SEC 2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 22: LUCKIN COFFEE                                     -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">מקרה 5 · בינלאומי · הונאת מכירות</span>
+  <h1>Luckin Coffee · סטארבקס של סין — שלא קיים</h1>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div>
+      <h3>הנרטיב · 2017-2019</h3>
+      <p>Luckin החלה ב-2017, תוכננה להתחרות בסטארבקס בסין. צמיחה מטורפת:</p>
+      <div class="pill-stat"><span class="num">4,910</span><span class="lbl">סניפים ב-2019 (סטארבקס סין: 4,300)</span></div>
+      <div class="pill-stat"><span class="num">$561M</span><span class="lbl">הכנסות 2019 (צמיחה של 560% YoY)</span></div>
+      <div class="pill-stat"><span class="num">$12B</span><span class="lbl">שווי שוק בשיא (NASDAQ)</span></div>
+      <p style="margin-top:12px"><strong>Q1 2020:</strong> חברת Muddy Waters (שורטרים) מפרסמת דו"ח של 89 עמודים — הם שכרו 1,512 צופים אנושיים שצילמו 981 סניפים במשך 11,260 שעות. המסקנה: 69% ממסעדות הדגל לא מוכרות מה שהחברה מדווחת.</p>
+    </div>
+    <div>
+      <h3>הודאה ב-2.4$ מיליארד מכירות פיקטיביות</h3>
+      <p style="margin-bottom:12px">לאחר חקירה פנימית ולחץ מה-SEC, Luckin הודתה שמכירות מ-Q2 2019 עד Q4 2019 ניפחו ב-$2.2B. מנכ"ל + CFO פוטרו.</p>
+      <div class="callout hot">
+        <strong>הטריק:</strong> "לקוחות VIP" פיקטיביים קנו 10-20 קופונים בעסקה בודדת, אוחסנו על "חשבונות חנייה", נמכרו "ברגע" והוכרו כהכנסה.
+      </div>
+      <p style="margin-top:14px"><strong>מה AI היה יכול לזהות?</strong></p>
+      <p>1 · <em>Revenue per store</em> היה חריג משמעותית מול סטארבקס סין ומול התנועה בחנויות.</p>
+      <p>2 · <em>Inventory Days</em> ירד באופן לא טבעי — רמזה שהמכירות לא מלוות במלאי אמיתי.</p>
+      <p>3 · <em>Benford's Law</em> על המכירות היומיות (בהמשך) הראה התפלגות חריגה.</p>
+    </div>
+  </div>
+  <div class="callout green" style="margin-top:16px">
+    <strong>האירוניה של 2024:</strong> Luckin חזרה. היא נסחרת ב-OTC, ב-2023 עברה את סטארבקס בהכנסות בסין ($3.6B מול $3.1B). היא ניצחה דרך מחירים נמוכים במיוחד — אבל הסיפור הישן נשאר <em>המקרה הקלאסי</em> של Revenue Recognition Fraud בעידן דיגיטלי.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 23: CHECK POINT vs CYBERARK                           -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip">מקרה 6 · ישראלי · השוואה ענפית</span>
+  <h1>Check Point vs CyberArk · שני כוכבי סייבר — שני סיפורים שונים</h1>
+  <table class="data" style="margin-top:20px">
+    <thead><tr><th>מדד (FY2024)</th><th>Check Point</th><th>CyberArk</th><th>מי מוביל?</th></tr></thead>
+    <tbody>
+      <tr><td>הכנסות</td><td class="num">$2.56B</td><td class="num">$1.04B</td><td>Check Point</td></tr>
+      <tr><td>צמיחת הכנסות</td><td class="num">6.1%</td><td class="num good">33.5%</td><td class="good">CyberArk — פי 5</td></tr>
+      <tr><td>Gross Margin</td><td class="num good">87%</td><td class="num good">81%</td><td class="good">Check Point</td></tr>
+      <tr><td>Operating Margin</td><td class="num good">40%</td><td class="num warn">2%</td><td class="good">Check Point</td></tr>
+      <tr><td>Adjusted Op Margin</td><td class="num good">44%</td><td class="num">24%</td><td>Check Point</td></tr>
+      <tr><td>ARR</td><td class="num">$1.8B</td><td class="num">$926M</td><td>—</td></tr>
+      <tr><td>P/E</td><td class="num">21</td><td class="num bad">410 (!)</td><td>—</td></tr>
+      <tr><td>שווי שוק</td><td class="num">$24B</td><td class="num">$16B</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div class="callout">
+      <strong>Check Point:</strong> "חברת מזומן". רווחיות גבוהה, מעט חוב, דיבידנדים ובאיבקים. צמיחה איטית. <em>שוק "Value"</em>.
+    </div>
+    <div class="callout hot">
+      <strong>CyberArk:</strong> "חברת צמיחה". Op Margin נמוך כי משקיעים במכירות ושיווק. הפער הענק בין GAAP ל-Adjusted = SBC. <em>שוק "Growth"</em>.
+    </div>
+  </div>
+  <div class="callout green" style="margin-top:14px">
+    <strong>התובנה לסמנכ"ל:</strong> בשני הסיפורים האלה אין חברה "טובה יותר" — יש חברות עם אסטרטגיות שונות. תפקיד ה-CFO הוא לזהות אם היחסים שהוא רואה <em>תואמים</em> לאסטרטגיה המוצהרת. CyberArk יכולה להרשות לעצמה Op Margin של 2% — אם היא באמת צומחת ב-33%. אם הצמיחה תעצור, ה-Op Margin חייב לתקן למעלה.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- PART 4 DIVIDER                                              -->
+<!-- ========================================================== -->
+<section class="slide divider-slide">
+  <div class="part-num">04</div>
+  <h1>אשראי, דירוג וגיוס הון</h1>
+  <p class="lead" style="max-width:700px;margin:0 auto 20px">Altman Z-Score, Evergrande, Credit Suisse — ומה שסמנכ"ל צריך לדעת על הצד השני של השולחן</p>
+  <div class="timing">60 דקות · 5 מקרים · Altman · סימולטור אישור אשראי</div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 25: 5 Cs                                              -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip cool">מסגרת קלאסית · 2026</span>
+  <h1>5 C's של אשראי · מה השתנה?</h1>
+  <div class="grid grid-3" style="margin-top:20px">
+    <div class="card"><div class="icon">🏛</div><h3>Character</h3><p><strong>פעם:</strong> בירורים אישיים עם בנקאים.<br><strong>היום:</strong> NLP על תקשורת החברה, ניתוח רטוריקה ב-earnings calls, השוואת התחייבויות מול ביצועים.</p></div>
+    <div class="card"><div class="icon">💰</div><h3>Capacity</h3><p><strong>פעם:</strong> Debt Service Coverage Ratio על דוחות שנתיים.<br><strong>היום:</strong> ניתוח תזרים חודשי, Stress testing על 100 תרחישי ריבית, הכנסות צפויות ב-AI.</p></div>
+    <div class="card"><div class="icon">🏦</div><h3>Capital</h3><p><strong>פעם:</strong> Debt/Equity, Book Value.<br><strong>היום:</strong> הון כולל SBC, מדידת נכסים לא מוחשיים כראוי, Quality of Capital (HTM, mark-to-market).</p></div>
+    <div class="card"><div class="icon">🏠</div><h3>Collateral</h3><p><strong>פעם:</strong> הערכת שמאי, דוח שווי הוגן.<br><strong>היום:</strong> מעקב שווי שוק בזמן אמת, AI-driven valuation, asset registry on blockchain.</p></div>
+    <div class="card"><div class="icon">🌐</div><h3>Conditions</h3><p><strong>פעם:</strong> מאקרו ענפי.<br><strong>היום:</strong> Alternative data — Google Trends, חשבוניות, אותות גיאו-לוויניים, ניטור חברתי.</p></div>
+    <div class="card" style="background:linear-gradient(135deg, rgba(251,191,36,.1), rgba(99,102,241,.05));border-color:rgba(251,191,36,.3)">
+      <div class="icon" style="background:linear-gradient(135deg, var(--gold), var(--primary))">⬢</div>
+      <h3>C<sub>6</sub> · Cyber (2025 →)</h3>
+      <p>רוב דירוגי האשראי כבר כוללים הערכת סיכון סייבר. אירוע סייבר גדול יכול להוריד חברה 2 דרגות דירוג.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 26: ALTMAN Z-SCORE                                    -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip cool">מחשבון Z-Score · Altman 1968</span>
+  <h1>Altman Z-Score · קלאסיקה שעדיין עובדת</h1>
+  <p class="lead">אדוארד אלטמן, NYU, פיתח ב-1968 מודל שחוזה פשיטת רגל שנתיים קדימה ב-82% דיוק. האם עדיין רלוונטי ב-2026? כמעט לגמרי — ובדיוק למה AI לא החליף אותו.</p>
+
+  <div class="callout" style="margin-top:16px">
+    <p style="font-family:var(--mono);font-size:1rem;line-height:1.8;margin:0">
+      Z = 1.2·X₁ + 1.4·X₂ + 3.3·X₃ + 0.6·X₄ + 1.0·X₅<br>
+      X₁ = Working Capital / Total Assets<br>
+      X₂ = Retained Earnings / Total Assets<br>
+      X₃ = EBIT / Total Assets<br>
+      X₄ = Market Value Equity / Book Value Liabilities<br>
+      X₅ = Sales / Total Assets
+    </p>
+  </div>
+
+  <div class="calc" style="margin-top:16px">
+    <div class="calc-grid">
+      <div class="calc-inputs">
+        <h3>קלט — במיליוני ₪</h3>
+        <div class="calc-row"><label>הון חוזר (WC)</label><input type="number" id="az_wc" value="100" oninput="calcAltman()"></div>
+        <div class="calc-row"><label>עודפים (Retained)</label><input type="number" id="az_re" value="200" oninput="calcAltman()"></div>
+        <div class="calc-row"><label>EBIT</label><input type="number" id="az_ebit" value="120" oninput="calcAltman()"></div>
+        <div class="calc-row"><label>שווי שוק הון</label><input type="number" id="az_mve" value="600" oninput="calcAltman()"></div>
+        <div class="calc-row"><label>התחייבויות (Book)</label><input type="number" id="az_tl" value="500" oninput="calcAltman()"></div>
+        <div class="calc-row"><label>מכירות</label><input type="number" id="az_sales" value="900" oninput="calcAltman()"></div>
+        <div class="calc-row"><label>סה"כ נכסים</label><input type="number" id="az_ta" value="1100" oninput="calcAltman()"></div>
+      </div>
+      <div class="calc-output">
+        <h3>תוצאה</h3>
+        <div class="calc-result"><div class="name">X₁</div><div class="val" id="az_x1">—</div></div>
+        <div class="calc-result"><div class="name">X₂</div><div class="val" id="az_x2">—</div></div>
+        <div class="calc-result"><div class="name">X₃</div><div class="val" id="az_x3">—</div></div>
+        <div class="calc-result"><div class="name">X₄</div><div class="val" id="az_x4">—</div></div>
+        <div class="calc-result"><div class="name">X₅</div><div class="val" id="az_x5">—</div></div>
+        <div class="calc-result" style="border-top:2px solid var(--primary);padding-top:10px;margin-top:8px">
+          <div class="name"><strong>Z-Score</strong></div><div class="val" id="az_z">—</div>
+        </div>
+        <div class="calc-result"><div class="name">אזור סיכון</div><div class="val" id="az_zone">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:14px;font-size:.95rem">
+    <strong>פירוש:</strong> Z &gt; 2.99 = אזור בטוח · Z בין 1.81-2.99 = אזור אפור · Z &lt; 1.81 = סיכון גבוה לפשיטת רגל בשנתיים הבאות.
+  </p>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 27: EVERGRANDE                                        -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">מקרה 7 · בינלאומי · קריסה של ענק</span>
+  <h1>Evergrande · נפילת ענקית נדל"ן סין</h1>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div>
+      <h3>הגדרת הבעיה</h3>
+      <p>Evergrande — חברת הנדל"ן הגדולה בסין בשיא 2020: 280,000 עובדים, 800+ פרויקטים, 1.4 מיליון דירות בבנייה.</p>
+      <div class="pill-stat"><span class="num">$300B</span><span class="lbl">חוב כולל בשיא (2020)</span></div>
+      <div class="pill-stat"><span class="num">1.5M</span><span class="lbl">משפחות שילמו על דירות שלא נמסרו</span></div>
+      <div class="pill-stat"><span class="num">29%</span><span class="lbl">מהתוצר של סין הוא נדל"ן</span></div>
+      <div class="callout hot" style="margin-top:10px">
+        <strong>"שלושת הקווים האדומים" (2021):</strong> ממשלת סין הטילה 3 מגבלות על חברות נדל"ן — יחסי חוב, מזומן ושווי. Evergrande נכשלה בשלושתם בו זמנית.
+      </div>
+    </div>
+    <div>
+      <h3>הרמזים לאורך הדרך</h3>
+      <table class="data">
+        <tr><th>שנה</th><th>Debt/Equity</th><th>Interest Coverage</th></tr>
+        <tr><td>2016</td><td class="num warn">4.8</td><td class="num warn">1.7x</td></tr>
+        <tr><td>2018</td><td class="num warn">5.9</td><td class="num warn">1.4x</td></tr>
+        <tr><td>2020</td><td class="num bad">8.3</td><td class="num bad">1.1x</td></tr>
+        <tr><td>2021 (דיפולט)</td><td class="num bad">∞</td><td class="num bad">0.6x</td></tr>
+      </table>
+      <p style="margin-top:14px"><strong>למה כל המוסדות הפיננסיים החמיצו?</strong></p>
+      <p>1 · "Too big to fail" — ההנחה שהממשלה תחלץ.<br>
+      2 · הערכת ערך של נכסים (קרקעות) שהחברה יצרה בעצמה לעתים.<br>
+      3 · Commercial Paper של Evergrande הוגשט ללקוחות כ"השקעה בטוחה" עם 8-12% תשואה.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 28: CREDIT SUISSE                                     -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">מקרה 8 · בינלאומי · דינמיקה מודרנית</span>
+  <h1>Credit Suisse · 167 שנים — נגמרו ב-8 ימים</h1>
+  <div class="timeline" style="margin-top:20px">
+    <div class="t-event">
+      <div class="date">2021</div>
+      <div class="title-t">כישלונות Archegos ו-Greensill</div>
+      <div class="desc">הפסד מצטבר של $5.5B מהפטנטים של Bill Hwang. אזהרה ראשונה.</div>
+    </div>
+    <div class="t-event">
+      <div class="date">2022</div>
+      <div class="title-t">10$ מיליארד יצאו בחודש אחד</div>
+      <div class="desc">יציאת פיקדונות של 10% אחרי שהמנכ"ל החדש פרסם תוכנית אסטרטגית. השוק לא האמין.</div>
+    </div>
+    <div class="t-event">
+      <div class="date">9 במרץ 2023</div>
+      <div class="title-t">SVB קורס — שוקי הבנקאות בהלה</div>
+      <div class="desc">ה-CDS של Credit Suisse קפץ ל-1,100 נקודות בסיס (מ-200 לפני חודש). המשמעות: השוק מעריך 44% סיכוי לפשיטת רגל בתוך שנה.</div>
+    </div>
+    <div class="t-event">
+      <div class="date">15 במרץ 2023</div>
+      <div class="title-t">היו"ר הסעודי: "אין סיכוי שנזריק עוד הון"</div>
+      <div class="desc">משפט אחד בראיון לטלוויזיה צרפתית. המניה ירדה 30% תוך יום. המפקח השווייצרי כבר הכניס עניין ברקע.</div>
+    </div>
+    <div class="t-event">
+      <div class="date">19 במרץ 2023 (יום א')</div>
+      <div class="title-t">UBS רוכש ב-$3.25B — כ-40% מהשווי בשישי</div>
+      <div class="desc">באנק נשואי של 167 שנים נמחק תוך שבוע. הסף שנקבע בדו"ח השנתי של הבנק — לא הספיק.</div>
+    </div>
+  </div>
+  <div class="callout hot" style="margin-top:16px">
+    <strong>הלקח המפחיד למסמכ"ל כספים:</strong> בעידן של מדיה חברתית, ה-"Bank Run" מהיר פי 10 ממה שבטאו מודלי הרגולציה. Basel III היה מתוכנן לסנדט הרצות הדרגתיות. במציאות של 2023 — המוני משקיעים פועלים בדקות.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 29: CREDIT APPROVAL SIM                               -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip gold">סימולטור חי</span>
+  <h1>סימולטור אישור אשראי · אתם ועדת האשראי</h1>
+  <p class="lead">חברה פונה לבנק עם בקשה ל-120$ מיליון הלוואה. בחרו פרמטרים — תראו אם אתם מאשרים.</p>
+
+  <div class="credit-sim" style="margin-top:20px">
+    <div class="grid grid-2">
+      <div class="calc-inputs">
+        <h3>פרטי העסקה</h3>
+        <div class="calc-row"><label>סכום ההלוואה (M$)</label><input type="number" id="cr_loan" value="120" oninput="updateCredit()"></div>
+        <div class="calc-row"><label>EBITDA שנתי (M$)</label><input type="number" id="cr_ebitda" value="45" oninput="updateCredit()"></div>
+        <div class="calc-row"><label>חוב קיים (M$)</label><input type="number" id="cr_debt" value="80" oninput="updateCredit()"></div>
+        <div class="calc-row"><label>Cash flow (M$)</label><input type="number" id="cr_cf" value="30" oninput="updateCredit()"></div>
+        <div class="calc-row"><label>רכוש קבוע (M$)</label><input type="number" id="cr_pp" value="150" oninput="updateCredit()"></div>
+        <div class="calc-row"><label>דירוג ענף (1-10)</label><input type="number" id="cr_ind" value="6" min="1" max="10" oninput="updateCredit()"></div>
+        <div class="calc-row"><label>ניסיון הנהלה (שנים)</label><input type="number" id="cr_mgmt" value="8" oninput="updateCredit()"></div>
+      </div>
+      <div>
+        <h3>דירוג אשראי משוקלל</h3>
+        <div class="credit-bar"><div class="credit-needle" id="crNeedle" style="right:50%"></div></div>
+        <div class="credit-badges"><span>AAA</span><span>AA</span><span>A</span><span>BBB</span><span>BB</span><span>B</span><span>CCC</span><span>D</span></div>
+
+        <div style="margin-top:18px">
+          <div class="calc-result"><div class="name">Debt/EBITDA (חדש)</div><div class="val" id="cr_lev">—</div></div>
+          <div class="calc-result"><div class="name">Interest Coverage</div><div class="val" id="cr_ic">—</div></div>
+          <div class="calc-result"><div class="name">LTV (מול רכוש קבוע)</div><div class="val" id="cr_ltv">—</div></div>
+          <div class="calc-result"><div class="name">ציון משוקלל</div><div class="val" id="cr_score">—</div></div>
+        </div>
+        <div style="text-align:center;margin-top:20px" id="crStamp"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:14px">
+    <strong>איך בנוי המנוע:</strong> נעשתה רגרסיה פשוטה על 50 פרמטרים של חברות דירוג S&P. בפועל — AI מודרני עובד על 500+ משתנים. אבל הגיון התוצאה — אותו הגיון.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 30: IPO / IPO PLAYTIKA                                -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip">מקרה 9 · ישראלי · גיוס הון</span>
+  <h1>Playtika · "ירח הדבש" של IPO וחזרה לקרקע</h1>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div>
+      <h3>הסיפור</h3>
+      <p>Playtika — יוצרת של משחקי Casino סלולריים (Slotomania, Bingo Blitz, WSOP) מקיסריה.</p>
+      <p><strong>2016:</strong> נרכשה על ידי Giant Interactive הסינית ב-$4.4B (מזומן, מה-Caesars Entertainment).</p>
+      <p><strong>ינואר 2021:</strong> IPO ב-NASDAQ. מחיר: $27 לנ'. שווי: $11B.</p>
+      <div class="pill-stat"><span class="num">-67%</span><span class="lbl">ירידת המנייה 2021-2023</span></div>
+      <div class="pill-stat"><span class="num">$2.3B</span><span class="lbl">חוב אחרי ה-IPO</span></div>
+      <div class="callout hot" style="margin-top:10px">
+        <strong>הקאץ':</strong> ה-IPO הונפק ב-Apple Tracking Transparency (ATT) — שינוי מדיניות של אפל שפגע אנושות בשיווק של משחקי מובייל. CAC קפץ ב-40%, LTV ירד ב-25%.
+      </div>
+    </div>
+    <div>
+      <h3>מה הסיפור הזה מלמד</h3>
+      <div class="callout">
+        <strong>שווי IPO ≠ שווי כלכלי.</strong> שווי IPO הוא פונקציה של תנאי שוק, עונתיות, ואפילו ריבית ארה"ב באותו שבוע.
+      </div>
+      <div class="callout" style="margin-top:12px">
+        <strong>Lockup Expiration.</strong> 180 יום אחרי IPO — בעלי המניות המקוריים יכולים למכור. באוגוסט 2021 מניות Playtika בסכום $1B נמכרו בחלון שבועיים.
+      </div>
+      <div class="callout" style="margin-top:12px">
+        <strong>תלות טכנולוגית בצד שלישי.</strong> כל המודל ה פיננסי הסתמך על יכולת לרכוש משתמשים דרך Facebook/Google. שינוי אחד של Apple שינה הכל.
+      </div>
+      <p style="margin-top:14px"><strong>ניתוח AI היה חוזה?</strong> <em>כן.</em> ה-ATT הוכרז באוגוסט 2020 — חמישה חודשים לפני ה-IPO. התשקיף הזכיר את זה ב-5 שורות מתוך 420 עמודים. AI היה מגדיל את זה לסעיף דגל אדום.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- PART 5 DIVIDER                                              -->
+<!-- ========================================================== -->
+<section class="slide divider-slide">
+  <div class="part-num">05</div>
+  <h1>AI, הונאות והעתיד</h1>
+  <p class="lead" style="max-width:700px;margin:0 auto 20px">Enron, Wirecard, FTX — וכלים חדשים לזהות אותם לפני שיופיעו בדוחות</p>
+  <div class="timing">60 דקות · מקרים קלאסיים · Benford's Law · סיכום</div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 32: AI TOOLS FOR ANALYSIS                             -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip cool">כלים חיים · 2026</span>
+  <h1>AI בניתוח דוחות · מה באמת עובד</h1>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div class="card">
+      <h3 style="color:var(--accent)">1 · סיכום ושאילתת 10-K/20-F</h3>
+      <p>Claude/GPT/Gemini — 300 עמודים ל-3 פסקאות עם Context Preservation.</p>
+      <p><strong>שימוש:</strong> בין 5-10 דקות — Due Diligence ראשוני של כל חברה.</p>
+      <div class="chip gold">חיסכון: ~80% זמן</div>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent)">2 · השוואה ענפית אוטומטית</h3>
+      <p>AlphaSense, BamSEC, Bloomberg GPT — מנתחים 200-500 חברות מקבילות במקביל.</p>
+      <p><strong>שימוש:</strong> Benchmark של כל מדד על פני כל הפוזיציות האנליסטיות.</p>
+      <div class="chip gold">חיסכון: ~90% זמן</div>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent)">3 · ניתוח Earnings Call</h3>
+      <p>Sentiment analysis, זיהוי שינויי רטוריקה, השוואה להבטחות רבעון קודם.</p>
+      <p><strong>דוגמה:</strong> מחקר הראה ש-CEOs שמדברים בלשון עבר ב-Earnings Call נוטים לחוות פיתוח שלילי.</p>
+      <div class="chip gold">ערך מוסף: גבוה</div>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent)">4 · Anomaly Detection</h3>
+      <p>חוק Benford, ניתוח רבוזות בטקסט, חריגות מנת מכירות-ענפיות.</p>
+      <p><strong>כלים:</strong> Numeric, MindBridge, רוב חברות ה-Big 4 בכלי פנימי.</p>
+      <div class="chip gold">ערך מוסף: קריטי</div>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:16px">
+    <strong>תזכורת חשובה:</strong> AI מזהה דפוסים — לא מחליט. כל ממצא של AI הוא <em>נקודת התחלה לחקירה אנושית</em>, לא מסקנה. זה גם הסיבה שגם בסוכנויות הגדולות (Moody's, S&P) יש כיום "AI Quality Review" — כמו שיש Audit Quality Review.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 33: ENRON CLASSIC                                     -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">מקרה 10 · הקלאסיקה שהולידה את SOX</span>
+  <h1>Enron · 2001 · הייחוס שכל CFO חייב להכיר</h1>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div>
+      <h3>החברה הכי חדשנית (על הנייר)</h3>
+      <p>חברת אנרגיה טקסנית שהפכה ל-"פעילות מסחר" בחשמל וגז. ב-Fortune "חברה הכי חדשנית בארה"ב" — 6 שנים רצוף (1996-2001).</p>
+      <p><strong>בשיא:</strong> שווי שוק $70B, 22,000 עובדים, $101B הכנסות.</p>
+      <div class="callout hot" style="margin-top:14px">
+        <strong>שני טריקים חשבונאיים:</strong><br>
+        <strong>1 · Mark-to-Market accounting</strong> — הכרה בהכנסות עתידיות של חוזים לטווח ארוך (20 שנה) ביום החתימה.<br>
+        <strong>2 · SPEs (Special Purpose Entities)</strong> — חברות בת שהוחזקו מחוץ לדוח המאוחד, אליהן "נמכרו" נכסים בעייתיים.
+      </div>
+    </div>
+    <div>
+      <h3>הרמזים שהיחסים לא הסתירו</h3>
+      <table class="data">
+        <tr><th>מדד</th><th>1998</th><th>2000 (שיא)</th></tr>
+        <tr><td>הכנסות (B$)</td><td class="num">31</td><td class="num">101 (!)</td></tr>
+        <tr><td>רווח נקי (B$)</td><td class="num">0.7</td><td class="num">1.0</td></tr>
+        <tr><td>Net Margin</td><td class="num">2.3%</td><td class="num bad">0.99%</td></tr>
+        <tr><td>Cash Flow מפעולות</td><td class="num warn">-0.1</td><td class="num bad">-1.2</td></tr>
+        <tr><td>Quick Ratio</td><td class="num good">0.97</td><td class="num">0.90</td></tr>
+      </table>
+      <div class="callout" style="margin-top:12px">
+        <strong>הצרחה הגדולה:</strong> Net Margin של 1% על הכנסות שהוכפלו פי 3. Cash Flow <em>שלילי</em> כשההכנסות מזנקות. הדבר היחיד שגדל מהר יותר מההכנסות — החוב.
+      </div>
+    </div>
+  </div>
+  <div class="callout green" style="margin-top:14px">
+    <strong>פרידה:</strong> ארתור אנדרסן, רואי החשבון של Enron, היה אחד מ"ביג 5". לאחר Enron הוא חדל להתקיים — ונותרנו עם "ביג 4". זו ההשפעה של מקרה אחד על התעשייה כולה. SOX (2002) והקריטריונים של PCAOB הם תוצר ישיר.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 34: WIRECARD                                          -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">מקרה 11 · 2020 · הונאה חוצת יבשות</span>
+  <h1>Wirecard · כאשר 1.9$ מיליארד "נעלמים" מהחשבון</h1>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div>
+      <h3>חברת הפינטק הגרמנית של הדקאדה</h3>
+      <p>Wirecard — חברת תשלומים מגרמניה. שווי שוק השיא (2018): €24B. נכללה ב-DAX 30 (החליפה את Commerzbank!).</p>
+      <div class="pill-stat"><span class="num">€1.9B</span><span class="lbl">סכום "שאבד" בחשבונות בפיליפינים</span></div>
+      <div class="pill-stat"><span class="num">25%</span><span class="lbl">מסך הנכסים המאוזנים</span></div>
+      <div class="callout hot" style="margin-top:10px">
+        <strong>הטריק:</strong> 3 בנקים בפיליפינים ומלזיה "החזיקו" €1.9B של Wirecard בנאמנות. כל שנה EY אישר. כל שנה הסכום גדל. ב-2020 התברר — <em>הכסף מעולם לא היה שם</em>.
+      </div>
+    </div>
+    <div>
+      <h3>הרמזים לאורך 6 שנים</h3>
+      <div class="timeline">
+        <div class="t-event">
+          <div class="date">2015</div>
+          <div class="title-t">Financial Times מפרסם דו"ח ראשון</div>
+          <div class="desc">דן ריכרדסון וסטפן וידל — עיתונאי FT — דיווחו על חשדות לחשבונות מנופחים. Wirecard תבעה אותם.</div>
+        </div>
+        <div class="t-event">
+          <div class="date">2019</div>
+          <div class="title-t">KPMG מקבלת בדיקה ספציפית</div>
+          <div class="desc">מסקנות: לא הצליחו לאמת €1B מחשבונות של שותפים. הדירקטוריון: "יצאנו מהבדיקה עם Clean Bill of Health".</div>
+        </div>
+        <div class="t-event">
+          <div class="date">18.6.2020</div>
+          <div class="title-t">EY מסרב לחתום על הדוחות</div>
+          <div class="desc">התברר שהבנקים שאמורים להחזיק €1.9B לא מצאו את הכסף. המנייה ירדה 61% ביום.</div>
+        </div>
+        <div class="t-event">
+          <div class="date">25.6.2020</div>
+          <div class="title-t">פשיטת רגל + בריחה</div>
+          <div class="desc">מנכ"ל מרקוס בראון נעצר. COO יאן מרסאלק ברח — עד היום לא נמצא. הושערו קשרים למודיעין רוסי.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 35: BENFORD'S LAW                                     -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip cool">כלי אינטראקטיבי</span>
+  <h1>חוק Benford · איך AI מזהה הונאה ב-90 שניות</h1>
+  <p class="lead">בסדרות נתונים טבעיות, הספרה הראשונה מתפלגת לא שוויוני: 1 מופיעה ב-30% מהמקרים, 9 ב-4.6% בלבד. מכירות פיקטיביות — נוטות להתפלג שוויוני.</p>
+
+  <h3 style="margin-top:20px">התפלגות צפויה (חוק Benford) לעומת חברה חשודה</h3>
+  <div class="grid grid-2" style="margin-top:12px">
+    <div>
+      <h4>חברה "נורמלית" — התפלגות תואמת Benford</h4>
+      <div class="benford" id="benford1"></div>
+      <p style="font-size:.9rem;color:var(--green);margin-top:8px">✓ התאמה גבוהה — Chi-square קטן</p>
+    </div>
+    <div>
+      <h4>חברה חשודה — התפלגות חריגה</h4>
+      <div class="benford" id="benford2"></div>
+      <p style="font-size:.9rem;color:var(--red);margin-top:8px">✗ יותר מדי 4, 5, 6 — חשד להמצאה</p>
+    </div>
+  </div>
+
+  <div class="callout green" style="margin-top:20px">
+    <strong>איפה זה הוכיח עצמו?</strong> ב-2020 חוקרים מאוניברסיטאות גרמניות הריצו את Benford על הדוחות של Wirecard — ומצאו Chi-square של 45.2 (סף חשד: 15.5). שנתיים לפני החשיפה הרשמית.
+  </div>
+
+  <div class="callout" style="margin-top:12px">
+    <strong>היכן זה לא עובד?</strong> כשהסטים קטנים (&lt;500 רשומות), כשיש גבולות טבעיים (מחיר $0.99), כשהנתונים כבר סוננו. לכן — זה כלי פילטר, לא ראיה.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 36: RED FLAGS CHECKLIST                               -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip hot">רשימת תיוג · לקחת לעבודה</span>
+  <h1>12 דגלים אדומים שכל סמנכ"ל צריך לסרוק</h1>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div>
+      <h3 style="color:var(--accent)">דיווח ודיסקלוז'ר</h3>
+      <p><strong>1 ·</strong> שינוי רו"ח לא צפוי (Enron, Wirecard, Luckin — כולם)</p>
+      <p><strong>2 ·</strong> מדד Non-GAAP תפור בסגנון "Community Adjusted"</p>
+      <p><strong>3 ·</strong> עיכובים בפרסום דוחות (יותר מפעם אחת בשנה)</p>
+      <p><strong>4 ·</strong> ירידה באורך Earnings Call / "No questions" מאנליסטים</p>
+      <p><strong>5 ·</strong> ביאורים המחזיקים "חד-פעמיים" חוזרים</p>
+    </div>
+    <div>
+      <h3 style="color:var(--accent)">מאזן ותזרים</h3>
+      <p><strong>6 ·</strong> פער בין רווח נקי ל-Cash Flow מפעילות שוטפת (Enron clue)</p>
+      <p><strong>7 ·</strong> Days Sales Outstanding עולה רבעון אחר רבעון</p>
+      <p><strong>8 ·</strong> מלאי גדל מהר יותר מהכנסות</p>
+      <p><strong>9 ·</strong> עודפי "Other Assets" ביאור #38 בגודל חשוד</p>
+      <p><strong>10 ·</strong> נגדת חברות בת ללא פעילות גלויה (SPEs — Enron)</p>
+    </div>
+    <div>
+      <h3 style="color:var(--accent)">התנהגות הנהלה</h3>
+      <p><strong>11 ·</strong> מכירת מניות משמעותית של מנהלים (Form 4 Filings)</p>
+      <p><strong>12 ·</strong> רטוריקה מתגוננת ב-Earnings Calls מול תשובות ענייניות</p>
+    </div>
+    <div class="callout hot">
+      <strong>תובנה ניתוחית:</strong> אף אחד מ-12 הדגלים לבדו אינו מוכיח הונאה. אבל כש-3 מהם עולים יחד — <em>תמיד</em> יש משהו. זו הדרך שבה AI מנתח: לא דגל בודד, אלא קונפיגורציה של דגלים.
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 37: FINAL QUIZ                                        -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip violet">חידון סיכום · שאלה 4</span>
+  <h2>מקרה סופי — באיזה מהחברות הבאות היו 3+ Red Flags?</h2>
+  <div class="quiz">
+    <div class="q-label">QUESTION 04 · מקרה מורכב</div>
+    <div class="q-text">לחברה ישראלית ציבורית דוחות 2024:<br>• הכנסות עלו 18%, רווח נקי ירד 6%<br>• Days Sales Outstanding עלה מ-62 ל-89<br>• פרסום Q2 נדחה ב-20 יום "עקב מורכבות חשבונאית"<br>• ה-CFO החליף משרדים חשבונאיים<br>• מדד חדש: "Adjusted Core EBITDA"<br><br>מה תעדיפו?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="check(this,false,'q4')">א · להאמין — הכנסות עולות זה דבר טוב</div>
+      <div class="quiz-opt" onclick="check(this,false,'q4')">ב · לחכות לרבעון הבא</div>
+      <div class="quiz-opt" onclick="check(this,true,'q4')">ג · ניתוח מעמיק מיידי — 4 דגלים אדומים בסנכרון</div>
+      <div class="quiz-opt" onclick="check(this,false,'q4')">ד · לשאול את האנליסטים במוסד</div>
+    </div>
+    <div class="quiz-feedback" id="q4fb">
+      <strong>תשובה: ג.</strong> 4 מתוך 12 דגלים אדומים במקביל. הדבר שצריך להפחיד במיוחד: הקומבינציה של <em>DSO גדל</em> עם <em>מדד non-GAAP חדש</em>. זה דפוס של "אגרסיביות בהכרה בהכנסות" — בדיוק המקרה של Luckin. ניתוח מעמיק לא חייב לגלות הונאה — אבל חייב להוביל להבנה ברורה של מה באמת קורה.
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 38: FUTURE CFO                                        -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip gold">התמונה הגדולה</span>
+  <h1>ה-CFO של 2028 · איך ייראה?</h1>
+  <div class="grid grid-3" style="margin-top:24px">
+    <div class="card">
+      <div class="icon">🔮</div>
+      <h3>Forward Looking</h3>
+      <p>70% זמן על הערכת תרחישים, Stress Testing, תיקון אסטרטגיה. רק 30% על דיווח.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🛡</div>
+      <h3>Data Guardian</h3>
+      <p>אחראי לאיכות הנתונים שמזינים את ה-AI. גבול האחריות משתנה.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🤝</div>
+      <h3>Co-Strategist</h3>
+      <p>פחות "סוחר ספרים", יותר שותף אסטרטגי. הקדמה של המלצות עם הוכחת נתונים.</p>
+    </div>
+    <div class="card">
+      <div class="icon">⚡</div>
+      <h3>Real-Time Decision</h3>
+      <p>תחזית תזרים יומית, תגובת שוק מיידית. ה-"רבעוני" הפך לרלוונטי רק לרגולטור.</p>
+    </div>
+    <div class="card">
+      <div class="icon">📡</div>
+      <h3>Signal Detector</h3>
+      <p>לקרוא Alternative Data — מיקום לוויני של מחסנים, חשבוניות, תנועת משאיות.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🎯</div>
+      <h3>Ethics Officer</h3>
+      <p>AI מחליט — אבל אחראיות — אנושית. ה-CFO הופך למעין "רו"ח אתי" של הארגון.</p>
+    </div>
+  </div>
+  <div class="callout green" style="margin-top:20px">
+    <strong>התובנה הסופית:</strong> ה-CFO של העתיד לא יודע פחות חשבונאות — הוא יודע <em>יותר</em>, כי צריך לפקח על AI שעושה חשבונאות. אבל הוא מקדיש את הזמן האנושי שלו לדברים ש-AI לא יעשה: שיפוט, דילמה אתית, ותקשורת עם בני אדם.
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 39: CLOSING KEY TAKEAWAYS                             -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip">סיכום · Key Takeaways</span>
+  <h1>7 דברים שאתם לוקחים הביתה</h1>
+  <div class="grid grid-2" style="margin-top:20px">
+    <div class="callout">
+      <strong>1 · יחסים פיננסיים לא "הולכים מהאופנה".</strong> SVB, טבע, Enron, Wirecard — כולם השאירו עקבות ביחסים הקלאסיים. השינוי הוא במהירות ובעומק הניתוח.
+    </div>
+    <div class="callout">
+      <strong>2 · הביאורים חשובים יותר מהדוח.</strong> הדוח מראה מה קורה; הביאורים — למה. AI מזהה ביאורים חשודים מהר יותר מאנליסט אנושי.
+    </div>
+    <div class="callout">
+      <strong>3 · Non-GAAP תפור = דגל אדום.</strong> "Community Adjusted EBITDA", "Core Operating", "Normalized" — כל מה שהחברה הגתה לעצמה דורש חקירה.
+    </div>
+    <div class="callout">
+      <strong>4 · AI לא מחליף שיפוט — הוא מחלק כיוונים.</strong> הוא מראה 100 כיוונים חשודים; אתם בוחרים את 10 שכדאי לחקור. זה לא הפחתת אחריות — זה הגברת תועלת.
+    </div>
+    <div class="callout">
+      <strong>5 · נזילות ב-2026 = נזילות של דקות.</strong> מדיה חברתית הפכה את ה-bank run ל-48 שעות. זה משנה את הדרישה ל-LCR (Liquidity Coverage Ratio) ו-Stress tests.
+    </div>
+    <div class="callout">
+      <strong>6 · חוק Benford ו-anomaly detection — בארגז הכלים.</strong> לא למבקרי חשבונות בלבד — גם לסמנכ"לי כספים. מעקב עצמי על הנתונים הוא הגנה ראשונה.
+    </div>
+    <div class="callout" style="grid-column:span 2;background:linear-gradient(135deg, rgba(251,191,36,.15), rgba(244,63,94,.08));border-right-color:var(--gold)">
+      <strong>7 · התפקיד שלכם — להפוך ל-<em>storyteller</em> של הנתונים.</strong> AI ייתן את המספרים. אתם נותנים את הסיפור, ההקשר, וההחלטה. זה הערך המוסף הבלתי ניתן להחלפה של סמנכ"ל כספים בעידן החדש.
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 40: FINAL REFLECTIONS                                 -->
+<!-- ========================================================== -->
+<section class="slide">
+  <span class="chip cool">שאלות לדיון פתוח</span>
+  <h1>חמש שאלות להמשיך לחשוב עליהן</h1>
+  <div class="grid grid-2" style="margin-top:24px">
+    <div class="card">
+      <h3>1</h3>
+      <p>איזה דגל אדום בארגון שלכם היה "נראה" קודם אם היה AI שמסרוק את הדוחות?</p>
+    </div>
+    <div class="card">
+      <h3>2</h3>
+      <p>אם הייתם יו"ר ועדת ביקורת ב-SVB ב-2022 — איזו שאלה הייתם שואלים ולא שאלו?</p>
+    </div>
+    <div class="card">
+      <h3>3</h3>
+      <p>מה המדד ה-Non-GAAP ש"משפחת החברה" שלכם מפרסמת — והאם הוא עומד ב-5 הקריטריונים?</p>
+    </div>
+    <div class="card">
+      <h3>4</h3>
+      <p>איזה Alternative Data יכול לשפר ב-20% את יכולת החיזוי של החברה שלכם?</p>
+    </div>
+    <div class="card" style="grid-column:span 2;background:linear-gradient(135deg, rgba(99,102,241,.15), rgba(139,92,246,.08))">
+      <h3>5</h3>
+      <p class="lead">אם הייתם מקימים מחר חברה חדשה עם CFO־AI מובנה מהיום הראשון — מה בתפקיד שלכם היה <em>שונה</em>, ומה היה <em>זהה</em>?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SLIDE 41: THANK YOU + CREDITS                               -->
+<!-- ========================================================== -->
+<section class="slide cover" style="background:radial-gradient(ellipse at center, rgba(139,92,246,.35), transparent 60%)">
+  <div class="orbit"></div>
+  <div class="kicker">סוף המפגש</div>
+  <h1 style="font-size:clamp(3rem, 6vw, 5.5rem)">תודה רבה.</h1>
+  <p class="subtitle">שאלות, תרחישים, או מקרים שמעניין אתכם לעבוד עליהם — בהמשך הקורס.</p>
+
+  <div style="margin-top:40px;text-align:center">
+    <div class="pill-stat"><span class="num">ד"ר אבי טילמן</span><span class="lbl">מציג</span></div>
+    <div class="pill-stat"><span class="num">ד"ר שי צבאן</span><span class="lbl">כתב</span></div>
+    <div class="pill-stat"><span class="num">רו"ח אביב רופל</span><span class="lbl">סייע בעריכה</span></div>
+  </div>
+
+  <div class="meta" style="margin-top:40px;color:var(--ink-faint);font-size:.9rem">
+    <div>מצגת זו פותחה למפגש מרתון לסמנכ"לי כספים</div>
+  </div>
+</section>
+
+</div>
+
+<!-- ============ Bottom Bar ============ -->
+<div class="bottombar">
+  <div class="nav-controls">
+    <button class="nav-btn" onclick="prev()" title="קודם (→)">→</button>
+    <button class="nav-btn" onclick="next()" title="הבא (←)">←</button>
+    <button class="nav-btn" onclick="toggleNotes()" title="הערות (N)">📝</button>
+    <button class="nav-btn" onclick="toggleHelp()" title="עזרה (?)">?</button>
+    <button class="nav-btn" onclick="toggleTimer()" title="טיימר (T)" id="timerBtn">⏱</button>
+    <button class="nav-btn" onclick="resetTimer()" title="איפוס טיימר">⟲</button>
+  </div>
+  <div style="display:flex;gap:10px">
+    <div class="timer-box" id="timerDisplay">
+      <span>⏱</span><span id="timerTxt">00:00:00</span>
+    </div>
+    <div class="slide-counter"><span id="slideNum">1</span> / <span id="slideTotal">28</span></div>
+  </div>
+</div>
+
+<!-- ============ Keyboard Help ============ -->
+<div class="kbd-help" id="kbdHelp">
+  <h5 style="color:var(--accent);margin-bottom:10px">קיצורי מקלדת</h5>
+  <div class="row"><kbd>→</kbd><span>שקף קודם (RTL)</span></div>
+  <div class="row"><kbd>←</kbd><span>שקף הבא (RTL)</span></div>
+  <div class="row"><kbd>רווח</kbd><span>הבא</span></div>
+  <div class="row"><kbd>Home</kbd><span>לראשון</span></div>
+  <div class="row"><kbd>End</kbd><span>לאחרון</span></div>
+  <div class="row"><kbd>F</kbd><span>מסך מלא</span></div>
+  <div class="row"><kbd>T</kbd><span>הפעל/עצור טיימר</span></div>
+  <div class="row"><kbd>N</kbd><span>הערות מרצה</span></div>
+  <div class="row"><kbd>?</kbd><span>עזרה</span></div>
+  <div class="row"><kbd>1-9</kbd><span>קפיצה לחלק</span></div>
+</div>
+
+<!-- ============ Speaker Notes Panel ============ -->
+<div class="notes-panel" id="notesPanel">
+  <div class="label">הערות מרצה</div>
+  <div id="notesContent">אין הערות לשקף זה.</div>
+</div>
+
+<script>
+/* ============ Deck Navigation ============ */
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+document.getElementById('slideTotal').textContent = total;
+
+function show(n){
+  slides.forEach(s=>s.classList.remove('active'));
+  current = Math.max(0, Math.min(total-1, n));
+  slides[current].classList.add('active');
+  document.getElementById('slideNum').textContent = current+1;
+  document.getElementById('progress').style.width = ((current+1)/total*100)+'%';
+  updateNotes();
+  slides[current].scrollTop = 0;
+}
+
+function next(){ show(current+1); }
+function prev(){ show(current-1); }
+
+/* Keyboard — RTL means right arrow = previous, left = next */
+document.addEventListener('keydown', e=>{
+  if(e.target.tagName === 'INPUT') return;
+  if(e.key === 'ArrowRight'){ prev(); }
+  else if(e.key === 'ArrowLeft' || e.key === ' '){ next(); e.preventDefault(); }
+  else if(e.key === 'Home'){ show(0); }
+  else if(e.key === 'End'){ show(total-1); }
+  else if(e.key === 'f' || e.key === 'F'){ toggleFullscreen(); }
+  else if(e.key === 't' || e.key === 'T'){ toggleTimer(); }
+  else if(e.key === 'n' || e.key === 'N'){ toggleNotes(); }
+  else if(e.key === '?'){ toggleHelp(); }
+  else if(e.key === 'Escape'){
+    document.getElementById('kbdHelp').classList.remove('show');
+    document.getElementById('notesPanel').classList.remove('show');
+  }
+  else if(/^[1-9]$/.test(e.key)){
+    // Quick section jump: 1=cover, 2=part2, 3=part3, 4=part4, 5=part5
+    const marks = [0, 5, 16, 23, 31];
+    const idx = parseInt(e.key)-1;
+    if(marks[idx] !== undefined) show(marks[idx]);
+  }
+});
+
+function toggleFullscreen(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+}
+function toggleHelp(){ document.getElementById('kbdHelp').classList.toggle('show'); }
+function toggleNotes(){ document.getElementById('notesPanel').classList.toggle('show'); }
+
+/* ============ Speaker Notes ============ */
+const notes = {
+  0: "שקף פתיחה. קחו רגע שקט — אל תתחילו ישר. תנו לקהל לקלוט את הסביבה. הציגו את עצמכם בקצרה ותנו קרדיט לכותב ד\"ר שי צבאן ולרו\"ח אביב רופל שסייע בעריכה.",
+  1: "זמן: 3 דקות. עברו על 5 החלקים במהירות. הדגישו שיש חידונים ומחשבונים — זה מפגש אקטיבי.",
+  2: "זמן: 5 דקות. זו ה-hook. ציטוט Gartner חשוב. אם הקהל נוח — שאלו 'מי מרגיש שהתפקיד שלו השתנה ב-2 שנים האחרונות?'",
+  3: "סקר אינטראקטיבי. תנו להם ללחוץ. אחרי הצבעה — נסו לאסוף ידיים בכיתה לקבל תמונה אמיתית.",
+  4: "הצגת המסגרת שתלווה את כל המפגש. קומה 5 — ההחלטה — זו ההבטחה שלהם.",
+  5: "Divider — חלק 2 — נזילות. עשו כאן הפסקה של 2 דק'. 'הגענו לשלב המעניין'.",
+  6: "רענון. אתם מדברים עם רואי חשבון — אל תבאסו אותם. מהירות גבוהה. קפיצה לסיפור.",
+  7: "SVB — הסיפור הראשי של החלק. הדגישו את ה-Quick Ratio של 1.08 — שהוא 'מצוין'.",
+  8: "48 השעות. ניתן לעבוד עם הקהל: 'מה הייתם עושים אם הייתם CFO ב-ב' ב-9:00?'",
+  9: "חידון. תנו להם 30 שניות לחשוב לפני לחיצה.",
+  10: "מחשבון חי! זה החלק שתשחקו איתו. טענו SVB, ואז Apple, ותראו את ההפרש.",
+  11: "טבע — המקרה הישראלי הגדול. גאווה לאומית + כאב. הדגישו את ה-Rimsa — זה ממש סיפור.",
+  12: "לקחי טבע. שאלו: 'למי מההנהלה שלכם יש Revenue Concentration של 30%+?'",
+  13: "IDB + דנקנר. הדגישו חוק הריכוזיות — זה שינה את ישראל.",
+  14: "תרגיל אינטראקטיבי. תנו להם 3 דקות לפתור לפני החשיפה. אפשר לחלק לזוגות.",
+  15: "Divider חלק 3. הפסקה של 5-10 דק'. זה אחרי שעה וחצי בערך.",
+  16: "רווחיות. ציטוט באפט על EBITDA — חזקות! כדאי לחזור עליו.",
+  17: "DuPont — המסגרת הקלאסית. ציירו על הלוח.",
+  18: "מחשבון DuPont. טענו כל הדוגמאות. Walmart = מרווח נמוך, יעילות גבוהה. NVIDIA = מרווח גבוה, חוב נמוך.",
+  19: "WeWork — הסיפור הכיפי. Community Adjusted EBITDA — תעמידו פנים שאתם מציגים אותו ברצינות.",
+  20: "5 דגלי Non-GAAP. רשימת בדיקה שאפשר להוציא ללקחי הבית.",
+  21: "Luckin — המקרה הבינלאומי. הדגישו את ה-1,512 צופים של Muddy Waters.",
+  22: "Check Point vs CyberArk. דיון פתוח: 'איזה מהן הייתם משקיעים בה?'",
+  23: "Divider חלק 4. הפסקה קצרה.",
+  24: "5 C's + הקורונה השישית — Cyber. סיפור: אירוע Target 2013, נפילת דירוג.",
+  25: "Altman Z-Score. מחשבון חי. טענו Teva 2017 כדוגמה להראות איך הוא מזהה סיכון.",
+  26: "Evergrande — הסיפור הסיני. הדגישו 29% מהתוצר — זה מטורף.",
+  27: "Credit Suisse — 167 שנים → 8 ימים. משפט הסעודי — הבא אותו כציטוט מצולם.",
+  28: "סימולטור אשראי. תנו להם לשחק. נסו לאתגר — 'נסו להעלות את הסכום עד שלא יאשרו'.",
+  29: "Playtika — סיפור ישראלי עם לקח ATT. יכול להתחבר לרמת החברה שלהם.",
+  30: "Divider חלק 5 — AI והונאות. זה החלק הדרמטי.",
+  31: "כלים חיים. אם יש זמן — הראו שימוש אמיתי ב-Claude או ChatGPT.",
+  32: "Enron — הקלאסיקה. אם הקהל צעיר, ייתכן שלא זוכרים. ספרו את הסיפור.",
+  33: "Wirecard — הסיפור המודרני. יאן מרסאלק — עד היום נעלם. זה קונספירציה.",
+  34: "Benford's Law — אינטראקטיבי. הדגישו שהוא זיהה את Wirecard שנתיים לפני החשיפה.",
+  35: "12 דגלים — רשימה מעשית. אמרו להם לצלם/לשמור.",
+  36: "חידון סיכום. תנו להם זמן.",
+  37: "ה-CFO של 2028. תן להם השראה. זה הסיום החם.",
+  38: "7 Takeaways — הסיכום המרכזי. הדגישו #7 — Storyteller.",
+  39: "שאלות לדיון פתוח. אם יש זמן — פתחו דיון כיתתי על שאלה #5.",
+  40: "תודה! הזכירו את שי צבאן. אל תבזבזו את ההזדמנות — זו הדרך להיות בקשר."
+};
+function updateNotes(){
+  document.getElementById('notesContent').innerHTML = notes[current] || 'אין הערות לשקף זה.';
+}
+updateNotes();
+
+/* ============ Timer ============ */
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+function updateTimerDisplay(){
+  const h = Math.floor(timerSeconds/3600);
+  const m = Math.floor((timerSeconds%3600)/60);
+  const s = timerSeconds%60;
+  document.getElementById('timerTxt').textContent =
+    `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}
+function toggleTimer(){
+  const disp = document.getElementById('timerDisplay');
+  if(timerRunning){
+    clearInterval(timerInterval);
+    timerRunning = false;
+    disp.classList.remove('running');
+    disp.classList.add('paused');
+  } else {
+    timerInterval = setInterval(()=>{ timerSeconds++; updateTimerDisplay(); }, 1000);
+    timerRunning = true;
+    disp.classList.add('running');
+    disp.classList.remove('paused');
+  }
+}
+function resetTimer(){
+  clearInterval(timerInterval);
+  timerSeconds = 0;
+  timerRunning = false;
+  updateTimerDisplay();
+  document.getElementById('timerDisplay').classList.remove('running','paused');
+}
+
+/* ============ Poll ============ */
+function pollVote(el, val){
+  document.querySelectorAll('.quiz-opt').forEach(o=>{ if(o.parentElement === el.parentElement) o.classList.remove('correct','wrong'); });
+  el.classList.add('correct');
+  document.getElementById('pollFb').classList.add('show');
+}
+
+/* ============ Quiz Check ============ */
+function check(el, correct, fbId){
+  const opts = el.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  el.classList.add(correct ? 'correct' : 'wrong');
+  if(!correct){
+    // also highlight the correct one
+    opts.forEach(o=>{
+      if(o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) o.classList.add('correct');
+    });
+  }
+  document.getElementById(fbId+'fb').classList.add('show');
+}
+
+/* ============ Reveal companies ============ */
+function revealCompanies(){ document.getElementById('companiesReveal').style.display = 'block'; }
+function resetReveal(){ document.getElementById('companiesReveal').style.display = 'none'; }
+
+/* ============ Liquidity Calculator ============ */
+function calcLiq(){
+  const cash = +document.getElementById('liq_cash').value || 0;
+  const inv = +document.getElementById('liq_inv').value || 0;
+  const ar = +document.getElementById('liq_ar').value || 0;
+  const stock = +document.getElementById('liq_stock').value || 0;
+  const cl = +document.getElementById('liq_cl').value || 1;
+
+  const ca = cash+inv+ar+stock;
+  const cr = ca/cl;
+  const qr = (ca-stock)/cl;
+  const csr = (cash+inv)/cl;
+  const wc = ca-cl;
+
+  const fmt = (v, warn, good) => {
+    const cls = v >= good ? 'good' : v >= warn ? 'warn' : 'bad';
+    document.getElementById('liq_cr').className = 'val';
+    return {txt: v.toFixed(2), cls};
+  };
+
+  function setVal(id, val, warn, good){
+    const e = document.getElementById(id);
+    e.textContent = val.toFixed(2);
+    e.className = 'val ' + (val >= good ? 'good' : val >= warn ? 'warn' : 'bad');
+  }
+  setVal('liq_cr', cr, 1.0, 1.5);
+  setVal('liq_qr', qr, 0.7, 1.0);
+  setVal('liq_csr', csr, 0.2, 0.4);
+  const wcEl = document.getElementById('liq_wc');
+  wcEl.textContent = wc.toLocaleString();
+  wcEl.className = 'val ' + (wc > 0 ? 'good' : 'bad');
+
+  const vEl = document.getElementById('liq_verdict');
+  if(cr >= 1.5 && qr >= 1.0){ vEl.textContent = '✓ איתנה'; vEl.className='val good'; }
+  else if(cr >= 1.0 && qr >= 0.7){ vEl.textContent = '⚠ בינונית'; vEl.className='val warn'; }
+  else { vEl.textContent = '✗ מסוכנת'; vEl.className='val bad'; }
+}
+
+function loadScenario(name){
+  const scenarios = {
+    svb:    {cash:14000, inv:117000, ar:8000, stock:0, cl:176000},
+    amazon: {cash:78000, inv:32000, ar:42000, stock:35000, cl:164000},
+    teva:   {cash:1800, inv:4800, ar:4900, stock:4800, cl:11200},
+    apple:  {cash:62000, inv:7000, ar:66000, stock:6000, cl:140000}
+  };
+  const s = scenarios[name];
+  if(!s) return;
+  document.getElementById('liq_cash').value = s.cash;
+  document.getElementById('liq_inv').value = s.inv;
+  document.getElementById('liq_ar').value = s.ar;
+  document.getElementById('liq_stock').value = s.stock;
+  document.getElementById('liq_cl').value = s.cl;
+  calcLiq();
+}
+calcLiq();
+
+/* ============ DuPont Calculator ============ */
+function calcDupont(){
+  const ni = +document.getElementById('dp_ni').value || 0;
+  const rev = +document.getElementById('dp_rev').value || 1;
+  const a = +document.getElementById('dp_assets').value || 1;
+  const eq = +document.getElementById('dp_eq').value || 1;
+
+  const nm = (ni/rev)*100;
+  const at = rev/a;
+  const em = a/eq;
+  const roe = (ni/eq)*100;
+  const roa = (ni/a)*100;
+
+  document.getElementById('dp_nm').textContent = nm.toFixed(1)+'%';
+  document.getElementById('dp_at').textContent = at.toFixed(2);
+  document.getElementById('dp_em').textContent = em.toFixed(2);
+  document.getElementById('dp_roe').textContent = roe.toFixed(1)+'%';
+  document.getElementById('dp_roa').textContent = roa.toFixed(1)+'%';
+
+  // Color
+  document.getElementById('dp_roe').className = 'val ' + (roe > 20 ? 'good' : roe > 10 ? 'warn' : 'bad');
+  document.getElementById('dp_em').className = 'val ' + (em > 5 ? 'warn' : '');
+}
+function loadDupont(name){
+  const profiles = {
+    sap:     {ni:6400, rev:34000, assets:71000, eq:35000},      // SAP Enterprise
+    walmart: {ni:15500, rev:648000, assets:252000, eq:83000},    // Walmart - thin margin, high turnover
+    jpm:     {ni:49000, rev:177000, assets:3900000, eq:327000},  // JPMorgan - high leverage
+    nvidia:  {ni:73000, rev:130000, assets:96000, eq:63000}      // NVIDIA - high margin
+  };
+  const p = profiles[name];
+  if(!p) return;
+  document.getElementById('dp_ni').value = p.ni;
+  document.getElementById('dp_rev').value = p.rev;
+  document.getElementById('dp_assets').value = p.assets;
+  document.getElementById('dp_eq').value = p.eq;
+  calcDupont();
+}
+calcDupont();
+
+/* ============ Altman Z-Score ============ */
+function calcAltman(){
+  const wc = +document.getElementById('az_wc').value || 0;
+  const re = +document.getElementById('az_re').value || 0;
+  const ebit = +document.getElementById('az_ebit').value || 0;
+  const mve = +document.getElementById('az_mve').value || 0;
+  const tl = +document.getElementById('az_tl').value || 1;
+  const sales = +document.getElementById('az_sales').value || 0;
+  const ta = +document.getElementById('az_ta').value || 1;
+
+  const x1 = wc/ta;
+  const x2 = re/ta;
+  const x3 = ebit/ta;
+  const x4 = mve/tl;
+  const x5 = sales/ta;
+
+  const z = 1.2*x1 + 1.4*x2 + 3.3*x3 + 0.6*x4 + 1.0*x5;
+
+  document.getElementById('az_x1').textContent = x1.toFixed(3);
+  document.getElementById('az_x2').textContent = x2.toFixed(3);
+  document.getElementById('az_x3').textContent = x3.toFixed(3);
+  document.getElementById('az_x4').textContent = x4.toFixed(3);
+  document.getElementById('az_x5').textContent = x5.toFixed(3);
+  document.getElementById('az_z').textContent = z.toFixed(2);
+
+  const zone = document.getElementById('az_zone');
+  if(z >= 2.99){ zone.textContent = '✓ אזור בטוח'; zone.className='val good'; }
+  else if(z >= 1.81){ zone.textContent = '⚠ אזור אפור'; zone.className='val warn'; }
+  else { zone.textContent = '✗ סיכון גבוה'; zone.className='val bad'; }
+  document.getElementById('az_z').className = 'val ' + (z >= 2.99 ? 'good' : z >= 1.81 ? 'warn' : 'bad');
+}
+calcAltman();
+
+/* ============ Credit Approval Simulator ============ */
+function updateCredit(){
+  const loan = +document.getElementById('cr_loan').value || 0;
+  const ebitda = +document.getElementById('cr_ebitda').value || 1;
+  const debt = +document.getElementById('cr_debt').value || 0;
+  const cf = +document.getElementById('cr_cf').value || 0;
+  const pp = +document.getElementById('cr_pp').value || 1;
+  const ind = +document.getElementById('cr_ind').value || 5;
+  const mgmt = +document.getElementById('cr_mgmt').value || 5;
+
+  const newDebt = debt + loan;
+  const lev = newDebt / ebitda;
+  const ic = cf / (newDebt * 0.06); // Assume 6% interest
+  const ltv = newDebt / pp;
+
+  // Score calculation (out of 100)
+  let score = 50;
+  score -= Math.max(0, (lev-3) * 8);  // Penalty for leverage > 3
+  score += Math.min(20, ic * 4);       // Bonus for interest coverage
+  score -= Math.max(0, (ltv-0.7) * 30);// Penalty for LTV > 70%
+  score += (ind-5) * 2;
+  score += Math.min(10, mgmt * 0.8);
+  score = Math.max(0, Math.min(100, score));
+
+  document.getElementById('cr_lev').textContent = lev.toFixed(2)+'x';
+  document.getElementById('cr_ic').textContent = ic.toFixed(2)+'x';
+  document.getElementById('cr_ltv').textContent = (ltv*100).toFixed(1)+'%';
+  document.getElementById('cr_score').textContent = score.toFixed(0)+'/100';
+
+  document.getElementById('cr_lev').className = 'val ' + (lev < 3 ? 'good' : lev < 5 ? 'warn' : 'bad');
+  document.getElementById('cr_ic').className = 'val ' + (ic > 2 ? 'good' : ic > 1 ? 'warn' : 'bad');
+  document.getElementById('cr_ltv').className = 'val ' + (ltv < 0.6 ? 'good' : ltv < 0.8 ? 'warn' : 'bad');
+  document.getElementById('cr_score').className = 'val ' + (score > 65 ? 'good' : score > 40 ? 'warn' : 'bad');
+
+  // Needle position (0-100% -> 100%-0% RTL)
+  const needlePos = 100 - score;
+  document.getElementById('crNeedle').style.right = needlePos + '%';
+
+  // Stamp
+  const stamp = document.getElementById('crStamp');
+  if(score > 65){
+    stamp.innerHTML = '<span class="stamp approved">✓ מאושר</span>';
+  } else if(score > 40){
+    stamp.innerHTML = '<span class="stamp caution">⚠ במקבלה נוספת</span>';
+  } else {
+    stamp.innerHTML = '<span class="stamp denied">✗ לא מאושר</span>';
+  }
+}
+updateCredit();
+
+/* ============ Benford Bars ============ */
+function renderBenford(){
+  // Expected distribution (Benford's law)
+  const expected = [30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6];
+  // Suspicious distribution — flatter, more 4-5-6
+  const suspect = [20.5, 13.8, 11.2, 14.6, 15.8, 13.2, 5.2, 3.4, 2.3];
+
+  const c1 = document.getElementById('benford1');
+  const c2 = document.getElementById('benford2');
+  if(!c1 || !c2) return;
+
+  c1.innerHTML = '';
+  c2.innerHTML = '';
+
+  const max = 35;
+  expected.forEach((v, i)=>{
+    const bar = document.createElement('div');
+    bar.className = 'bf-bar expected';
+    bar.style.height = (v/max*100)+'%';
+    bar.setAttribute('data-digit', (i+1).toString());
+    bar.setAttribute('data-val', v.toFixed(1)+'%');
+    c1.appendChild(bar);
+  });
+  suspect.forEach((v, i)=>{
+    const bar = document.createElement('div');
+    bar.className = 'bf-bar actual';
+    bar.style.height = (v/max*100)+'%';
+    bar.setAttribute('data-digit', (i+1).toString());
+    bar.setAttribute('data-val', v.toFixed(1)+'%');
+    c2.appendChild(bar);
+  });
+}
+renderBenford();
+
+/* ============ Init ============ */
+show(0);
+// Start: show help after 2 seconds for first-timer
+setTimeout(()=>{
+  if(current === 0) document.getElementById('kbdHelp').classList.add('show');
+  setTimeout(()=>document.getElementById('kbdHelp').classList.remove('show'), 6000);
+}, 1500);
+</script>
+</body>
+</html>
