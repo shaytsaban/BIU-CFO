@@ -1,405 +1,482 @@
-import React, { useState, useEffect } from 'react';
-import { initializeApp } from 'firebase/app';
-import { 
-  getFirestore, 
-  collection, 
-  addDoc, 
-  onSnapshot, 
-  query
-} from 'firebase/firestore';
-import { 
-  getAuth, 
-  signInAnonymously, 
-  signInWithCustomToken, 
-  onAuthStateChanged 
-} from 'firebase/auth';
-import { 
-  ChevronRight, 
-  ChevronLeft, 
-  Star, 
-  CheckCircle, 
-  Award, 
-  BarChart3, 
-  TrendingUp,
-  MessageSquare,
-  Users,
-  Database,
-  Lock,
-  ArrowRight,
-  ShieldCheck,
-  X,
-  Settings
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>סקר שביעות רצון - סמנכ"לי כספים</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React & ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  
+  <!-- Babel (לתרגום ה-JSX בדפדפן) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-const firebaseConfig = JSON.parse(__firebase_config);
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+  <style>
+    /* אנימציות ועיצובים מיוחדים */
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slide-in-from-bottom { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes slide-in-from-right { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes zoom-in { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .animate-in.fade-in { animation: fade-in 0.5s ease-out forwards; }
+    .slide-in-from-bottom-4 { animation: slide-in-from-bottom 0.7s ease-out forwards; }
+    .slide-in-from-right-8 { animation: slide-in-from-right 0.5s ease-out forwards; }
+    .zoom-in-95 { animation: zoom-in 0.3s ease-out forwards; }
+  </style>
+</head>
+<body class="bg-slate-50">
+  
+  <div id="root"></div>
 
-const ADMIN_PASSWORD = "2604"; // הקוד שקבענו
+  <script type="text/babel" data-type="module">
+    const { useState, useEffect } = React;
 
-const App = () => {
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [user, setUser] = useState(null);
-  const [dbStatus, setDbStatus] = useState('connecting');
-  const [allResponses, setAllResponses] = useState([]);
-  const [showAdminLogin, setShowAdminLogin] = useState(false);
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
-  const [passAttempt, setPassAttempt] = useState("");
-  const [passError, setPassError] = useState(false);
+    // Firebase Imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-  useEffect(() => {
-    const initAuth = async () => {
-      try {
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          await signInWithCustomToken(auth, __initial_auth_token);
-        } else {
-          await signInAnonymously(auth);
-        }
-      } catch (err) {
-        console.error("Auth error:", err);
-      }
+    // ==========================================
+    // ⚠️ הגדרות Firebase - חובה למלא למערכת אמיתית ⚠️
+    // כדי לשמור נתונים בענן שלך, פתח פרויקט ב- firebase.google.com והכנס את הנתונים כאן:
+    // ==========================================
+    const firebaseConfig = {
+      apiKey: "הכנס_כאן_את_המפתח_שלך",
+      authDomain: "הכנס_כאן_את_הדומיין",
+      projectId: "הכנס_כאן_את_מזהה_הפרויקט",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: ""
     };
-    initAuth();
-    const unsubscribe = onAuthStateChanged(auth, setUser);
-    return () => unsubscribe();
-  }, []);
 
-  useEffect(() => {
-    if (!user || !isAdminAuthenticated) return;
-    const responsesCol = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
+    let app, auth, db;
+    let isFirebaseConfigured = false;
     
-    const unsubscribe = onSnapshot(responsesCol, 
-      (snapshot) => {
-        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setAllResponses(data);
-        setDbStatus('connected');
-      },
-      (error) => {
-        console.error("Firestore error:", error);
-        setDbStatus('error');
+    // ניסיון להתחבר לפיירבייס רק אם הוגדר מפתח אמיתי
+    if (firebaseConfig.apiKey !== "הכנס_כאן_את_המפתח_שלך") {
+      try {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+        isFirebaseConfigured = true;
+      } catch (err) {
+        console.error("Firebase initialization error:", err);
       }
-    );
-
-    return () => unsubscribe();
-  }, [user, isAdminAuthenticated]);
-
-  const courseInfo = {
-    title: "קורס סמנכ\"לי כספים",
-    institution: "אוניברסיטת בר אילן",
-    topic: "הערכות שווי",
-    lecturer: "גב' ניצנה עדווי",
-    date: "26.04.2026"
-  };
-
-  const questions = [
-    { id: "intro", type: "welcome", title: "ברוכים הבאים לסקר המשוב", subtitle: `נשמח לשמוע את דעתך המקצועית על המפגש בנושא ${courseInfo.topic}.` },
-    { id: "energy", type: "rating", title: "האנרגיה בחדר", question: "עד כמה ניצנה הפכה את עולם הערכות השווי למרתק?", icon: <TrendingUp className="w-6 h-6 text-blue-500" /> },
-    { id: "clarity", type: "rating", title: "בהירות מקצועית", question: "באיזו מידה החומר הועבר בצורה ברורה?", icon: <BarChart3 className="w-6 h-6 text-indigo-500" /> },
-    { id: "practical", type: "options", title: "ערך יישומי (CFO Level)", question: "איך היית מגדיר את האיזון בשיעור?", options: ["יותר מדי תיאוריה", "איזון מדויק", "חסר לי Case Studies", "פרקטי מאוד"] },
-    { id: "takeaway", type: "text", title: "The Bottom Line", question: "מהי התובנה המשמעותית ביותר שאתה לוקח מהיום?", placeholder: "כתוב כאן...", icon: <Award className="w-6 h-6 text-amber-500" /> },
-    { id: "recommend", type: "rating", title: "המלצה מקצועית", question: "עד כמה היית ממליץ לקולגה על ההרצאה?", icon: <Users className="w-6 h-6 text-emerald-500" /> }
-  ];
-
-  const submitToCloud = async (finalAnswers) => {
-    if (!user) return;
-    try {
-      const responsesCol = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
-      await addDoc(responsesCol, {
-        ...finalAnswers,
-        userId: user.uid,
-        submittedAt: new Date().toISOString(),
-      });
-      setIsSubmitted(true);
-    } catch (err) {
-      console.error("Error saving:", err);
-      setIsSubmitted(true);
     }
-  };
 
-  const handleAuthAdmin = (e) => {
-    e.preventDefault();
-    if (passAttempt === ADMIN_PASSWORD) {
-      setIsAdminAuthenticated(true);
-      setPassError(false);
-    } else {
-      setPassError(true);
-      setPassAttempt("");
-    }
-  };
+    const ADMIN_PASSWORD = "2604"; // סיסמת הגישה לדאשבורד
 
-  const calculateAvg = (key) => {
-    const ratings = allResponses.map(r => r[key]).filter(v => typeof v === 'number');
-    if (ratings.length === 0) return 0;
-    return (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1);
-  };
-
-  // --- דאשבורד ניהולי ---
-  if (isAdminAuthenticated) {
-    return (
-      <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans" dir="rtl">
-        <div className="max-w-4xl mx-auto animate-in fade-in duration-500">
-          <div className="flex justify-between items-center mb-8 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-            <div>
-              <h2 className="text-3xl font-black text-slate-900 flex items-center gap-3">
-                <Database className="text-blue-600 w-8 h-8" />
-                ניהול נתוני סקר
-              </h2>
-              <p className="text-slate-500 font-medium">מרצה: {courseInfo.lecturer} | {courseInfo.topic}</p>
-            </div>
-            <button 
-              onClick={() => { setIsAdminAuthenticated(false); setShowAdminLogin(false); setPassAttempt(""); }} 
-              className="flex items-center gap-2 text-red-600 hover:bg-red-50 font-bold px-6 py-3 rounded-2xl border-2 border-red-50 transition-all"
-            >
-              יציאה מאובטחת
-            </button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-              <p className="text-slate-400 text-xs font-bold mb-1 uppercase tracking-wider">סה"כ משובים</p>
-              <div className="text-5xl font-black text-blue-600">{allResponses.length}</div>
-            </div>
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-              <p className="text-slate-400 text-xs font-bold mb-1 uppercase tracking-wider">מדד מרתק (ממוצע)</p>
-              <div className="text-5xl font-black text-indigo-600">{calculateAvg('energy')}</div>
-            </div>
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-              <p className="text-slate-400 text-xs font-bold mb-1 uppercase tracking-wider">מדד המלצה</p>
-              <div className="text-5xl font-black text-emerald-600">{calculateAvg('recommend')}</div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-            <div className="p-6 bg-slate-900 text-white flex justify-between items-center">
-              <h3 className="font-bold text-lg">פירוט תובנות סמנכ"לים</h3>
-              <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
-                <ShieldCheck size={14} className="text-emerald-500" />
-                DATA CONNECTED
-              </div>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-right border-collapse">
-                <thead>
-                  <tr className="bg-slate-50 text-slate-500 text-sm uppercase">
-                    <th className="p-4 border-b font-black">זמן</th>
-                    <th className="p-4 border-b font-black">אנרגיה</th>
-                    <th className="p-4 border-b font-black">תובנה מרכזית</th>
-                    <th className="p-4 border-b font-black">המלצה</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {allResponses.length === 0 ? (
-                    <tr><td colSpan="4" className="p-12 text-center text-slate-400 italic font-medium">טרם נשלחו משובים לסקר זה...</td></tr>
-                  ) : (
-                    allResponses.sort((a,b) => new Date(b.submittedAt) - new Date(a.submittedAt)).map((res) => (
-                      <tr key={res.id} className="hover:bg-slate-50 transition-colors">
-                        <td className="p-4 text-xs text-slate-400 font-medium">{new Date(res.submittedAt).toLocaleTimeString('he-IL')}</td>
-                        <td className="p-4 font-black text-blue-600">{res.energy}</td>
-                        <td className="p-4 max-w-sm font-medium text-slate-700 leading-relaxed">{res.takeaway || '-'}</td>
-                        <td className="p-4 font-black text-emerald-600">{res.recommend}</td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
+    // --- אייקונים (Lucide-React הומרו ל-SVG ישיר לטובת GitHub Pages) ---
+    const Icon = ({ paths, size = 24, className = "" }) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        {paths}
+      </svg>
     );
-  }
+    
+    const ChevronRight = (p) => <Icon {...p} paths={<polyline points="9 18 15 12 9 6" />} />;
+    const ChevronLeft = (p) => <Icon {...p} paths={<polyline points="15 18 9 12 15 6" />} />;
+    const Star = (p) => <Icon {...p} paths={<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />} />;
+    const CheckCircle = (p) => <Icon {...p} paths={<><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></>} />;
+    const Award = (p) => <Icon {...p} paths={<><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></>} />;
+    const BarChart3 = (p) => <Icon {...p} paths={<><path d="M3 3v18h18"/><rect width="4" height="7" x="7" y="10" rx="1"/><rect width="4" height="12" x="15" y="5" rx="1"/></>} />;
+    const TrendingUp = (p) => <Icon {...p} paths={<><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></>} />;
+    const MessageSquare = (p) => <Icon {...p} paths={<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>} />;
+    const Users = (p) => <Icon {...p} paths={<><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>} />;
+    const Database = (p) => <Icon {...p} paths={<><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></>} />;
+    const Lock = (p) => <Icon {...p} paths={<><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></>} />;
+    const ArrowRight = (p) => <Icon {...p} paths={<><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></>} />;
+    const ShieldCheck = (p) => <Icon {...p} paths={<><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></>} />;
+    const X = (p) => <Icon {...p} paths={<><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>} />;
+    const Settings = (p) => <Icon {...p} paths={<><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></>} />;
 
-  // --- מסך כניסה למנהל ---
-  if (showAdminLogin) {
-    return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans" dir="rtl">
-        <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 animate-in zoom-in-95 duration-300">
-          <div className="flex justify-between items-center mb-8">
-            <h3 className="text-2xl font-black flex items-center gap-2 text-slate-800">
-              <Lock className="text-blue-600 w-6 h-6" /> גישת מנהל
-            </h3>
-            <button onClick={() => setShowAdminLogin(false)} className="bg-slate-100 p-2 rounded-full text-slate-500 hover:bg-slate-200 transition-colors"><X size={20}/></button>
-          </div>
-          <form onSubmit={handleAuthAdmin} className="space-y-6">
-            <div className="text-center space-y-2">
-              <p className="text-slate-500 font-medium">אנא הזן את קוד הגישה האישי שלך:</p>
-            </div>
-            <input 
-              type="password" 
-              autoFocus
-              className={`w-full p-5 bg-slate-50 border-2 rounded-2xl outline-none transition-all text-center text-3xl font-bold tracking-[0.5em] ${passError ? 'border-red-500 bg-red-50' : 'border-slate-100 focus:border-blue-600'}`}
-              value={passAttempt}
-              onChange={(e) => setPassAttempt(e.target.value)}
-              placeholder="••••"
-            />
-            {passError && <p className="text-red-600 text-sm text-center font-bold">הקוד שהוזן אינו תקין. נסה שוב.</p>}
-            <button type="submit" className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl active:scale-[0.98]">
-              אימות וכניסה למערכת
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
 
-  // --- מסך סיום ---
-  if (isSubmitted) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans" dir="rtl">
-        <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-10 text-center border border-slate-100">
-          <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
-            <CheckCircle className="w-14 h-14 text-emerald-600" />
-          </div>
-          <h2 className="text-3xl font-black text-slate-800 mb-4">תודה רבה!</h2>
-          <p className="text-slate-600 mb-10 font-medium text-lg italic leading-relaxed">הערכת השווי שלך התקבלה ונשמרה במערכת הניהול של הקורס.</p>
-          <button onClick={() => window.location.reload()} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg">ביצוע משוב נוסף</button>
-        </div>
-      </div>
-    );
-  }
+    const App = () => {
+      const [step, setStep] = useState(0);
+      const [answers, setAnswers] = useState({});
+      const [isSubmitted, setIsSubmitted] = useState(false);
+      const [user, setUser] = useState(null);
+      const [dbStatus, setDbStatus] = useState('connecting');
+      const [allResponses, setAllResponses] = useState([]);
+      const [showAdminLogin, setShowAdminLogin] = useState(false);
+      const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+      const [passAttempt, setPassAttempt] = useState("");
+      const [passError, setPassError] = useState(false);
 
-  const currentQ = questions[step];
+      // אימות משתמשים בענן (אם הוגדר)
+      useEffect(() => {
+        if (!isFirebaseConfigured) {
+          setDbStatus('no-db');
+          return;
+        }
+        const initAuth = async () => {
+          try {
+            await signInAnonymously(auth);
+          } catch (err) {
+            console.error("Auth error:", err);
+          }
+        };
+        initAuth();
+        const unsubscribe = onAuthStateChanged(auth, setUser);
+        return () => unsubscribe();
+      }, []);
 
-  return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans" dir="rtl">
-      <div className="max-w-xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col min-h-[550px] border border-slate-100 relative">
+      // שליפת נתונים לדאשבורד
+      useEffect(() => {
+        if (!user || !isAdminAuthenticated || !isFirebaseConfigured) return;
+        const responsesCol = collection(db, 'survey_responses');
         
-        {/* Header - בולט ויוקרתי */}
-        <div className="bg-slate-900 p-6 text-white relative">
-          <div className="flex justify-between items-start mb-4">
-            <div className="space-y-1">
-              <div className="bg-blue-600 inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest leading-none">
-                {courseInfo.institution}
-              </div>
-              <h1 className="text-2xl font-black leading-tight mt-1">{courseInfo.title}</h1>
-              <p className="text-blue-300 text-sm font-medium">מרצה: {courseInfo.lecturer} | {courseInfo.topic}</p>
-            </div>
-            
-            {/* כפתור מנהל בולט כפי שביקשת */}
-            <button 
-              onClick={() => setShowAdminLogin(true)} 
-              className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white text-[11px] font-black py-2 px-4 rounded-xl border border-slate-700 transition-all shadow-sm"
-            >
-              <Settings size={14} className="text-blue-400" />
-              גישת מנהל הקורס
-            </button>
-          </div>
+        const unsubscribe = onSnapshot(responsesCol, 
+          (snapshot) => {
+            const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setAllResponses(data);
+            setDbStatus('connected');
+          },
+          (error) => {
+            console.error("Firestore error:", error);
+            setDbStatus('error');
+          }
+        );
+        return () => unsubscribe();
+      }, [user, isAdminAuthenticated]);
+
+      const courseInfo = {
+        title: "קורס סמנכ\"לי כספים",
+        institution: "אוניברסיטת בר אילן",
+        topic: "הערכות שווי",
+        lecturer: "גב' ניצנה עדווי",
+        date: "26.04.2026"
+      };
+
+      const questions = [
+        { id: "intro", type: "welcome", title: "ברוכים הבאים לסקר המשוב", subtitle: `נשמח לשמוע את דעתך המקצועית על המפגש בנושא ${courseInfo.topic}.` },
+        { id: "energy", type: "rating", title: "האנרגיה בחדר", question: "עד כמה ניצנה הפכה את עולם הערכות השווי למרתק?", icon: <TrendingUp className="w-6 h-6 text-blue-500" /> },
+        { id: "clarity", type: "rating", title: "בהירות מקצועית", question: "באיזו מידה החומר הועבר בצורה ברורה?", icon: <BarChart3 className="w-6 h-6 text-indigo-500" /> },
+        { id: "practical", type: "options", title: "ערך יישומי (CFO Level)", question: "איך היית מגדיר את האיזון בשיעור?", options: ["יותר מדי תיאוריה", "איזון מדויק", "חסר לי Case Studies", "פרקטי מאוד"] },
+        { id: "takeaway", type: "text", title: "The Bottom Line", question: "מהי התובנה המשמעותית ביותר שאתה לוקח מהיום?", placeholder: "כתוב כאן...", icon: <Award className="w-6 h-6 text-amber-500" /> },
+        { id: "recommend", type: "rating", title: "המלצה מקצועית", question: "עד כמה היית ממליץ לקולגה על ההרצאה?", icon: <Users className="w-6 h-6 text-emerald-500" /> }
+      ];
+
+      const submitToCloud = async (finalAnswers) => {
+        if (!isFirebaseConfigured) {
+          // מנגנון חלופי אם לא הגדרת פיירבייס - שומר מקומית רק להדגמה
+          const localResponses = JSON.parse(localStorage.getItem('temp_responses') || '[]');
+          localResponses.push({ ...finalAnswers, submittedAt: new Date().toISOString(), id: Date.now() });
+          localStorage.setItem('temp_responses', JSON.stringify(localResponses));
+          setIsSubmitted(true);
+          return;
+        }
+
+        if (!user) return;
+        try {
+          const responsesCol = collection(db, 'survey_responses');
+          await addDoc(responsesCol, {
+            ...finalAnswers,
+            userId: user.uid,
+            submittedAt: new Date().toISOString(),
+          });
+          setIsSubmitted(true);
+        } catch (err) {
+          console.error("Error saving:", err);
+          setIsSubmitted(true);
+        }
+      };
+
+      const handleAuthAdmin = (e) => {
+        e.preventDefault();
+        if (passAttempt === ADMIN_PASSWORD) {
+          setIsAdminAuthenticated(true);
+          setPassError(false);
           
-          <div className="absolute bottom-0 left-0 h-1.5 bg-blue-500 transition-all duration-700 rounded-r-full" style={{ width: `${((step + 1) / questions.length) * 100}%` }}></div>
-        </div>
+          // אם אין ענן, נטען מהאחסון המקומי
+          if(!isFirebaseConfigured) {
+              setAllResponses(JSON.parse(localStorage.getItem('temp_responses') || '[]'));
+          }
+        } else {
+          setPassError(true);
+          setPassAttempt("");
+        }
+      };
 
-        {/* שאלות הסקר */}
-        <div className="flex-1 p-8 md:p-10 flex flex-col justify-center">
-          {currentQ.type === 'welcome' ? (
-            <div className="text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <div className="w-20 h-20 bg-blue-50 rounded-3xl flex items-center justify-center mx-auto mb-8 rotate-6 shadow-sm border border-blue-100">
-                <MessageSquare className="w-10 h-10 text-blue-600" />
+      const calculateAvg = (key) => {
+        const ratings = allResponses.map(r => r[key]).filter(v => typeof v === 'number');
+        if (ratings.length === 0) return 0;
+        return (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1);
+      };
+
+      // --- דאשבורד ניהולי ---
+      if (isAdminAuthenticated) {
+        return (
+          <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans" dir="rtl">
+            <div className="max-w-4xl mx-auto animate-in fade-in">
+              <div className="flex justify-between items-center mb-8 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                <div>
+                  <h2 className="text-3xl font-black text-slate-900 flex items-center gap-3">
+                    <Database className="text-blue-600 w-8 h-8" />
+                    ניהול נתוני סקר
+                  </h2>
+                  <p className="text-slate-500 font-medium">מרצה: {courseInfo.lecturer} | {courseInfo.topic}</p>
+                </div>
+                <button 
+                  onClick={() => { setIsAdminAuthenticated(false); setShowAdminLogin(false); setPassAttempt(""); }} 
+                  className="flex items-center gap-2 text-red-600 hover:bg-red-50 font-bold px-6 py-3 rounded-2xl border-2 border-red-50 transition-all"
+                >
+                  יציאה מאובטחת
+                </button>
               </div>
-              <h2 className="text-3xl font-black text-slate-800 mb-4">{currentQ.title}</h2>
-              <p className="text-slate-500 leading-relaxed text-xl mb-10 font-medium">{currentQ.subtitle}</p>
-              <button 
-                onClick={() => setStep(1)} 
-                className="group flex items-center justify-center gap-3 mx-auto py-4 px-12 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl hover:-translate-y-1 active:translate-y-0"
-              >
-                בואו נתחיל 
-                <ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
-              </button>
+              
+              {!isFirebaseConfigured && (
+                  <div className="mb-6 p-4 bg-amber-50 text-amber-800 rounded-2xl border-2 border-amber-200 font-bold">
+                    ⚠️ שים לב: לא הוגדר חיבור ל-Firebase. הנתונים שמוצגים כאן נשמרים רק באופן זמני על הדפדפן הנוכחי שלך.
+                  </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                  <p className="text-slate-400 text-xs font-bold mb-1 uppercase tracking-wider">סה"כ משובים</p>
+                  <div className="text-5xl font-black text-blue-600">{allResponses.length}</div>
+                </div>
+                <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                  <p className="text-slate-400 text-xs font-bold mb-1 uppercase tracking-wider">מדד מרתק (ממוצע)</p>
+                  <div className="text-5xl font-black text-indigo-600">{calculateAvg('energy')}</div>
+                </div>
+                <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                  <p className="text-slate-400 text-xs font-bold mb-1 uppercase tracking-wider">מדד המלצה</p>
+                  <div className="text-5xl font-black text-emerald-600">{calculateAvg('recommend')}</div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+                <div className="p-6 bg-slate-900 text-white flex justify-between items-center">
+                  <h3 className="font-bold text-lg">פירוט תובנות סמנכ"לים</h3>
+                  <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
+                    <ShieldCheck size={14} className="text-emerald-500" />
+                    {isFirebaseConfigured ? 'DATA CONNECTED' : 'LOCAL MODE'}
+                  </div>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-right border-collapse">
+                    <thead>
+                      <tr className="bg-slate-50 text-slate-500 text-sm uppercase">
+                        <th className="p-4 border-b font-black">זמן</th>
+                        <th className="p-4 border-b font-black">אנרגיה</th>
+                        <th className="p-4 border-b font-black">תובנה מרכזית</th>
+                        <th className="p-4 border-b font-black">המלצה</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {allResponses.length === 0 ? (
+                        <tr><td colSpan="4" className="p-12 text-center text-slate-400 italic font-medium">טרם נשלחו משובים לסקר זה...</td></tr>
+                      ) : (
+                        allResponses.sort((a,b) => new Date(b.submittedAt) - new Date(a.submittedAt)).map((res) => (
+                          <tr key={res.id || res.submittedAt} className="hover:bg-slate-50 transition-colors">
+                            <td className="p-4 text-xs text-slate-400 font-medium">{new Date(res.submittedAt).toLocaleTimeString('he-IL')}</td>
+                            <td className="p-4 font-black text-blue-600">{res.energy}</td>
+                            <td className="p-4 max-w-sm font-medium text-slate-700 leading-relaxed">{res.takeaway || '-'}</td>
+                            <td className="p-4 font-black text-emerald-600">{res.recommend}</td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-          ) : (
-            <div className="animate-in fade-in slide-in-from-right-8 duration-500">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="bg-blue-50 p-3 rounded-2xl text-blue-600">{currentQ.icon}</div>
-                <h3 className="text-2xl font-black text-slate-800">{currentQ.title}</h3>
+          </div>
+        );
+      }
+
+      // --- מסך כניסה למנהל ---
+      if (showAdminLogin) {
+        return (
+          <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4 font-sans" dir="rtl">
+            <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 animate-in zoom-in-95">
+              <div className="flex justify-between items-center mb-8">
+                <h3 className="text-2xl font-black flex items-center gap-2 text-slate-800">
+                  <Lock className="text-blue-600 w-6 h-6" /> גישת מנהל
+                </h3>
+                <button onClick={() => setShowAdminLogin(false)} className="bg-slate-100 p-2 rounded-full text-slate-500 hover:bg-slate-200 transition-colors"><X size={20}/></button>
               </div>
-              <p className="text-slate-600 text-xl mb-10 font-bold leading-tight border-r-4 border-blue-500 pr-4">{currentQ.question}</p>
-
-              {currentQ.type === 'rating' && (
-                <div className="flex justify-between gap-3 mb-4">
-                  {[1, 2, 3, 4, 5].map((num) => (
-                    <button 
-                      key={num} 
-                      onClick={() => { 
-                        setAnswers({ ...answers, [currentQ.id]: num }); 
-                        setTimeout(() => { if (step < questions.length - 1) setStep(step + 1); else submitToCloud({...answers, [currentQ.id]: num}); }, 450); 
-                      }}
-                      className={`flex-1 aspect-square rounded-3xl border-2 transition-all flex flex-col items-center justify-center gap-1 shadow-sm
-                        ${answers[currentQ.id] === num 
-                          ? 'border-blue-600 bg-blue-50 text-blue-700 scale-110 z-10 shadow-lg' 
-                          : 'border-slate-100 text-slate-300 hover:border-blue-200 hover:text-blue-300'}`}
-                    >
-                      <Star className={`w-8 h-8 ${answers[currentQ.id] === num ? 'fill-blue-600' : ''}`} />
-                      <span className="font-black text-lg">{num}</span>
-                    </button>
-                  ))}
+              <form onSubmit={handleAuthAdmin} className="space-y-6">
+                <div className="text-center space-y-2">
+                  <p className="text-slate-500 font-medium">אנא הזן את קוד הגישה האישי שלך:</p>
                 </div>
-              )}
+                <input 
+                  type="password" 
+                  autoFocus
+                  className={`w-full p-5 bg-slate-50 border-2 rounded-2xl outline-none transition-all text-center text-3xl font-bold tracking-[0.5em] ${passError ? 'border-red-500 bg-red-50' : 'border-slate-100 focus:border-blue-600'}`}
+                  value={passAttempt}
+                  onChange={(e) => setPassAttempt(e.target.value)}
+                  placeholder="••••"
+                />
+                {passError && <p className="text-red-600 text-sm text-center font-bold">הקוד שהוזן אינו תקין. נסה שוב.</p>}
+                <button type="submit" className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl active:scale-[0.98]">
+                  אימות וכניסה למערכת
+                </button>
+              </form>
+            </div>
+          </div>
+        );
+      }
 
-              {currentQ.type === 'options' && (
-                <div className="space-y-4">
-                  {currentQ.options.map((opt) => (
-                    <button 
-                      key={opt} 
-                      onClick={() => { 
-                        setAnswers({ ...answers, [currentQ.id]: opt }); 
-                        setTimeout(() => { if (step < questions.length - 1) setStep(step + 1); else submitToCloud({...answers, [currentQ.id]: opt}); }, 450); 
-                      }}
-                      className={`w-full p-5 rounded-2xl border-2 text-right text-lg transition-all shadow-sm
-                        ${answers[currentQ.id] === opt 
-                          ? 'border-blue-600 bg-blue-50 text-blue-800 font-black' 
-                          : 'border-slate-100 text-slate-600 hover:bg-slate-50 hover:border-slate-200'}`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
+      // --- מסך סיום ---
+      if (isSubmitted) {
+        return (
+          <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans" dir="rtl">
+            <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-10 text-center border border-slate-100">
+              <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
+                <CheckCircle className="w-14 h-14 text-emerald-600" />
+              </div>
+              <h2 className="text-3xl font-black text-slate-800 mb-4">תודה רבה!</h2>
+              <p className="text-slate-600 mb-10 font-medium text-lg italic leading-relaxed">הערכת השווי שלך התקבלה ונשמרה במערכת הניהול של הקורס.</p>
+              <button onClick={() => window.location.reload()} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg">ביצוע משוב נוסף</button>
+            </div>
+          </div>
+        );
+      }
+
+      const currentQ = questions[step];
+
+      return (
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans" dir="rtl">
+          <div className="max-w-xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col min-h-[550px] border border-slate-100 relative">
+            
+            {/* Header */}
+            <div className="bg-slate-900 p-6 text-white relative">
+              <div className="flex justify-between items-start mb-4">
+                <div className="space-y-1">
+                  <div className="bg-blue-600 inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest leading-none">
+                    {courseInfo.institution}
+                  </div>
+                  <h1 className="text-2xl font-black leading-tight mt-1">{courseInfo.title}</h1>
+                  <p className="text-blue-300 text-sm font-medium">מרצה: {courseInfo.lecturer} | {courseInfo.topic}</p>
                 </div>
-              )}
+                
+                <button 
+                  onClick={() => setShowAdminLogin(true)} 
+                  className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white text-[11px] font-black py-2 px-4 rounded-xl border border-slate-700 transition-all shadow-sm"
+                >
+                  <Settings size={14} className="text-blue-400" />
+                  גישת מנהל
+                </button>
+              </div>
+              
+              <div className="absolute bottom-0 left-0 h-1.5 bg-blue-500 transition-all duration-700 rounded-r-full" style={{ width: `${((step + 1) / questions.length) * 100}%` }}></div>
+            </div>
 
-              {currentQ.type === 'text' && (
-                <div className="space-y-6">
-                  <textarea 
-                    className="w-full p-5 rounded-2xl border-2 border-slate-100 focus:border-blue-600 outline-none h-40 text-slate-700 text-lg shadow-inner bg-slate-50 transition-all" 
-                    placeholder={currentQ.placeholder} 
-                    onChange={(e) => setAnswers({...answers, [currentQ.id]: e.target.value})} 
-                  />
+            {/* Content */}
+            <div className="flex-1 p-8 md:p-10 flex flex-col justify-center overflow-hidden">
+              {currentQ.type === 'welcome' ? (
+                <div className="text-center animate-in fade-in slide-in-from-bottom-4">
+                  <div className="w-20 h-20 bg-blue-50 rounded-3xl flex items-center justify-center mx-auto mb-8 rotate-6 shadow-sm border border-blue-100">
+                    <MessageSquare className="w-10 h-10 text-blue-600" />
+                  </div>
+                  <h2 className="text-3xl font-black text-slate-800 mb-4">{currentQ.title}</h2>
+                  <p className="text-slate-500 leading-relaxed text-xl mb-10 font-medium">{currentQ.subtitle}</p>
                   <button 
-                    onClick={() => submitToCloud(answers)} 
-                    className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-xl flex items-center justify-center gap-3 hover:bg-blue-700 transition-all shadow-xl"
+                    onClick={() => setStep(1)} 
+                    className="group flex items-center justify-center gap-3 mx-auto py-4 px-12 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl hover:-translate-y-1 active:translate-y-0"
                   >
-                    שליחה סופית של המשוב
-                    <ChevronLeft className="w-6 h-6" />
+                    בואו נתחיל 
+                    <ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
                   </button>
                 </div>
+              ) : (
+                <div className="animate-in fade-in slide-in-from-right-8" key={step}>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="bg-blue-50 p-3 rounded-2xl text-blue-600">{currentQ.icon}</div>
+                    <h3 className="text-2xl font-black text-slate-800">{currentQ.title}</h3>
+                  </div>
+                  <p className="text-slate-600 text-xl mb-10 font-bold leading-tight border-r-4 border-blue-500 pr-4">{currentQ.question}</p>
+
+                  {currentQ.type === 'rating' && (
+                    <div className="flex justify-between gap-3 mb-4" dir="ltr">
+                      {[1, 2, 3, 4, 5].map((num) => (
+                        <button 
+                          key={num} 
+                          onClick={() => { 
+                            setAnswers({ ...answers, [currentQ.id]: num }); 
+                            setTimeout(() => { if (step < questions.length - 1) setStep(step + 1); else submitToCloud({...answers, [currentQ.id]: num}); }, 450); 
+                          }}
+                          className={`flex-1 aspect-square rounded-3xl border-2 transition-all flex flex-col items-center justify-center gap-1 shadow-sm
+                            ${answers[currentQ.id] === num 
+                              ? 'border-blue-600 bg-blue-50 text-blue-700 scale-110 z-10 shadow-lg' 
+                              : 'border-slate-100 text-slate-300 hover:border-blue-200 hover:text-blue-300'}`}
+                        >
+                          <Star className={`w-8 h-8 ${answers[currentQ.id] === num ? 'fill-blue-600' : ''}`} />
+                          <span className="font-black text-lg">{num}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {currentQ.type === 'options' && (
+                    <div className="space-y-4">
+                      {currentQ.options.map((opt) => (
+                        <button 
+                          key={opt} 
+                          onClick={() => { 
+                            setAnswers({ ...answers, [currentQ.id]: opt }); 
+                            setTimeout(() => { if (step < questions.length - 1) setStep(step + 1); else submitToCloud({...answers, [currentQ.id]: opt}); }, 450); 
+                          }}
+                          className={`w-full p-5 rounded-2xl border-2 text-right text-lg transition-all shadow-sm
+                            ${answers[currentQ.id] === opt 
+                              ? 'border-blue-600 bg-blue-50 text-blue-800 font-black' 
+                              : 'border-slate-100 text-slate-600 hover:bg-slate-50 hover:border-slate-200'}`}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {currentQ.type === 'text' && (
+                     <div className="space-y-6">
+                      <textarea 
+                        className="w-full p-5 rounded-2xl border-2 border-slate-100 focus:border-blue-600 outline-none h-40 text-slate-700 text-lg shadow-inner bg-slate-50 transition-all" 
+                        placeholder={currentQ.placeholder} 
+                        onChange={(e) => setAnswers({...answers, [currentQ.id]: e.target.value})} 
+                      />
+                      <button 
+                        onClick={() => submitToCloud(answers)} 
+                        className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-xl flex items-center justify-center gap-3 hover:bg-blue-700 transition-all shadow-xl"
+                      >
+                        שליחה סופית של המשוב
+                        <ChevronLeft className="w-6 h-6" />
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
-          )}
-        </div>
 
-        {/* Footer */}
-        {step > 0 && (
-          <div className="p-5 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
-            <button 
-              onClick={() => setStep(step - 1)} 
-              className="text-slate-400 hover:text-slate-800 flex items-center gap-2 text-sm font-black transition-all px-4 py-2"
-            >
-              <ChevronRight className="w-5 h-5" /> חזרה
-            </button>
-            <div className="text-slate-300 text-[10px] font-black tracking-widest uppercase">
-              Valuation Professional Feedback v3.0
-            </div>
+            {/* Footer */}
+            {step > 0 && (
+              <div className="p-5 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
+                <button 
+                  onClick={() => setStep(step - 1)} 
+                  className="text-slate-400 hover:text-slate-800 flex items-center gap-2 text-sm font-black transition-all px-4 py-2"
+                >
+                  <ChevronRight className="w-5 h-5" /> חזרה
+                </button>
+                <div className="text-slate-300 text-[10px] font-black tracking-widest uppercase">
+                  Valuation Professional Feedback
+                </div>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      
-      {/* תזכורת לקוד עבורך - ניתן למחוק אם זה בולט מדי */}
-      <div className="fixed bottom-4 left-4 text-[10px] text-slate-400 select-none opacity-30">
-        CFO Pass: {ADMIN_PASSWORD}
-      </div>
-    </div>
-  );
-};
+          
+          <div className="fixed bottom-4 left-4 text-[10px] text-slate-400 select-none opacity-30">
+            CFO Pass: {ADMIN_PASSWORD}
+          </div>
+        </div>
+      );
+    };
 
-export default App;
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
