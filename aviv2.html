@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פרק 2: המסגרת החוקית והרגולטורית – ארגז הכלים של הדירקטוריון לפיקוח וביקורת</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #c53030;
+            --bg-color: #f7fafc;
+            --text-color: #2d3748;
+            --box-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --success-color: #2f855a;
+            --warning-color: #dd6b20;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: var(--box-bg);
+            padding: 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            border-top: 6px solid var(--primary-color);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid var(--border-color);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.6em;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            font-size: 1.8em;
+            margin-top: 50px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 80px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        h3 {
+            color: var(--primary-color);
+            font-size: 1.4em;
+            margin-top: 35px;
+        }
+
+        .meta-info {
+            font-size: 1.05em;
+            color: #4a5568;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .toc {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 50px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .toc h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .toc ul {
+            list-style-type: none;
+            padding: 0;
+            column-count: 2;
+            column-gap: 40px;
+        }
+
+        .toc li {
+            margin-bottom: 12px;
+            break-inside: avoid;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: color 0.2s;
+            display: block;
+            padding: 4px 0;
+        }
+
+        .toc a:hover {
+            color: var(--accent-color);
+            padding-right: 5px;
+        }
+
+        .news-flash {
+            background-color: #fffaf0;
+            border-right: 5px solid var(--warning-color);
+            padding: 20px 25px;
+            margin: 35px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .news-flash .news-title {
+            color: var(--warning-color);
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .callout {
+            background-color: #ebf8ff;
+            border-right: 5px solid var(--secondary-color);
+            padding: 20px 25px;
+            margin: 35px 0;
+            border-radius: 4px;
+            font-size: 1.05em;
+        }
+
+        .legal-ref {
+            font-family: 'David', serif;
+            background-color: #f1f5f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #cbd5e1;
+            margin: 20px 0;
+            font-size: 1.1em;
+            color: #334155;
+        }
+
+        .legal-ref strong {
+            color: var(--primary-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            text-align: right;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        tr:hover {
+            background-color: #edf2f7;
+        }
+
+        .highlight-term {
+            background-color: #fef08a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #854d0e;
+        }
+
+        .checklist {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 50px;
+        }
+
+        .checklist h3 {
+            color: var(--success-color);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            position: relative;
+            padding-right: 35px;
+        }
+
+        .checklist li::before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: white;
+            background-color: var(--success-color);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px;
+            padding: 35px;
+            margin-top: 60px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .summary-box h3 {
+            color: white;
+            margin-top: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .toc ul {
+                column-count: 1;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>המסגרת החוקית והרגולטורית: שומרי הסף</h1>
+        <div style="font-size: 1.5em; color: var(--secondary-color); margin-bottom: 15px;">פרק 2: ארגז הכלים של הדירקטוריון לפיקוח וביקורת הלכה למעשה</div>
+        <div class="meta-info">
+            <span>⏱ זמן קריאה/הרצאה: ~45 דקות</span>
+            <span>🎯 מודול: ציות, דיווח וממשל תאגידי</span>
+            <span>⚖️ רמת מורכבות: מתקדם (כולל סקירת פסיקה ואכיפה)</span>
+        </div >
+    </header>
+
+    <div class="toc">
+        <h3>תוכן עניינים מורחב - פרק 2</h3>
+        <ul>
+            <li><a href="#companies-law">1. חוק החברות: חלוקת סמכויות ואחריות הדירקטוריון מול ה-CFO</a></li>
+            <li><a href="#reporting-obligations">2. חובות הדיווח (חוק ניירות ערך) ומבחן המהותיות</a></li>
+            <li><a href="#cfo-gatekeeper">3. תפקיד ה-CFO בהבטחת ציות: בין נאמנות לחברה לגילוי נאות</a></li>
+            <li><a href="#fs-approval">4. אישור דוחות כספיים: מעבר לחותמת גומי (פרשות מפתח מהפסיקה)</a></li>
+            <li><a href="#isox">5. בקרות פנימיות (iSOX): מוועדת גושן ועד אחריות אישית על חולשות מהותיות</a></li>
+            <li><a href="#audit-committee">6. ועדת הביקורת וה-CFO: מערכת יחסים של תלות הדדית</a></li>
+            <li><a href="#certifications">7. הצהרות מנהלים (Sect. 302/404) והאקדח המכוון לראשם של המנכ"ל וה-CFO</a></li>
+            <li><a href="#sanctions">8. אכיפה מנהלית, תובענות ייצוגיות ואחריות פלילית בישראל</a></li>
+            <li><a href="#isa-inspections">9. ביקורות הרוחב של רשות ניירות ערך (ISA): תמרורי אזהרה לדירקטוריון</a></li>
+            <li><a href="#calendar">10. כלי מעשי: לוח שנה רגולטורי שנתי ל-CFO ולדירקטוריון</a></li>
+        </ul>
+    </div>
+
+    <section id="companies-law">
+        <h2>1. חוק החברות: חלוקת סמכויות ואחריות הדירקטוריון מול ה-CFO</h2>
+        <p>חוק החברות, התשנ"ט-1999, מתווה את ארכיטקטורת השליטה והפיקוח בחברה ישראלית. בעוד שההנהלה (המנכ"ל וצוותו, הכולל את ה-CFO) אחראית על הניהול השוטף, <span class="highlight-term">סעיף 92 לחוק</span> קובע כי הדירקטוריון יתווה את מדיניות החברה ויפקח על ביצועי המנכ"ל ופעולותיו.</p>
+        <p>הדינמיקה המשפטית יוצרת מתח מבני מובנה: הדירקטוריון נדרש לאשר מהלכים קריטיים (כגון חלוקת דיבידנד, אישור דוחות כספיים, עסקאות בעלי עניין ומדיניות תגמול), אך הוא שואב את נתוניו כמעט בלעדית מסמנכ"ל הכספים. פער המידע הזה עמד במוקדן של פסיקות תקדימיות בישראל.</p>
+        
+        <div class="legal-ref">
+            <strong>סעיף 114 לחוק החברות:</strong> "הדירקטוריון ידון בדוחות הכספיים ויאשרם... לא יאשר דירקטוריון את הדוחות הכספיים אלא לאחר שקיבל את המלצותיה של ועדת הביקורת או של ועדת הדירקטוריון לבחינת הדוחות הכספיים..."
+        </div>
+
+        <div class="news-flash">
+            <div class="news-title">📰 מקרה בוחן מהפסיקה הישראלית: אי.די.בי (IDB) ופרשת חלוקת הדיבידנד</div>
+            <p>אחת ההלכות המשמעותיות ביותר נפסקה בעניין חלוקות דיבידנד שבוצעו בקונצרן אי.די.בי אחזקות בתקופת נוחי דנקנר. בית המשפט הכלכלי קבע כי דירקטורים אינם יכולים להסתתר מאחורי "חוות דעת פנימיות" או מצגות מבריקות של ההנהלה וה-CFO באופן עיוור.</p>
+            <p><strong>הרלוונטיות ל-CFO:</strong> הדירקטוריון דרש, בעקבות הפסיקה, כי סמנכ"ל הכספים יציג ניתוחי רגישות קפדניים, יערוך <em>"מבחן יכולת פירעון"</em> מחמיר הכולל תרחישי קיצון (Stress Tests), ויחתום על מזכר פנימי המאשר כי החלוקה אינה מסכנת את החברה גם בתרחיש של משבר מאקרו-כלכלי.</p>
+        </div>
+    </section>
+
+    <section id="reporting-obligations">
+        <h2>2. חובות הדיווח (חוק ניירות ערך) ומבחן המהותיות</h2>
+        <p>חוק ניירות ערך, התשכ"ח-1968, ותקנותיו, מייצרים משטר קפדני של שקיפות מול שוק ההון. סמנכ"ל הכספים הוא "האדריכל הראשי" של משטר זה. החוק מבחין בין שני צינורות דיווח מרכזיים:</p>
+        <ul>
+            <li><strong>דוחות תקופתיים ורבעוניים:</strong> הדיווח הפיננסי השוטף, הכולל דוחות כספיים מבוקרים/סקורים ודוח דירקטוריון על מצב ענייני התאגיד.</li>
+            <li><strong>דוחות מיידיים (Regulation 36):</strong> חובת דיווח "החלה כאשר נודע לתאגיד אירוע מהותי". זוהי זירת הקרב המרכזית בין הנהלה לרגולטור. השאלה שתמיד צפה בחדר הדירקטוריון היא: <em>"האם האירוע מהותי מספיק כדי לדרוש דיווח מיידי עכשיו?"</em></li>
+        </ul>
+
+        <p>ה-CFO מצופה לנהל "נוהל דיווחים מיידיים". הוא זה שצריך להרים דגל אדום בפני המנכ"ל והיועץ המשפטי הפנימי כשמתרחש אירוע העלול להשפיע על שער נייר הערך.</p>
+
+        <div class="news-flash">
+            <div class="news-title">📰 מהשטח: השהיית דיווח מיידי על אובדן פטנטים / לקוחות מהותיים</div>
+            <p>בשנים האחרונות היינו עדים למספר תובענות ייצוגיות וקנסות של רשות ניירות ערך כלפי חברות פארמה, ביומד וטכנולוגיה, שהשהו את הדיווח על קבלת מכתב דחייה מה-FDA, או על לקוח אסטרטגי שביטל הזמנה. ההנהלה קיוותה "לתקן את המצב" לפני שתאלץ לדווח. רשות ניירות ערך הדגישה: חובת הדיווח אינה כפופה לתקוות ההנהלה.</p>
+            <p>ה-CFO חייב להיות הגורם המקרקע שמונע אופטימיות יתר (Optimism Bias) ומוודא דיווח מיידי, כדי להגן על הדירקטורים מפני תביעות ייצוגיות בגין "הסתרת מידע".</p>
+        </div>
+    </section>
+
+    <section id="cfo-gatekeeper">
+        <h2>3. תפקיד ה-CFO בהבטחת ציות: להיות שומר הסף (Gatekeeper)</h2>
+        <p>בראייה מודרנית של ממשל תאגידי, ה-CFO נתפס על ידי הדירקטוריון והרגולטור כ-<strong>"שומר סף"</strong>. המשמעות היא שיש לו אחריות עצמאית, מעבר לנאמנותו למנכ"ל שממונה עליו. תפקיד שומר הסף בא לידי ביטוי מובהק בנושאים של עסקאות בעלי עניין, חריגות מתקציב והפרשת כספים שלא כדין.</p>
+
+        <div class="news-flash">
+            <div class="news-title">📰 רעידת האדמה בענף האשראי החוץ בנקאי: פרשת יונט קרדיט (2022-2023)</div>
+            <p>הקריסה של חברת יונט קרדיט (Unet Credit) מהווה את אחד ממקרי הבוחן החשובים ביותר לממשל תאגידי בישראל. במסגרת הפרשה התגלו חוסרים של עשרות מיליוני שקלים, צ'קים כפולים ופעולות שנעשו לכאורה ללא דיווח, תוך מעורבות של בכירים.</p>
+            <p><strong>הלקח לדירקטוריון ול-CFO:</strong> הדירקטוריון, שכלל אישים מוכרים ובכירים במשק, מצא עצמו תחת חקירת רשות ניירות ערך על מחדל פיקוחי. האירוע חידד את הציפייה הקריטית מסמנכ"ל הכספים: אי אפשר לסמוך על תהליכי עבודה המבוססים על "אמון" בלבד. ה-CFO חייב לבסס מנגנוני בקרה אוטומטיים (Reconciliation), לבצע רוטציה של מורשי חתימה, ולהיות בעל ה"עמוד השדרה" לעצור פעולות של בעלי שליטה כשהן חורגות מנהלי הציות הקפדניים. הדירקטוריון מצדו, חייב לקיים ערוץ תקשורת ישיר ואקסלוסיבי עם ה-CFO שלא דרך המנכ"ל.</p>
+        </div>
+    </section>
+
+    <section id="fs-approval">
+        <h2>4. אישור דוחות כספיים: תהליך, סכנות ויציאה מתסמונת "חותמת הגומי"</h2>
+        <p>ישיבת אישור הדוחות הכספיים (Quarterly/Annual Earnings Approval) היא מנקודות השיא בעבודת הדירקטוריון. הפסיקה בישראל הבהירה כי דירקטור שלא שואל שאלות מהותיות ומסתפק בקריאה מרפרפת של המצגת שמכין ה-CFO, מפר את חובת הזהירות שלו.</p>
+        
+        <p>הסוגיות המרכזיות בהן הדירקטוריון חייב לחקור את סמנכ"ל הכספים:</p>
+        <ul>
+            <li><strong>הערכות שווי וירידת ערך (Impairment Tests):</strong> במיוחד בנכסים בלתי מוחשיים (מוניטין) ונדל"ן להשקעה. בחברות נדל"ן יזמי ומניב בישראל (דוגמת פרשות חנן מור לאחרונה בשל עליית הריבית), הדירקטוריון נדרש לאתגר את שיעורי ההיוון (Cap Rates) שמציג ה-CFO ורואי החשבון המבקרים.</li>
+            <li><strong>הנחת "עסק חי" (Going Concern):</strong> הערכת הנזילות ל-12 החודשים הבאים. חובת ה-CFO להציג תזרים מזומנים חזוי ריאלי, ללא הנחות עבודה "ורודות" מדי שאינן מעוגנות בהסכמים חתומים.</li>
+            <li><strong>הכרה בהכנסה (Revenue Recognition):</strong> סוגיה קריטית בחברות הייטק (SaaS) ותשתיות, המבוססת על כללי IFRS 15.</li>
+        </ul>
+    </section>
+
+    <section id="isox">
+        <h2>5. בקרות פנימיות על הדיווח הכספי (iSOX / ועדת גושן)</h2>
+        <p>בעקבות סערות אנרון ווורלדקום בארה"ב וחקיקת חוק SOX, אימצה רשות ניירות ערך בישראל מודל מקביל (תקנות ניירות ערך על פי המלצות <strong>ועדת גושן</strong>), המוכר בשם iSOX. מטרת העל: לוודא שקיימת מערכת בקרות הדוקה שמונעת טעויות מהותיות (או תרמיות) בדוחות הכספיים.</p>
+        
+        <p>ה-CFO אחראי להוביל את פרויקט ה-iSOX בשיתוף עם מבקר הפנים. הדירקטוריון מקבל פעם בשנה את דוח הערכת הבקרות. המונח המאיים ביותר בהקשר זה הוא <span class="highlight-term">"חולשה מהותית" (Material Weakness)</span>.</p>
+        <div class="callout">
+            <strong>💡 משמעות "חולשה מהותית" לדירקטוריון:</strong> אם ה-CFO והמבקרים מדווחים על חולשה מהותית בבקרות (למשל, העדר הפרדת תפקידים במחלקת השכר או מערכת IT פרוצה), הדירקטוריון חייב לדווח על כך למשקיעים, והמנכ"ל וה-CFO אינם יכולים להצהיר כי הבקרות "אפקטיביות". זהו אירוע מביך היוצר צניחה באמון המשקיעים וחשיפה לתביעות מנהליות.
+        </div>
+    </section>
+
+    <section id="audit-committee">
+        <h2>6. ועדת הביקורת וה-CFO: מערכת יחסים של תלות הדדית והצהרות מנהלים</h2>
+        <p>ועדת הביקורת מורכבת בעיקרה מדירקטורים בלתי תלויים (דח"צים). תפקידה לבחון את הליקויים בניהול העסקי, לאשר עסקאות חריגות (לרבות עסקאות בעלי שליטה - פרק חמישי לחוק החברות), ולדון בתהליך הדיווח הכספי.</p>
+        <p>ה-CFO הוא אורח קבוע, אך לעיתים קרובות גם "המבוקר". מצופה מה-CFO ליצור ערוץ "דלת פתוחה" עם יו"ר ועדת הביקורת ולדווח "Off the record" במקרים של לחצים פסולים מצד ההנהלה.</p>
+
+        <h3>7. הצהרות מנהלים (מקביל ל-Sect. 302/404)</h3>
+        <p>כדי להבטיח אחריות אישית, רשות ניירות ערך מחייבת את המנכ"ל ואת סמנכ"ל הכספים לחתום אישית על "הצהרת מנהלים" המצורפת לדוחות. בהצהרה הם מתחייבים כי "הדוחות אינם כוללים מצג שווא של עובדה מהותית" וכי הם בדקו בעצמם את אפקטיביות הבקרות. חתימה זו מציבה את ה-CFO בחזית החשיפה הפלילית והאזרחית. הדירקטוריון סומך על חתימה זו בבואו לאשר את הדוחות.</p>
+    </section>
+
+    <section id="sanctions">
+        <h2>8. סנקציות ואכיפה בישראל: מנהלית, פלילית וייצוגית</h2>
+        <p>הנוף המשפטי עבור דירקטוריונים ונושאי משרה בישראל החמיר משמעותית בעשור האחרון. ארגז הכלים לאכיפה כולל:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>סוג האכיפה</th>
+                    <th>הגוף האוכף</th>
+                    <th>משמעות והשפעה על נושאי משרה (לרבות CFO)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>אכיפה מנהלית</strong> (מ-2011)</td>
+                    <td>רשות ניירות ערך</td>
+                    <td>הליך מהיר המיועד להפרות (כגון אי דיווח בזמן, פרט מטעה ברשלנות). סנקציות: קנסות אישיים כבדים (עד מאות אלפי שקלים), הרחקה מדירקטוריונים ואיסור כהונה כנושא משרה. החברה לא תמיד יכולה לשפות על הקנס עצמו.</td>
+                </tr>
+                <tr>
+                    <td><strong>תובענות ייצוגיות (Class Actions) / נגזרות</strong></td>
+                    <td>משקיעים פרטיים / מוסדיים + תובעים ייצוגיים</td>
+                    <td>ישראל הפכה לשיאנית בתביעות ייצוגיות נגד חברות ציבוריות על סמך "מצגי שווא". ה-CFO נדרש תמיד לוודא שיש <span class="highlight-term">"אזהרת מידע צופה פני עתיד" (Safe Harbor)</span> נאותה במצגות משקיעים כדי לחסום תביעות על תחזיות שלא התממשו.</td>
+                </tr>
+                <tr>
+                    <td><strong>אכיפה פלילית</strong></td>
+                    <td>מחלקת חקירות ברשות / פרקליטות מיסוי וכלכלה</td>
+                    <td>שמורה למקרי תרמית, שימוש במידע פנים (Insider Trading) ועבירות מנהלים. עונשי מאסר בפועל (ראו מקרי עבר בפרשות הרצה כגון אי.די.בי, פסגות, וכו').</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="isa-inspections">
+        <h2>9. תוכנית הפיקוח של רשות ניירות ערך: תמרורי האזהרה</h2>
+        <p>רשות ניירות ערך הישראלית מבצעת "ביקורות רוחב" (Horizontal Audits) נושאיות. בכל שנה הרשות מכריזה על מוקדי המיקוד שלה. הדירקטוריון מצפה מה-CFO לוודא שהחברה ערוכה למוקדים אלו.</p>
+        <ul>
+            <li><strong>2022-2024 - אשראי חוץ בנקאי:</strong> בדיקות עומק בנושא חיתום אשראי, הפרשות להפסדי אשראי (CECL), ואיכות הבטוחות (בעקבות קריסת חברות גיבוי אחזקות ויונט קרדיט).</li>
+            <li><strong>שערוך נדל"ן להשקעה בסביבת ריבית עולה:</strong> רשות ני"ע דרשה מחברות נדל"ן מניב לספק הסברים מפורטים מדוע שווי הנכסים שלהן לא ירד למרות העלייה הדרמטית בריבית חסרת הסיכון, והורתה על ביצוע רגישויות מחמירות יותר.</li>
+            <li><strong>מטבעות קריפטוגרפיים:</strong> הסדרת אופן הדיווח, השמירה וההערכה של חברות העוסקות בנכסים דיגיטליים.</li>
+        </ul>
+        <p>CFO יוזם יציג לדירקטוריון מצגת השוואתית: <em>"כיצד החברה שלנו עומדת בסטנדרטים שפורסמו במסמך עמדות סגל הרשות האחרון"</em>.</p>
+    </section>
+
+    <section id="calendar" class="checklist">
+        <h3>10. כלי מעשי (Toolkit): לוח שנה רגולטורי טיפוסי ל-CFO ולדירקטוריון (חברה בורסאית ישראלית)</h3>
+        <p>להלן פריסה שנתית של עבודת ה-CFO מול הדירקטוריון לאבטחת ממשל תאגידי תקין (תאריכים משוערים ויכולים להשתנות, להמחשה):</p>
+        <ul>
+            <li><strong>פברואר - מרץ (Q1):</strong> סיום עבודת ביקורת חיצונית, דיון ואישור דוחות שנתיים (Form 20-F או מקביל ישראלי), אישור דוח iSOX מקיף של מבקר הפנים, דיון בניהול סיכוני סייבר, אישור מענקי עמידה ביעדים לבכירים.</li>
+            <li><strong>מאי (Q2):</strong> אישור דוחות רבעון ראשון. עדכון תחזית (Reforecast). בחינת הצורך בעדכון מדיניות התגמול לקראת אסיפה כללית.</li>
+            <li><strong>אוגוסט (Q3):</strong> אישור דוחות רבעון שני (סקירה חצי שנתית). בחינת תקפותה של הנחת "עסק חי" באופן מעמיק. סקירת פוליסת ביטוח דירקטורים ונושאי משרה (D&O) וחידושה.</li>
+            <li><strong>נובמבר (Q4):</strong> אישור דוחות רבעון שלישי. <strong>מוקד מרכזי:</strong> אישור תוכנית עבודה ותקציב שנתי לשנה הבאה. דיון הדירקטוריון על מגמות שוק והנחות המאקרו שהציב ה-CFO בתקציב.</li>
+            <li><strong>כל השנה (שוטף):</strong> עדכון תקופתי על ניהול חשיפות מטבע (גידור), עמידה באמות מידה פיננסיות (Covenants) של אגרות החוב או הבנקים, ודיווחים מיידיים במקרה של "אירוע מהותי".</li>
+        </ul>
+    </section>
+
+    <div class="summary-box">
+        <h3>סיכום פרק 2 - מבט מחדר הדירקטוריון</h3>
+        <p>בסביבה המשפטית והרגולטורית התובענית של ישראל, הדירקטוריון נשען על סמנכ"ל הכספים כמגן הראשי מפני חשיפה מנהלית, ייצוגית ופלילית. אירועים משבריים כגון קריסת חברות אשראי חוץ בנקאי, מחלוקות סביב הערכות שווי נדל"ן, ותביעות ייצוגיות בגין אי-דיווח, ממחישים כי הדירקטוריון אינו יכול לתפקד כ"חותמת גומי". הוא מצפה מה-CFO ליישם בקרות iSOX אפקטיביות, לספק שקיפות ללא פשרות לוועדת הביקורת, ולהניף דגלים אדומים מיד כשמתעורר אירוע מהותי. שליטה מוחלטת בלוח השנה הרגולטורי היא הבסיס לניהול סיכונים חכם של ההנהלה ושל דירקטוריון החברה.</p>
+    </div>
+
+</div>
+
+</body>
+</html>
