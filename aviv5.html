@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פרק 5: ניהול סיכונים ובקרות פנימיות – רשת הביטחון של הדירקטוריון</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&family=Frank+Ruhl+Libre:wght@400;700&display=swap');
+
+        :root {
+            /* Light, Professional Corporate Theme */
+            --bg-body: #F4F7F9; /* Very soft light blue/gray */
+            --bg-surface: #FFFFFF;
+            --bg-surface-alt: #F8FAFC;
+            --text-primary: #1E293B; /* Slate 800 */
+            --text-secondary: #475569; /* Slate 600 */
+            --primary-brand: #0F4C81; /* Classic Corporate Navy Blue */
+            --secondary-brand: #3B82F6; /* Bright Blue */
+            --accent-gold: #B45309; /* Bronze/Gold for highlights */
+            --danger: #DC2626;
+            --warning: #EA580C;
+            --success: #16A34A;
+            --border-light: #E2E8F0;
+            --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 12px 24px rgba(15, 23, 42, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Frank Ruhl Libre', serif;
+            color: var(--primary-brand);
+            margin-top: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--bg-surface);
+            border-radius: 16px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 50px;
+            border-top: 8px solid var(--primary-brand);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(15, 76, 129, 0.03) 0%, rgba(59, 130, 246, 0.05) 100%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            color: var(--primary-brand);
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 1.4em;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 25px auto;
+            font-family: 'Assistant', sans-serif;
+        }
+
+        .metadata {
+            display: inline-flex;
+            gap: 15px;
+            background: var(--bg-surface-alt);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--border-light);
+            font-weight: 600;
+            color: var(--secondary-brand);
+        }
+
+        .toc {
+            background: var(--bg-surface);
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 60px;
+            border-right: 4px solid var(--accent-gold);
+            animation: slideUp 0.8s ease-out 0.3s backwards;
+        }
+
+        .toc h3 {
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 10px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 12px;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 10px 15px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: block;
+            border: 1px solid transparent;
+            background: var(--bg-body);
+        }
+
+        .toc a:hover {
+            background: var(--bg-surface-alt);
+            color: var(--primary-brand);
+            border-color: var(--border-light);
+            transform: translateX(-5px);
+        }
+
+        section {
+            background: var(--bg-surface);
+            border-radius: 16px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            border-bottom: 3px solid var(--border-light);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            right: 0;
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary-brand);
+        }
+
+        .highlight-text {
+            color: var(--primary-brand);
+            font-weight: 800;
+            background: rgba(59, 130, 246, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .case-study-real {
+            background: var(--bg-surface-alt);
+            border-right: 5px solid var(--accent-gold);
+            padding: 30px;
+            border-radius: 8px;
+            margin: 35px 0;
+            position: relative;
+        }
+
+        .case-study-real::before {
+            content: '📌 מקרה אמת הניתן לאימות';
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--accent-gold);
+            color: white;
+            font-size: 0.85em;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-family: 'Assistant', sans-serif;
+        }
+
+        .case-study-real h4 {
+            color: var(--accent-gold);
+            font-size: 1.4em;
+            margin-top: 10px;
+            font-family: 'Assistant', sans-serif;
+        }
+
+        .info-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-top: 4px solid var(--secondary-brand);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        table.corporate-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 1.05em;
+            background: var(--bg-surface);
+            box-shadow: var(--shadow-sm);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table.corporate-table th {
+            background-color: var(--primary-brand);
+            color: white;
+            padding: 18px;
+            text-align: right;
+            font-family: 'Assistant', sans-serif;
+            font-weight: 600;
+        }
+
+        table.corporate-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-primary);
+        }
+
+        table.corporate-table tr:nth-child(even) { background-color: var(--bg-surface-alt); }
+        table.corporate-table tr:hover { background-color: rgba(59, 130, 246, 0.05); }
+
+        /* Risk Heatmap styling */
+        .risk-heatmap {
+            display: grid;
+            grid-template-columns: 80px repeat(3, 1fr);
+            grid-template-rows: repeat(4, auto);
+            gap: 2px;
+            background: var(--border-light);
+            border: 1px solid var(--border-light);
+            margin: 40px 0;
+            font-family: 'Assistant', sans-serif;
+        }
+
+        .heatmap-header {
+            background: var(--bg-surface-alt);
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--text-secondary);
+        }
+
+        .heatmap-cell {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: 600;
+            transition: filter 0.3s;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .heatmap-cell:hover { filter: brightness(1.1); cursor: default; }
+        
+        .bg-low { background-color: #34D399; color: #064E3B;} /* Green */
+        .bg-medium { background-color: #FBBF24; color: #78350F; } /* Yellow */
+        .bg-high { background-color: #F97316; } /* Orange */
+        .bg-critical { background-color: #EF4444; } /* Red */
+        
+        .axis-label {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            text-align: center;
+            background: var(--bg-surface-alt);
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        /* Callout Box */
+        .board-callout {
+            background: linear-gradient(to left, rgba(15, 76, 129, 0.05), transparent);
+            border-right: 4px solid var(--primary-brand);
+            padding: 20px 30px;
+            margin: 30px 0;
+            font-size: 1.1em;
+            color: var(--text-primary);
+        }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2em; }
+            section { padding: 30px 20px; }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <div class="hero-content">
+            <h1>ניהול סיכונים ובקרות פנימיות</h1>
+            <p>פרק 5: רשת הביטחון של הדירקטוריון. מסגרות תיאורטיות הלכה למעשה, חקירת אירועי אמת בכלכלה הישראלית, ותפקיד ה-CFO בהגנה על נכסי החברה.</p>
+            <div class="metadata">
+                <span>⏱ 60 דקות עומק פרקטי</span>
+                <span>🛡️ מודול: ERM, סייבר וממשל תאגידי</span>
+                <span>🇮🇱 מבוסס מקרי בוחן אמת משוק ההון</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="toc">
+        <h3>תוכן עניינים מקצועי</h3>
+        <div class="toc-grid">
+            <a href="#erm-frameworks">1. מסגרות ERM (COSO / ISO 31000) במציאות</a>
+            <a href="#risk-appetite">2. תיאבון סיכון (Risk Appetite) – מתיאוריה למספרים</a>
+            <a href="#israel-risks">3. מפת הסיכונים העליונה של החברה הישראלית ב-2024-2026</a>
+            <a href="#internal-audit">4. מבקר הפנים מול ה-CFO: מתח מבני מובנה</a>
+            <a href="#fraud-whistleblower">5. הונאות, קומפליינס ומנגנוני הלשנה (מקרה בוחן: טבע)</a>
+            <a href="#business-continuity">6. המשכיות עסקית (BCP) וסייבר (מקרה בוחן: שירביט)</a>
+            <a href="#board-reporting">7. דיווח סיכונים לדירקטוריון – מה באמת צריך להציג?</a>
+            <a href="#dashboard">8. כלי פרקטי: בניית מפת חום (Heatmap) לוועדת הביקורת</a>
+        </div>
+    </div>
+
+    <section id="erm-frameworks">
+        <h2>1. מסגרות ERM – הרבה מעבר לטופסולוגיה</h2>
+        <p>ניהול סיכונים תאגידי (Enterprise Risk Management - ERM) אינו אוסף של מסמכים שנועד לרצות את המבקר החיצוני. עבור הדירקטוריון, מערכת ERM מתפקדת כרדאר האסטרטגי של החברה. שתי המסגרות הגלובליות המובילות שכל CFO חייב ליישם הן <strong>COSO ERM (2017)</strong> ו-<strong>ISO 31000</strong>.</p>
+        <p>בפרקטיקה הישראלית (במיוחד לאור הנחיות רשות ניירות ערך ודרישות iSOX), ה-CFO נדרש לקחת את תרשים הזרימה התיאורטי של COSO ולהפוך אותו לתרבות ארגונית. המשמעות: סיכון אינו מנוהל רק ב"מחלקת הסיכונים", אלא משולב בקבלת ההחלטות (לדוגמה: כאשר סמנכ"ל השיווק מציע כניסה לשוק חדש, ה-CFO מחייב אותו להציג את נגזרת הסיכון למאזן).</p>
+        <div class="board-callout">
+            <strong>ציפיית הדירקטוריון:</strong> "אנחנו לא רוצים לשמוע רק על 'סיכונים מניעים' (Risks to mitigate). אנחנו מצפים מה-CFO להראות לנו אילו סיכונים עלינו *לקחת* באופן אקטיבי כדי לייצר יתרון תחרותי, ואיך אנו מגדרים את סביבת הסיכון הזו."
+        </div>
+    </section>
+
+    <section id="risk-appetite">
+        <h2>2. תיאבון סיכון (Risk Appetite) וסבולת סיכון (Risk Tolerance)</h2>
+        <p>אחת השגיאות הנפוצות ביותר בדירקטוריונים היא אישור מסמך "תיאבון סיכון" גנרי (לדוגמה: "לחברה תיאבון סיכון בינוני לסיכוני אשראי"). זהו משפט ריק מתוכן שאינו מנחה את הנהלת החברה.</p>
+        <p>תפקידו של ה-CFO הוא <span class="highlight-text">לכמת את תיאבון הסיכון למספרים פסיק מוחלטים (Quantification)</span>. הדירקטוריון מאשר גבולות גזרה (Tolerance) ברורים. </p>
+        
+        <table class="corporate-table">
+            <thead>
+                <tr>
+                    <th>תחום הסיכון</th>
+                    <th>הגדרה עמומה (שגויה)</th>
+                    <th>הגדרת CFO מקצועית (מכומתת לפעולה)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>חשיפת מט"ח (FX)</strong></td>
+                    <td>"אנו שואפים למזער חשיפה לתנודות הדולר."</td>
+                    <td>"החברה מוכנה לספוג אובדן EBITDA של מקסימום 2 מיליון $ רבעונית מתנודות שער. כל חשיפה מעבר לכך תגודר מראש בעסקאות Forward."</td>
+                </tr>
+                <tr>
+                    <td><strong>סיכון אשראי (לקוחות)</strong></td>
+                    <td>"נמנע מלקוחות בסיכון גבוה."</td>
+                    <td>"לקוח בודד לא יהווה יותר מ-12% ממחזור המכירות. ימי אשראי (DSO) מקסימליים: 90 יום. חריגה דורשת אישור ועדת אשראי דירקטוריונית."</td>
+                </tr>
+                <tr>
+                    <td><strong>נזילות</strong></td>
+                    <td>"נשמור על קופה חזקה."</td>
+                    <td>"שמירה קבועה על יתרת מזומן השווה ל-4 חודשי הוצאות קבועות (Opex Cash Burn) + מסגרות אשראי חתומות בלתי מנוצלות (RCF) של 50M ₪."</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="israel-risks">
+        <h2>3. מפת הסיכונים העליונה: המציאות של חברות ישראליות (2024-2026)</h2>
+        <p>סמנכ"ל כספים בישראל מנהל סיכונים בסביבת מאקרו קיצונית וייחודית. להלן הסיכונים הקריטיים כפי שבאו לידי ביטוי במקרי אמת מובהקים בשנים האחרונות:</p>
+        
+        <div class="grid-2">
+            <div class="info-card">
+                <h3>א. סיכונים גיאופוליטיים ושרשראות אספקה</h3>
+                <p><strong>האירוע המאומת:</strong> משבר ים סוף (2023-2024). בעקבות התקפות החות'ים על אוניות מטען במצרי באב אל-מנדב, חברות ספנות (דוגמת ענקית הספנות הישראלית צים) נאלצו להקיף את אפריקה. התוצאה לחברות קמעונאות ישראליות (כגון קבוצת פוקס, אלקטרה מוצרי צריכה): זינוק של מעל 200% בעלויות ההובלה הימית ועיכובים של 3 שבועות בהגעת מלאי.</p>
+                <p><strong>פעולת ה-CFO:</strong> הדירקטוריונים דרשו בנייה מיידית של מודלי Pricing חדשים להשתת העלויות על הצרכן (מבלי לפגוע בביקוש), וגיוון ספקים (Nearshoring) מאירופה במקום מהמזרח הרחוק.</p>
+            </div>
+            <div class="info-card">
+                <h3>ב. סביבת ריבית ומחנק אשראי</h3>
+                <p><strong>האירוע המאומת:</strong> סדרת העלאות הריבית של בנק ישראל (מרמה של 0.1% באפריל 2022 ל-4.75% במחצית 2023) הכתה בתדהמה חברות נדל"ן ממונפות. חברות יזמיות (הדוגמה הבולטת ביותר והמתועדת היטב היא קריסת קבוצת חנן מור, שנטלה אשראי עצום של כ-1.3 מיליארד ש"ח לרכישת קרקעות בשדה דב בריבית משתנה).</p>
+                <p><strong>פעולת ה-CFO:</strong> כישלון בגידור סיכון הריבית (IRS - Interest Rate Swap) הוביל לאובדן החברה. הדירקטוריון כיום דורש מה-CFO לבצע Stress Tests מחמירים על יחס כיסוי החוב (DSCR) גם בתרחיש של ריבית פריים של 8%.</p>
+            </div>
+            <div class="info-card" style="grid-column: 1 / -1;">
+                <h3>ג. סיכון רציפות תפעולית וכוח אדם במצבי חירום (מילואים)</h3>
+                <p><strong>האירוע המאומת:</strong> מלחמת חרבות ברזל (אוקטובר 2023). חברות הייטק ותעשייה ישראליות חוו לראשונה בהיסטוריה גיוס מילואים מסיבי (צו 8) שגילח בן לילה 15%-25% מכוח האדם היצרני (מהנדסים, פועלי ייצור). </p>
+                <p><strong>פעולת ה-CFO:</strong> ועדת ניהול הסיכונים דרשה הפעלה מיידית של נוהל BCP (Business Continuity Plan), זיהוי Single Points of Failure בארגון (מה קורה אם סמנכ"ל הפיתוח או מנהל הכספים גויס לעזה?), והקצאת תקציבי חירום למיקור חוץ (Outsourcing) למדינות זרות כדי לעמוד בהתחייבויות SLA ללקוחות בינלאומיים.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="internal-audit">
+        <h2>4. מבקר הפנים מול ה-CFO: מערכת יחסים מורכבת</h2>
+        <p>על פי חוק החברות (סעיף 142), חברה ציבורית חייבת למנות מבקר פנימי (Internal Auditor). מבקר הפנים כפוף <em>מקצועית</em> ליו"ר דירקטוריון/ועדת ביקורת, אך <em>מנהלית</em> הוא לרוב כפוף למנכ"ל ופועל בצמוד ל-CFO.</p>
+        <p>דינמיקה זו יוצרת מתח מובנה. ה-CFO מעוניין להראות שליטה ובקרה מושלמת, בעוד תפקיד המבקר הוא למצוא את החורים ברשת. דירקטוריון בריא דורש מה-CFO לראות במבקר שותף לחיזוק הבקרות. אם ה-CFO מנסה להצר את צעדי המבקר (למשל על ידי קיצוץ תקציב הביקורת), ועדת הביקורת חייבת להתערב בנחרצות.</p>
+    </section>
+
+    <section id="fraud-whistleblower">
+        <h2>5. סיכוני ציות, שוחד, והונאות (Compliance & Fraud)</h2>
+        <p>אחת הסכנות הגדולות ביותר לשווי החברה ולאחריות האישית של נושאי משרה היא עבירות על חוקי איסור הלבנת הון, שוחד פקידי ציבור (FCPA בארה"ב, סעיף 291א בישראל), והונאות הנהלה. ה-CFO הוא ה"שריף" הפיננסי שתפקידו למנוע זאת, בראש ובראשונה באמצעות <span class="highlight-text">מנגנון דיווח מוגן אנונימי (Whistleblower Hotline)</span>.</p>
+
+        <div class="case-study-real">
+            <h4>הקריסה האתית בטבע תעשיות פרמצבטיות (2016)</h4>
+            <p><strong>האירוע (ניתן לאימות גלוי):</strong> בשנת 2016, ענקית התרופות הישראלית "טבע" הגיעה להסדר פשרה היסטורי מול הרשויות בארה"ב (SEC ומשרד המשפטים - DOJ) במסגרתו שילמה קנס עתק של <strong>519 מיליון דולר</strong>. הסיבה: הפרת חוקי ה-FCPA (Foreign Corrupt Practices Act). חקירות העלו כי חברות בת של טבע ברוסיה, אוקראינה ומקסיקו שיחדו פקידי ממשל ורופאים בכירים כדי לקדם תרופות (ביניהן הקופקסון), תוך הסוואת תשלומי השוחד בספרי החשבונות כ"הנחות" או תשלומים עבור "ייעוץ".</p>
+            <p><strong>הלקח המהדהד ל-CFO ולדירקטוריון:</strong> 
+            <br>1. <strong>"Tone at the Top" אינו מספיק:</strong> דירקטוריון טבע באותן שנים כלל שורה של אישים בכירים מהמשק, אך הבקרות הפנימיות (iSOX) במדינות היעד היו רופפות.
+            <br>2. <strong>מעקב אחר תשלומים חריגים:</strong> ה-CFO חייב ליישם טכנולוגיות דאטה-אנליטיקס לאיתור אנומליות בתשלומים לצדדים שלישיים (Third-party vendors). כשמשלמים מיליונים לסוכן מקומי להשגת אישורים רגולטוריים – זוהי נורת אזהרה בוהקת שדורשת חקירת עומק של רואה החשבון והמבקר הפנימי. הדירקטוריון נושא באחריות על כישלון בפיקוח על תוכנית הקומפליינס.</p>
+        </div>
+    </section>
+
+    <section id="business-continuity">
+        <h2>6. סייבר כסיכון פיננסי-עסקי עליון (המשכיות עסקית)</h2>
+        <p>בעשור הנוכחי, אבטחת מידע אינה נחלתה הבלעדית של מחלקת ה-IT (מנמ"ר/CISO). פריצת סייבר היא אירוע בעל השפעה פיננסית, חוקית ותדמיתית קטסטרופלית. ה-CFO מעורב עמוקות בהערכת הנזק הכספי הפוטנציאלי, ברכישת ביטוחי סייבר, ובניהול התקציב למיגון ההגנות הנדרשות.</p>
+
+        <div class="case-study-real" style="border-right-color: var(--danger); background: rgba(220, 38, 38, 0.03);">
+            <h4 style="color: var(--danger);">השבתה מוחלטת: מתקפת הכופרה על חברת הביטוח שירביט (2020)</h4>
+            <p><strong>האירוע (ניתן לאימות גלוי):</strong> בדצמבר 2020, קבוצת האקרים ("Black Shadow") חדירה למערכות שירביט, חברת ביטוח ישראלית בולטת שביטחה בין היתר עובדי מדינה. ההאקרים הצפינו את שרתי החברה (Ransomware), גנבו מידע אישי ורפואי רגיש של עשרות אלפי מבוטחים, ודרשו כופר בביטקוין. החברה סירבה לשלם, וההאקרים החלו לפרסם את המידע ברשת הטלגרם.</p>
+            <p><strong>זווית הדירקטוריון וניהול המשבר הפיננסי:</strong> 
+            המערכות התפעוליות הושבתו לחלוטין (חוסר יכולת לגבות פרמיות או לשלם תביעות). רשות שוק ההון, ביטוח וחיסכון (הרגולטור) התערבה באופן מיידי ואגרסיבי בחקירת האירוע והעמידה דרישות נוקשות לדירקטוריון. 
+            <br>הנזק התדמיתי והעסקי היה אנוש, ובסופו של תהליך הוביל לכך ששירביט נאלצה להימכר לקבוצת הפניקס (באמצעות חברת הבת "הראל") בנסיבות של לחץ, במחיר שגילם פגיעה משמעותית בשווי לעומת תקופות קודמות.
+            <br><strong>ה-CFO כיום חייב:</strong> לנהל תרגילי "שולחן עגול" (Tabletop Exercises) עם הדירקטוריון לתרחיש של סחיטת כופר (האם החברה תשלם קריפטו באישון לילה? מאין יגיע המימון? האם התשלום מהווה עבירה על חוק איסור מימון טרור?).</p>
+        </div>
+    </section>
+
+    <section id="board-reporting">
+        <h2>7. דיווח סיכונים לדירקטוריון – עקרונות ברזל</h2>
+        <p>כאשר ה-CFO / מנהל הסיכונים הראשי (CRO) מגיע לוועדת ניהול סיכונים של הדירקטוריון, עליו לספק כלים תומכי החלטה, לא מאמרים אקדמיים. עקרונות הדיווח הנדרשים:</p>
+        <ul>
+            <li><strong>מיפוי נתונים קשיח:</strong> לא לומר "הסיכון גדל". יש לומר "ההסתברות לאירוע עלתה מ-10% ל-25%, והחשיפה הכספית (Value at Risk - VaR) בתרחיש קיצון היא 12 מיליון ש"ח."</li>
+            <li><strong>זיהוי מגמות (Trend Lines):</strong> הדירקטוריון בוחן האם סיכון מסוים נמצא במגמת החמרה או שיפור לעומת הרבעון הקודם.</li>
+            <li><strong>תוכנית הפחתה (Mitigation Plan):</strong> לצד כל סיכון מהותי באדום, יש להציג פעולה קונקרטית מלווה בלוח זמנים ואחראי לביצוע.</li>
+        </ul>
+    </section>
+
+    <section id="dashboard">
+        <h2>8. כלי פרקטי לוועדת הביקורת: מפת חום (Risk Heatmap)</h2>
+        <p>כלי ויזואלי קריטי בארגז הכלים של סמנכ"ל הכספים להצגת סיכונים בדירקטוריון. המפה מצליבה את <strong>ההסתברות להתרחשות</strong> מול <strong>עוצמת הפגיעה העסקית (Impact)</strong>.</p>
+        
+        <!-- Risk Heatmap Matrix -->
+        <div class="risk-heatmap">
+            <!-- Headers -->
+            <div></div> <!-- Empty top-left -->
+            <div class="heatmap-header">השפעה שולית (&lt; 1M ₪)</div>
+            <div class="heatmap-header">השפעה בינונית (1M - 5M ₪)</div>
+            <div class="heatmap-header">השפעה קריטית (&gt; 5M ₪ / פגיעה רגולטורית)</div>
+
+            <!-- Row 1 -->
+            <div class="axis-label">הסתברות גבוהה (מעל 60%)</div>
+            <div class="heatmap-cell bg-medium">תחלופת עובדים נמוכה</div>
+            <div class="heatmap-cell bg-high">התייקרות חומרי גלם (אינפלציה)</div>
+            <div class="heatmap-cell bg-critical"><strong>חשיפה לשינויי ריבית מהותיים</strong> (ללא גידור)</div>
+
+            <!-- Row 2 -->
+            <div class="axis-label">הסתברות בינונית (20% - 60%)</div>
+            <div class="heatmap-cell bg-low">תקלות מערכת IT מקומיות</div>
+            <div class="heatmap-cell bg-medium">עיכובים בשרשרת אספקה ימית</div>
+            <div class="heatmap-cell bg-high"><strong>תקיפת סייבר מוצלחת / כופרה</strong></div>
+
+            <!-- Row 3 -->
+            <div class="axis-label">הסתברות נמוכה (מתחת 20%)</div>
+            <div class="heatmap-cell bg-low">תביעה ייצוגית מזערית</div>
+            <div class="heatmap-cell bg-low">חדלות פירעון של לקוח בינוני</div>
+            <div class="heatmap-cell bg-medium"><strong>עבירת הונאה מהותית של נושא משרה</strong></div>
+        </div>
+        <p><em>הערת CFO לדירקטוריון: "אנו ממקדים את מאמצינו העדכניים במשבצות האדומות והכתומות (הקריטיות/גבוהות). לגבי חשיפת הריבית, ביצענו החודש גידור בהיקף של 50 מיליון ש"ח (Interest Rate Swaps), אשר צפוי להוריד סיכון זה למשבצת הצהובה ברבעון הבא."</em></p>
+    </section>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const sections = document.querySelectorAll("section");
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        });
+
+        sections.forEach(sec => {
+            observer.observe(sec);
+        });
+    });
+</script>
+
+</body>
+</html>
