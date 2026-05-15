@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פרק 6: דיווח כספי ושקיפות – בניית אמון הדירקטוריון</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+        :root {
+            /* Corporate Executive Light Theme */
+            --bg-main: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --bg-muted: #F1F5F9;
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --brand-navy: #1E3A8A;
+            --brand-blue: #2563EB;
+            --brand-accent: #059669; /* Trust green */
+            --accent-gold: #D97706;
+            --danger-red: #DC2626;
+            --border-color: #E2E8F0;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+            --shadow-float: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Lora', serif;
+            color: var(--brand-navy);
+            margin-top: 0;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 70px 50px;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 60px;
+            border-right: 8px solid var(--brand-navy);
+            overflow: hidden;
+            animation: fadeDown 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent 40%, rgba(37, 99, 235, 0.03) 100%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 3.2em;
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.4em;
+            color: var(--text-secondary);
+            max-width: 900px;
+            font-weight: 300;
+        }
+
+        .meta-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .tag {
+            background: var(--bg-muted);
+            color: var(--brand-navy);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .toc h3 {
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--bg-muted);
+            padding-bottom: 15px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 15px;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            background: var(--bg-main);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .toc-item:hover {
+            background: var(--bg-card);
+            border-color: var(--brand-blue);
+            color: var(--brand-blue);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .toc-number {
+            background: var(--brand-navy);
+            color: white;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            margin-left: 15px;
+            font-size: 0.9em;
+            flex-shrink: 0;
+        }
+
+        section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        section.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h2::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 35px;
+            background: var(--brand-blue);
+            border-radius: 3px;
+        }
+
+        p {
+            font-size: 1.15em;
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: rgba(37, 99, 235, 0.04);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            border-right: 4px solid var(--brand-blue);
+            padding: 25px 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .highlight-box h4 {
+            color: var(--brand-blue);
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .real-world-case {
+            background: #FFFDF4;
+            border: 1px solid #FEF08A;
+            border-radius: 12px;
+            padding: 35px;
+            margin: 40px 0;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .case-badge {
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: var(--accent-gold);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px rgba(217, 119, 6, 0.2);
+        }
+
+        .real-world-case h4 {
+            color: #92400E;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            margin-top: 10px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 40px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            background: var(--bg-muted);
+            color: var(--brand-navy);
+            padding: 18px;
+            text-align: right;
+            font-weight: 700;
+            font-size: 1.1em;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 18px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { background: rgba(241, 245, 249, 0.5); }
+
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .eco-node {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--brand-navy);
+            transition: all 0.3s ease;
+        }
+
+        .eco-node:hover {
+            background: var(--brand-navy);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .workshop-board {
+            background: var(--brand-navy);
+            color: white;
+            padding: 50px;
+            border-radius: 16px;
+            margin-top: 60px;
+            box-shadow: var(--shadow-float);
+        }
+
+        .workshop-board h2 {
+            color: white;
+        }
+
+        .workshop-board h2::before { background: var(--brand-accent); }
+
+        .check-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            transition: background 0.3s;
+        }
+
+        .check-item:hover { background: rgba(255,255,255,0.1); }
+
+        .check-icon {
+            color: var(--danger-red);
+            font-size: 1.5em;
+            line-height: 1;
+        }
+
+        .term {
+            font-weight: 700;
+            color: var(--brand-blue);
+            background: rgba(37, 99, 235, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding: 40px 25px; }
+            .hero h1 { font-size: 2.4em; }
+            section { padding: 35px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <h1>דיווח כספי ושקיפות</h1>
+        <p>פרק 6: בניית אמון הדירקטוריון ושוק ההון. מצלילת עומק לליבת התקינה, דרך עיצוב הנרטיב העסקי, ועד ניהול משברים של טעויות מהותיות (Restatements) בזמן אמת.</p>
+        <div class="meta-tags">
+            <span class="tag">⏱ משך מודול: 60 דקות</span>
+            <span class="tag">📊 נושא: חשבונאות פיננסית מורכבת וממשל תאגידי</span>
+            <span class="tag">⚖️ מעוגן: הנחיות רשות ניירות ערך ותקינת IFRS</span>
+        </div>
+    </div>
+
+    <div class="toc">
+        <h3>מפת הניווט של הפרק</h3>
+        <div class="toc-grid">
+            <a href="#ecosystem" class="toc-item"><span class="toc-number">1</span> האקו-סיסטם של הדיווח הכספי</a>
+            <a href="#ifrs" class="toc-item"><span class="toc-number">2</span> IFRS במציאות הישראלית (שערוכים והכנסות)</a>
+            <a href="#mda" class="toc-item"><span class="toc-number">3</span> דוח הדירקטוריון (MD&A) – מעבר ל"העתק-הדבק"</a>
+            <a href="#nongaap" class="toc-item"><span class="toc-number">4</span> מלכודת ה-Non-GAAP מול רשות ניירות ערך</a>
+            <a href="#investor-calls" class="toc-item"><span class="toc-number">5</span> שיחות משקיעים (Earnings Calls) ותסריטים</a>
+            <a href="#disclosure-committee" class="toc-item"><span class="toc-number">6</span> ועדת הגילוי ותפקיד ה-CFO בהגדרת מהותיות</a>
+            <a href="#related-party" class="toc-item"><span class="toc-number">7</span> עסקאות בעלי עניין (פרק חמישי לחוק החברות)</a>
+            <a href="#restatement" class="toc-item"><span class="toc-number">8</span> נוהל חירום: הצגה מחדש (Restatement)</a>
+            <a href="#auditor" class="toc-item"><span class="toc-number">9</span> קריאה בין השורות של חוות דעת המבקר (KAM)</a>
+            <a href="#workshop" class="toc-item"><span class="toc-number">10</span> סדנה לדירקטור: רשימת תיוג ודגלים אדומים</a>
+        </div>
+    </div>
+
+    <section id="ecosystem">
+        <h2>1. האקו-סיסטם של הדיווח הכספי: מי מייצר אמון?</h2>
+        <p>הדוח הכספי אינו יצירה של אדם אחד. הוא תוצר של מערכת בלמים ואיזונים קפדנית. חוסר סנכרון באחד הצמתים מוביל בהכרח לכשל דיווחי. הדירקטוריון מסתמך על ה-CFO שינצח על התזמורת הזו ללא זיופים.</p>
+        
+        <div class="ecosystem-grid">
+            <div class="eco-node">החשב (Controller)<br><span style="font-size:0.8em; font-weight:normal;">אחראי על דיוק הנתונים ההיסטוריים ויישום התקינה.</span></div>
+            <div class="eco-node">סמנכ"ל הכספים (CFO)<br><span style="font-size:0.8em; font-weight:normal;">אחראי על אומדנים, שיקול דעת ההנהלה והנרטיב.</span></div>
+            <div class="eco-node">רואה החשבון המבקר<br><span style="font-size:0.8em; font-weight:normal;">מספק חוות דעת בלתי תלויה על הדוחות (שומר הסף החיצוני).</span></div>
+            <div class="eco-node">ועדת הביקורת/מאזן<br><span style="font-size:0.8em; font-weight:normal;">מאתגרת את ההנהלה והמבקרים לפני אישור הדירקטוריון.</span></div>
+        </div>
+    </section>
+
+    <section id="ifrs">
+        <h2>2. תקני IFRS המייצרים "כאב ראש" לדירקטוריון בישראל</h2>
+        <p>בישראל, חברות ציבוריות מדווחות לפי התקינה הבינלאומית (<span class="term">IFRS</span>). התקינה מבוססת פחות על "כללי אצבע" שחור-לבן ויותר על עקרונות (Principles-based) ושיקול דעת הנהלה. להלן התקנים שבהם הדירקטוריון חייב לתחקר את ה-CFO באופן אגרסיבי:</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>התקן החשבונאי</th>
+                    <th>הסוגיה הפיננסית</th>
+                    <th>השאלות הקריטיות של הדירקטוריון ל-CFO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>IFRS 15</strong><br>(הכרה בהכנסה מחוזים)</td>
+                    <td>קביעת העיתוי בו רושמים את ההכנסה בחברות טכנולוגיה, פרויקטים של תשתיות או תוכנה.</td>
+                    <td>"האם אנו רושמים הכנסה מוקדם מדי (אבן דרך שלא באמת הושלמה)? האם הפרדנו נכון בין רכיב החומרה לרכיב השירות התקופתי?"</td>
+                </tr>
+                <tr>
+                    <td><strong>IFRS 13 / IAS 40</strong><br>(שווי הוגן / נדל"ן להשקעה)</td>
+                    <td>הערכת שווי נכסים, במיוחד בסביבת ריבית משתנה (Cap Rates).</td>
+                    <td>"הריבית במשק עלתה ב-3% השנה. למה שווי הקניונים שלנו בספרים נשאר זהה? האם השמאי החיצוני מסתמך רק על נתונים שאתה הזנת לו?"</td>
+                </tr>
+                <tr>
+                    <td><strong>IFRS 9</strong><br>(מכשירים פיננסיים והפסדי אשראי)</td>
+                    <td>הפרשה להפסדי אשראי חזויים (ECL) - קריטי לחברות פיננסים ואשראי חוץ בנקאי.</td>
+                    <td>"המאקרו מראה כניסה למיתון. האם מודל ה-ECL שלנו רגיש מספיק או שאנחנו מזהים חוב אבוד רק כשהלקוח כבר פשט רגל?"</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="mda">
+        <h2>3. דוח הדירקטוריון (MD&A): מעבר ל"העתק-הדבק"</h2>
+        <p>דוח הדירקטוריון (Management Discussion & Analysis) נועד להסביר את המספרים ה"יבשים" מנקודת מבטה של ההנהלה. בפועל, חברות רבות חוטאות ב"מחזור" טקסטים משנה לשנה (Boilerplate). רשות ניירות ערך דורשת <span class="term">גילוי ספציפי ואיכותני</span>.</p>
+        <div class="highlight-box">
+            <h4>💡 ציפיית הדירקטוריון מה-CFO בעריכת ה-MD&A:</h4>
+            <p>אל תכתוב בדוח: <em>"ההכנסות ירדו ב-10% בגלל ירידה בביקושים"</em>. הדירקטוריון (והרשות) מצפים לניתוח שורש: <em>"ההכנסות ירדו ב-10% משום שהשקת מוצר X התעכבה ב-3 חודשים בעקבות בעיות בשרשרת האספקה בטאיוואן. כתוצאה מכך, לקוחות עברו למתחרה Y. בכוונתנו להתגבר על כך ברבעון הבא באמצעות מתן הנחות של 5%."</em> זהו נרטיב אסטרטגי המייצר אמון.</p>
+        </div>
+    </section>
+
+    <section id="nongaap">
+        <h2>4. מלכודת ה-Non-GAAP ומאבק רשות ניירות ערך</h2>
+        <p>חברות רבות מדווחות על מדדים פיננסיים מתואמים שאינם לפי כללי החשבונאות המקובלים (כגון <strong>Adjusted EBITDA</strong> או <strong>רווח נקי מנוטרל</strong>). המטרה הלגיטימית היא לנטרל אירועים חד-פעמיים כדי להראות למשקיעים את פוטנציאל הייצור התזרימי השוטף.</p>
+        <p>הסכנה: הדירקטוריון מאשר "ניטרולים" אגרסיביים מדי, והחברה מציגה הפסד חשבונאי מהותי אך רווח Non-GAAP זוהר.</p>
+
+        <div class="real-world-case">
+            <span class="case-badge">⚠️ מקרה אמת רגולטורי</span>
+            <h4>עמדת סגל רשות ניירות ערך: אכיפת מדיניות ה-Non-GAAP (2021-2023)</h4>
+            <p>בשנים האחרונות, רשות ניירות ערך הישראלית פרסמה הבהרות נוקשות (ושאילתות לחברות ספציפיות) בדבר הצגת מדדי Non-GAAP. <strong>הפרקטיקה הפסולה שטופלה:</strong> חברות טכנולוגיה וצמיחה נהגו לנטרל באופן קבוע הוצאות בגין תגמול מבוסס מניות (אופציות לעובדים - SBC) והוצאות רה-ארגון "חד פעמיות" שחזרו על עצמן בכל רבעון מחדש.</p>
+            <p><strong>דרישת הרשות מה-CFO והדירקטוריון:</strong> 
+            <br>1. איסור על הצגת מדד ה-Non-GAAP בהבלטה (בולד, כותרת עליונה) לעומת מדד ה-GAAP. 
+            <br>2. הצגת "גשר" (Reconciliation) ברור ואמין.
+            <br>3. הדירקטוריון חייב לתשאל את ה-CFO: <em>"אם אנחנו מפטרים עובדים ומשלמים פיצויים כל שנה ברציפות ב-3 השנים האחרונות, כיצד אנו ממשיכים לטעון שזו 'הוצאה חד-פעמית' ולנטרל אותה מה-EBITDA?"</em></p>
+        </div>
+    </section>
+
+    <section id="investor-calls">
+        <h2>5. שיחות משקיעים (Earnings Calls): ניהול התיאטרון הפיננסי</h2>
+        <p>שיחת המשקיעים הרבעונית היא רגע השיא בחשיפה של החברה לשוק ההון. בעוד המנכ"ל מספק את החזון, ה-CFO אחראי על העוגן המספרי ומתן התחזית הקדימה (Guidance). מעורבות הדירקטוריון בשלב זה כוללת אישור מראש של המסרים המרכזיים.</p>
+        <ul>
+            <li><strong>תסריט ותשובות מוכנות מראש (Q&A Matrix):</strong> ה-CFO מכין לדירקטוריון מסמך הממפה את כל השאלות הקשות שהאנליסטים צפויים לשאול (למשל: "למה שולי הרווח הגולמי נשחקו?"), ומאשר מולם את התשובות הפומביות.</li>
+            <li><strong>אזהרת מידע צופה פני עתיד (Safe Harbor):</strong> חובה משפטית. כל אמירה של ה-CFO לגבי העתיד חייבת להיות מלווה בהסתייגות כי מדובר בהערכה בלבד, הכפופה לסיכונים שהוצגו בתשקיף. זהו המגן המשפטי המרכזי של הדירקטוריון נגד תביעות ייצוגיות אם התחזית נכשלת.</li>
+        </ul>
+    </section>
+
+    <section id="disclosure-committee">
+        <h2>6. ועדת הגילוי (Disclosure Committee) והגדרת "המהותיות"</h2>
+        <p>כדי למנוע תקלות בדיווח, חברות מבוססות מקימות "ועדת גילוי" פנימית (הכוללת לרוב את ה-CFO, היועץ המשפטי, החשב ולעיתים המבקר הפנימי). תפקידה לבחון אירועים בזמן אמת ולהחליט: <strong>האם זה דורש דיווח מיידי לבורסה?</strong></p>
+        <p>המונח המרכזי כאן הוא <span class="term">מהותיות (Materiality)</span>. ה-CFO הוא הסמכות המקצועית שקובעת האם אובדן של חוזה בשווי 5 מיליון ש"ח הוא "מהותי" (כלומר, מידע שמשקיע סביר היה רואה בו חשיבות בקבלת החלטת השקעה) בהתחשב בסך הכנסות החברה. אם ה-CFO טועה בשיקול הדעת ומעכב דיווח, הרשות לניירות ערך עלולה להטיל קנסות מנהליים כבדים (עיצומים כספיים) על החברה ונושאי המשרה אישית.</p>
+    </section>
+
+    <section id="related-party">
+        <h2>7. עסקאות בעלי עניין (Related-Party Transactions)</h2>
+        <p>בישראל, בה קיימות חברות רבות הנשלטות על ידי בעל שליטה דומיננטי (משפחה או קבוצת החזקות), סוגיית העסקאות עם צדדים קשורים היא הרגישה ביותר בדין התאגידי (<strong>הפרק החמישי לחוק החברות</strong>).</p>
+        <p>כאשר חברה ציבורית רוכשת נכס מחברה פרטית של בעל השליטה, או משלמת דמי ניהול לבעל השליטה, ה-CFO נמצא במבחן אולטימטיבי של נאמנות לחברה ולא ל"בוס".</p>
+        <div class="highlight-box">
+            <h4>דרישות הדירקטוריון והחוק מה-CFO:</h4>
+            <ul>
+                <li>הזמנת <span class="term">חוות דעת הוגנות (Fairness Opinion)</span> ממעריך שווי חיצוני ובלתי תלוי, שיוכיח כי המחיר המשולם לבעל השליטה הינו בתנאי שוק (Arm's Length).</li>
+                <li>אישור משולש: ועדת ביקורת (שמורכבת מבלתי תלויים) ⬅ דירקטוריון ⬅ אסיפה כללית ברוב מיוחד (<strong>רוב מקרב המיעוט</strong> - שאינו בעל עניין אישי).</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="restatement">
+        <h2>8. נוהל חירום: הצגה מחדש של דוחות (Restatements)</h2>
+        <p>אין אירוע שמעורר פאניקה בדירקטוריון יותר מאשר גילוי טעות מהותית בדוחות כספיים שכבר פורסמו. המשמעות: יש למשוך את הדוחות בחזרה ולפרסם דוחות מתוקנים המכונים <strong>Restatement</strong>.</p>
+        <p>פעולה זו כמעט תמיד מלווה בצניחת שער המניה, אובדן אמון מצד משקיעים, והגשת בקשה לתביעה ייצוגית נגד הדירקטורים וה-CFO. תפקיד ה-CFO בניהול משבר כזה מול הדירקטוריון:</p>
+        <ol>
+            <li><strong>דיווח מיידי ליו"ר ועדת הביקורת ולרשות ניירות ערך</strong> (השהיית מסחר אם יש צורך).</li>
+            <li>חקירת שורש: האם זו טעות תמימה (שגגה אנושית באקסל/מערכת), פרשנות חשבונאית שגויה מול המבקרים, או חלילה תרמית מתוכננת (Fraud).</li>
+            <li>גילוי ה"חולשה המהותית" בבקרות הפנימיות (iSOX) שהובילה לטעות, והצגת תוכנית ריפוי (Remediation Plan) מיידית לדירקטוריון.</li>
+        </ol>
+    </section>
+
+    <section id="auditor">
+        <h2>9. קריאה בין השורות: חוות דעת המבקר ו-KAM</h2>
+        <p>רואה החשבון המבקר אינו כפוף להנהלה, אלא לדירקטוריון. במסגרת חוות הדעת, המבקרים מחויבים לפרסם פסקת <strong>KAM (Key Audit Matters - ענייני ביקורת מרכזיים)</strong>. אלו הם הנושאים שהיו המסובכים, הקשים או הסובייקטיביים ביותר במהלך הביקורת.</p>
+        <p>דירקטור מקצועי לא מסתפק בשורה התחתונה ("חוות דעת חלקה"), אלא פותח את פסקת ה-KAM. אם המבקר כתב שה-KAM היה "הערכת ירידת ערך של מוניטין בחברת הבת באירופה", זהו איתות לדירקטוריון למקד בדיוק שם את השאלות הקשות ל-CFO בישיבה הבאה.</p>
+    </section>
+
+    <section id="workshop" class="workshop-board">
+        <h2>10. סדנה לדירקטור: דגלים אדומים בדוחות הכספיים</h2>
+        <p>בעת בחינת ערימת הדוחות, על חברי הדירקטוריון לחפש את ה"דגלים האדומים" (Red Flags) הבאים, הדורשים הבהרה מיידית מה-CFO:</p>
+        
+        <div class="check-item">
+            <div class="check-icon">🚩</div>
+            <div>
+                <strong>זינוק פתאומי בימי אשראי לקוחות (DSO)</strong><br>
+                אם המכירות עולות, אבל הלקוחות פתאום משלמים תוך 120 יום במקום 60. הדיון: האם החברה מכירה בהכנסה מוקדם מדי (Channel Stuffing) או נותנת אשראי ללקוחות בסיכון כדי לנפח הכנסות רגע לפני סוף הרבעון?
+            </div>
+        </div>
+
+        <div class="check-item">
+            <div class="check-icon">🚩</div>
+            <div>
+                <strong>היוון אגרסיבי של הוצאות פיתוח (R&D Capitalization)</strong><br>
+                תקן IAS 38 מאפשר לרשום הוצאות פיתוח כנכס (במקום כהוצאה הפוגעת ברווח), אם הוכחה היתכנות טכנולוגית וכלכלית. מעבר חד מרישום כהוצאה להיוון כנכס עלול לאותת על ניסיון הנהלה לייפות את השורה התחתונה.
+            </div>
+        </div>
+
+        <div class="check-item">
+            <div class="check-icon">🚩</div>
+            <div>
+                <strong>פער עצום ועקבי בין הרווח הנקי לתזרים מפעילות שוטפת</strong><br>
+                "הרווח הוא דעה, המזומן הוא עובדה". חברה שמראה רווח חשבונאי מרשים של עשרות מיליונים, אך תזרים המזומנים התפעולי שלה (CFOA) שלילי במשך תקופה ארוכה - היא חברה בבעיה חמורה של איכות רווח (Earnings Quality) המצדיקה חקירת דירקטוריון נוקבת.
+            </div>
+        </div>
+
+        <div class="check-item">
+            <div class="check-icon">🚩</div>
+            <div>
+                <strong>שינוי תכוף ברואי חשבון או מנהלי כספים</strong><br>
+                התפטרות פתאומית של רואה חשבון מבקר, או חילופי סמנכ"לי כספים שניים-שלושה בשנתיים, הם לרוב התסמין המובהק ביותר לסכסוכים אודות פרקטיקות דיווח פסולות (Disagreements on accounting treatments).
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sections = document.querySelectorAll('section, .workshop-board');
+        
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const sectionObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+    });
+</script>
+
+</body>
+</html>
