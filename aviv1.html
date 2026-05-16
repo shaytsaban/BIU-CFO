@@ -2,339 +2,834 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-width=1.0">
-    <title>פרק 1: התפתחות תפקיד סמנכ״ל הכספים – ציפיות הדירקטוריון בזירה הישראלית</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פרק 1: התפתחות תפקיד ה-CFO – ציפיות הדירקטוריון בישראל</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0a192f',
+                            light: '#172a45',
+                            accent: '#d4af37',
+                            accentHover: '#b5952f',
+                            bg: '#f8fafc',
+                            text: '#334155'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Heebo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary-color: #0f2a4a;
-            --secondary-color: #1a4a7b;
-            --accent-color: #d4af37;
-            --bg-color: #f4f7f9;
-            --text-color: #333333;
-            --box-bg: #ffffff;
-            --border-color: #e0e6ed;
+        /* Custom Animations & Styles */
+        body { 
+            background: linear-gradient(135deg, #f4f7f9 0%, #e8f0fe 100%); 
+            min-height: 100vh;
+            scroll-behavior: smooth; 
         }
         
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.8;
-            margin: 0;
-            padding: 20px;
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: var(--box-bg);
-            padding: 40px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-radius: 8px;
-            border-top: 5px solid var(--primary-color);
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--border-color);
+        .gradient-text {
+            background: linear-gradient(135deg, #0a192f 0%, #172a45 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        h1 {
-            color: var(--primary-color);
-            font-size: 2.2em;
-            margin-bottom: 10px;
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #172a45; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0a192f; }
+
+        .interactive-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .interactive-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255,255,255,0.1);
+            transform: translate(-50%, -50%) rotate(45deg) translateY(100%);
+            transition: transform 0.5s ease;
+        }
+        .interactive-btn:hover::after {
+            transform: translate(-50%, -50%) rotate(45deg) translateY(0);
+        }
+        
+        /* Floating Lecturer Toggle */
+        #lecturer-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
 
-        h2 {
-            color: var(--secondary-color);
-            font-size: 1.6em;
-            margin-top: 40px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
+        .summary-timeline {
+            position: relative;
+        }
+        .summary-timeline::before {
+            content: '';
+            position: absolute;
+            top: 2.5rem;
+            right: 22px; /* ממרכז את הקו בדיוק באמצע האייקונים */
+            width: 4px;
+            height: calc(100% - 8rem);
+            background: linear-gradient(to bottom, #d4af37, #172a45, #10b981);
+            border-radius: 4px;
+            transform-origin: top;
+            transform: scaleY(0);
+            transition: transform 2s ease-in-out;
+        }
+        .summary-timeline.visible::before {
+            transform: scaleY(1);
+        }
+        
+        .summary-card {
+            opacity: 0;
+            transform: translateX(40px); /* החלקה מימין לשמאל (מותאם ל-RTL) */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .summary-timeline.visible .summary-card {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        h3 {
-            color: var(--primary-color);
-            font-size: 1.3em;
+        .summary-icon-wrap {
+            transform: scale(0);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .summary-timeline.visible .summary-icon-wrap {
+            transform: scale(1);
         }
 
-        .meta-info {
-            font-size: 0.9em;
-            color: #666;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
+        /* Staggered Delays for Timeline Elements */
+        .summary-timeline .summary-card:nth-child(1) { transition-delay: 0.4s; }
+        .summary-timeline .summary-card:nth-child(1) .summary-icon-wrap { transition-delay: 0.6s; }
 
-        .toc {
-            background-color: #fcfcfc;
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 40px;
-        }
+        .summary-timeline .summary-card:nth-child(2) { transition-delay: 0.8s; }
+        .summary-timeline .summary-card:nth-child(2) .summary-icon-wrap { transition-delay: 1.0s; }
 
-        .toc ul {
-            list-style-type: none;
-            padding: 0;
-        }
+        .summary-timeline .summary-card:nth-child(3) { transition-delay: 1.2s; }
+        .summary-timeline .summary-card:nth-child(3) .summary-icon-wrap { transition-delay: 1.4s; }
 
-        .toc li {
-            margin-bottom: 8px;
-        }
-
-        .toc a {
-            text-decoration: none;
-            color: var(--secondary-color);
-            font-weight: 500;
-        }
-
-        .toc a:hover {
-            color: var(--accent-color);
-        }
-
-        .callout {
-            background-color: #eef4f9;
-            border-right: 4px solid var(--secondary-color);
-            padding: 15px 20px;
-            margin: 25px 0;
-            border-radius: 3px;
-        }
-
-        .callout strong {
-            color: var(--primary-color);
-        }
-
-        .case-study {
-            background-color: #fff9e6;
-            border: 1px solid #f2d780;
-            border-right: 4px solid var(--accent-color);
-            padding: 20px;
-            margin: 30px 0;
-            border-radius: 3px;
-        }
-
-        .case-study h3 {
-            margin-top: 0;
-            color: #8a6d00;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-        }
-
-        th, td {
-            border: 1px solid var(--border-color);
-            padding: 12px 15px;
-            text-align: right;
-        }
-
-        th {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9fbfd;
-        }
-
-        .highlight {
-            background-color: rgba(212, 175, 55, 0.2);
-            padding: 0 4px;
-            border-radius: 2px;
-            font-weight: bold;
-        }
-
-        .checklist {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 30px;
-            border-radius: 8px;
-            margin-top: 40px;
-        }
-
-        .checklist h3 {
-            color: var(--accent-color);
-            margin-top: 0;
-        }
-
-        .checklist ul {
-            list-style-type: square;
-            margin-right: 20px;
-        }
-
-        .checklist li {
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-
-        .summary-box {
-            background-color: #f0f0f0;
-            border-radius: 5px;
-            padding: 20px;
-            margin-top: 40px;
-            text-align: center;
-            font-weight: bold;
-        }
-
+        .summary-timeline .summary-card:nth-child(4) { transition-delay: 1.6s; }
+        .summary-timeline .summary-card:nth-child(4) .summary-icon-wrap { transition-delay: 1.8s; }
     </style>
 </head>
-<body>
+<body class="text-brand-text antialiased">
 
-<div class="container">
-    <header>
-        <h1>תפקיד סמנכ״ל הכספים בראי הדירקטוריון בישראל</h1>
-        <div style="font-size: 1.4em; color: var(--secondary-color); margin-bottom: 15px;">פרק 1: התפתחות תפקיד ה-CFO – ציפיות הדירקטוריון בזירה הישראלית</div>
-        <div class="meta-info">
-            <span>⏱ זמן קריאה/הרצאה: ~30 דקות</span>
-            <span>🎯 מודול: ממשל תאגידי ואסטרטגיה</span>
-            <span>🎓 קהל יעד: C-Level ודירקטורים</span>
-        </div >
+<div id="lecturer-toggle" class="bg-brand-dark text-white px-4 py-3 rounded-full shadow-lg flex items-center gap-3 cursor-pointer hover:bg-brand-light" onclick="toggleLecturerMode()">
+    <span class="text-xl">👨‍🏫</span>
+    <span class="font-semibold text-sm">מצב מרצה (חשוף הכל)</span>
+    <div id="toggle-indicator" class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-10">
+    <header class="glass-panel rounded-2xl p-8 lg:p-12 mb-12 border-t-4 border-brand-accent fade-in-up relative overflow-hidden">
+        <div class="absolute -top-24 -left-24 w-48 h-48 bg-brand-accent opacity-10 rounded-full blur-3xl"></div>
+        <div class="flex justify-between items-start flex-wrap gap-4 relative z-10">
+            <div>
+                <h1 class="text-4xl lg:text-5xl font-extrabold text-brand-dark mb-4 leading-tight">
+                    תפקיד סמנכ״ל הכספים <br>
+                    <span class="gradient-text">בראי הדירקטוריון בישראל</span>
+                </h1>
+                <p class="text-xl text-brand-light font-medium mb-4">פרק 1: התפתחות תפקיד ה-CFO – ציפיות הדירקטוריון בזירה הישראלית</p>
+                <div class="inline-flex items-center gap-2 bg-brand-dark text-brand-accent px-5 py-2.5 rounded-lg shadow-lg transform transition hover:scale-105 border border-brand-accent/30 mt-2">
+                    <span class="text-2xl">👨‍🏫</span>
+                    <span class="text-lg font-bold tracking-wide">מרצה: רו״ח אביב רופל</span>
+                </div>
+            </div>
+            <div class="bg-white/80 backdrop-blur-md p-5 rounded-xl shadow-lg border border-gray-100 flex flex-col gap-3 min-w-[220px]">
+                <div class="flex items-center gap-3"><span class="text-xl bg-gray-100 p-1 rounded">⏱</span> <span class="font-medium text-gray-800">זמן הרצאה: ~45 דק'</span></div>
+                <div class="flex items-center gap-3"><span class="text-xl bg-gray-100 p-1 rounded">🎯</span> <span class="font-medium text-gray-800">מודול: ממשל תאגידי</span></div>
+                <div class="flex items-center gap-3"><span class="text-xl bg-gray-100 p-1 rounded">🎓</span> <span class="font-medium text-gray-800">קהל יעד: C-Level ודירקטורים</span></div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats Banner (RAG Data integration) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 border-t border-gray-200 pt-8">
+            <div class="text-center p-4">
+                <div class="text-3xl font-bold text-brand-dark mb-1">511</div>
+                <div class="text-sm text-gray-500">חברות ציבוריות בישראל (2024)</div>
+            </div>
+            <div class="text-center p-4 border-r md:border-r-0 md:border-l border-gray-200">
+                <div class="text-3xl font-bold text-brand-accent mb-1">50</div>
+                <div class="text-sm text-gray-500">חברות דואליות (TASE/US, 2025)</div>
+            </div>
+            <div class="text-center p-4 border-r md:border-r-0 md:border-l border-gray-200">
+                <div class="text-3xl font-bold text-brand-dark mb-1">$141B</div>
+                <div class="text-sm text-gray-500">שווי שוק דואליות בת"א (2025)</div>
+            </div>
+        </div>
     </header>
 
-    <div class="toc">
-        <h3>תוכן עניינים - פרק 1</h3>
-        <ul>
-            <li><a href="#evolution">1. האבולוציה של תפקיד סמנכ"ל הכספים: מרואה חשבון למנהיג אסטרטגי</a></li>
-            <li><a href="#bridge">2. סמנכ"ל הכספים המודרני כגשר ארגוני (הנהלה, דירקטוריון, משקיעים, רגולטורים)</a></li>
-            <li><a href="#expectations">3. הציפיות המשתנות של הדירקטוריון: מפיקוח ובקרה לשותפות אסטרטגית</a></li>
-            <li><a href="#competencies">4. כישורי הליבה הנדרשים: מומחיות פיננסית, הבנה עסקית, מנהיגות ואוריינות דיגיטלית</a></li>
-            <li><a href="#fiduciary">5. חובות אמון וזהירות על פי הדין הישראלי (חוק החברות)</a></li>
-            <li><a href="#officer">6. ה-CFO כ"נושא משרה" – חשיפה משפטית, ביטוח, פטור ושיפוי</a></li>
-            <li><a href="#asymmetry">7. תלות הדירקטוריון ב-CFO: סיכוני פערי מידע (Information Asymmetry)</a></li>
-            <li><a href="#israel-market">8. סטטיסטיקות ומגמות בחברות ציבוריות בישראל (רישום כפול, שליטה משפחתית, פירמידות)</a></li>
-            <li><a href="#case-study">9. מקרה בוחן (Case Study): ה-CFO ששינה את הדינמיקה בחדר הדירקטוריון</a></li>
-            <li><a href="#checklist">10. שאלון הערכה עצמית: "כיצד הדירקטוריון רואה אותי?"</a></li>
+    <nav class="glass-panel rounded-xl p-6 mb-12 fade-in-up">
+        <h3 class="text-2xl font-bold text-brand-dark mb-4 flex items-center gap-2">
+            <svg class="w-6 h-6 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            תוכן עניינים וניווט מהיר
+        </h3>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+            <li><a href="#evolution" class="text-brand-light hover:text-brand-accent transition font-medium">1. האבולוציה: מרואה חשבון למנהיג אסטרטגי</a></li>
+            <li><a href="#bridge" class="text-brand-light hover:text-brand-accent transition font-medium">2. ה-CFO כגשר ארגוני (360 מעלות)</a></li>
+            <li><a href="#expectations" class="text-brand-light hover:text-brand-accent transition font-medium">3. ציפיות הדירקטוריון במציאות של אי-ודאות</a></li>
+            <li><a href="#legal" class="text-brand-light hover:text-brand-accent transition font-medium">4. הדין הישראלי, אחריות, ביטוח D&O ו-Clawback</a></li>
+            <li><a href="#israel-market" class="text-brand-light hover:text-brand-accent transition font-medium">5. זירת המאקרו: מאפייני השוק הישראלי (2025/2026)</a></li>
+            <li><a href="#board-dialogue" class="text-brand-light hover:text-brand-accent transition font-medium">6. פרקטיקה: כיצד לדבר עם הדירקטוריון? (תבניות שיח)</a></li>
+            <li><a href="#case-study" class="text-brand-light hover:text-brand-accent transition font-medium">7. מקרה בוחן (Case Study) בשוק ההון המקומי</a></li>
+            <li><a href="#checklist" class="text-brand-light hover:text-brand-accent transition font-medium">8. שאלון דיאגנוסטי אינטראקטיבי להערכה עצמית</a></li>
         </ul>
-    </div>
+    </nav>
 
-    <section id="evolution">
-        <h2>1. האבולוציה של תפקיד סמנכ"ל הכספים: מרואה חשבון למנהיג אסטרטגי</h2>
-        <p>תפקיד סמנכ"ל הכספים (CFO - Chief Financial Officer) עבר בעשורים האחרונים טרנספורמציה דרמטית. בעבר, הציפייה המרכזית מהתפקיד התמקדה ב<strong>ראיית חשבון (Bookkeeping)</strong>, דיווח פיננסי היסטורי, ניהול תזרים המזומנים ושמירה על נכסי החברה (Stewardship). סמנכ"ל הכספים נתפס כ"שומר הסף" אשר מספק נתונים בדיעבד.</p>
-        <p>כיום, בסביבה עסקית תנודתית ורוויית סיכונים, ה-CFO המודרני נדרש להיות <strong>מנהיג אסטרטגי וזרז לפיתוח עסקי (Catalyst)</strong>. הוא נדרש להסתכל קדימה (Forward-looking), לנתח מגמות, לנהל סיכונים באופן פרואקטיבי ולשמש כיד ימינו של המנכ"ל בתהליכי מיזוגים ורכישות (M&A), גיוסי הון וקביעת מתווה האסטרטגיה של החברה. עבור הדירקטוריון, ה-CFO עבר משולחן רואי החשבון אל שולחן מקבלי ההחלטות העסקיות המרכזיות.</p>
-    </section>
+    <section id="evolution" class="mb-16 fade-in-up scroll-mt-20">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="bg-brand-dark text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">1</div>
+            <h2 class="text-3xl font-bold text-brand-dark">האבולוציה של תפקיד סמנכ"ל הכספים</h2>
+        </div>
+        
+        <div class="glass-panel rounded-xl p-8">
+            <p class="text-lg mb-6">
+                תפקיד סמנכ"ל הכספים (CFO - Chief Financial Officer) עבר בעשורים האחרונים טרנספורמציה דרמטית, במיוחד בישראל בה קצב השינויים הטכנולוגיים והרגולטוריים הוא מסחרר. 
+                בעבר, הציפייה המרכזית התמקדה ב<strong>ראיית חשבון (Bookkeeping)</strong>, דיווח פיננסי היסטורי, ושמירה על נכסי החברה (Stewardship). ה-CFO נתפס כ"שומר הסף" אשר מספק נתונים בדיעבד ומתמקד בעמידה בתקציב.
+            </p>
+            <p class="text-lg mb-8">
+                כיום, בסביבה עסקית תנודתית רוויית סיכוני סייבר, אינפלציה וזעזועים גיאופוליטיים (מאפיין מובהק של שנות ה-2020 בישראל), הדירקטוריון דורש <strong>מנהיג אסטרטגי (Catalyst & Strategist)</strong>. 
+                מצופה מה-CFO להסתכל קדימה (Forward-looking), לנהל סיכונים פרואקטיבית, לשלב בינה מלאכותית (AI) בחיזוי תזרים, ולהוות יועץ ושותף מלא למנכ"ל בגיבוש חזון החברה.
+            </p>
 
-    <section id="bridge">
-        <h2>2. סמנכ"ל הכספים המודרני כגשר ארגוני</h2>
-        <p>אחת החוזקות המרכזיות של סמנכ"ל כספים מצטיין היא היכולת לשמש "צומת תקשורת" מרכזי. ה-CFO הוא למעשה המנהל היחיד (מלבד המנכ"ל) שיש לו מבט רוחבי של 360 מעלות על כלל פעילויות הארגון.</p>
-        <ul>
-            <li><strong>מול ההנהלה:</strong> מתרגם חזון עסקי למציאות כלכלית תוך שמירה על משמעת תקציבית.</li>
-            <li><strong>מול הדירקטוריון:</strong> מספק את "האמת היחידה" (Single Source of Truth) לגבי ביצועי החברה, מציף סיכונים באומץ ומאפשר לדירקטורים למלא את חובת הפיקוח שלהם.</li>
-            <li><strong>מול המשקיעים ושוק ההון:</strong> מנהל את מערך קשרי המשקיעים (IR), בונה אמון ומספר את הסיפור העסקי-פיננסי (Financial Storytelling) כדי למקסם את ערך החברה.</li>
-            <li><strong>מול הרגולטורים (למשל, רשות ניירות ערך):</strong> מבטיח שקיפות וציות קפדני (Compliance), במיוחד בשוק הישראלי המאופיין ברגולציה קפדנית של רשות ניירות ערך (ISA) ורשות המיסים.</li>
-        </ul>
-    </section>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white p-6 rounded-lg shadow-sm">
+                <div>
+                    <h4 class="font-bold text-xl text-brand-dark mb-4 text-center">השינוי בהקצאת הזמן של ה-CFO</h4>
+                    <canvas id="timeAllocationChart" height="250"></canvas>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded border-r-4 border-gray-400">
+                        <h5 class="font-bold text-gray-700">העבר (עד שנות ה-2000)</h5>
+                        <p class="text-sm">מיקוד בטרנזקציות: סגירת ספרים, תשלומים, התאמות בנקים, והפקת דוחות כספיים. רוב הזמן מושקע ב"מבט במראה האחורית".</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded border-r-4 border-brand-light">
+                        <h5 class="font-bold text-brand-light">ההווה והעתיד (2025-2030)</h5>
+                        <p class="text-sm">מיקוד באסטרטגיה: מיזוגים ורכישות (M&A), מודלים מבוססי AI לחיזוי ביקושים, הקצאת הון יעילה (Capital Allocation) וניהול דיאלוג שוטף עם משקיעים ודירקטוריון.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 bg-indigo-50 border-r-4 border-indigo-500 p-6 rounded-lg shadow-sm">
+                <h4 class="font-bold text-indigo-900 text-lg mb-3 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14"></path></svg>
+                    פרקטיקה מהשטח (אקטואליה 2024-2026)
+                </h4>
+                <p class="text-gray-800 mb-3">
+                    <strong>ניהול תחת אש וסביבת ריבית גבוהה:</strong> בשנים האחרונות, ה-CFO הישראלי נדרש לנווט בסביבה של "כלכלת מלחמה" (מלחמת חרבות ברזל והשלכותיה) לצד ריביות ואינפלציה דביקה. הדירקטוריון מצפה לשמוע לא רק על חסכון בהוצאות, אלא על פתרונות יצירתיים:
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 text-sm">
+                    <li><strong>הבטחת נזילות קריטית (Liquidity buffers):</strong> הארכת מח"מ (משך חיים ממוצע) להתחייבויות, ופתיחת קווי אשראי כגיבוי <em>לפני</em> שתרחישי הקיצון הביטחוניים מתממשים.</li>
+                    <li><strong>ניהול חשיפות אקטיבי:</strong> התמודדות עם תנודתיות חריפה בשער הדולר/שקל לאור אירועים גיאופוליטיים שוטפים, שימוש בנגזרים לגידור, והגנה על שורת הרווח הגולמי.</li>
+                    <li><strong>רציפות עסקית (BCP):</strong> בניית מודלים כלכליים המגלמים גיוס מילואים נרחב של עובדי מפתח, שינוע חלופי בשרשרת האספקה עקב משברי סחר, וגיבוי מלא למערכות הפיננסיות.</li>
+                </ul>
+            </div>
+        </div>
 
-    <section id="expectations">
-        <h2>3. הציפיות המשתנות של הדירקטוריון: מפיקוח לשותפות אסטרטגית</h2>
-        <p>בעבר, דירקטוריונים ציפו מסמנכ"ל הכספים להגיע לישיבות, להציג את הדוחות הרבעוניים, לענות על שאלות טכניות ולצאת. כיום, הפרדיגמה השתנתה. הדירקטוריון מצפה למודל משולב:</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>הציפייה המסורתית (Stewardship)</th>
-                    <th>הציפייה המודרנית (Strategic Partnership)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>הצגת נתוני עבר והסבר על סטיות מהתקציב.</td>
-                    <td>מידול תרחישים עתידיים, ניתוחי רגישות (Scenario Planning).</td>
-                </tr>
-                <tr>
-                    <td>התמקדות בציות ובהכנת דוחות כספיים מדויקים.</td>
-                    <td>מקסום ערך, ייעול מבנה ההון (Capital Allocation), איתור מנועי צמיחה.</td>
-                </tr>
-                <tr>
-                    <td>הימנעות מסיכונים (Risk Averse).</td>
-                    <td>ניהול סיכונים חכם להשגת תשואה (Risk-Adjusted Return).</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="callout">
-            <strong>תובנת דירקטוריון:</strong> דירקטורים בישראל מדווחים כי סמנכ"ל כספים שרק "קורא את האקסל" מאבד מהר מאוד את קשב החדר. הדירקטוריון מחפש את התשובה לשאלה: <em>"מה המשמעות של המספרים הללו על יכולתנו להשיג את היעדים האסטרטגיים שלנו לשנה הבאה?"</em>
+        <!-- Lecturer Question -->
+        <div class="mt-8 bg-amber-50 border-r-4 border-brand-accent p-6 rounded-lg shadow-sm">
+            <div class="flex items-center justify-between">
+                <h4 class="text-xl font-bold text-brand-dark flex items-center gap-2">
+                    <span class="text-2xl">🎤</span> שאלת קהל / נקודה לדיון
+                </h4>
+                <button onclick="toggleAnswer('q1')" class="interactive-btn bg-brand-light text-white px-5 py-2 rounded-lg font-medium text-sm transition shadow-md">חשוף תובנה</button>
+            </div>
+            <p class="mt-3 text-lg font-medium">כמה מכם, סמנכ"לי הכספים בחדר, מרגישים שעדיין "נשאבים" לניהול החשבונות היומיומי ולא מצליחים לפנות זמן לאסטרטגיה?</p>
+            
+            <div id="q1" class="lecturer-answer hidden mt-5 p-5 bg-white border border-amber-200 rounded-lg text-gray-800 shadow-inner">
+                <p><strong>תובנת מפתח למרצה:</strong> זו נקודת כאב קלאסית. דירקטוריונים מדווחים שהם <em>רוצים</em> אסטרטגיה, אבל כועסים כשיש טעות בסנט אחד בדיווח. <br>
+                <strong>הפתרון המעשי:</strong> אוטומציה. CFO מודרני חייב להשקיע בטכנולוגיות RPA (Robotic Process Automation) כדי לשחרר את הצוות שלו מהפעולות השחורות. אם לא תעשו אוטומציה לעבר, לא יישאר לכם זמן לעתיד.</p>
+            </div>
         </div>
     </section>
 
-    <section id="competencies">
-        <h2>4. כישורי הליבה הנדרשים כיום</h2>
-        <p>כדי לעמוד בציפיות הללו, פרופיל הכישורים (Competency Model) של סמנכ"ל הכספים הורחב משמעותית:</p>
-        <ol>
-            <li><strong>מומחיות פיננסית וחשבונאית:</strong> בסיס הברזל. הבנה עמוקה ב-IFRS (או US GAAP בישראל בחברות דואליות), מיסוי, מימון וניהול תזרים.</li>
-            <li><strong>הבנה עסקית (Business Acumen):</strong> היכרות עמוקה עם מוצרי החברה, השוק, המתחרים, הלקוחות ומבנה שרשרת הערך.</li>
-            <li><strong>מנהיגות והשפעה:</strong> היכולת לנהל משברים, לנווט קונפליקטים מול המנכ"ל או בעל השליטה, ולהוביל צוותי כספים גדולים.</li>
-            <li><strong>אוריינות דיגיטלית:</strong> היכרות עם כלים מתקדמים: ERP, אוטומציה של תהליכים (RPA), בינה מלאכותית בתחזיות (AI Forecasting), וסייבר פיננסי.</li>
-        </ol>
+    <section id="bridge" class="mb-16 fade-in-up scroll-mt-20">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="bg-brand-dark text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">2</div>
+            <h2 class="text-3xl font-bold text-brand-dark">סמנכ"ל הכספים כגשר ארגוני (360 מעלות)</h2>
+        </div>
+        
+        <div class="glass-panel rounded-xl p-8">
+            <p class="text-lg mb-8">
+                ל-CFO יש פריווילגיה ייחודית – הוא ושותפו המנכ"ל הם היחידים שרואים את הארגון ברוחב מלא, ללא חסמים מחלקתיים (Silos). הדירקטוריון סומך על ה-CFO שישמש כצומת אמינה המחברת בין השטח לבין חדר הישיבות.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition border-t-4 border-blue-500">
+                    <div class="text-blue-500 text-3xl mb-3">👔</div>
+                    <h3 class="font-bold text-lg mb-2">מול ההנהלה והמנכ"ל</h3>
+                    <p class="text-sm text-gray-600">משמש כ"מצפן מסחרי". מתרגם חזונות שיווקיים וטכנולוגיים למציאות כלכלית, תוך שמירה על משמעת תקציבית ללא חניקת חדשנות.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition border-t-4 border-brand-accent">
+                    <div class="text-brand-accent text-3xl mb-3">🏛️</div>
+                    <h3 class="font-bold text-lg mb-2">מול הדירקטוריון</h3>
+                    <p class="text-sm text-gray-600">מספק את ה-"Single Source of Truth". מציף סיכונים באומץ, מתריע מפני מגמות שליליות מבעוד מועד ומאפשר פיקוח אפקטיבי.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition border-t-4 border-green-500">
+                    <div class="text-green-500 text-3xl mb-3">📈</div>
+                    <h3 class="font-bold text-lg mb-2">מול המשקיעים ושוק ההון</h3>
+                    <p class="text-sm text-gray-600">מספר את הסיפור העסקי-פיננסי (Financial Storytelling). בונה אמון וממקסם ערך אל מול אנליסטים ומוסדיים.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition border-t-4 border-red-500">
+                    <div class="text-red-500 text-3xl mb-3">⚖️</div>
+                    <h3 class="font-bold text-lg mb-2">מול רגולטורים ומבקרים</h3>
+                    <p class="text-sm text-gray-600">מבטיח שקיפות וציות קפדני (Compliance). מתנהל מול רשות ניירות ערך, רשות המיסים ומבקרי הפנים/חוץ בסביבה מחמירה.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section id="fiduciary">
-        <h2>5. חובות אמון וזהירות על פי הדין הישראלי</h2>
-        <p>פעילות סמנכ"ל הכספים אינה מתבצעת בוואקום, אלא תחת מעטפת משפטית נוקשה. <span class="highlight">חוק החברות, תשנ"ט-1999</span> משית על ה-CFO חובות אמון מוחלטות (Fiduciary Duties), זהות לאלו של דירקטור או מנכ"ל:</p>
-        <ul>
-            <li><strong>חובת הזהירות (סעיפים 252-253 לחוק):</strong> החובה לפעול ברמת מיומנות סבירה, לדרוש את המידע הדרוש לפני קבלת החלטה, ולאמץ תהליכי קבלת החלטות סדורים. דירקטוריון מצפה מה-CFO ליישם את חובת הזהירות על ידי הצגת עבודת מטה מסודרת (למשל, הערכות שווי מהימנות, גידור חשיפות מטבע).</li>
-            <li><strong>חובת אמונים (סעיף 254 לחוק):</strong> החובה לפעול בתום לב ולטובת החברה בלבד. על סמנכ"ל הכספים להימנע מכל פעולה שיש בה ניגוד עניינים (Conflict of Interest), לא להתחרות בעסקי החברה, ולא לנצל הזדמנויות עסקיות של החברה לטובתו האישית.</li>
-        </ul>
+    <section id="expectations" class="mb-16 fade-in-up scroll-mt-20">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="bg-brand-dark text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">3</div>
+            <h2 class="text-3xl font-bold text-brand-dark">הציפיות המשתנות: מפיקוח טכני לשותפות אסטרטגית</h2>
+        </div>
+
+        <div class="glass-panel rounded-xl p-8 overflow-x-auto">
+            <table class="w-full text-right border-collapse">
+                <thead>
+                    <tr class="bg-brand-light text-white">
+                        <th class="p-4 rounded-tr-lg w-1/3">תחום</th>
+                        <th class="p-4 w-1/3">הציפייה המסורתית (Stewardship)</th>
+                        <th class="p-4 rounded-tl-lg w-1/3 text-brand-accent">הציפייה המודרנית והעתידית</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                        <td class="p-4 font-bold text-brand-dark">אופק התכנון</td>
+                        <td class="p-4 text-gray-600">הסבר על סטיות מהתקציב בדיעבד, ניתוח נתוני עבר (Lagging Indicators).</td>
+                        <td class="p-4 text-brand-dark font-medium">מידול תרחישים עתידיים, ניתוחי רגישות והרצת Scenarios מרובים בזמן אמת.</td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition bg-white">
+                        <td class="p-4 font-bold text-brand-dark">ניהול סיכונים</td>
+                        <td class="p-4 text-gray-600">הימנעות מסיכונים (Risk Averse), רכישת פוליסות ביטוח בלבד.</td>
+                        <td class="p-4 text-brand-dark font-medium">ניהול סיכונים חכם מבוסס תשואה. שילוב סיכוני סייבר, ESG וגיאופוליטיקה.</td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                        <td class="p-4 font-bold text-brand-dark">טכנולוגיה ודאטה</td>
+                        <td class="p-4 text-gray-600">שליטה מתקדמת ב-Excel ומערכות ה-ERP הבסיסיות.</td>
+                        <td class="p-4 text-brand-dark font-medium">הובלת תהליכי טרנספורמציה דיגיטלית. שילוב AI באנליזה ו-Predictive Analytics.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition bg-white">
+                        <td class="p-4 font-bold text-brand-dark rounded-br-lg">הצגה בדירקטוריון</td>
+                        <td class="p-4 text-gray-600">קריאת דו"חות מתוך אקסלים עמוסים ומייגעים.</td>
+                        <td class="p-4 text-brand-dark font-medium rounded-bl-lg">דשבורדים ויזואליים, התמקדות ב-5 מדדי ליבה (KPIs) ודיון על הפעולות הנדרשות.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 
-    <section id="officer">
-        <h2>6. ה-CFO כ"נושא משרה" – חשיפה משפטית וביטוח</h2>
-        <p>חשוב להדגיש: סמנכ"ל הכספים מוגדר בדין הישראלי כ<strong>"נושא משרה" (Officer / Office Holder)</strong>. מעמד זה חושף אותו אישית לתביעות אזרחיות, מנהליות (מצד רשות ניירות ערך) ואף פליליות. תביעות ייצוגיות ונגזרות בישראל נגד הנהלות ודירקטוריונים צמחו בעשרות אחוזים בעשור האחרון.</p>
-        <p>לכן, ההסדרה מול הדירקטוריון חייבת לכלול את "המשולש הביטוחי":</p>
-        <ul>
-            <li><strong>ביטוח (D&O Insurance):</strong> פוליסת ביטוח דירקטורים ונושאי משרה המכסה הוצאות משפטיות ופיצויים. על ה-CFO (לרוב האחראי בעצמו על רכישת הפוליסה לחברה) לוודא כי הפוליסה רחבה דיה (Side A, B, C) וכוללת סעיפי Run-off מתאימים.</li>
-            <li><strong>שיפוי (Indemnification):</strong> התחייבות מראש של החברה (בכפוף למגבלות החוק ואישור האורגנים) לשפות את סמנכ"ל הכספים בגין הוצאות שיושתו עליו עקב פעולתו בתפקיד.</li>
-            <li><strong>פטור (Exemption):</strong> יכולת החברה לפטור מראש נושא משרה מאחריות לנזק עקב הפרת חובת הזהירות (לא ניתן לתת פטור על הפרת חובת אמונים או פעולה בפזיזות/כוונה).</li>
-        </ul>
+    <section id="legal" class="mb-16 fade-in-up scroll-mt-20">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="bg-brand-dark text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">4</div>
+            <h2 class="text-3xl font-bold text-brand-dark">חשיפה משפטית בישראל: "נושא משרה", D&O ומנגנוני השבה</h2>
+        </div>
+
+        <div class="glass-panel rounded-xl p-8 relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute top-0 right-0 opacity-5 pointer-events-none">
+                <svg width="200" height="200" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+
+            <p class="text-lg mb-6">
+                על פי חוק החברות הישראלי, ה-CFO מוגדר כ<strong>"נושא משרה" (Office Holder)</strong> וחב בחובות זהירות ואמונים זהות לאלו של דירקטור או מנכ"ל. 
+                מגמת התביעות הנגזרות והייצוגיות בישראל ממשיכה לעלות בחדות אל תוך 2025-2026.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold text-brand-light mb-4 border-b-2 border-brand-accent inline-block pb-1">חובות הברזל (Fiduciary Duties)</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 font-bold">◄</span>
+                            <div>
+                                <strong>חובת הזהירות (סעיפים 252-253):</strong> פעולה במיומנות סבירה. כדי לחסות תחת <em>"כלל שיקול הדעת העסקי" (BJR)</em>, על ה-CFO להוכיח שאסף את כל המידע הנדרש וקיבל החלטה מיודעת, ללא ניגוד עניינים.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-500 font-bold">◄</span>
+                            <div>
+                                <strong>חובת אמונים (סעיף 254):</strong> חובה לפעול אך ורק לטובת החברה. הימנעות מניגוד עניינים, ותום לב מוחלט בדיווח לדירקטוריון.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-brand-dark mb-4">משולש ההגנה (פטור, שיפוי וביטוח D&O)</h3>
+                    <p class="text-sm mb-3">על פי סקירות D&O עולמיות (WTW ו-Allianz) לשנת 2026, סיכוני תביעות נושאי משרה גדלים עקב שילוב AI בארגונים ועלייה בפשיטות רגל. על סמנכ"ל הכספים לוודא:</p>
+                    <ul class="text-sm space-y-2 list-disc list-inside text-gray-700">
+                        <li><strong>כיסוי Side A (משמעותי ביותר!):</strong> כיסוי מהשקל הראשון כאשר החברה לא יכולה לשפות (למשל, בחדלות פירעון או מניעה חוקית). <span class="text-red-600 font-bold">חובה לוודא שאין השתתפות עצמית על סעיף זה.</span></li>
+                        <li><strong>שיפוי (Indemnification):</strong> התחייבות חוזית מראש של החברה.</li>
+                        <li><strong>פטור (Exemption):</strong> פטור מאחריות להפרת חובת זהירות (לא תקף על חובת אמונים).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- RAG Data: Clawback -->
+            <div class="bg-blue-50 border-r-4 border-blue-600 p-5 rounded-lg shadow-sm">
+                <h4 class="font-bold text-blue-800 text-lg mb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    מגמה משפטית בולטת בישראל: מנגנוני Claw-back (השבת תגמול)
+                </h4>
+                <p class="text-sm text-gray-800">
+                    הדירקטוריון נדרש יותר ויותר לאמץ מדיניות השבת בונוסים מסמנכ"ל הכספים והמנכ"ל במקרה של "הצגה מחדש" (Restatement) של הדוחות הכספיים עקב טעות מהותית או אי-ציות. <br>
+                    <strong>נתוני מחקר עדכניים (2024/2025, האונ' העברית):</strong> כ-15% מהחברות המרכזיות במדגם בישראל (כולן מקרב הבנקים הגדולים כגון הפועלים, לאומי, דיסקונט) כבר אימצו טריגר "הצגה מחדש" עצמאי כעילה ישירה ומוחלטת להשבת תגמולים, מגמה שמחלחלת כעת גם לחברות ריאליות.
+                </p>
+            </div>
+
+            <div class="bg-red-50 border-r-4 border-red-600 p-5 rounded-lg shadow-sm mt-4">
+                <h4 class="font-bold text-red-800 text-lg mb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    דגש אקטואלי ל-CFO: דיווחי סייבר (SEC) וסיכוני אקלים (ESG)
+                </h4>
+                <p class="text-sm text-gray-800 mb-3">
+                    <strong>חוקי הסייבר החדשים של ה-SEC:</strong> עבור חברות ישראליות דואליות, ה-CFO נמצא כיום במוקד הסערה. התקנות דורשות דיווח תוך <strong>4 ימי עסקים בלבד</strong> על אירוע סייבר "מהותי" (Form 8-K). ה-CFO נדרש לכמת את הנזק הפיננסי הפוטנציאלי בזמן אמת - אתגר עצום המצריך חיבור יומיומי ל-CISO ולמערך ניהול הסיכונים.
+                </p>
+                <p class="text-sm text-gray-800">
+                    <strong>רגולציית ESG של רשות ניירות ערך:</strong> המעבר ההדרגתי בישראל מדיווח וולונטרי לדיווח מחייב על סיכוני אקלים (תקני ISSB/CSRD) הופך את ה-CFO לאחראי משפטית גם על נתונים לא-פיננסיים (Non-financial data). דירקטוריונים מטילים את המשימה הזו ישירות על פונקציית הכספים עקב מומחיותה בבקרות והבטחת איכות נתונים (SOX).
+                </p>
+            </div>
+        </div>
     </section>
 
-    <section id="asymmetry">
-        <h2>7. פערי מידע (Information Asymmetry) ותלות הדירקטוריון</h2>
-        <p>אחת הבעיות המרכזיות בממשל תאגידי (בעיית המנהל-סוכן / Principal-Agent Problem) היא שדירקטוריון מתכנס רק אחת למספר שבועות. הדירקטורים תלויים לחלוטין במידע שמסופק להם על ידי ההנהלה. סמנכ"ל הכספים הוא "ברז המידע" הפיננסי.</p>
-        <p>הדירקטוריון חושש ממידע אסימטרי – מצב שבו ההנהלה יודעת שהתקציב קורס, אך ממסגרת את הנתונים (Window Dressing) כך שייראו טוב בישיבת הדירקטוריון. ציפיית הברזל של יו"ר הדירקטוריון ויו"ר ועדת הביקורת מסמנכ"ל הכספים היא ל<strong>אמינות ושקיפות רדיקלית</strong>. CFO שמאבד את אמון הדירקטוריון בסוגיית אמינות הנתונים, לא יוכל להמשיך בתפקידו.</p>
+    <section id="israel-market" class="mb-16 fade-in-up scroll-mt-20">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="bg-brand-dark text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">5</div>
+            <h2 class="text-3xl font-bold text-brand-dark">זירת המאקרו: מאפייני השוק הישראלי (2025/2026)</h2>
+        </div>
+
+        <div class="glass-panel rounded-xl p-8">
+            <p class="text-lg mb-6">
+                שוק ההון הישראלי מציב בפני סמנכ"ל הכספים אתגרים ייחודיים שאינם קיימים תמיד במקבילות מעבר לים.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="space-y-6">
+                    <div class="bg-white p-5 rounded-lg shadow-sm border-r-4 border-brand-accent">
+                        <h4 class="font-bold text-brand-dark text-lg">1. חברות דואליות (Dual-Listed)</h4>
+                        <p class="text-sm text-gray-700 mt-1">ניהול כפול של מערכות דיווח (US GAAP לעומת IFRS) ועמידה ברגולציה כפולה (SEC ורשות ניירות ערך הישראלית). ה-CFO נדרש לגשר על פערי תרבות בין משקיעים מקומיים וזרים.</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow-sm border-r-4 border-blue-500">
+                        <h4 class="font-bold text-brand-dark text-lg">2. ריכוזיות ופירמידות</h4>
+                        <p class="text-sm text-gray-700 mt-1">התמודדות עם חוק הריכוזיות. סמנכ"לי הכספים מובילים תהליכי השטחה (קיפול שכבות) ומנווטים עסקאות בעלי עניין מורכבות בסביבה בה שולטים גרעיני שליטה דומיננטיים.</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow-sm border-r-4 border-green-500">
+                        <h4 class="font-bold text-brand-dark text-lg">3. קטר ההייטק והתנודתיות</h4>
+                        <p class="text-sm text-gray-700 mt-1">ניהול כלכלת יחידה (Unit Economics) קפדנית, במיוחד בתקופות של תיקוני שווי חדים, תוך מענה למוסדיים המחפשים במקביל גם צמיחה וגם תשואת דיבידנד.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 flex flex-col justify-center">
+                    <h4 class="font-bold text-xl text-brand-dark mb-4 text-center">צמיחת נפח המסחר הדואלי</h4>
+                    <div class="h-64 relative w-full">
+                        <canvas id="dualListingChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-gray-500 mt-4">* נתוני נפח מסחר יומי ממוצע במדד ת"א-דואליות (במיליוני $)</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section id="israel-market">
-        <h2>8. המאפיינים הייחודיים של השוק הישראלי</h2>
-        <p>יישום תפקיד סמנכ"ל הכספים בישראל אינו זהה לארה"ב או לאירופה, בשל מאפייני המאקרו והרגולציה המקומית:</p>
-        <ul>
-            <li><strong>רישום כפול (Dual-Listed Companies):</strong> עשרות חברות ישראליות (במיוחד בטכנולוגיה וביומד) נסחרות בבורסה בתל אביב ובמקביל ב-NASDAQ או ב-NYSE. ה-CFO נדרש לשלוט בשתי מערכות דיווח, בשני סוגי תקנים חשבונאיים (US GAAP ו-IFRS) וברגולציה כפולה (SEC ורשות ניירות ערך הישראלית).</li>
-            <li><strong>שליטה משפחתית וגרעין שליטה:</strong> בניגוד לשוק האמריקאי המבוזר, שוק ההון הישראלי (גם לאחר חוק הריכוזיות) עדיין מתאפיין בחברות רבות בעלות בעל שליטה דומיננטי. ה-CFO מוצא עצמו לא פעם "בין הפטיש לסדן" – מול דרישות בעל השליטה מחד, לחובתו לשמור על האינטרס של המיעוט והחברה (ועל כללי עסקאות בעלי עניין) מאידך.</li>
-            <li><strong>מבני פירמידה וחוק הריכוזיות (2013):</strong> החוק הישראלי הגביל את כמות השכבות בפירמידות עסקיות. סמנכ"לי כספים בקבוצות החזקה נדרשים לנהל מתווי קיפול שכבות, רכישות ממונפות והסדרי חוב מורכבים.</li>
-        </ul>
+    <section id="board-dialogue" class="mb-16 fade-in-up scroll-mt-20">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="bg-brand-dark text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">6</div>
+            <h2 class="text-3xl font-bold text-brand-dark">פרקטיקה: כיצד לדבר עם הדירקטוריון? (תבניות שיח)</h2>
+        </div>
+
+        <div class="glass-panel rounded-xl p-8">
+            <p class="text-lg mb-6">
+                פערי מידע (Information Asymmetry) הם האויב הגדול ביותר של הדירקטוריון. כאשר מידע "מעוצב" או מוסתר, האמון נסדק לבלי שוב. להלן מדריך מעשי לטרנספורמציה בתשובות סמנכ"ל הכספים:
+            </p>
+
+            <div class="space-y-6">
+                <!-- Example 1 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-100 p-4 font-bold flex gap-3 items-center">
+                        <span class="bg-gray-800 text-white px-3 py-1 rounded text-sm">שאלת דירקטור</span>
+                        "למה הרווחיות הגולמית ירדה ב-2% ברבעון האחרון?"
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x md:divide-x-reverse divide-gray-200">
+                        <div class="p-5 bg-red-50 relative">
+                            <span class="absolute top-2 left-2 text-xl opacity-20">❌</span>
+                            <h4 class="font-bold text-red-700 mb-2">תשובת CFO ישנה (רואה חשבון):</h4>
+                            <p class="text-sm">"הייתה עלייה בעלויות חומרי הגלם ושינוי בתמהיל המכירות לרעת המוצרים הרווחיים, בנוסף לשחיקת שער החליפין אל מול הדולר שהשפיעה על שורת ה-COGS."</p>
+                        </div>
+                        <div class="p-5 bg-green-50 relative">
+                            <span class="absolute top-2 left-2 text-xl opacity-20">✅</span>
+                            <h4 class="font-bold text-green-700 mb-2">תשובת CFO מודרני (שותף אסטרטגי):</h4>
+                            <p class="text-sm">"הירידה נובעת מהתייקרות חומרי גלם. <strong>אך כבר נקטנו פעולה:</strong> חתמנו על חוזי גידור לרבעון הבא, ואנחנו מאיצים השקה של מוצר X שרווחיותו גבוהה ב-15%. במודל שהרצנו לתרחיש המחמיר ביותר עד סוף השנה, אנחנו נשמור על רווחיות של 35%."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example 2 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-100 p-4 font-bold flex gap-3 items-center">
+                        <span class="bg-gray-800 text-white px-3 py-1 rounded text-sm">שאלת יו"ר ועדת ביקורת</span>
+                        "מה חשיפת הסייבר שלנו למערכת הסליקה החדשה?"
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x md:divide-x-reverse divide-gray-200">
+                        <div class="p-5 bg-red-50 relative">
+                            <span class="absolute top-2 left-2 text-xl opacity-20">❌</span>
+                            <h4 class="font-bold text-red-700 mb-2">תשובה מתגוננת:</h4>
+                            <p class="text-sm">"זו שאלה ל-CISO ולמחלקת מערכות מידע. אנחנו רק אישרנו להם את התקציב לפרויקט. ההבנה שלי היא שהמערכת מאובטחת."</p>
+                        </div>
+                        <div class="p-5 bg-green-50 relative">
+                            <span class="absolute top-2 left-2 text-xl opacity-20">✅</span>
+                            <h4 class="font-bold text-green-700 mb-2">תשובת CFO מודרני:</h4>
+                            <p class="text-sm">"כיוון שאירוע סייבר שם הוא סיכון פיננסי עצום, וידאתי עם ה-CISO שעמדנו בתקני PCI. במקביל, רכשתי הרחבה לפוליסת הסייבר שלנו המכסה אובדן הכנסות של עד 5 מ' דולר במקרה של השבתת המערכת מעל 24 שעות."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example 3 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-100 p-4 font-bold flex gap-3 items-center">
+                        <span class="bg-gray-800 text-white px-3 py-1 rounded text-sm">שאלת דירקטור (תנאי מאקרו)</span>
+                        "כיצד אנו נערכים למשברי השילוח ושרשרת האספקה?"
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x md:divide-x-reverse divide-gray-200">
+                        <div class="p-5 bg-red-50 relative">
+                            <span class="absolute top-2 left-2 text-xl opacity-20">❌</span>
+                            <h4 class="font-bold text-red-700 mb-2">תשובה פסיבית:</h4>
+                            <p class="text-sm">"אין לנו הרבה שליטה על המצב. נצטרך פשוט לספוג את עלויות השילוח הגבוהות ברבעון הקרוב ולהמתין שהמצב יירגע."</p>
+                        </div>
+                        <div class="p-5 bg-green-50 relative">
+                            <span class="absolute top-2 left-2 text-xl opacity-20">✅</span>
+                            <h4 class="font-bold text-green-700 mb-2">תשובה פרואקטיבית:</h4>
+                            <p class="text-sm">"זיהינו את המגמה מוקדם. פתחנו קו אשראי כגיבוי, הגדלנו את מלאי החירום, ועדכנו את מחירון הלקוחות ב-3% כפיצוי חלקי כדי למזער את הפגיעה."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section id="case-study" class="case-study">
-        <h3>מקרה בוחן מהשטח: ה-CFO ששינה את הדינמיקה בחדר הדירקטוריון</h3>
-        <p><strong>הרקע:</strong> חברת טכנולוגיה ישראלית ציבורית, נסחרת בתל אביב. החברה סבלה משחיקה מתמשכת ברווחיות בשל התייקרות עלויות חומרי גלם ושינויי מטבע מול הדולר. ישיבות הדירקטוריון הפכו לזירת התגוששות, בהן הדירקטורים האשימו את המנכ"ל באי עמידה ביעדים. סמנכ"ל הכספים הקודם היה מציג אקסלים מורכבים בני עשרות עמודים שבלבלו את הדירקטוריון.</p>
-        <p><strong>השינוי:</strong> סמנכ"ל כספים חדש מונה לתפקיד. לקראת ישיבת התקציב הקרובה, במקום להציג גיליון נתונים, ה-CFO ביצע את המהלכים הבאים:</p>
-        <ol>
-            <li>הקים "דשבורד" ניהולי מצומצם בן עמוד אחד המציג 5 מדדי מפתח (KPIs) בלבד.</li>
-            <li>שינה את הנרטיב: הציג מודל של "שלושה תרחישים" (פסימי, בסיס, אופטימי) כולל תוכנית מגירה (Contingency Plan) להורדת הוצאות בתרחיש הפסימי.</li>
-            <li>קיים שיחות "אחד על אחד" עם הדירקטורים החיצוניים (דח"צים) לפני הישיבה כדי לוודא שהם מבינים את האתגרים הפיננסיים והנחות היסוד.</li>
-        </ol>
-        <p><strong>התוצאה:</strong> הדירקטוריון אישר את התקציב למרות תחזית הרווח הנמוכה. רמת האמון בחדר עלתה משמעותית, והשיח עבר מחיפוש אשמים לניהול סיכונים משותף. ה-CFO מיצב את עצמו כשותף אסטרטגי, ולא כטכנאי מספרים.</p>
+    <section id="case-study" class="mb-16 fade-in-up scroll-mt-20">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="bg-brand-dark text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">7</div>
+            <h2 class="text-3xl font-bold text-brand-dark">מקרה בוחן (Case Study) בשוק ההון המקומי</h2>
+        </div>
+        <div class="glass-panel rounded-xl p-8 bg-amber-50/30 border-r-4 border-brand-accent">
+            <h3 class="text-xl font-bold text-brand-dark mb-3">ה-CFO ששינה את הדינמיקה בחדר הישיבות</h3>
+            <p class="text-gray-800 mb-4">
+                <strong>האתגר:</strong> חברה טכנולוגית ציבורית סבלה משחיקה ברווחיות. ישיבות הדירקטוריון הפכו לזירת האשמות ומגננה, כאשר סמנכ"ל הכספים הקודם היה מציג אקסלים מורכבים שעוררו בלבול וחוסר אמון.
+            </p>
+            <p class="text-gray-800 mb-2"><strong>הפתרון (המהלכים של ה-CFO החדש):</strong></p>
+            <ul class="list-disc list-inside space-y-2 text-gray-700 mb-4 text-sm">
+                <li>מעבר מדו"חות אקסל מתישים ל"דשבורד" בן עמוד אחד המציג 5 מדדי ליבה (KPIs).</li>
+                <li>שינוי הנרטיב: הצגת מודל "שלושת התרחישים" הכולל תוכנית מגירה לכל תרחיש.</li>
+                <li>תקשורת שקופה: קיום שיחות טרום-ישיבה עם הדח"צים להסבר הנחות היסוד.</li>
+            </ul>
+            <div class="p-4 bg-white rounded-lg shadow-sm border border-gray-100">
+                <p class="text-sm font-bold text-brand-dark">התוצאה: אישור תקציב חלק, מעבר מחיפוש אשמים לדיון אסטרטגי משותף בסיכונים, ומיצוב מחדש של ה-CFO כשותף מלא להנהגה.</p>
+            </div>
+        </div>
     </section>
 
-    <section id="checklist" class="checklist">
-        <h3>שאלון הערכה עצמית (Self-Assessment) לסמנכ"ל הכספים</h3>
-        <p>הקדישו מספר דקות למענה כנה על השאלות הבאות כדי להעריך כיצד אתם נתפסים בעיני הדירקטוריון שלכם:</p>
-        <ul>
-            <li>האם אני מקדיש לפחות 30% מזמני לתכנון אסטרטגי ולמודלים עתידיים, או שכל זמני נשואב לדיווח על נתוני עבר?</li>
-            <li>כאשר אני מציג בדירקטוריון, האם השאלות המופנות אליי עוסקות בטקטיקה ופרטים קטנים (Micro-management), או באסטרטגיה וסיכונים מהותיים?</li>
-            <li>האם הדירקטורים المستقلים (דח"צים) מרגישים בנוח להתקשר אליי ישירות מחוץ לישיבות כדי להתייעץ או לבקש הבהרות?</li>
-            <li>האם בעת משבר פיננסי או חריגה מהתקציב, אני המקור הראשון שיוזם את העברת המידע השקוף לדירקטוריון?</li>
-            <li>האם אני משמש כ"מצפן אתי" בארגון ויודע להגיד "לא" להנהלה או לבעל השליטה כאשר מהלך מסוים חורג מגבולות הסיכון או החוק?</li>
-        </ul>
+    <section id="checklist" class="mb-16 fade-in-up scroll-mt-20">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="bg-brand-dark text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">8</div>
+            <h2 class="text-3xl font-bold text-brand-dark">שאלון דיאגנוסטי: "כיצד הדירקטוריון רואה אותי?"</h2>
+        </div>
+
+        <div class="glass-panel rounded-xl p-8 border-2 border-brand-light">
+            <p class="mb-6 text-lg font-medium">סמן/י את המשפטים שנכונים לגבי התנהלותך הנוכחית בחברה. הציון הסופי יחשוף את המיצוב שלך.</p>
+            
+            <form id="quiz-form" class="space-y-4">
+                <label class="flex items-start gap-4 p-4 hover:bg-gray-50 rounded border border-gray-100 cursor-pointer transition">
+                    <input type="checkbox" class="quiz-cb mt-1 w-5 h-5 text-brand-accent focus:ring-brand-accent border-gray-300 rounded">
+                    <span class="text-gray-800">אני מקדיש/ה לפחות 40% מזמני לתכנון אסטרטגי, אנליזה, ומודלים עתידיים (ולא רק לדיווח עבר ובקרה).</span>
+                </label>
+                
+                <label class="flex items-start gap-4 p-4 hover:bg-gray-50 rounded border border-gray-100 cursor-pointer transition">
+                    <input type="checkbox" class="quiz-cb mt-1 w-5 h-5 text-brand-accent focus:ring-brand-accent border-gray-300 rounded">
+                    <span class="text-gray-800">כשאני מציג/ה נתונים בדירקטוריון, אני מגיע/ה עם תרחישי תגובה מתוכננים מראש (What-if analysis) לכל סטייה מהותית.</span>
+                </label>
+                
+                <label class="flex items-start gap-4 p-4 hover:bg-gray-50 rounded border border-gray-100 cursor-pointer transition">
+                    <input type="checkbox" class="quiz-cb mt-1 w-5 h-5 text-brand-accent focus:ring-brand-accent border-gray-300 rounded">
+                    <span class="text-gray-800">הדירקטורים החיצוניים (דח"צים) ויו"ר הדירקטוריון מרגישים בנוח להתקשר אליי ישירות להתייעצות שקופה מחוץ לישיבות.</span>
+                </label>
+                
+                <label class="flex items-start gap-4 p-4 hover:bg-gray-50 rounded border border-gray-100 cursor-pointer transition">
+                    <input type="checkbox" class="quiz-cb mt-1 w-5 h-5 text-brand-accent focus:ring-brand-accent border-gray-300 rounded">
+                    <span class="text-gray-800">אני מעורב/ת באופן פעיל בהשקת מוצרים חדשים, פריצה לשווקים או תהליכי טרנספורמציה דיגיטלית של הארגון.</span>
+                </label>
+                
+                <label class="flex items-start gap-4 p-4 hover:bg-gray-50 rounded border border-gray-100 cursor-pointer transition">
+                    <input type="checkbox" class="quiz-cb mt-1 w-5 h-5 text-brand-accent focus:ring-brand-accent border-gray-300 rounded">
+                    <span class="text-gray-800">בעת לחץ מהמנכ"ל או מבעל השליטה לעגל פינות או לעכב דיווח שלילי, אני מתפקד/ת כ"מצפן אתי" ויודע להגיד "לא".</span>
+                </label>
+            </form>
+
+            <button type="button" onclick="calculateScore()" class="mt-8 bg-brand-dark hover:bg-brand-light text-white font-bold py-3 px-8 rounded-lg shadow-md transition w-full md:w-auto text-lg">
+                חשב את ציון ה-CFO שלי
+            </button>
+
+            <div id="quiz-result" class="mt-6 hidden p-6 rounded-lg text-center font-bold text-xl transition-all">
+                <!-- Result will be injected here -->
+            </div>
+        </div>
     </section>
 
-    <div class="summary-box">
-        סיכום פרק 1: סמנכ"ל הכספים המודרני אינו רק "מנהל החשבונות הראשי", אלא מנווט העסקים של הארגון ושותפו המרכזי של הדירקטוריון בפיקוח והובלת אסטרטגיה. בניית אמון נטול פשרות, הבנה רגולטורית ושקיפות הם המפתחות להצלחתו בתפקיד, במיוחד בשוק ההון הישראלי המורכב.
-    </div>
+    <section id="module-summary" class="mb-16 scroll-mt-20">
+        <div class="flex items-center gap-4 mb-12 fade-in-up">
+            <div class="bg-brand-accent text-brand-dark w-12 h-12 rounded-xl flex items-center justify-center font-bold text-2xl shadow-lg transform -rotate-6">🎯</div>
+            <h2 class="text-3xl lg:text-4xl font-extrabold text-brand-dark">סיכום המודולה: מה לקחנו צידה לדרך?</h2>
+        </div>
+
+        <div class="summary-timeline pr-16 relative">
+            <!-- Step 1 -->
+            <div class="summary-card relative mb-10">
+                <div class="summary-icon-wrap absolute top-6 -right-16 w-12 h-12 bg-white rounded-full border-4 border-brand-accent flex items-center justify-center shadow-lg z-10">
+                    <span class="text-xl">🦋</span>
+                </div>
+                <div class="glass-panel p-6 lg:p-8 rounded-2xl hover:shadow-xl transition-shadow border-r-4 border-brand-accent bg-gradient-to-l from-amber-50/40 to-transparent">
+                    <h3 class="text-xl lg:text-2xl font-bold text-brand-dark mb-2">1. הטרנספורמציה הושלמה</h3>
+                    <p class="text-gray-700 text-lg">ה-CFO אינו עוד "שומר סף" המדווח נתוני עבר במראה האחורית, אלא <strong class="text-brand-light">מנהיג אסטרטגי ושותף עסקי</strong> היושב סביב שולחן קבלת ההחלטות ומביט קדימה.</p>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="summary-card relative mb-10">
+                <div class="summary-icon-wrap absolute top-6 -right-16 w-12 h-12 bg-white rounded-full border-4 border-blue-500 flex items-center justify-center shadow-lg z-10">
+                    <span class="text-xl">🌉</span>
+                </div>
+                <div class="bg-white p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow border-r-4 border-blue-500">
+                    <h3 class="text-xl lg:text-2xl font-bold text-brand-dark mb-2">2. הגשר הארגוני (360 מעלות)</h3>
+                    <p class="text-gray-700 text-lg">סמנכ"ל הכספים הוא החוליה המקשרת האולטימטיבית: מתרגם חזון למציאות (מול ההנהלה), בונה נרטיב פיננסי (מול המשקיעים), ומבטיח פיקוח ואמינות נתונים (מול הדירקטוריון).</p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="summary-card relative mb-10">
+                <div class="summary-icon-wrap absolute top-6 -right-16 w-12 h-12 bg-white rounded-full border-4 border-red-500 flex items-center justify-center shadow-lg z-10">
+                    <span class="text-xl">⚖️</span>
+                </div>
+                <div class="bg-white p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow border-r-4 border-red-500">
+                    <h3 class="text-xl lg:text-2xl font-bold text-brand-dark mb-2">3. ניהול חשיפות ואחריות אישית</h3>
+                    <p class="text-gray-700 text-lg">כ"נושא משרה", ה-CFO חשוף משפטית. במציאות של רגולציית סייבר (SEC) ו-ESG מחמירה, חובה ליישם את <strong>משולש ההגנה:</strong> פטור, שיפוי, וביטוח D&O מתאים ללא פשרות.</p>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="summary-card relative">
+                <div class="summary-icon-wrap absolute top-6 -right-16 w-12 h-12 bg-white rounded-full border-4 border-green-500 flex items-center justify-center shadow-lg z-10">
+                    <span class="text-xl">💡</span>
+                </div>
+                <div class="glass-panel bg-gradient-to-l from-green-50/50 to-white p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow border-r-4 border-green-500">
+                    <h3 class="text-xl lg:text-2xl font-bold text-brand-dark mb-2">4. שקיפות ותקשורת מבוססת תרחישים</h3>
+                    <p class="text-gray-700 text-lg">אין מקום לפערי מידע (Information Asymmetry). על ה-CFO להגיע לדירקטוריון לא רק עם זיהוי הבעיה, אלא עם <strong>תרחישי What-if ותוכניות מגירה מוכנות מראש</strong> המייצרות ודאות בסביבה סוערת.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center text-gray-500 mt-12 pb-8 border-t border-gray-200 pt-8">
+        <p>מבוסס על נתוני רשות ניירות ערך, הבורסה לניירות ערך (TASE) לשנת 2025, ודו"חות ביטוח נושאי משרה (D&O) 2026. כל הזכויות שמורות.</p>
+    </footer>
 
 </div>
+
+<script>
+    // 1. Intersection Observer for Fade-In animations
+    document.addEventListener("DOMContentLoaded", function() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up, .summary-timeline').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Initialize Charts
+        initCharts();
+    });
+
+    // 2. Chart.js Initialization
+    function initCharts() {
+        // Time Allocation Chart (Radar)
+        const ctxTime = document.getElementById('timeAllocationChart').getContext('2d');
+        new Chart(ctxTime, {
+            type: 'radar',
+            data: {
+                labels: ['דיווח ובקרה', 'תכנון אסטרטגי', 'ניהול סיכונים', 'קשרי משקיעים ודירקטוריון', 'חדשנות ו-IT'],
+                datasets: [
+                    {
+                        label: 'CFO בעבר',
+                        data: [80, 10, 30, 20, 10],
+                        backgroundColor: 'rgba(156, 163, 175, 0.2)',
+                        borderColor: 'rgba(156, 163, 175, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'CFO מודרני (יעד)',
+                        data: [30, 80, 70, 60, 60],
+                        backgroundColor: 'rgba(212, 175, 55, 0.3)', // Accent color
+                        borderColor: 'rgba(212, 175, 55, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(23, 42, 69, 1)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { display: true },
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        ticks: { display: false } // Hide numbers
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { family: 'Heebo', size: 14 } }
+                    }
+                }
+            }
+        });
+
+        // Dual Listing Data (Bar Chart)
+        const ctxDual = document.getElementById('dualListingChart').getContext('2d');
+        new Chart(ctxDual, {
+            type: 'bar',
+            data: {
+                labels: ['2023', '2024', '2025 (TASE)'],
+                datasets: [{
+                    label: 'נפח מסחר ממוצע יומי דואליות (במיליוני $)',
+                    data: [100.1, 110, 184.7], // Based on 2025 RAG data
+                    backgroundColor: [
+                        'rgba(23, 42, 69, 0.5)',
+                        'rgba(23, 42, 69, 0.7)',
+                        'rgba(212, 175, 55, 0.8)' // Highlight 2025
+                    ],
+                    borderColor: [
+                        'rgba(23, 42, 69, 1)',
+                        'rgba(23, 42, 69, 1)',
+                        'rgba(212, 175, 55, 1)'
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { rtl: true, textDirection: 'rtl' }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    // 3. Lecturer Interaction Mode
+    let lecturerModeActive = false;
+
+    function toggleLecturerMode() {
+        lecturerModeActive = !lecturerModeActive;
+        const indicator = document.getElementById('toggle-indicator');
+        const hiddenAnswers = document.querySelectorAll('.lecturer-answer');
+        
+        if (lecturerModeActive) {
+            indicator.classList.remove('bg-red-500');
+            indicator.classList.add('bg-green-500');
+            hiddenAnswers.forEach(el => el.classList.remove('hidden'));
+        } else {
+            indicator.classList.remove('bg-green-500');
+            indicator.classList.add('bg-red-500');
+            hiddenAnswers.forEach(el => el.classList.add('hidden'));
+        }
+    }
+
+    function toggleAnswer(id) {
+        if(!lecturerModeActive) { // Only toggle individual if master is off
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+        }
+    }
+
+    // 4. Quiz Logic
+    function calculateScore() {
+        const checkboxes = document.querySelectorAll('.quiz-cb');
+        let score = 0;
+        checkboxes.forEach(cb => {
+            if (cb.checked) score++;
+        });
+
+        const resultDiv = document.getElementById('quiz-result');
+        resultDiv.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-yellow-100', 'text-yellow-800', 'bg-green-100', 'text-green-800');
+        
+        let message = "";
+        if (score <= 2) {
+            resultDiv.classList.add('bg-red-100', 'text-red-800');
+            message = `ציון ${score}/5: מנהל חשבונות בכיר. הדירקטוריון רואה בך ספק נתונים בלבד. נדרש שינוי תפיסתי ומעבר לפרואקטיביות דחוף.`;
+        } else if (score <= 4) {
+            resultDiv.classList.add('bg-yellow-100', 'text-yellow-800');
+            message = `ציון ${score}/5: סמנכ"ל במעבר. אתה בדרך הנכונה. הדירקטוריון מעריך את המעורבות שלך, אך יש לשפר את החזון האסטרטגי ואת השקיפות העצמאית מול הדח"צים.`;
+        } else {
+            resultDiv.classList.add('bg-green-100', 'text-green-800');
+            message = `ציון ${score}/5: שותף אסטרטגי אידאלי! הדירקטוריון רואה בך מנהיג עסקי, מגן על החברה, ושותף מלא להתוויית הדרך. מעמדך איתן.`;
+        }
+        
+        resultDiv.innerHTML = message;
+    }
+</script>
 
 </body>
 </html>
