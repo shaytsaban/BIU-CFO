@@ -4,544 +4,641 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>פרק 6: דיווח כספי ושקיפות – בניית אמון הדירקטוריון</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+    
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=Frank+Ruhl+Libre:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        :root {
-            /* Corporate Executive Light Theme */
-            --bg-main: #F8FAFC;
-            --bg-card: #FFFFFF;
-            --bg-muted: #F1F5F9;
-            --text-primary: #0F172A;
-            --text-secondary: #475569;
-            --brand-navy: #1E3A8A;
-            --brand-blue: #2563EB;
-            --brand-accent: #059669; /* Trust green */
-            --accent-gold: #D97706;
-            --danger-red: #DC2626;
-            --border-color: #E2E8F0;
-            
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
-            --shadow-float: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0f2a4a',    /* Primary Dark Blue */
+                            light: '#1a4a7b',   /* Secondary Blue */
+                            accent: '#d4af37',  /* Gold Accent */
+                            danger: '#c53030',  /* Red */
+                            success: '#2f855a', /* Green */
+                            warning: '#dd6b20', /* Orange */
+                            bg: '#f8fafc',      /* Light Gray Bg */
+                            surface: '#ffffff', /* White Card */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Heebo', 'sans-serif'],
+                        serif: ['Frank Ruhl Libre', 'serif'], /* For Legal Quotes */
+                    }
+                }
+            }
         }
+    </script>
 
-        * {
-            box-sizing: border-box;
+    <style>
+        body { 
+            background-color: #f8fafc;
+            color: #1e293b; 
+            min-height: 100vh;
             scroll-behavior: smooth;
         }
+        
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        ::-webkit-scrollbar-thumb { background: #1a4a7b; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0f2a4a; }
 
-        body {
-            font-family: 'Assistant', sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            line-height: 1.7;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 15px 35px -5px rgba(15, 42, 74, 0.08);
+            transition: all 0.4s ease;
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(26, 74, 123, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -5px rgba(15, 42, 74, 0.12);
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Lora', serif;
-            color: var(--brand-navy);
-            margin-top: 0;
-        }
-
-        .container {
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 50px 20px;
-        }
-
-        /* Hero Section */
-        .hero {
-            background-color: var(--bg-card);
-            border-radius: 16px;
-            padding: 70px 50px;
-            position: relative;
-            box-shadow: var(--shadow-lg);
-            margin-bottom: 60px;
-            border-right: 8px solid var(--brand-navy);
-            overflow: hidden;
-            animation: fadeDown 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(120deg, transparent 40%, rgba(37, 99, 235, 0.03) 100%);
-            pointer-events: none;
-        }
-
-        .hero h1 {
-            font-size: 3.2em;
-            letter-spacing: -0.5px;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.4em;
-            color: var(--text-secondary);
-            max-width: 900px;
-            font-weight: 300;
-        }
-
-        .meta-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 30px;
-        }
-
-        .tag {
-            background: var(--bg-muted);
-            color: var(--brand-navy);
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.95em;
-            font-weight: 600;
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .toc {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 35px;
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 60px;
-            position: relative;
-        }
-
-        .toc h3 {
-            font-family: 'Assistant', sans-serif;
-            font-size: 1.4em;
-            margin-bottom: 25px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px solid var(--bg-muted);
-            padding-bottom: 15px;
-        }
-
-        .toc-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 15px;
-        }
-
-        .toc-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 18px;
-            background: var(--bg-main);
-            border-radius: 8px;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-        }
-
-        .toc-item:hover {
-            background: var(--bg-card);
-            border-color: var(--brand-blue);
-            color: var(--brand-blue);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .toc-number {
-            background: var(--brand-navy);
-            color: white;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-            margin-left: 15px;
-            font-size: 0.9em;
-            flex-shrink: 0;
-        }
-
-        section {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 50px;
-            margin-bottom: 40px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-color);
+        .fade-in-up {
             opacity: 0;
             transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        section.in-view {
+        
+        .fade-in-up.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        h2 {
-            font-size: 2.2em;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        h2::before {
-            content: '';
-            display: block;
-            width: 6px;
-            height: 35px;
-            background: var(--brand-blue);
-            border-radius: 3px;
-        }
-
-        p {
-            font-size: 1.15em;
-            margin-bottom: 20px;
-        }
-
-        .highlight-box {
-            background: rgba(37, 99, 235, 0.04);
-            border: 1px solid rgba(37, 99, 235, 0.1);
-            border-right: 4px solid var(--brand-blue);
-            padding: 25px 30px;
-            border-radius: 8px;
-            margin: 30px 0;
-        }
-
-        .highlight-box h4 {
-            color: var(--brand-blue);
-            font-family: 'Assistant', sans-serif;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-
-        .real-world-case {
-            background: #FFFDF4;
-            border: 1px solid #FEF08A;
-            border-radius: 12px;
-            padding: 35px;
-            margin: 40px 0;
-            position: relative;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .case-badge {
+        .abstract-bg-1 {
             position: absolute;
-            top: -15px;
-            right: 30px;
-            background: var(--accent-gold);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9em;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 6px rgba(217, 119, 6, 0.2);
+            top: -10%; right: -5%; width: 450px; height: 450px;
+            background: radial-gradient(circle, rgba(26,74,123,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
         }
 
-        .real-world-case h4 {
-            color: #92400E;
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            margin-top: 10px;
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin: 40px 0;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
-        .data-table th {
-            background: var(--bg-muted);
-            color: var(--brand-navy);
-            padding: 18px;
-            text-align: right;
-            font-weight: 700;
-            font-size: 1.1em;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .data-table td {
-            padding: 18px;
-            border-bottom: 1px solid var(--border-color);
-            vertical-align: top;
-        }
-
-        .data-table tr:last-child td { border-bottom: none; }
-        .data-table tr:hover td { background: rgba(241, 245, 249, 0.5); }
-
-        .ecosystem-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .eco-node {
-            background: var(--bg-main);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-            color: var(--brand-navy);
+        #lecturer-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
             transition: all 0.3s ease;
         }
 
-        .eco-node:hover {
-            background: var(--brand-navy);
-            color: white;
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
+        .lecturer-note {
+            display: none;
+            animation: slideDown 0.4s ease-out forwards;
         }
-
-        .workshop-board {
-            background: var(--brand-navy);
-            color: white;
-            padding: 50px;
-            border-radius: 16px;
-            margin-top: 60px;
-            box-shadow: var(--shadow-float);
-        }
-
-        .workshop-board h2 {
-            color: white;
-        }
-
-        .workshop-board h2::before { background: var(--brand-accent); }
-
-        .check-item {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            transition: background 0.3s;
-        }
-
-        .check-item:hover { background: rgba(255,255,255,0.1); }
-
-        .check-icon {
-            color: var(--danger-red);
-            font-size: 1.5em;
-            line-height: 1;
-        }
-
-        .term {
-            font-weight: 700;
-            color: var(--brand-blue);
-            background: rgba(37, 99, 235, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        @keyframes fadeDown {
-            from { opacity: 0; transform: translateY(-30px); }
+        
+        .lecturer-note.active { display: block; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 768px) {
-            .hero { padding: 40px 25px; }
-            .hero h1 { font-size: 2.4em; }
-            section { padding: 35px 20px; }
+        .legal-quote {
+            position: relative;
+            background: #f1f5f9;
+            border-right: 4px solid #0f2a4a;
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.15rem;
+            color: #334155;
+            border-radius: 0.5rem 0 0 0.5rem;
         }
+        .legal-quote::before {
+            content: "§";
+            position: absolute;
+            top: -15px;
+            right: 15px;
+            font-size: 2.5rem;
+            color: #cbd5e1;
+            font-family: sans-serif;
+            background: #f8fafc;
+            padding: 0 10px;
+        }
+
+        .highlight-term {
+            background-color: rgba(212, 175, 55, 0.2);
+            padding: 0.15rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 800;
+            color: #92400e; 
+        }
+
+        .modern-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; }
+        .modern-table th { background: #0f2a4a; color: #ffffff; padding: 16px; text-align: right; border-bottom: 2px solid #e2e8f0; }
+        .modern-table td { padding: 16px; background: #ffffff; border-bottom: 1px solid #e2e8f0; color: #334155; }
+        .modern-table tr:hover td { background: #f8fafc; }
+
+        .timeline-line {
+            position: absolute; top: 0; right: 24px; width: 4px; height: 100%;
+            background: linear-gradient(to bottom, #d4af37, #1a4a7b, #c53030);
+            border-radius: 4px; transform-origin: top; transform: scaleY(0); transition: transform 1.5s ease-in-out;
+        }
+        .timeline-container.visible .timeline-line { transform: scaleY(1); }
+        .timeline-item { opacity: 0; transform: translateX(30px); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .timeline-container.visible .timeline-item { opacity: 1; transform: translateX(0); }
+        .timeline-item:nth-child(2) { transition-delay: 0.3s; }
+        .timeline-item:nth-child(3) { transition-delay: 0.6s; }
+        .timeline-item:nth-child(4) { transition-delay: 0.9s; }
+        .timeline-item:nth-child(5) { transition-delay: 1.2s; }
+
+        .eco-node {
+            background: white; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; text-align: center;
+            font-weight: bold; color: #0f2a4a; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .eco-node:hover { transform: translateY(-5px); border-color: #1a4a7b; box-shadow: 0 10px 15px rgba(0,0,0,0.1); z-index: 10; }
+        
+        .arrow-right {
+            width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-right: 15px solid #cbd5e1; margin: auto;
+        }
+
+        /* Flowchart steps for IFRS 15 */
+        .step-container { display: flex; flex-direction: column; gap: 10px; }
+        .step-box { background: white; border: 2px solid #1a4a7b; padding: 15px; border-radius: 8px; font-weight: 500; display: flex; align-items: center; gap: 15px; position: relative; }
+        .step-num { background: #1a4a7b; color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; flex-shrink: 0; }
+        .step-connector { width: 2px; height: 20px; background: #1a4a7b; margin: 0 auto; }
     </style>
 </head>
-<body>
+<body class="antialiased font-sans">
 
-<div class="container">
-    <div class="hero">
-        <h1>דיווח כספי ושקיפות</h1>
-        <p>פרק 6: בניית אמון הדירקטוריון ושוק ההון. מצלילת עומק לליבת התקינה, דרך עיצוב הנרטיב העסקי, ועד ניהול משברים של טעויות מהותיות (Restatements) בזמן אמת.</p>
-        <div class="meta-tags">
-            <span class="tag">⏱ משך מודול: 60 דקות</span>
-            <span class="tag">📊 נושא: חשבונאות פיננסית מורכבת וממשל תאגידי</span>
-            <span class="tag">⚖️ מעוגן: הנחיות רשות ניירות ערך ותקינת IFRS</span>
-        </div>
-    </div>
+<div id="lecturer-toggle" class="bg-brand-dark text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 cursor-pointer hover:bg-brand-light border border-white/20" onclick="toggleLecturerMode()">
+    <span class="text-2xl">👨‍🏫</span>
+    <span class="font-bold text-sm tracking-wide">מצב מרצה</span>
+    <div id="toggle-indicator" class="w-3 h-3 rounded-full bg-red-500 mr-2 shadow-inner"></div>
+</div>
 
-    <div class="toc">
-        <h3>מפת הניווט של הפרק</h3>
-        <div class="toc-grid">
-            <a href="#ecosystem" class="toc-item"><span class="toc-number">1</span> האקו-סיסטם של הדיווח הכספי</a>
-            <a href="#ifrs" class="toc-item"><span class="toc-number">2</span> IFRS במציאות הישראלית (שערוכים והכנסות)</a>
-            <a href="#mda" class="toc-item"><span class="toc-number">3</span> דוח הדירקטוריון (MD&A) – מעבר ל"העתק-הדבק"</a>
-            <a href="#nongaap" class="toc-item"><span class="toc-number">4</span> מלכודת ה-Non-GAAP מול רשות ניירות ערך</a>
-            <a href="#investor-calls" class="toc-item"><span class="toc-number">5</span> שיחות משקיעים (Earnings Calls) ותסריטים</a>
-            <a href="#disclosure-committee" class="toc-item"><span class="toc-number">6</span> ועדת הגילוי ותפקיד ה-CFO בהגדרת מהותיות</a>
-            <a href="#related-party" class="toc-item"><span class="toc-number">7</span> עסקאות בעלי עניין (פרק חמישי לחוק החברות)</a>
-            <a href="#restatement" class="toc-item"><span class="toc-number">8</span> נוהל חירום: הצגה מחדש (Restatement)</a>
-            <a href="#auditor" class="toc-item"><span class="toc-number">9</span> קריאה בין השורות של חוות דעת המבקר (KAM)</a>
-            <a href="#workshop" class="toc-item"><span class="toc-number">10</span> סדנה לדירקטור: רשימת תיוג ודגלים אדומים</a>
-        </div>
-    </div>
-
-    <section id="ecosystem">
-        <h2>1. האקו-סיסטם של הדיווח הכספי: מי מייצר אמון?</h2>
-        <p>הדוח הכספי אינו יצירה של אדם אחד. הוא תוצר של מערכת בלמים ואיזונים קפדנית. חוסר סנכרון באחד הצמתים מוביל בהכרח לכשל דיווחי. הדירקטוריון מסתמך על ה-CFO שינצח על התזמורת הזו ללא זיופים.</p>
+<div class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+    
+    <header class="glass-card rounded-3xl p-8 lg:p-14 mb-12 border-t-8 border-brand-dark relative overflow-hidden text-center fade-in-up">
+        <div class="abstract-bg-1"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-brand-accent opacity-5 rounded-full blur-3xl pointer-events-none"></div>
         
-        <div class="ecosystem-grid">
-            <div class="eco-node">החשב (Controller)<br><span style="font-size:0.8em; font-weight:normal;">אחראי על דיוק הנתונים ההיסטוריים ויישום התקינה.</span></div>
-            <div class="eco-node">סמנכ"ל הכספים (CFO)<br><span style="font-size:0.8em; font-weight:normal;">אחראי על אומדנים, שיקול דעת ההנהלה והנרטיב.</span></div>
-            <div class="eco-node">רואה החשבון המבקר<br><span style="font-size:0.8em; font-weight:normal;">מספק חוות דעת בלתי תלויה על הדוחות (שומר הסף החיצוני).</span></div>
-            <div class="eco-node">ועדת הביקורת/מאזן<br><span style="font-size:0.8em; font-weight:normal;">מאתגרת את ההנהלה והמבקרים לפני אישור הדירקטוריון.</span></div>
+        <div class="relative z-10">
+            <div class="inline-flex items-center gap-3 bg-gradient-to-r from-brand-dark to-brand-light text-brand-accent px-8 py-3 rounded-full shadow-lg transform transition hover:scale-105 border border-brand-accent/40 mb-8">
+                <span class="text-3xl">👨‍🏫</span>
+                <span class="text-2xl font-black tracking-wider text-white">מרצה: רו״ח אביב רופל</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl lg:text-7xl font-black text-brand-dark mb-6 leading-tight">
+                דיווח כספי ושקיפות (Masterclass)
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 font-medium mb-10 max-w-4xl mx-auto">
+                פרק 6: בניית אמון הדירקטוריון. מסעיפי החוק היבשים של רשות ניירות ערך, דרך נבכי תקינת ה-IFRS ועד לניהול משברי אמת של דיווח מחדש (Restatements).
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4 text-sm md:text-base font-semibold">
+                <div class="bg-white text-brand-dark px-5 py-2.5 rounded-lg flex items-center gap-2 border border-gray-200 shadow-sm">
+                    <span class="text-xl">⏱</span> 90 דק' מאסטר-קלאס
+                </div>
+                <div class="bg-brand-light text-white px-5 py-2.5 rounded-lg flex items-center gap-2 shadow-md">
+                    <span class="text-xl">⚖️</span> מבוסס חקיקה ופסיקה
+                </div>
+                <div class="bg-brand-accent text-brand-dark px-5 py-2.5 rounded-lg flex items-center gap-2 shadow-md">
+                    <span class="text-xl">📊</span> כולל דיאגנוסטיקה אינטראקטיבית
+                </div>
+            </div>
         </div>
-    </section>
+    </header>
 
-    <section id="ifrs">
-        <h2>2. תקני IFRS המייצרים "כאב ראש" לדירקטוריון בישראל</h2>
-        <p>בישראל, חברות ציבוריות מדווחות לפי התקינה הבינלאומית (<span class="term">IFRS</span>). התקינה מבוססת פחות על "כללי אצבע" שחור-לבן ויותר על עקרונות (Principles-based) ושיקול דעת הנהלה. להלן התקנים שבהם הדירקטוריון חייב לתחקר את ה-CFO באופן אגרסיבי:</p>
-
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>התקן החשבונאי</th>
-                    <th>הסוגיה הפיננסית</th>
-                    <th>השאלות הקריטיות של הדירקטוריון ל-CFO</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>IFRS 15</strong><br>(הכרה בהכנסה מחוזים)</td>
-                    <td>קביעת העיתוי בו רושמים את ההכנסה בחברות טכנולוגיה, פרויקטים של תשתיות או תוכנה.</td>
-                    <td>"האם אנו רושמים הכנסה מוקדם מדי (אבן דרך שלא באמת הושלמה)? האם הפרדנו נכון בין רכיב החומרה לרכיב השירות התקופתי?"</td>
-                </tr>
-                <tr>
-                    <td><strong>IFRS 13 / IAS 40</strong><br>(שווי הוגן / נדל"ן להשקעה)</td>
-                    <td>הערכת שווי נכסים, במיוחד בסביבת ריבית משתנה (Cap Rates).</td>
-                    <td>"הריבית במשק עלתה ב-3% השנה. למה שווי הקניונים שלנו בספרים נשאר זהה? האם השמאי החיצוני מסתמך רק על נתונים שאתה הזנת לו?"</td>
-                </tr>
-                <tr>
-                    <td><strong>IFRS 9</strong><br>(מכשירים פיננסיים והפסדי אשראי)</td>
-                    <td>הפרשה להפסדי אשראי חזויים (ECL) - קריטי לחברות פיננסים ואשראי חוץ בנקאי.</td>
-                    <td>"המאקרו מראה כניסה למיתון. האם מודל ה-ECL שלנו רגיש מספיק או שאנחנו מזהים חוב אבוד רק כשהלקוח כבר פשט רגל?"</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-    <section id="mda">
-        <h2>3. דוח הדירקטוריון (MD&A): מעבר ל"העתק-הדבק"</h2>
-        <p>דוח הדירקטוריון (Management Discussion & Analysis) נועד להסביר את המספרים ה"יבשים" מנקודת מבטה של ההנהלה. בפועל, חברות רבות חוטאות ב"מחזור" טקסטים משנה לשנה (Boilerplate). רשות ניירות ערך דורשת <span class="term">גילוי ספציפי ואיכותני</span>.</p>
-        <div class="highlight-box">
-            <h4>💡 ציפיית הדירקטוריון מה-CFO בעריכת ה-MD&A:</h4>
-            <p>אל תכתוב בדוח: <em>"ההכנסות ירדו ב-10% בגלל ירידה בביקושים"</em>. הדירקטוריון (והרשות) מצפים לניתוח שורש: <em>"ההכנסות ירדו ב-10% משום שהשקת מוצר X התעכבה ב-3 חודשים בעקבות בעיות בשרשרת האספקה בטאיוואן. כתוצאה מכך, לקוחות עברו למתחרה Y. בכוונתנו להתגבר על כך ברבעון הבא באמצעות מתן הנחות של 5%."</em> זהו נרטיב אסטרטגי המייצר אמון.</p>
-        </div>
-    </section>
-
-    <section id="nongaap">
-        <h2>4. מלכודת ה-Non-GAAP ומאבק רשות ניירות ערך</h2>
-        <p>חברות רבות מדווחות על מדדים פיננסיים מתואמים שאינם לפי כללי החשבונאות המקובלים (כגון <strong>Adjusted EBITDA</strong> או <strong>רווח נקי מנוטרל</strong>). המטרה הלגיטימית היא לנטרל אירועים חד-פעמיים כדי להראות למשקיעים את פוטנציאל הייצור התזרימי השוטף.</p>
-        <p>הסכנה: הדירקטוריון מאשר "ניטרולים" אגרסיביים מדי, והחברה מציגה הפסד חשבונאי מהותי אך רווח Non-GAAP זוהר.</p>
-
-        <div class="real-world-case">
-            <span class="case-badge">⚠️ מקרה אמת רגולטורי</span>
-            <h4>עמדת סגל רשות ניירות ערך: אכיפת מדיניות ה-Non-GAAP (2021-2023)</h4>
-            <p>בשנים האחרונות, רשות ניירות ערך הישראלית פרסמה הבהרות נוקשות (ושאילתות לחברות ספציפיות) בדבר הצגת מדדי Non-GAAP. <strong>הפרקטיקה הפסולה שטופלה:</strong> חברות טכנולוגיה וצמיחה נהגו לנטרל באופן קבוע הוצאות בגין תגמול מבוסס מניות (אופציות לעובדים - SBC) והוצאות רה-ארגון "חד פעמיות" שחזרו על עצמן בכל רבעון מחדש.</p>
-            <p><strong>דרישת הרשות מה-CFO והדירקטוריון:</strong> 
-            <br>1. איסור על הצגת מדד ה-Non-GAAP בהבלטה (בולד, כותרת עליונה) לעומת מדד ה-GAAP. 
-            <br>2. הצגת "גשר" (Reconciliation) ברור ואמין.
-            <br>3. הדירקטוריון חייב לתשאל את ה-CFO: <em>"אם אנחנו מפטרים עובדים ומשלמים פיצויים כל שנה ברציפות ב-3 השנים האחרונות, כיצד אנו ממשיכים לטעון שזו 'הוצאה חד-פעמית' ולנטרל אותה מה-EBITDA?"</em></p>
-        </div>
-    </section>
-
-    <section id="investor-calls">
-        <h2>5. שיחות משקיעים (Earnings Calls): ניהול התיאטרון הפיננסי</h2>
-        <p>שיחת המשקיעים הרבעונית היא רגע השיא בחשיפה של החברה לשוק ההון. בעוד המנכ"ל מספק את החזון, ה-CFO אחראי על העוגן המספרי ומתן התחזית הקדימה (Guidance). מעורבות הדירקטוריון בשלב זה כוללת אישור מראש של המסרים המרכזיים.</p>
-        <ul>
-            <li><strong>תסריט ותשובות מוכנות מראש (Q&A Matrix):</strong> ה-CFO מכין לדירקטוריון מסמך הממפה את כל השאלות הקשות שהאנליסטים צפויים לשאול (למשל: "למה שולי הרווח הגולמי נשחקו?"), ומאשר מולם את התשובות הפומביות.</li>
-            <li><strong>אזהרת מידע צופה פני עתיד (Safe Harbor):</strong> חובה משפטית. כל אמירה של ה-CFO לגבי העתיד חייבת להיות מלווה בהסתייגות כי מדובר בהערכה בלבד, הכפופה לסיכונים שהוצגו בתשקיף. זהו המגן המשפטי המרכזי של הדירקטוריון נגד תביעות ייצוגיות אם התחזית נכשלת.</li>
+    <nav class="glass-card rounded-2xl p-8 mb-16 fade-in-up">
+        <h3 class="text-2xl font-bold text-brand-dark mb-6 flex items-center gap-3 border-b border-gray-200 pb-4">
+            <svg class="w-7 h-7 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+            נווט במאסטר-קלאס:
+        </h3>
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 text-gray-700 font-medium">
+            <li class="hover:text-brand-light transition duration-200"><a href="#ecosystem" class="flex gap-2"><span>1.</span> אקו-סיסטם הדיווח: מי מייצר אמון?</a></li>
+            <li class="hover:text-brand-light transition duration-200"><a href="#ifrs-core" class="flex gap-2 font-bold text-brand-light"><span>2.</span> מוקשי ה-IFRS (15, 36, 16, 9) 📉</a></li>
+            <li class="hover:text-brand-light transition duration-200"><a href="#mda" class="flex gap-2"><span>3.</span> MD&A: נרטיב עסקי ואיסור העתק-הדבק</a></li>
+            <li class="hover:text-brand-light transition duration-200"><a href="#nongaap" class="flex gap-2"><span>4.</span> מלכודת ה-Non-GAAP ותרמית הניטרול</a></li>
+            <li class="hover:text-brand-light transition duration-200"><a href="#materiality" class="flex gap-2"><span>5.</span> סעיף 36: מתי דיווח הופך ל"מהותי"?</a></li>
+            <li class="hover:text-brand-light transition duration-200"><a href="#related-party" class="flex gap-2"><span>6.</span> עסקאות בעלי עניין (האישור המשולש)</a></li>
+            <li class="hover:text-brand-light transition duration-200"><a href="#restatement" class="flex gap-2 font-bold text-brand-danger"><span>7.</span> משבר ה-Restatement והשבת תגמול (Clawback) 🚨</a></li>
+            <li class="hover:text-brand-light transition duration-200"><a href="#workshop" class="flex gap-2 text-brand-warning"><span>8.</span> סדנת דירקטור: איתור דגלים אדומים</a></li>
+            <li class="hover:text-brand-light transition duration-200"><a href="#quiz" class="flex gap-2 font-bold text-brand-accent"><span>9.</span> דיאגנוסטיקה: מדד שקיפות ה-CFO 📊</a></li>
         </ul>
-    </section>
+    </nav>
 
-    <section id="disclosure-committee">
-        <h2>6. ועדת הגילוי (Disclosure Committee) והגדרת "המהותיות"</h2>
-        <p>כדי למנוע תקלות בדיווח, חברות מבוססות מקימות "ועדת גילוי" פנימית (הכוללת לרוב את ה-CFO, היועץ המשפטי, החשב ולעיתים המבקר הפנימי). תפקידה לבחון אירועים בזמן אמת ולהחליט: <strong>האם זה דורש דיווח מיידי לבורסה?</strong></p>
-        <p>המונח המרכזי כאן הוא <span class="term">מהותיות (Materiality)</span>. ה-CFO הוא הסמכות המקצועית שקובעת האם אובדן של חוזה בשווי 5 מיליון ש"ח הוא "מהותי" (כלומר, מידע שמשקיע סביר היה רואה בו חשיבות בקבלת החלטת השקעה) בהתחשב בסך הכנסות החברה. אם ה-CFO טועה בשיקול הדעת ומעכב דיווח, הרשות לניירות ערך עלולה להטיל קנסות מנהליים כבדים (עיצומים כספיים) על החברה ונושאי המשרה אישית.</p>
-    </section>
-
-    <section id="related-party">
-        <h2>7. עסקאות בעלי עניין (Related-Party Transactions)</h2>
-        <p>בישראל, בה קיימות חברות רבות הנשלטות על ידי בעל שליטה דומיננטי (משפחה או קבוצת החזקות), סוגיית העסקאות עם צדדים קשורים היא הרגישה ביותר בדין התאגידי (<strong>הפרק החמישי לחוק החברות</strong>).</p>
-        <p>כאשר חברה ציבורית רוכשת נכס מחברה פרטית של בעל השליטה, או משלמת דמי ניהול לבעל השליטה, ה-CFO נמצא במבחן אולטימטיבי של נאמנות לחברה ולא ל"בוס".</p>
-        <div class="highlight-box">
-            <h4>דרישות הדירקטוריון והחוק מה-CFO:</h4>
-            <ul>
-                <li>הזמנת <span class="term">חוות דעת הוגנות (Fairness Opinion)</span> ממעריך שווי חיצוני ובלתי תלוי, שיוכיח כי המחיר המשולם לבעל השליטה הינו בתנאי שוק (Arm's Length).</li>
-                <li>אישור משולש: ועדת ביקורת (שמורכבת מבלתי תלויים) ⬅ דירקטוריון ⬅ אסיפה כללית ברוב מיוחד (<strong>רוב מקרב המיעוט</strong> - שאינו בעל עניין אישי).</li>
-            </ul>
+    <section id="ecosystem" class="mb-24 fade-in-up scroll-mt-24">
+        <div class="flex items-center gap-4 mb-8">
+            <div class="bg-brand-dark text-white w-14 h-14 rounded-xl flex items-center justify-center font-black text-3xl shadow-lg border-2 border-brand-accent">1</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-brand-dark">האקו-סיסטם של הדיווח הכספי: שרשרת האמון</h2>
         </div>
-    </section>
-
-    <section id="restatement">
-        <h2>8. נוהל חירום: הצגה מחדש של דוחות (Restatements)</h2>
-        <p>אין אירוע שמעורר פאניקה בדירקטוריון יותר מאשר גילוי טעות מהותית בדוחות כספיים שכבר פורסמו. המשמעות: יש למשוך את הדוחות בחזרה ולפרסם דוחות מתוקנים המכונים <strong>Restatement</strong>.</p>
-        <p>פעולה זו כמעט תמיד מלווה בצניחת שער המניה, אובדן אמון מצד משקיעים, והגשת בקשה לתביעה ייצוגית נגד הדירקטורים וה-CFO. תפקיד ה-CFO בניהול משבר כזה מול הדירקטוריון:</p>
-        <ol>
-            <li><strong>דיווח מיידי ליו"ר ועדת הביקורת ולרשות ניירות ערך</strong> (השהיית מסחר אם יש צורך).</li>
-            <li>חקירת שורש: האם זו טעות תמימה (שגגה אנושית באקסל/מערכת), פרשנות חשבונאית שגויה מול המבקרים, או חלילה תרמית מתוכננת (Fraud).</li>
-            <li>גילוי ה"חולשה המהותית" בבקרות הפנימיות (iSOX) שהובילה לטעות, והצגת תוכנית ריפוי (Remediation Plan) מיידית לדירקטוריון.</li>
-        </ol>
-    </section>
-
-    <section id="auditor">
-        <h2>9. קריאה בין השורות: חוות דעת המבקר ו-KAM</h2>
-        <p>רואה החשבון המבקר אינו כפוף להנהלה, אלא לדירקטוריון. במסגרת חוות הדעת, המבקרים מחויבים לפרסם פסקת <strong>KAM (Key Audit Matters - ענייני ביקורת מרכזיים)</strong>. אלו הם הנושאים שהיו המסובכים, הקשים או הסובייקטיביים ביותר במהלך הביקורת.</p>
-        <p>דירקטור מקצועי לא מסתפק בשורה התחתונה ("חוות דעת חלקה"), אלא פותח את פסקת ה-KAM. אם המבקר כתב שה-KAM היה "הערכת ירידת ערך של מוניטין בחברת הבת באירופה", זהו איתות לדירקטוריון למקד בדיוק שם את השאלות הקשות ל-CFO בישיבה הבאה.</p>
-    </section>
-
-    <section id="workshop" class="workshop-board">
-        <h2>10. סדנה לדירקטור: דגלים אדומים בדוחות הכספיים</h2>
-        <p>בעת בחינת ערימת הדוחות, על חברי הדירקטוריון לחפש את ה"דגלים האדומים" (Red Flags) הבאים, הדורשים הבהרה מיידית מה-CFO:</p>
         
-        <div class="check-item">
-            <div class="check-icon">🚩</div>
-            <div>
-                <strong>זינוק פתאומי בימי אשראי לקוחות (DSO)</strong><br>
-                אם המכירות עולות, אבל הלקוחות פתאום משלמים תוך 120 יום במקום 60. הדיון: האם החברה מכירה בהכנסה מוקדם מדי (Channel Stuffing) או נותנת אשראי ללקוחות בסיכון כדי לנפח הכנסות רגע לפני סוף הרבעון?
+        <div class="glass-card p-8">
+            <p class="text-lg leading-relaxed mb-6">
+                הדוח הכספי הוא המוצר המשפטי והכלכלי הקריטי ביותר של החברה. הוא אינו יצירה של מחלקה אחת, אלא תוצר של מערכת בלמים ואיזונים עדינה המעוגנת בחוק החברות וחוק ניירות ערך. כשל באחת החוליות גורר אובדן שווי שוק מיידי, תביעות ייצוגיות, וחקירות.
+            </p>
+
+            <div class="legal-quote">
+                <strong>חוק החברות (סעיף 114):</strong><br>
+                "הדירקטוריון ידון בדוחות הכספיים ויאשרם... לא יאשר דירקטוריון את הדוחות הכספיים אלא לאחר שקיבל את המלצותיה של ועדת הביקורת או של ועדת הדירקטוריון לבחינת הדוחות הכספיים".
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-7 gap-3 items-center max-w-6xl mx-auto mt-10">
+                <div class="eco-node col-span-1 md:col-span-2">
+                    <span class="text-2xl mb-2 block">👨‍💻</span>
+                    מבקר הפנים / SOX
+                    <p class="text-xs font-normal text-gray-500 mt-2">בודק ומוודא שהבקרות הפנימיות על הדיווח הכספי פועלות ואין פרצות לגניבות.</p>
+                </div>
+                <div class="hidden md:block col-span-1"><div class="arrow-right"></div></div>
+                <div class="eco-node col-span-1 md:col-span-2 border-brand-accent border-2 bg-blue-50">
+                    <span class="text-2xl mb-2 block">🎯</span>
+                    ה-CFO (הנווט)
+                    <p class="text-xs font-normal text-gray-500 mt-2">מרכז את האומדנים החשבונאיים, שיקול הדעת, מנהל מול הרו"ח החיצוני וחותם על הצהרת מנהלים אישית.</p>
+                </div>
+                <div class="hidden md:block col-span-1"><div class="arrow-right"></div></div>
+                <div class="eco-node col-span-1 md:col-span-2 bg-brand-dark text-white border-none">
+                    <span class="text-2xl mb-2 block">🏛️</span>
+                    דירקטוריון
+                    <p class="text-xs font-normal text-gray-300 mt-2">הגורם המאשר הסופי. חב באחריות על (Fiduciary Duty) על מהימנות הדיווח לציבור.</p>
+                </div>
+            </div>
+
+            <button onclick="toggleNote('note-eco')" class="mt-10 text-brand-light hover:text-brand-dark font-bold flex items-center gap-2 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                שאלה לקהל / חשיפת מרצה
+            </button>
+            <div id="note-eco" class="lecturer-note bg-blue-50 p-5 rounded-lg mt-3 border border-blue-200 text-blue-900 shadow-inner">
+                <strong>אביב רופל שואל ומסביר:</strong> "היכן רואה החשבון המבקר החיצוני (KPMG, EY וכו') נכנס כאן? <br>
+                <em>טעות נפוצה</em> של דירקטורים היא לחשוב שהרו"ח *מכין* את הדוחות. הדין קובע שהאחריות על עריכת הדוחות והנחות היסוד בהם היא על <strong>ההנהלה וה-CFO בלבד</strong>. הרו"ח החיצוני רק מגיע בסוף כדי לדגום (Audit) ולתת חוות דעת. דירקטור שיגיד בבית משפט (כדוגמת משפטי הבנקאות השונים בארץ) 'אבל רואה החשבון אישר את זה' – יגלה מהר מאוד שזו לא הגנה מספקת (BJR). האחריות לאתגר את האקסלים - נשארת אצלכם."
             </div>
         </div>
+    </section>
 
-        <div class="check-item">
-            <div class="check-icon">🚩</div>
-            <div>
-                <strong>היוון אגרסיבי של הוצאות פיתוח (R&D Capitalization)</strong><br>
-                תקן IAS 38 מאפשר לרשום הוצאות פיתוח כנכס (במקום כהוצאה הפוגעת ברווח), אם הוכחה היתכנות טכנולוגית וכלכלית. מעבר חד מרישום כהוצאה להיוון כנכס עלול לאותת על ניסיון הנהלה לייפות את השורה התחתונה.
+    <section id="ifrs-core" class="mb-24 fade-in-up scroll-mt-24">
+        <div class="flex items-center gap-4 mb-8">
+            <div class="bg-brand-light text-white w-14 h-14 rounded-xl flex items-center justify-center font-black text-3xl shadow-lg border-2 border-brand-accent">2</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-brand-dark">מוקשי ה-IFRS: שיקול דעת ההנהלה במבחן המשפטי</h2>
+        </div>
+        
+        <div class="glass-card p-8 border-r-4 border-brand-light">
+            <p class="text-lg mb-6">
+                התקינה הבינלאומית (IFRS) החלה בישראל, אינה בנויה על "חוקים" נוקשים (Rules-based כמו ה-US GAAP), אלא על <strong>עקרונות המצריכים שיקול דעת מהותי</strong>. הדירקטוריון חייב לאתגר את ה-CFO בדיוק בנקודות אלו, בהן נטיית ההנהלה להציג "ורוד" פוגשת את המציאות הכלכלית.
+            </p>
+
+            <div class="space-y-12">
+                
+                <!-- IFRS 15 -->
+                <div>
+                    <h3 class="text-2xl font-bold text-brand-dark mb-3">א. IFRS 15: מתי באמת מותר להכיר בהכנסה?</h3>
+                    <div class="legal-quote mb-4 text-sm">
+                        "ישות תכיר בהכנסה כאשר (או ככל ש-) הישות מספקת את מחויבות הביצוע על ידי העברת סחורה או שירות מובטחים (כלומר נכס) ללקוח. נכס מועבר כאשר (או ככל ש-) הלקוח <strong>משיג שליטה</strong> על אותו נכס." (IFRS 15, סעיף 31)
+                    </div>
+                    <p class="text-gray-700 mb-4">ה-CFO חייב להציג לדירקטוריון את מודל 5 השלבים. הסכנה הגדולה היא "Channel Stuffing" – דחיפת סחורה למפיצים בסוף רבעון ללא שהסיכון באמת עבר אליהם.</p>
+                    
+                    <div class="step-container bg-gray-50 p-6 rounded-xl border border-gray-200 max-w-3xl mx-auto">
+                        <div class="font-bold text-center text-brand-light mb-2">מודל 5 השלבים להכרה בהכנסה</div>
+                        <div class="step-box"><div class="step-num">1</div> זיהוי החוזה עם הלקוח (האם הוא אכיף משפטית ויש סבירות לגבייה?)</div>
+                        <div class="step-connector"></div>
+                        <div class="step-box"><div class="step-num">2</div> זיהוי מחויבויות הביצוע (הפרדה בין מכירת חומרה, רישיון תוכנה ושירותי תחזוקה)</div>
+                        <div class="step-connector"></div>
+                        <div class="step-box"><div class="step-num">3</div> קביעת מחיר העסקה (התחשבות בתמורות משתנות, קנסות, הנחות עתידיות)</div>
+                        <div class="step-connector"></div>
+                        <div class="step-box"><div class="step-num">4</div> הקצאת מחיר העסקה לכל אחת ממחויבויות הביצוע (לפי מחירי מכירה נפרדים)</div>
+                        <div class="step-connector"></div>
+                        <div class="step-box bg-green-50 border-green-600"><div class="step-num bg-green-600">5</div> <strong>הכרה בהכנסה</strong> (רק כאשר או לאורך זמן כשהלקוח משיג שליטה)</div>
+                    </div>
+                </div>
+
+                <!-- IAS 36 Impairment -->
+                <div class="pt-8 border-t border-gray-200">
+                    <h3 class="text-2xl font-bold text-brand-dark mb-3">ב. IAS 36: ירידת ערך נכסים (Impairment)</h3>
+                    <div class="legal-quote mb-4 text-sm">
+                        "ישות תבחן בכל תאריך דיווח האם קיים סימן כלשהו לכך שערכו של נכס ירד. אם קיים סימן כזה, על הישות לאמוד את הסכום בר-ההשבה של הנכס." (IAS 36, סעיף 9)
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div>
+                            <p class="text-gray-700">בסביבה של עליית ריבית עולמית, ערכם של קניונים, בנייני משרדים ומוניטין של חברות היי-טק שנרכשו בשיא – נשחק. ה-CFO נוטה לעיתים לשמור על שווי גבוה (כדי לא לפגוע בהון העצמי ובקובננטים).</p>
+                            <p class="text-brand-danger font-bold mt-2">הדירקטוריון חייב לשאול:</p>
+                            <ul class="list-disc list-inside text-gray-700 text-sm">
+                                <li>האם שיעורי ההיוון (Discount Rates / Cap Rates) במודל עודכנו לריבית חסרת הסיכון של היום?</li>
+                                <li>האם תחזית תזרים המזומנים של הנכס משקפת מיתון אפשרי?</li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 p-6 rounded-xl border border-amber-200 text-center shadow-inner">
+                            <div class="font-bold text-amber-900 mb-2">נוסחת השווי - חובת מחיקה אם:</div>
+                            <div class="text-lg mb-4">
+                                <span class="bg-white px-2 py-1 rounded border">ערך פנקסני (במאזן)</span> > <span class="bg-white px-2 py-1 rounded border">סכום בר-השבה</span>
+                            </div>
+                            <div class="text-sm text-amber-800">
+                                סכום בר השבה = הגבוה מבין: <br><strong>(א)</strong> שווי הוגן בניכוי הוצאות מכירה <br>או <strong>(ב)</strong> שווי שימוש (היוון תזרימי מזומנים חזויים).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IFRS 16 -->
+                <div class="pt-8 border-t border-gray-200">
+                    <h3 class="text-2xl font-bold text-brand-dark mb-3">ג. IFRS 16: אשליית ה-EBITDA בחכירות</h3>
+                    <p class="text-gray-700 mb-4">תקן החכירות (שנכנס לתוקף ב-2019) הזיז את שכר הדירה מהוצאה תפעולית להיוון מאזני (נכס זכות שימוש מול התחייבות חכירה). התוצאה? **ה-EBITDA של החברה קופץ מלאכותית** (שכן הוצאות השכירות הפכו כעת לפחת והוצאות מימון, המנוטרלות מה-EBITDA).</p>
+                    
+                    <div class="h-64 w-full max-w-3xl mx-auto bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                        <canvas id="ifrs16Chart"></canvas>
+                    </div>
+                </div>
+
             </div>
         </div>
+    </section>
 
-        <div class="check-item">
-            <div class="check-icon">🚩</div>
-            <div>
-                <strong>פער עצום ועקבי בין הרווח הנקי לתזרים מפעילות שוטפת</strong><br>
-                "הרווח הוא דעה, המזומן הוא עובדה". חברה שמראה רווח חשבונאי מרשים של עשרות מיליונים, אך תזרים המזומנים התפעולי שלה (CFOA) שלילי במשך תקופה ארוכה - היא חברה בבעיה חמורה של איכות רווח (Earnings Quality) המצדיקה חקירת דירקטוריון נוקבת.
+    <section id="mda" class="mb-24 fade-in-up scroll-mt-24">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="bg-brand-accent text-white w-12 h-12 rounded-xl flex items-center justify-center font-black text-2xl shadow-lg">3</div>
+            <h2 class="text-3xl font-extrabold text-brand-dark">דוח הדירקטוריון (MD&A): חובת ההסבר</h2>
+        </div>
+        <div class="glass-card p-8">
+            <div class="legal-quote text-sm mb-6">
+                <strong>תקנות ניירות ערך (דוחות תקופתיים ומיידיים) התש"ל-1970 - תקנה 10:</strong><br>
+                "בדוח הדירקטוריון יינתנו הסברים של הדירקטוריון על מצב עניני התאגיד, תוצאות פעולותיו, הונו העצמי ותזרימי המזומנים שלו... אין להסתפק בציון נתונים בלבד, אלא יש להבהיר ולנתח את הסיבות להתפתחותם."
+            </div>
+            
+            <p class="text-lg mb-4">רשות ני"ע קונסת חברות על <em>Boilerplate</em> (העתק-הדבק של טקסטים ללא ניתוח סיבות שורש). ה-CFO חייב להציג לדירקטוריון את הדוח לא כתרגיל בתחביר, אלא כמסמך כלכלי.</p>
+            
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th class="w-1/2">❌ ניסוח גנרי / לקוי (סכנת הערת רשות)</th>
+                        <th class="w-1/2">✅ ניסוח איכותני מודרני מבית CFO מקצועי</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="bg-red-50 text-sm">"הירידה של 15% ברווח התפעולי נובעת מירידה במכירות ומעלייה קלה בהוצאות שיווק, הנהלה וכלליות לעומת התקופה המקבילה אשתקד." <em>(לא מסביר כלום)</em></td>
+                        <td class="bg-green-50 text-sm">"הירידה ברווח התפעולי נובעת מהשבתת קו ייצור מרכזי בסין למשך חודשיים עקב סגרים. כמענה, הסטנו משאבי שיווק בסך 2M$ לקידום קו מוצרים חלופי, מה שהעלה את הוצאות ה-OPEX בטווח הקצר אך צפוי לפצות על המכירות ברבעון הבא."</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="nongaap" class="mb-24 fade-in-up scroll-mt-24">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="bg-purple-600 text-white w-12 h-12 rounded-xl flex items-center justify-center font-black text-2xl shadow-lg">4</div>
+            <h2 class="text-3xl font-extrabold text-brand-dark">מלכודת ה-Non-GAAP (עמדת סגל 105-23)</h2>
+        </div>
+        <div class="glass-card p-8 border-t-4 border-purple-600">
+            <p class="text-lg mb-6">חברות רבות מציגות מדדים מתואמים (Non-GAAP, Adjusted EBITDA) שמטרתם "לנטרל" אירועים חד-פעמיים כדי להראות את הפוטנציאל המייצג. רשות ניירות ערך הכריזה מלחמה על ניטרולים יצירתיים המטעים את המשקיעים.</p>
+            
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+                <div class="h-64 w-full relative z-10">
+                    <canvas id="nonGaapChart"></canvas>
+                </div>
+
+                <div class="bg-purple-50 p-6 rounded-xl border border-purple-200 text-sm text-purple-900 font-medium">
+                    <h4 class="font-bold text-lg mb-3">חובות ה-CFO מול הדירקטוריון (הנחיות הרשות):</h4>
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><strong>איסור בולטות יתר:</strong> לעולם לא להציג את רווח ה-Non-GAAP בפונט גדול יותר או לפני הרווח החשבונאי המבוקר (GAAP) בהודעות לתקשורת.</li>
+                        <li><strong>גשר התאמה (Reconciliation):</strong> חובה לפרסם טבלה המראה בדיוק מהו הרווח החשבונאי, אילו סעיפים נוטרלו (אופציות עובדים, הוצאות רה-ארגון), וכיצד מגיעים ל-Non-GAAP.</li>
+                        <li><strong>מבחן ה"חד פעמיות":</strong> איסור מוחלט על ניטרול "הוצאות ארגון מחדש" אם החברה עוברת תהליכי פיטורים כבר 4 רבעונים ברציפות. זהו מהלך עסקי שוטף ולא אירוע חריג.</li>
+                    </ol>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="check-item">
-            <div class="check-icon">🚩</div>
-            <div>
-                <strong>שינוי תכוף ברואי חשבון או מנהלי כספים</strong><br>
-                התפטרות פתאומית של רואה חשבון מבקר, או חילופי סמנכ"לי כספים שניים-שלושה בשנתיים, הם לרוב התסמין המובהק ביותר לסכסוכים אודות פרקטיקות דיווח פסולות (Disagreements on accounting treatments).
+    <section id="materiality" class="mb-24 fade-in-up scroll-mt-24">
+        <div class="bg-gray-800 text-white rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden">
+            <div class="absolute right-0 top-0 h-full w-4 bg-brand-warning"></div>
+            
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-brand-warning text-white w-14 h-14 rounded-xl flex items-center justify-center font-black text-3xl shadow-lg">5</div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white">ועדת גילוי וחובת הדיווח (סעיף 36)</h2>
+            </div>
+
+            <div class="legal-quote mb-6 text-sm !bg-gray-700 !text-gray-200 !border-brand-warning">
+                <strong>חוק ניירות ערך, תשכ"ח-1968, סעיף 36 (ובתקנות דוחות מיידיים):</strong><br>
+                "תאגיד יגיש לרשות ולבורסה דוח מיידי על כל אירוע או עניין החורגים מעסקי התאגיד הרגילים, אשר יש בהם כדי להשפיע באופן מהותי על מחיר ניירות הערך של התאגיד..."
+            </div>
+
+            <p class="text-lg text-gray-300 mb-8">
+                ה-CFO והיועמ"ש מהווים לרוב את <strong>ועדת הגילוי</strong> בארגון. הם מנהלים "שעון עצר" חוקי (בדרך כלל דיווח נדרש בסמוך למועד היוודע האירוע). עיכוב בדיווח מהותי חושף את הארגון לאכיפה מנהלית ולהליכים ייצוגיים (class actions).
+            </p>
+
+            <!-- Lecturer Dilemma -->
+            <div class="bg-gray-700 p-6 rounded-xl border border-gray-600 mb-8">
+                <h3 class="text-xl font-bold text-brand-warning mb-4">דילמה לקהל: תקנה 36(ב) - מתי מותר *לעכב* דיווח?</h3>
+                <p class="mb-4 text-gray-200">החברה מנהלת מו"מ קריטי לרכישת סטארט-אפ אשר עשוי להכפיל את שוויה. אם נדווח כעת לבורסה, המתחרים יידעו ויטרפדו את העסקה. מנגד, המו"מ נחשב למידע מהותי (Soft Information). האם לדווח או להשהות?</p>
+                
+                <div class="flex gap-4">
+                    <button onclick="toggleAnswer('dilemma-delay')" class="bg-brand-warning text-brand-dark px-6 py-2 rounded font-bold hover:bg-yellow-400 transition shadow">הצג את הפתרון החוקי</button>
+                </div>
+
+                <div id="dilemma-delay" class="hidden mt-4 bg-gray-900 p-5 rounded text-sm text-gray-200 border-r-4 border-brand-warning">
+                    <strong>תשובה: מותר לעכב, אך בתנאים קפדניים ביותר (תקנה 36(ב)).</strong><br>
+                    התקנות מתירות השהיית דיווח אם הגילוי עלול לפגוע באופן פגיעה חמורה בחברה (כגון טרפוד עסקת רכישה או חשיפת סוד מסחרי).<br>
+                    <span class="text-red-400 font-bold">אבל, זהו ה"אבל" הגדול:</span> על ה-CFO לוודא שהמידע נשמר בסוד כמוס בתוך הארגון ("מידור"). ברגע שיש <strong>הדלפה (Leak)</strong> או מסחר חריג במניה המעיד שמישהו סוחר על בסיס מידע פנים, ה"הגנה" של עיכוב הדיווח פוקעת, והחברה חייבת לפרסם "דיווח הבהרה" מיידי לבורסה בבוקר שלמחרת.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="related-party" class="mb-24 fade-in-up scroll-mt-24">
+        <div class="flex items-center gap-4 mb-8">
+            <div class="bg-brand-dark text-white w-14 h-14 rounded-xl flex items-center justify-center font-black text-3xl shadow-lg border-2 border-brand-accent">6</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-brand-dark">עסקאות בעלי עניין (הפרק החמישי לחוק החברות)</h2>
+        </div>
+        
+        <div class="glass-card p-8 bg-gradient-to-b from-white to-gray-50 border-t-4 border-brand-dark">
+            <div class="legal-quote text-sm mb-6">
+                <strong>חוק החברות (סעיף 270(4) ו-275):</strong><br>
+                "עסקה חריגה של חברה ציבורית עם בעל השליטה בה... טעונה אישור ועדת הביקורת, לאחריה אישור הדירקטוריון, ולאחריה אישור האסיפה הכללית... ובלבד שיתקיים אחד מאלה: (1) במנין קולות הרוב באסיפה הכללית ייכללו רוב מכלל קולות בעלי המניות שאינם בעלי עניין אישי..."
+            </div>
+            
+            <p class="text-lg mb-8">
+                בישראל (בניגוד לארה"ב), חברות רבות נשלטות על ידי גרעין שליטה (משפחה/טייקון). כאשר החברה הציבורית משלמת דמי ניהול גבוהים לחברה הפרטית של בעל השליטה, החוק דורש "אישור משולש" (Triple Approval) שנועד לנטרל את כוחו של בעל השליטה לאשר לעצמו למשוך קופה מהחברה. ה-CFO הוא הגורם המרכז את חוות דעת ההוגנות (Fairness Opinions) לקראת מהלך כזה.
+            </p>
+
+            <h3 class="text-xl font-bold text-center text-brand-dark mb-6">מסלול האישור המשולש (מכשול רגולטורי)</h3>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4 max-w-5xl mx-auto mb-8 text-center">
+                <div class="bg-white p-6 rounded-xl border-2 border-blue-200 shadow-sm w-full md:w-1/3 z-10 relative">
+                    <div class="absolute -top-4 right-1/2 transform translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">שלב 1</div>
+                    <h4 class="font-bold text-brand-dark mb-2">ועדת ביקורת</h4>
+                    <p class="text-xs text-gray-600">מורכבת מבלתי תלויים (דח"צים). קובעת האם העסקה הוגנת (Arm's Length) לחברה ולא מקפחת את המיעוט.</p>
+                </div>
+                
+                <div class="text-3xl text-brand-light transform rotate-90 md:rotate-0">➔</div>
+                
+                <div class="bg-white p-6 rounded-xl border-2 border-brand-accent shadow-sm w-full md:w-1/3 z-10 relative">
+                    <div class="absolute -top-4 right-1/2 transform translate-x-1/2 bg-brand-accent text-white text-xs font-bold px-3 py-1 rounded-full">שלב 2</div>
+                    <h4 class="font-bold text-brand-dark mb-2">מליאת הדירקטוריון</h4>
+                    <p class="text-xs text-gray-600">דירקטור שיש לו "עניין אישי" (כמו נציגי משפחת השליטה) מנוע מלהיות נוכח בחדר או מלהצביע (סעיף 278).</p>
+                </div>
+                
+                <div class="text-3xl text-brand-light transform rotate-90 md:rotate-0">➔</div>
+                
+                <div class="bg-brand-dark text-white p-6 rounded-xl border-2 border-brand-dark shadow-lg w-full md:w-1/3 z-10 relative transform scale-105">
+                    <div class="absolute -top-4 right-1/2 transform translate-x-1/2 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">שלב 3: המכשול העליון</div>
+                    <h4 class="font-bold text-white mb-2">האסיפה הכללית (המוסדיים)</h4>
+                    <p class="text-xs text-gray-300">נדרש <strong>רוב מקרב המיעוט (Majority of Minority)</strong>. בעל השליטה מנוטרל. קרנות הפנסיה, הגמל ואנטרופי הם אלו שיאשרו או יפילו.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="restatement" class="mb-24 fade-in-up scroll-mt-24">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="bg-red-600 text-white w-14 h-14 rounded-xl flex items-center justify-center font-black text-3xl shadow-lg">7</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-red-600">משבר ה-Restatement והשבת תגמול (Clawback)</h2>
+        </div>
+        
+        <div class="glass-card p-8 border-r-4 border-red-600">
+            <div class="legal-quote text-sm mb-6">
+                <strong>IAS 8 - מדיניות חשבונאית, שינויים באומדנים וטעויות:</strong><br>
+                "ישות תתקן טעויות מהותיות של תקופות קודמות באופן של טיפול למפרע (Retrospective restatement) בדוחות הכספיים הראשונים שאושרו לפרסום לאחר גילוין על ידי: הצגה מחדש של הסכומים ההשוואתיים..."
+            </div>
+
+            <p class="text-lg text-gray-800 mb-6">
+                גילוי טעות מהותית בדוחות עבר הוא <strong>הסיוט הגדול ביותר של חברה ציבורית.</strong> הדירקטוריון חייב "למשוך" דוחות ישנים ולהודות בפומבי בטעות. ההשלכות הן הרסניות.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h4 class="font-bold text-red-700 text-xl mb-3">האבחנה הקריטית לדירקטוריון:</h4>
+                    <ul class="space-y-4 text-sm text-gray-700">
+                        <li class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <span class="font-bold text-gray-900 block mb-1">שינוי באומדן (לגיטימי):</span> ה-CFO החליט שתוחלת החיים של מכונות במפעל היא 10 שנים במקום 15 עקב טכנולוגיה חדשה. <br><em>השפעה:</em> מתקנים מכאן והלאה (Prospective). אין דרמה.
+                        </li>
+                        <li class="bg-red-50 p-3 rounded border border-red-200">
+                            <span class="font-bold text-red-900 block mb-1">טעות תקופות קודמות (אסון):</span> התגלה שההכנסות ב-2023 נרשמו למרות שהסחורה כלל לא נשלחה.<br><em>השפעה:</em> Restatement למפרע.
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-red-900 text-white p-6 rounded-xl shadow-lg relative">
+                    <div class="absolute -top-3 -left-3 text-4xl">💰</div>
+                    <h4 class="font-bold text-white mb-2 text-xl border-b border-red-700 pb-2">מדיניות ה-Clawback (תיקון 20)</h4>
+                    <p class="text-sm text-red-100 leading-relaxed">
+                        לפי חוק החברות (ותקנות ה-SEC בארה"ב), במקרה של Restatement, חלה חובה משפטית <strong>לדרוש השבה (Clawback)</strong> של הבונוסים ששולמו ל-CFO, למנכ"ל ולנושאי משרה בשנים הרלוונטיות, אפילו אם הם לא היו מעורבים אישית בטעות (ללא צורך בהוכחת אשמה, No-fault basis). הדירקטוריון חייב להפעיל את מנגנון הגבייה האישית הזה או להסתכן בתביעה נגזרת.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="workshop" class="mb-24 fade-in-up scroll-mt-24">
+        <div class="flex items-center gap-4 mb-8">
+            <div class="bg-brand-warning text-white w-14 h-14 rounded-xl flex items-center justify-center font-black text-3xl shadow-lg border-2 border-brand-dark">8</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-brand-dark">סדנה לדירקטור: 4 דגלים אדומים (Red Flags)</h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow border-t-4 border-brand-warning hover:shadow-lg transition group">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-2xl group-hover:scale-125 transition">🚩</span>
+                    <h4 class="font-bold text-lg text-brand-dark">פער עצום בין הרווח הנקי לתזרים הפנוי</h4>
+                </div>
+                <p class="text-sm text-gray-700">"הרווח הוא דעה (Accrual), המזומן הוא עובדה". אם ה-P&L מראה רווחיות פנומנלית של 50 מיליון ש"ח, אבל התזרים מפעילות שוטפת (CFOA) ממשיך להיות שלילי עמוק, זה מעיד על 'איכות רווח' (Quality of Earnings) גרועה. חברה לא יכולה לשלם משכורות מהכנסות שלא נגבו.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow border-t-4 border-brand-warning hover:shadow-lg transition group">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-2xl group-hover:scale-125 transition">🚩</span>
+                    <h4 class="font-bold text-lg text-brand-dark">מימון חוץ-מאזני (Factoring) מוסתר</h4>
+                </div>
+                <p class="text-sm text-gray-700">כשהחברה במצוקת נזילות, הנהלות לעיתים פונות לעסקאות פקטורינג (מכירת חובות לקוחות לחברות אשראי) כדי לנפח מלאכותית את התזרים מפעילות "שוטפת". הדירקטור חייב לשאול האם מכירת החוב היא "עם זכות חזרה" (With Recourse), כי אם כן - זהו בעצם קו אשראי במסווה.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow border-t-4 border-brand-warning hover:shadow-lg transition group">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-2xl group-hover:scale-125 transition">🚩</span>
+                    <h4 class="font-bold text-lg text-brand-dark">חילופים תכופים של רואה החשבון המבקר</h4>
+                </div>
+                <p class="text-sm text-gray-700">התפטרות פתאומית של משרד רו"ח מבקר (Big 4) או של סמנכ"ל כספים לפני תום השנה, היא סירנה רועשת. לרוב היא אינה נובעת מ"רצון לאתגרים חדשים", אלא מעידה על "מחלוקת על מדיניות חשבונאית" (Disagreement) או סירוב לחתום על מניפולציות (Fraud).</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow border-t-4 border-brand-warning hover:shadow-lg transition group">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-2xl group-hover:scale-125 transition">🚩</span>
+                    <h4 class="font-bold text-lg text-brand-dark">היוון אגרסיבי של הוצאות פיתוח (R&D)</h4>
+                </div>
+                <p class="text-sm text-gray-700">תקן IAS 38 מאפשר לרשום הוצאות תוכנה ופיתוח כ"נכס בלתי מוחשי" רק לאחר הוכחת היתכנות. אם הנהלה מהוונת פתאום 80% ממשכורות המתכנתים למאזן במקום לרשום כהוצאה שוטפת (השוחקת את ה-EBITDA), זוהי הנדסת רווחיות קלאסית.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="quiz" class="mb-24 fade-in-up scroll-mt-24">
+        <div class="glass-card rounded-3xl p-10 lg:p-14 border-t-8 border-brand-accent text-center bg-gradient-to-b from-white to-gray-50">
+            <h2 class="text-3xl lg:text-4xl font-extrabold text-brand-dark mb-4">9. דיאגנוסטיקה: מדד השקיפות העצמי (CFO Transparency)</h2>
+            <p class="text-gray-600 mb-10 max-w-2xl mx-auto text-lg">בחנו את רמת הממשל התאגידי שלכם בעולם הדיווח הכספי.</p>
+            
+            <form id="transparency-quiz" class="space-y-4 max-w-4xl mx-auto text-right">
+                <label class="flex items-start gap-5 p-5 rounded-xl border border-gray-200 bg-white hover:bg-blue-50 hover:border-brand-light cursor-pointer transition shadow-sm">
+                    <input type="checkbox" class="quiz-check mt-1 w-6 h-6 accent-brand-accent rounded">
+                    <span class="text-gray-800 font-medium text-lg">אנו לא מנטרלים "הוצאות רה-ארגון" או אופציות לעובדים ב-Non GAAP אם תהליכים אלו קורים בכל רבעון באופן שיטתי.</span>
+                </label>
+                <label class="flex items-start gap-5 p-5 rounded-xl border border-gray-200 bg-white hover:bg-blue-50 hover:border-brand-light cursor-pointer transition shadow-sm">
+                    <input type="checkbox" class="quiz-check mt-1 w-6 h-6 accent-brand-accent rounded">
+                    <span class="text-gray-800 font-medium text-lg">ועדת הגילוי שלנו מתכנסת פרואקטיבית ומתעדת כל החלטה להשהות דיווח מהותי (על פי תקנה 36(ב)), תוך אבטחת סודיות מלאה.</span>
+                </label>
+                <label class="flex items-start gap-5 p-5 rounded-xl border border-gray-200 bg-white hover:bg-blue-50 hover:border-brand-light cursor-pointer transition shadow-sm">
+                    <input type="checkbox" class="quiz-check mt-1 w-6 h-6 accent-brand-accent rounded">
+                    <span class="text-gray-800 font-medium text-lg">מדיניות ה-Clawback שלנו (תיקון 20) מאושרת וערוכה לפעולה אוטומטית במקרה של דרישה ל-Restatement, גם ללא הוכחת אשמת ה-CFO.</span>
+                </label>
+                <label class="flex items-start gap-5 p-5 rounded-xl border border-gray-200 bg-white hover:bg-blue-50 hover:border-brand-light cursor-pointer transition shadow-sm">
+                    <input type="checkbox" class="quiz-check mt-1 w-6 h-6 accent-brand-accent rounded">
+                    <span class="text-gray-800 font-medium text-lg">ה-MD&A (דוח הדירקטוריון) מנוסח כנרטיב אסטרטגי הבוחן תזרימי מזומנים וחשיפות סיכון עתידיות, ולא מסתפק רק בתיאור סטיות טכניות מול אשתקד.</span>
+                </label>
+            </form>
+
+            <div class="text-center mt-12">
+                <button type="button" onclick="calculateTransparency()" class="bg-brand-dark text-white font-bold py-4 px-12 rounded-full hover:bg-brand-light transition shadow-lg text-xl transform hover:scale-105">
+                    חשב ציון שקיפות ואמון
+                </button>
+            </div>
+
+            <div id="quiz-result" class="mt-10 hidden p-8 rounded-2xl text-center font-bold text-2xl transition-all max-w-3xl mx-auto border-2 shadow-xl"></div>
+        </div>
+    </section>
+
+    <section id="summary" class="mb-12 scroll-mt-24">
+        <div class="flex flex-col items-center mb-16 fade-in-up text-center">
+            <span class="text-6xl mb-4">🏆</span>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-brand-dark">סיכום המאסטר-קלאס</h2>
+            <p class="text-xl text-gray-600 mt-4 max-w-2xl">עקרונות הברזל לבניית אמון ארוך טווח מול דירקטוריון ושוק ההון</p>
+        </div>
+        
+        <div class="timeline-container relative pr-12 pb-10 max-w-4xl mx-auto fade-in-up">
+            <div class="timeline-line"></div>
+            
+            <div class="timeline-item flex items-center gap-6 mb-10 relative">
+                <div class="absolute -right-16 w-10 h-10 rounded-full bg-brand-dark border-4 border-white shadow-md flex items-center justify-center z-10 text-white font-bold">1</div>
+                <div class="bg-white p-6 lg:p-8 rounded-2xl border border-gray-200 shadow-sm flex-1 hover:border-brand-light hover:shadow-md transition">
+                    <h4 class="font-black text-brand-dark text-xl mb-2">IFRS אינו מדע מדויק (שיקול דעת אקטיבי)</h4>
+                    <p class="text-gray-600 text-sm md:text-base">התקינה הבינלאומית דורשת שיקול דעת (אומדנים, ירידות ערך, עיתוי הכרה בהכנסה). תפקיד הדירקטוריון הוא לאתגר את ה-CFO על הנחות היסוד ולא לקבלן כמוחלטות, כדי לוודא שאין עיצוב מניפולטיבי של התוצאות.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item flex items-center gap-6 mb-10 relative">
+                <div class="absolute -right-16 w-10 h-10 rounded-full bg-brand-light border-4 border-white shadow-md flex items-center justify-center z-10 text-white font-bold">2</div>
+                <div class="bg-white p-6 lg:p-8 rounded-2xl border border-gray-200 shadow-sm flex-1 hover:border-brand-light hover:shadow-md transition">
+                    <h4 class="font-black text-brand-light text-xl mb-2">שעון העצר של חובת הדיווח (סעיף 36)</h4>
+                    <p class="text-gray-600 text-sm md:text-base">עיכוב דיווח פומבי מותר רק תחת תנאי תקנה 36(ב) הקפדניים. הדלפה קטנה ביותר דורשת הפסקת "תקופת העיכוב" ופרסום דיווח מיידי. ה-CFO חייב לנהל פרוטוקול של ועדת הגילוי כדי להגן על הדירקטורים מאכיפה מנהלית.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item flex items-center gap-6 mb-10 relative">
+                <div class="absolute -right-16 w-10 h-10 rounded-full bg-brand-danger border-4 border-white shadow-md flex items-center justify-center z-10 text-white font-bold">3</div>
+                <div class="bg-white p-6 lg:p-8 rounded-2xl border border-gray-200 shadow-sm flex-1 hover:border-brand-danger hover:shadow-md transition">
+                    <h4 class="font-black text-brand-danger text-xl mb-2">הסיוט הרגולטורי: Restatement ו-Clawback</h4>
+                    <p class="text-gray-600 text-sm md:text-base">גילוי טעות מהותית (IAS 8) גורר תיקון למפרע של הדוחות, צניחת מניה, תביעות ייצוגיות, וחובת השבת בונוסים אישית (Clawback) מהמנהלים. SOX ובקרות חזקות הם האנטיביוטיקה היחידה לכך.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item flex items-center gap-6 relative">
+                <div class="absolute -right-16 w-10 h-10 rounded-full bg-brand-success border-4 border-white shadow-md flex items-center justify-center z-10 text-white font-bold" style="background-color: #2f855a;">4</div>
+                <div class="bg-gradient-to-br from-green-50 to-white p-6 lg:p-8 rounded-2xl border border-green-200 shadow-md flex-1 transform hover:scale-[1.02] transition duration-300">
+                    <h4 class="font-black text-green-700 text-xl mb-2">פרמיית השקיפות העסקית</h4>
+                    <p class="text-gray-700 text-sm md:text-base">חברות עם MD&A שקוף הבוחן את תמונת המאקרו (סיכוני סייבר, ESG, שרשראות אספקה), ועם מדיניות Non-GAAP שלא "מרמה" את המשקיעים בנטרולים שקריים - זוכות לאמון הציבור, לפרמיה במכפילי השווי ולמשקיעים מוסדיים נאמנים לאורך זמן.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -550,25 +647,170 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const sections = document.querySelectorAll('section, .workshop-board');
-        
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
-        const sectionObserver = new IntersectionObserver(function(entries, observer) {
+        // 1. Intersection Observer for Fade-In animations
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        sections.forEach(section => {
-            sectionObserver.observe(section);
+        document.querySelectorAll('.fade-in-up, .timeline-container').forEach(element => {
+            observer.observe(element);
         });
+
+        // 2. Safely Init Charts
+        try {
+            initCharts();
+        } catch (e) {
+            console.error("Charts initialization error:", e);
+        }
     });
+
+    function initCharts() {
+        // CHART 1: Non-GAAP vs GAAP Trend (ISA Example)
+        const ctxNonGaap = document.getElementById('nonGaapChart');
+        if(ctxNonGaap) {
+            new Chart(ctxNonGaap, {
+                type: 'line',
+                data: {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4 (אזהרת רשות)'],
+                    datasets: [
+                        {
+                            label: `רווח נקי (GAAP) - דיווח חוקי`,
+                            data: [-5, -8, -12, -15],
+                            borderColor: '#c53030', // Red
+                            backgroundColor: 'rgba(197, 48, 48, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: `רווח Non-GAAP מנוטרל שגיאה`,
+                            data: [2, 5, 8, -2], // Drops after ISA forces them to stop ignoring SBC
+                            borderColor: '#2f855a', // Green
+                            backgroundColor: 'transparent',
+                            borderWidth: 3,
+                            borderDash: [5, 5],
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { font: { family: 'Heebo' } } },
+                        tooltip: { rtl: true, textDirection: 'rtl' }
+                    },
+                    scales: {
+                        y: { 
+                            title: { display: true, text: 'מיליוני דולרים', font: { family: 'Heebo' } },
+                            grid: { color: '#e2e8f0' }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // CHART 2: IFRS 16 Illusion on EBITDA
+        const ctxIfrs16 = document.getElementById('ifrs16Chart');
+        if(ctxIfrs16) {
+            new Chart(ctxIfrs16, {
+                type: 'bar',
+                data: {
+                    labels: ['לפני התקן (ישן)', 'אחרי החלת IFRS 16 (חדש)'],
+                    datasets: [
+                        {
+                            label: `הוצאות שכירות (פוגע ב-EBITDA)`,
+                            data: [100, 0],
+                            backgroundColor: 'rgba(197, 48, 48, 0.8)', // Red
+                        },
+                        {
+                            label: `פחת וריבית (מנוטרל מ-EBITDA)`,
+                            data: [0, 105], // Typically slightly higher due to front-loading interest
+                            backgroundColor: 'rgba(26, 74, 123, 0.8)', // Blue
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { font: { family: 'Heebo' } } },
+                        tooltip: { rtl: true, textDirection: 'rtl' },
+                        title: { display: true, text: 'אשליית הזינוק ב-EBITDA עקב שינוי חשבונאי בלבד', font: { family: 'Heebo', size: 16 } }
+                    },
+                    scales: {
+                        y: { stacked: true, grid: { color: '#f1f5f9' } },
+                        x: { stacked: true, grid: { display: false } }
+                    }
+                }
+            });
+        }
+    }
+
+    // 3. Lecturer Toggle Logic
+    let lecturerModeActive = false;
+    function toggleLecturerMode() {
+        lecturerModeActive = !lecturerModeActive;
+        const indicator = document.getElementById('toggle-indicator');
+        const hiddenNotes = document.querySelectorAll('.lecturer-note');
+        
+        if (lecturerModeActive) {
+            if (indicator) {
+                indicator.classList.remove('bg-red-500');
+                indicator.classList.add('bg-green-500', 'shadow-[0_0_10px_#22c55e]');
+            }
+            hiddenNotes.forEach(el => el.classList.add('active'));
+        } else {
+            if (indicator) {
+                indicator.classList.remove('bg-green-500', 'shadow-[0_0_10px_#22c55e]');
+                indicator.classList.add('bg-red-500');
+            }
+            hiddenNotes.forEach(el => el.classList.remove('active'));
+        }
+    }
+
+    // 4. Toggle specific answers if lecturer mode is off
+    function toggleAnswer(id) {
+        if(!lecturerModeActive) {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden');
+        }
+    }
+
+    // 5. Diagnostic Quiz Calculation
+    function calculateTransparency() {
+        const checkboxes = document.querySelectorAll('.quiz-check');
+        let score = 0;
+        checkboxes.forEach(cb => {
+            if (cb.checked) score++;
+        });
+
+        const resultDiv = document.getElementById('quiz-result');
+        if (!resultDiv) return;
+        
+        resultDiv.classList.remove('hidden', 'bg-red-50', 'border-red-500', 'text-red-900', 'bg-yellow-50', 'border-yellow-500', 'text-yellow-900', 'bg-green-50', 'border-green-500', 'text-green-900');
+        
+        let message = ``;
+        if (score <= 1) {
+            resultDiv.classList.add('bg-red-50', 'border-red-500', 'text-red-900');
+            message = `ציון ${score}/4: סכנת חשיפה מנהלית חמורה 🚨<br><span class="text-lg font-normal block mt-3 text-gray-700">החברה מציגה סממנים מובהקים של "הנדסת דוחות" וגילוי חסר. החשיפה מול רשות ניירות ערך (Non-GAAP ועיכובי דיווח) היא גבוהה מאוד. נדרש ריענון נהלים דחוף לדירקטוריון ול-CFO.</span>`;
+        } else if (score <= 3) {
+            resultDiv.classList.add('bg-yellow-50', 'border-yellow-500', 'text-yellow-900');
+            message = `ציון ${score}/4: ממשל תאגידי סביר 📈<br><span class="text-lg font-normal block mt-3 text-gray-700">אתם בכיוון הנכון, אך יש לחזק את מנגנוני הבקרה האוטומטיים (כגון Clawback). ודאו שה-MD&A אינו משוכפל משנה לשנה והימנעו מהתאמות Non-GAAP שנויות במחלוקת.</span>`;
+        } else {
+            resultDiv.classList.add('bg-green-50', 'border-green-500', 'text-green-900');
+            message = `ציון ${score}/4: שקיפות ברמת זהב 🏆<br><span class="text-lg font-normal block mt-3 text-gray-700">מצוין! סמנכ"ל הכספים מתפקד כ"שומר סף" אמיתי. הדירקטוריון יכול לישון בשקט בידיעה שתהליכי הגילוי, העמידה בחקיקה, והנרטיב המדווח מנוהלים בקפדנות עילאית.</span>`;
+        }
+        
+        resultDiv.innerHTML = message;
+    }
 </script>
 
 </body>
