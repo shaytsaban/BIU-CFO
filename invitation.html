@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הזמנה למפגש סיום - CFO 4.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* BASE SETUP */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Assistant', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ANIMATED BACKGROUND (Confetti / Particles illusion) */
+        .background-animation {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(2, 132, 199, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(217, 119, 6, 0.15) 0%, transparent 50%);
+            z-index: 0;
+            animation: pulse 8s infinite alternate;
+        }
+        @keyframes pulse { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* THE INVITATION CARD */
+        .invitation-card {
+            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(2, 132, 199, 0.2);
+            width: 100%;
+            max-width: 850px;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        /* TOP DECORATION */
+        .card-header {
+            background: linear-gradient(90deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%);
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; left: 0; width: 100%; height: 40px;
+            background: #1e293b;
+            transform: skewY(-2deg);
+        }
+        
+        /* ICONS & TITLES */
+        .hat-icon {
+            font-size: 50px;
+            color: #fef08a;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite ease-in-out;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        h1 {
+            font-family: 'Heebo', sans-serif;
+            font-size: 46px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            font-size: 22px;
+            font-weight: 600;
+            color: #e0f2fe;
+        }
+
+        /* MAIN CONTENT AREA */
+        .card-body {
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .intro-text {
+            font-size: 24px;
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+        .highlight { color: #38bdf8; font-weight: 700; }
+        .gold-highlight { color: #facc15; font-weight: 700; }
+
+        /* AGENDA STYLING */
+        .agenda-container {
+            background: #0f172a;
+            border-radius: 16px;
+            border: 1px solid #334155;
+            padding: 30px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .agenda-title {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #d97706;
+            color: white;
+            padding: 5px 25px;
+            border-radius: 20px;
+            font-family: 'Heebo', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .agenda-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            text-align: right;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed #334155;
+        }
+        .agenda-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        
+        .time-badge {
+            background: #1e293b;
+            color: #38bdf8;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 18px;
+            margin-left: 20px;
+            min-width: 130px;
+            text-align: center;
+            border: 1px solid #334155;
+        }
+        .agenda-content h3 {
+            color: #f8fafc;
+            font-size: 22px;
+            margin-bottom: 5px;
+            font-family: 'Heebo', sans-serif;
+        }
+        .agenda-content p { color: #94a3b8; font-size: 18px; line-height: 1.4; }
+        .agenda-icon { color: #facc15; margin-left: 8px; }
+
+        /* EVENT DETAILS */
+        .event-details {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .detail-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(2, 132, 199, 0.1);
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(2, 132, 199, 0.3);
+        }
+        .detail-box i { font-size: 30px; color: #38bdf8; }
+        .detail-box div { text-align: right; }
+        .detail-box span { display: block; font-size: 16px; color: #94a3b8; }
+        .detail-box strong { font-size: 20px; color: #f8fafc; font-family: 'Heebo', sans-serif;}
+
+        /* FOOTER & BUTTON */
+        .card-footer {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        .rsvp-btn {
+            background: linear-gradient(90deg, #d97706 0%, #f59e0b 100%);
+            color: #ffffff;
+            border: none;
+            padding: 15px 40px;
+            font-size: 22px;
+            font-weight: 800;
+            font-family: 'Heebo', sans-serif;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3);
+        }
+        .rsvp-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 25px rgba(217, 119, 6, 0.4);
+        }
+        .rsvp-btn i { margin-left: 10px; }
+
+        /* FLOATING CONFETTI EFFECTS */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #facc15;
+            animation: fall 4s linear infinite;
+        }
+        .c1 { left: 10%; animation-delay: 0s; background-color: #38bdf8; }
+        .c2 { left: 30%; animation-delay: 1.2s; background-color: #facc15; border-radius: 50%; }
+        .c3 { left: 50%; animation-delay: 2.4s; background-color: #f43f5e; }
+        .c4 { left: 70%; animation-delay: 0.8s; background-color: #34d399; border-radius: 50%; }
+        .c5 { left: 90%; animation-delay: 2.1s; background-color: #a78bfa; }
+        
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(800px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-animation"></div>
+
+    <div class="invitation-card">
+        <!-- Confetti falling inside the card -->
+        <div class="confetti c1"></div><div class="confetti c2"></div><div class="confetti c3"></div><div class="confetti c4"></div><div class="confetti c5"></div>
+
+        <div class="card-header">
+            <i class="fa-solid fa-graduation-cap hat-icon"></i>
+            <h1>חוגגים סיום. עושים היסטוריה.</h1>
+            <p class="subtitle">הנכם מוזמנים למפגש סיום קורס מנהלי ומנהלות כספים בעידן ה-AI</p>
+        </div>
+
+        <div class="card-body">
+            
+            <p class="intro-text">
+                עברנו את המאזנים, שרדנו את הדוחות, והגענו לרגע שבו אנחנו נותנים לרובוטים לעשות את העבודה השחורה. 
+                <br>הגיע הזמן ללבוש את החליפה (או הפיג'מה של זום, אנחנו לא שופטים), ולחגוג את ההפיכה הרשמית שלכם ל-<span class="highlight">CFO 4.0</span>.
+            </p>
+
+            <div class="event-details">
+                <div class="detail-box">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <div>
+                        <span>תאריך</span>
+                        <strong>14 ביוני 2026</strong>
+                    </div>
+                </div>
+                <div class="detail-box">
+                    <i class="fa-regular fa-clock"></i>
+                    <div>
+                        <span>שעות</span>
+                        <strong>17:00 - 20:15</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="agenda-container">
+                <div class="agenda-title">האג'נדה (בלי שורות באקסל!)</div>
+                
+                <div class="agenda-item">
+                    <div class="time-badge">17:00 - 17:45</div>
+                    <div class="agenda-content">
+                        <h3>ד"ר שי צבאן <i class="fa-solid fa-brain agenda-icon" style="color: #38bdf8;"></i></h3>
+                        <p>חוט השדרה של הקורס, AI ומה שביניהם. נגלה איך מחברים את התיאוריה למכונה (ובעיקר למה המחשב לא יחליף אתכם בקרוב).</p>
+                    </div>
+                </div>
+
+                <div class="agenda-item">
+                    <div class="time-badge">17:45 - 18:00</div>
+                    <div class="agenda-content">
+                        <h3>הפסקה ומינגלינג <i class="fa-solid fa-martini-glass-citrus agenda-icon" style="color: #f43f5e;"></i></h3>
+                        <p>קפה, נשנושים, והזדמנות להחליף טיפים על איך מסבירים למנכ"ל שלא הכל זה ChatGPT.</p>
+                    </div>
+                </div>
+
+                <div class="agenda-item">
+                    <div class="time-badge">18:00 - 19:30</div>
+                    <div class="agenda-content">
+                        <h3>Masterclass עם מאור משה <i class="fa-solid fa-robot agenda-icon"></i></h3>
+                        <p>הרצאת אורח מקצועית על טהרת ה-AI וחדשנות בניהול כספים. מאור "ילכלך את הידיים" במערכות, יפעיל סוכנים, ויראה לנו את העתיד בלייב.</p>
+                    </div>
+                </div>
+
+                <div class="agenda-item">
+                    <div class="time-badge">19:30 - 19:45</div>
+                    <div class="agenda-content">
+                        <h3>נשימה עמוקה (הפסקה) <i class="fa-solid fa-wind agenda-icon" style="color: #34d399;"></i></h3>
+                        <p>זמן לעכל את כל הטכנולוגיה שראינו הרגע.</p>
+                    </div>
+                </div>
+
+                <div class="agenda-item">
+                    <div class="time-badge">19:45 - 20:15</div>
+                    <div class="agenda-content">
+                        <h3>מילות סיכום, תעודות וכובעים באוויר! <i class="fa-solid fa-champagne-glasses agenda-icon"></i></h3>
+                        <p>ההנהלה מסכמת, אתם מקבלים את התעודות (וכן, יהיו כובעים באוויר - נא להיזהר על הפלורסנטים).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button class="rsvp-btn">
+                    <i class="fa-solid fa-check"></i> אשרו הגעה עכשיו
+                </button>
+                <p style="margin-top: 10px; color: #94a3b8; font-size: 14px;">(סתם, לא באמת צריך לאשר הגעה. פשוט בואו)</p>
+            </div>
+            
+        </div>
+    </div>
+
+</body>
+</html>
