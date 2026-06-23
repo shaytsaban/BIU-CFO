@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFO בעידן החדש — הרצאה 1 · ד״ר שי צבאן · בר־אילן</title>
+<meta name="description" content="הרצאת פתיחה אינטראקטיבית: ניהול כספים בעידן ה-AI. ד״ר שי צבאן, היחידה ללימודי חוץ, אוניברסיטת בר־אילן. 23.6.2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=Heebo:wght@500;700;800;900&family=Rubik:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* base field */
+  --bg:#eef3fb;
+  --bg-grad:
+    radial-gradient(1200px 720px at 84% -8%, rgba(99,160,255,.16) 0%, transparent 56%),
+    radial-gradient(1000px 620px at -6% 10%, rgba(56,189,248,.12) 0%, transparent 52%),
+    radial-gradient(900px 900px at 50% 120%, rgba(124,92,237,.07) 0%, transparent 60%),
+    linear-gradient(180deg,#f3f7fe 0%,#e9f0fb 100%);
+  /* surfaces */
+  --surface:#ffffff; --surface-1:#fbfdff; --surface-2:#f3f8ff; --surface-3:#ecf3fe;
+  --glass:rgba(255,255,255,.74); --glass-brd:rgba(255,255,255,.55);
+  /* ink */
+  --ink:#0c1729; --ink-2:#2b3a54; --ink-3:#4d5e7c; --muted:#51637f;
+  --line:#dce6f6; --line-2:#e9f0fb; --line-strong:#c3d5f0;
+  /* primary + accents (a11y-tuned) */
+  --blue:#2563eb; --blue-d:#1d4ed8; --blue-l:#5b8def; --blue-wash:#eaf1ff;
+  --sky:#0369a1; --cyan:#0e7490; --teal:#0f766e;
+  --violet:#7c3aed; --violet-d:#6d28d9; --violet-l:#a78bfa; --violet-wash:#f3eeff;
+  --emerald:#047857; --emerald-wash:#e9faf2; --emerald-brd:#bce8d1;
+  --amber:#b45309; --amber-wash:#fff6ec; --amber-brd:#f6dcb8;
+  --rose:#be123c; --rose-wash:#fff0f3; --rose-brd:#f9c9d4;
+  --info-wash:#ecf4ff; --info-brd:#cbe0fb;
+  /* gradients */
+  --grad:linear-gradient(115deg,#1d4ed8 0%,#0ea5e9 55%,#22d3ee 100%);
+  --grad-text:linear-gradient(100deg,#1d4ed8,#0e7490 75%);
+  --grad-soft:linear-gradient(135deg,#f0f6ff,#e8f7ff);
+  --grad-violet:linear-gradient(135deg,#6d28d9,#9b6cff);
+  --grad-mesh:
+    radial-gradient(600px 400px at 18% 12%, rgba(56,189,248,.22),transparent 60%),
+    radial-gradient(620px 460px at 88% 8%, rgba(99,140,255,.24),transparent 62%),
+    radial-gradient(700px 520px at 60% 110%, rgba(124,92,237,.18),transparent 60%);
+  /* shadows (blue-tinted elevation) */
+  --sh-0:0 1px 2px rgba(20,46,98,.06);
+  --sh-1:0 2px 4px rgba(20,46,98,.05), 0 6px 16px rgba(20,46,98,.07);
+  --sh-2:0 4px 8px rgba(20,46,98,.06), 0 14px 34px rgba(20,46,98,.10);
+  --sh-3:0 10px 22px rgba(20,46,98,.10), 0 30px 64px rgba(20,46,98,.16);
+  --sh-4:0 24px 48px rgba(20,46,98,.18), 0 50px 100px rgba(20,46,98,.22);
+  --sh-inset:inset 0 1px 0 rgba(255,255,255,.7);
+  --sh:var(--sh-2); --sh-lg:var(--sh-3);
+  /* radii + spacing */
+  --r-sm:12px; --r:18px; --r-lg:24px; --r-xl:32px; --r-pill:999px;
+  --container:1180px; --gutter:clamp(20px,4vw,32px);
+  /* type scale */
+  --fs-eyebrow:clamp(13px,.95vw,15px); --fs-caption:clamp(15px,1.05vw,16px);
+  --fs-body:clamp(18px,1.35vw,21px); --fs-lead:clamp(20px,1.7vw,26px);
+  --fs-h4:clamp(20px,1.7vw,25px); --fs-h3:clamp(24px,2.1vw,32px);
+  --fs-h2:clamp(32px,3.9vw,54px); --fs-h1:clamp(46px,6.6vw,86px);
+  --fs-stat:clamp(38px,4vw,52px);
+  /* motion */
+  --ease-entrance:cubic-bezier(.16,.84,.30,1); --ease-standard:cubic-bezier(.4,0,.2,1);
+  --ease-emphasis:cubic-bezier(.34,1.4,.56,1);
+  --d-fast:140ms; --d-base:240ms; --d-slow:420ms; --d-flip:680ms; --d-rev:560ms; --stagger:80ms;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:80px;}
+body{font-family:'Assistant',sans-serif;background:var(--bg);background-image:var(--bg-grad);background-attachment:fixed;color:var(--ink-2);line-height:1.72;font-size:var(--fs-body);letter-spacing:.1px;-webkit-font-smoothing:antialiased;}
+::selection{background:#bcd6ff;color:#0c1a33;}
+h1,h2,h3,h4,h5{font-family:'Rubik',sans-serif;color:var(--ink);}
+h1{font-weight:800;line-height:1.04;letter-spacing:-1.4px;}
+a{color:var(--blue-d);}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);}
+section{padding:clamp(58px,7vw,104px) 0;position:relative;}
+
+/* progress + nav */
+.pbar{position:fixed;top:0;right:0;left:0;height:6px;background:#cdddf7;z-index:1000;}
+.pfill{height:100%;width:0;background:var(--grad);box-shadow:0 0 12px rgba(37,99,235,.5);transition:width 120ms linear;}
+.nav{position:fixed;top:6px;right:0;left:0;height:62px;background:var(--glass);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid var(--glass-brd);z-index:999;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-shadow:0 1px 0 rgba(20,46,98,.04);}
+.nav .brand{font-family:'Rubik';font-weight:700;font-size:17px;color:var(--ink);white-space:nowrap;}
+.nav .brand b{color:var(--blue-d);} .nav .brand span{color:var(--muted);font-weight:400;font-size:13px;}
+.nlinks{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;} .nlinks::-webkit-scrollbar{display:none;}
+.nlinks a{color:var(--ink-2);text-decoration:none;font-size:14px;font-weight:600;padding:7px 12px;border-radius:var(--r-sm);white-space:nowrap;position:relative;transition:color var(--d-fast),background var(--d-fast);}
+.nlinks a::after{content:'';position:absolute;right:12px;left:12px;bottom:3px;height:2px;background:var(--grad);border-radius:2px;transform:scaleX(0);transform-origin:right;transition:transform var(--d-base) var(--ease-entrance);}
+.nlinks a:hover,.nlinks a.active{color:var(--blue-d);background:var(--blue-wash);}
+.nlinks a:hover::after,.nlinks a.active::after{transform:scaleX(1);}
+@media(max-width:920px){.nav .brand span{display:none;} .nlinks a{font-size:13px;padding:7px 9px;}}
+
+.hintbar{position:fixed;bottom:0;right:0;left:0;background:linear-gradient(90deg,#1d4ed8,#0e7490);color:#fff;text-align:center;font-family:'Rubik';font-weight:600;font-size:15px;padding:9px;z-index:998;box-shadow:0 -6px 20px rgba(0,0,0,.14);}
+.hintbar b{font-weight:800;}
+
+/* hero */
+.hero{padding:clamp(122px,14vw,150px) var(--gutter) clamp(64px,8vw,92px);text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;background:var(--grad-mesh);filter:blur(2px);}
+.hero-blob{position:absolute;top:-40px;right:-40px;width:680px;max-width:92%;z-index:0;filter:blur(20px);opacity:.65;pointer-events:none;}
+.hero-deco{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(37,99,235,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.06) 1px,transparent 1px);background-size:clamp(48px,5vw,62px) clamp(48px,5vw,62px);mask-image:radial-gradient(ellipse 72% 60% at 50% 28%,#000 28%,transparent 76%);-webkit-mask-image:radial-gradient(ellipse 72% 60% at 50% 28%,#000 28%,transparent 76%);}
+.hero-in{position:relative;z-index:1;max-width:980px;margin:0 auto;}
+.datebar{display:inline-flex;align-items:center;gap:11px;background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glass-brd);border-radius:var(--r-pill);padding:9px 22px;font-family:'Rubik';font-weight:700;font-size:16px;color:var(--ink);box-shadow:var(--sh-1);margin-bottom:26px;}
+.datebar .dot{width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 5px rgba(4,120,87,.18);}
+.hero h1{font-size:var(--fs-h1);margin-bottom:18px;}
+.hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-size:clamp(20px,2.4vw,28px);color:var(--ink-2);font-weight:400;max-width:800px;margin:0 auto 16px;}
+.hero-meta{display:flex;flex-wrap:wrap;gap:11px;justify-content:center;margin-top:30px;}
+.chip{background:var(--glass);backdrop-filter:blur(8px);border:1px solid var(--glass-brd);border-radius:var(--r-sm);padding:11px 17px;font-size:16px;color:var(--ink-2);box-shadow:var(--sh-1);display:flex;align-items:center;gap:8px;}
+.chip b{color:var(--ink);font-weight:700;}
+.scrollcue{margin-top:36px;color:var(--muted);font-size:16px;animation:bob 2s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
+
+/* headings / typography */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Rubik';font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:1.4px;color:var(--blue-d);background:var(--blue-wash);padding:8px 18px;border-radius:var(--r-pill);margin-bottom:18px;box-shadow:inset 0 0 0 1px rgba(37,99,235,.10);}
+.sec-num{font-family:'Heebo';font-weight:800;color:var(--blue-d);background:#fff;border-radius:var(--r-pill);padding:2px 10px;font-size:13px;letter-spacing:0;direction:ltr;box-shadow:inset 0 0 0 1px rgba(37,99,235,.18);}
+h2.title{font-size:var(--fs-h2);font-weight:800;line-height:1.1;letter-spacing:-.6px;margin-bottom:16px;}
+h2.title .g{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.lead{font-size:var(--fs-lead);color:var(--ink);font-weight:500;max-width:820px;line-height:1.6;}
+h3.sub{font-size:var(--fs-h3);font-weight:700;line-height:1.18;letter-spacing:-.3px;margin:clamp(36px,5vw,52px) 0 20px;display:flex;align-items:center;gap:12px;position:relative;padding-inline-start:18px;}
+h3.sub::before{content:"";position:absolute;inset-inline-start:0;top:6px;bottom:6px;width:5px;border-radius:5px;background:var(--grad);}
+p.body{max-width:800px;margin-bottom:16px;}
+.instr{font-size:17px;color:var(--ink-3);max-width:800px;}
+.em-b{color:var(--blue-d);font-weight:700;} .em-t{color:var(--teal);font-weight:700;} .em-v{color:var(--violet-d);font-weight:700;}
+.em-e{color:var(--emerald);font-weight:700;} .em-a{color:var(--amber);font-weight:700;} .em-r{color:var(--rose);font-weight:700;}
+strong{color:var(--ink);font-weight:700;}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block;}
+.cite{display:inline-block;font-family:'Rubik';font-size:14px;font-weight:600;color:var(--blue-d);background:#eef4ff;border:1px solid #d3e1fb;border-radius:8px;padding:1px 8px;margin:0 2px;vertical-align:middle;line-height:1.7;}
+.note{font-size:var(--fs-caption);color:var(--muted);margin-top:9px;line-height:1.6;}
+.kicker{font-family:'Rubik';font-weight:700;font-size:19px;}
+.tapme{font-family:'Rubik';font-size:14px;font-weight:600;color:var(--violet-d);background:var(--violet-wash);border-radius:var(--r-pill);padding:5px 14px;display:inline-flex;align-items:center;gap:6px;box-shadow:0 0 0 1px rgba(124,58,237,.12);}
+
+/* semantic legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 20px;box-shadow:var(--sh-1);font-family:'Rubik';font-size:15px;font-weight:600;}
+.legend span{display:inline-flex;align-items:center;gap:8px;color:var(--ink-2);}
+.legend i{width:13px;height:13px;border-radius:4px;display:inline-block;}
+
+/* reveal + stagger */
+.rv{opacity:0;transform:translateY(22px);transition:opacity var(--d-rev) var(--ease-entrance),transform var(--d-rev) var(--ease-entrance);}
+.rv.in{opacity:1;transform:none;}
+.rv-stagger>*{opacity:0;transform:translateY(20px) scale(.985);transition:opacity var(--d-rev) var(--ease-entrance),transform var(--d-rev) var(--ease-entrance);}
+.rv-stagger.in>*{opacity:1;transform:none;transition-delay:calc(var(--i,0)*var(--stagger));}
+
+/* grids */
+.grid{display:grid;gap:24px;}
+.g2{grid-template-columns:1fr 1fr;} .g3{grid-template-columns:repeat(3,1fr);} .g4{grid-template-columns:repeat(4,1fr);}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr;}}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:clamp(24px,2.4vw,32px);box-shadow:var(--sh-2),var(--sh-inset);position:relative;overflow:hidden;transition:transform var(--d-base) var(--ease-standard),box-shadow var(--d-base),border-color var(--d-base);}
+.card::after{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad);opacity:0;transition:.35s;}
+.card:hover{transform:translateY(-6px);box-shadow:var(--sh-3),var(--sh-inset);border-color:var(--line-strong);}
+.card:hover::after{opacity:1;}
+.card:active{transform:translateY(-2px) scale(.99);}
+.card .ic{font-size:clamp(40px,3.4vw,48px);display:block;margin-bottom:14px;filter:drop-shadow(0 5px 12px rgba(37,99,235,.18));}
+.card h4{font-size:var(--fs-h4);font-weight:700;margin-bottom:10px;letter-spacing:-.2px;}
+.card p{font-size:18px;color:var(--ink-2);line-height:1.7;}
+.card.accent{background:var(--grad-soft);border-color:var(--info-brd);}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:clamp(22px,2.4vw,28px);text-align:center;box-shadow:var(--sh-2),var(--sh-inset);position:relative;overflow:hidden;transition:transform var(--d-base),box-shadow var(--d-base);}
+.stat::after{content:"";position:absolute;inset:auto 0 0 0;height:4px;background:var(--grad);opacity:.9;}
+.stat:hover{transform:translateY(-4px);box-shadow:var(--sh-3);}
+.stat .n{font-family:'Heebo';font-size:var(--fs-stat);font-weight:800;letter-spacing:-1px;color:var(--blue-d);line-height:1;margin-bottom:8px;direction:ltr;font-variant-numeric:tabular-nums;}
+.stat .l{font-size:16px;color:var(--ink-2);line-height:1.5;}
+.stat .s{font-size:14px;color:var(--muted);margin-top:8px;}
+
+/* FLIP */
+.flipgrid{display:grid;gap:24px;}
+.flip{perspective:1800px;perspective-origin:center;cursor:pointer;outline:none;}
+.flip-in{position:relative;width:100%;min-height:clamp(312px,30vw,344px);transform-style:preserve-3d;transform-origin:center;will-change:transform;border-radius:var(--r-lg);transition:transform var(--d-flip) var(--ease-entrance),box-shadow var(--d-flip) var(--ease-standard);}
+.flip.tall .flip-in{min-height:clamp(360px,34vw,400px);}
+.flip:hover .flip-in{box-shadow:var(--sh-3);}
+.flip.flipped .flip-in{transform:rotateY(180deg);}
+.flip:active .flip-in{transform:scale(.985);}
+.flip.flipped:active .flip-in{transform:rotateY(180deg) scale(.985);}
+.flip.flipping .flip-in{box-shadow:0 34px 72px rgba(20,46,98,.28);}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--r-lg);padding:clamp(26px,2.6vw,32px);display:flex;flex-direction:column;box-shadow:var(--sh-2),var(--sh-inset);overflow:auto;transform:translateZ(0);}
+.flip-front{background:radial-gradient(120% 80% at 50% 0%,#ffffff,#f4f9ff);border:1px solid var(--line);align-items:center;justify-content:center;text-align:center;gap:14px;}
+.flip-front .fic{font-size:clamp(54px,5.6vw,68px);filter:drop-shadow(0 8px 18px rgba(37,99,235,.22));transition:transform var(--d-base) var(--ease-emphasis);}
+.flip:hover .flip-front{border-color:var(--line-strong);}
+.flip:hover .flip-front .fic{transform:scale(1.07) translateY(-2px);}
+.flip-front h4{font-size:clamp(23px,2.2vw,27px);font-weight:800;letter-spacing:-.3px;}
+.flip-front .sub{font-size:17px;color:var(--muted);}
+.flip-front .cta{margin-top:6px;}
+.flip-back{transform:rotateY(180deg);background:var(--grad-soft);border:1px solid var(--info-brd);text-align:right;}
+.flip.flipped .flip-back{border-color:#9cc0fb;}
+.flip-back h4{font-size:22px;margin-bottom:10px;display:flex;gap:9px;align-items:center;}
+.flip-back p{font-size:18px;color:var(--ink-2);line-height:1.6;margin-bottom:9px;}
+.flip-back .ex{font-size:16px;background:var(--surface);border-radius:var(--r-sm);border-inline-start:3px solid var(--sky);box-shadow:var(--sh-0);padding:9px 13px;color:var(--ink-2);}
+.flip-back .ex b{color:var(--teal);}
+.flip-back .uses{font-size:15.5px;color:var(--violet-d);margin-top:8px;font-weight:600;}
+.flip:focus-visible{border-radius:var(--r-lg);box-shadow:0 0 0 3px #fff,0 0 0 6px var(--blue-d);}
+
+/* ACCORDION */
+.acc-group{background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:14px;margin-bottom:18px;}
+.acc-group>.gh{font-family:'Rubik';font-weight:700;font-size:19px;color:var(--ink);padding:6px 12px 12px;display:flex;align-items:center;gap:10px;}
+.acc-group>.gh i{width:10px;height:18px;border-radius:4px;background:var(--grad);display:inline-block;}
+.acc{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);margin-bottom:12px;position:relative;overflow:hidden;box-shadow:var(--sh-1);transition:box-shadow var(--d-base),border-color var(--d-base);}
+.acc:last-child{margin-bottom:0;}
+.acc::before{content:"";position:absolute;inset:0 auto 0 0;width:0;background:var(--grad);transition:width var(--d-base);}
+.acc.open{box-shadow:var(--sh-3);border-color:var(--line-strong);}
+.acc.open::before{width:5px;}
+.acc-h{display:flex;align-items:center;gap:18px;padding:clamp(18px,1.9vw,24px) clamp(20px,2vw,28px);cursor:pointer;user-select:none;outline:none;transition:background var(--d-base);}
+.acc-h:hover{background:linear-gradient(90deg,transparent,var(--surface-2));}
+.acc-h .ai{font-size:clamp(36px,3.4vw,44px);flex-shrink:0;line-height:1;filter:drop-shadow(0 4px 9px rgba(37,99,235,.16));transition:transform var(--d-base) var(--ease-emphasis);}
+.acc-h:hover .ai{transform:scale(1.08);}
+.acc.open .acc-h .ai{transform:scale(1.12);}
+.acc-h h4{font-size:clamp(21px,1.9vw,24px);font-weight:700;margin:0;letter-spacing:-.2px;}
+.acc-h .hsub{font-size:16px;color:var(--muted);margin-top:2px;}
+.acc-h .chev{margin-inline-start:auto;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);color:var(--ink-3);font-size:18px;flex-shrink:0;transition:transform var(--d-base) var(--ease-emphasis),background var(--d-base),color var(--d-base);}
+.acc.open .acc-h .chev{transform:rotate(180deg);background:var(--blue-d);color:#fff;}
+.acc-h:focus-visible{box-shadow:inset 0 0 0 3px var(--blue-d);}
+.acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--d-slow) var(--ease-entrance);}
+.acc.open .acc-body{grid-template-rows:1fr;}
+.acc-body>.acc-bin{overflow:hidden;min-height:0;opacity:0;transform:translateY(6px);transition:opacity var(--d-base) var(--ease-standard) 60ms,transform var(--d-base) var(--ease-standard) 60ms;}
+.acc.open .acc-body>.acc-bin{opacity:1;transform:none;}
+.acc-bin{padding:0 clamp(20px,2vw,28px) 24px;font-size:18px;color:var(--ink-2);line-height:1.72;max-width:840px;}
+.acc-bin .ex{font-size:16px;background:var(--surface-2);border-inline-start:3px solid var(--sky);border-radius:var(--r-sm);padding:10px 14px;margin-top:10px;}
+.acc-bin .ex b{color:var(--teal);}
+.acc-bin .uses{font-size:15.5px;color:var(--violet-d);font-weight:600;margin-top:10px;}
+
+/* vertical numbered flow */
+.vflow{max-width:920px;margin:12px auto 0;}
+.vstep{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:clamp(22px,2.3vw,28px);box-shadow:var(--sh-2),var(--sh-inset);margin-bottom:10px;overflow:hidden;transition:transform var(--d-base),box-shadow var(--d-base);}
+.vstep:hover{transform:translateY(-4px);box-shadow:var(--sh-3);}
+.vstep::before{content:'';position:absolute;top:0;inset-inline-start:0;width:6px;height:100%;background:var(--grad);}
+.vstep .vn{position:absolute;top:16px;inset-inline-end:24px;font-family:'Heebo';font-size:clamp(40px,4.4vw,54px);font-weight:800;color:transparent;-webkit-text-stroke:1.5px var(--info-brd);direction:ltr;}
+.vstep h4{font-size:clamp(21px,1.9vw,24px);margin-bottom:8px;display:flex;align-items:center;gap:11px;}
+.vstep p{font-size:18px;color:var(--ink-2);max-width:680px;}
+.vconn{height:28px;display:flex;align-items:center;justify-content:center;color:var(--blue-l);font-size:24px;}
+
+/* quote */
+.quote{background:var(--grad-soft);border:1px solid var(--info-brd);border-radius:var(--r-lg);padding:clamp(30px,3.4vw,42px);position:relative;max-width:920px;box-shadow:var(--sh-2),var(--sh-inset);}
+.quote::before{content:'"';font-family:'Rubik';font-size:130px;color:transparent;background:var(--grad);-webkit-background-clip:text;background-clip:text;opacity:.28;position:absolute;top:-6px;right:20px;line-height:1;}
+.quote .qt{font-size:clamp(20px,1.9vw,25px);color:var(--ink);font-weight:500;line-height:1.55;position:relative;z-index:1;}
+.quote .qa{font-family:'Rubik';font-size:16px;color:var(--blue-d);margin-top:16px;font-weight:600;}
+
+/* callout boxes */
+.box{border-radius:var(--r);padding:clamp(20px,2.2vw,28px);border:1px solid;border-inline-start-width:5px;box-shadow:var(--sh-1);}
+.box h4{font-size:21px;margin-bottom:9px;display:flex;align-items:center;gap:9px;}
+.box p{font-size:18px;line-height:1.7;color:var(--ink-2);}
+.box.warn{background:var(--amber-wash);border-color:var(--amber-brd);border-inline-start-color:var(--amber);} .box.warn h4{color:var(--amber);}
+.box.danger{background:var(--rose-wash);border-color:var(--rose-brd);border-inline-start-color:var(--rose);} .box.danger h4{color:var(--rose);}
+.box.good{background:var(--emerald-wash);border-color:var(--emerald-brd);border-inline-start-color:var(--emerald);} .box.good h4{color:var(--emerald);}
+.box.info{background:var(--info-wash);border-color:var(--info-brd);border-inline-start-color:var(--blue-d);} .box.info h4{color:var(--blue-d);}
+
+/* think */
+.think{background:linear-gradient(135deg,#fff7ea,#fffdf7);border:1px solid #f3e0bd;border-inline-start:5px solid var(--amber);border-radius:var(--r);padding:clamp(24px,2.6vw,30px);box-shadow:var(--sh-1);}
+.think .tt{font-family:'Rubik';font-size:16px;font-weight:700;color:var(--amber);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.think .tq{font-size:clamp(20px,1.8vw,23px);color:var(--ink);line-height:1.5;font-weight:600;}
+.think .ts{font-size:17px;color:var(--ink-2);margin-top:10px;}
+
+/* AI LAB */
+.lab{background:linear-gradient(155deg,#f4f0ff,#eef6ff);border:1px solid #d8cffb;border-radius:var(--r-lg);padding:clamp(26px,2.8vw,34px);position:relative;box-shadow:var(--sh-2),var(--sh-inset);overflow:hidden;}
+.lab::before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:var(--grad-violet);}
+.lab .tag{font-family:'Rubik';font-size:13px;font-weight:700;letter-spacing:1px;color:var(--violet-d);direction:ltr;margin-bottom:8px;}
+.lab h4{font-size:clamp(22px,2vw,26px);margin-bottom:8px;color:var(--ink);letter-spacing:-.3px;}
+.lab .goal{font-size:17px;color:var(--violet-d);font-weight:600;margin-bottom:16px;}
+.lab .step{font-size:18px;color:var(--ink-2);margin-bottom:10px;display:flex;gap:11px;align-items:flex-start;}
+.lab .step b{color:var(--ink);}
+.lab .badge{display:inline-flex;width:28px;height:28px;border-radius:8px;background:#fff;border:1px solid #d4ccfb;color:var(--violet-d);font-family:'Heebo';font-weight:800;font-size:15px;align-items:center;justify-content:center;flex-shrink:0;direction:ltr;}
+.prompt{background:linear-gradient(180deg,#0f1730,#0b1020);border:1px solid #1d2747;border-radius:var(--r-sm);padding:24px 18px 18px;font-size:15px;line-height:1.75;color:#cdd8ee;position:relative;direction:ltr;text-align:left;font-family:'Rubik',monospace;margin:12px 0;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),var(--sh-2);}
+.prompt::after{content:"";position:absolute;top:13px;left:15px;width:10px;height:10px;border-radius:50%;background:#ff5f57;box-shadow:18px 0 #febc2e,36px 0 #28c840;}
+.prompt .cp{position:absolute;top:10px;left:62px;background:#1c2747;border:none;color:#7fd0ff;border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;transition:background var(--d-fast),transform var(--d-fast) var(--ease-emphasis);}
+.prompt .cp:hover{background:#27365c;color:#aee0ff;} .prompt .cp:active{transform:scale(.93);}
+.prompt .cp.ok{animation:pop var(--d-base) var(--ease-emphasis);}
+@keyframes pop{0%{transform:scale(1);}45%{transform:scale(1.12);}100%{transform:scale(1);}}
+.anat{background:#fff;border:1px solid #e3def9;border-radius:var(--r-sm);padding:14px 18px;margin-top:8px;font-size:16px;}
+.anat b{color:var(--violet-d);}
+.anat .row{display:flex;gap:10px;padding:6px 0;border-bottom:1px dashed #ece8fb;}
+.anat .row:last-child{border:none;}
+.anat .k{flex-shrink:0;font-weight:700;color:var(--violet-d);min-width:140px;font-family:'Rubik';}
+
+/* table */
+.tbl{width:100%;border-collapse:separate;border-spacing:0;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:var(--sh-2);}
+.tbl th{background:var(--blue-wash);padding:15px 17px;font-family:'Rubik';font-size:15px;font-weight:700;color:var(--blue-d);text-align:right;}
+.tbl td{padding:14px 17px;font-size:16.5px;color:var(--ink-2);border-bottom:1px solid var(--line-2);background:#fff;vertical-align:top;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--surface-2);}
+.tbl td b{color:var(--ink);}
+
+/* pills */
+.pill{display:inline-block;padding:5px 14px;border-radius:var(--r-pill);font-size:15px;font-weight:600;margin:3px 3px 3px 0;font-family:'Rubik';}
+.pb{background:var(--blue-wash);color:var(--blue-d);} .pe{background:#e6f6ee;color:#0a6f4d;} .pv{background:var(--violet-wash);color:var(--violet-d);}
+.pa{background:#fbecd9;color:#a85708;} .pr{background:#fbe2e8;color:#b0163a;}
+
+/* svg icon grammar */
+.svic{width:1em;height:1em;display:inline-block;vertical-align:-.12em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.svic .acc{stroke:var(--sky);} .svic .dot{fill:currentColor;stroke:none;} .svic .fill{fill:currentColor;stroke:none;opacity:.12;}
+
+/* illustration */
+.illus{max-width:780px;margin:8px auto 4px;display:block;}
+.illus svg{width:100%;height:auto;display:block;}
+
+/* TOP G mockup */
+.tg-shell{background:#0b0f1c;border-radius:var(--r);box-shadow:var(--sh-4);overflow:hidden;border:1px solid #1c2740;max-width:1000px;margin:0 auto;}
+.tg-bar{height:40px;background:#0e1424;display:flex;align-items:center;padding:0 15px;gap:7px;border-bottom:1px solid #1c2740;}
+.tg-bar i{width:12px;height:12px;border-radius:50%;display:inline-block;} .tg-bar .r{background:#ff5f57;} .tg-bar .y{background:#febc2e;} .tg-bar .g{background:#28c840;}
+.tg-bar span{flex:1;text-align:center;color:#9aa7c1;font-size:14px;font-family:'Rubik';}
+.tg-body{display:grid;grid-template-columns:240px 1fr;min-height:350px;}
+@media(max-width:760px){.tg-body{grid-template-columns:1fr;} .tg-side{display:none;}}
+.tg-side{background:#0c1120;border-left:1px solid #1c2740;padding:16px;color:#aeb9d1;font-size:13px;}
+.tg-new{background:linear-gradient(135deg,#3b82f6,#22d3ee);color:#06121f;border-radius:10px;padding:11px;text-align:center;font-weight:700;font-family:'Rubik';margin-bottom:10px;}
+.tg-row{padding:9px 10px;border-radius:9px;color:#aab6cf;margin-bottom:4px;} .tg-row.h{background:#121a2e;color:#dbe4f5;display:flex;justify-content:space-between;}
+.tg-lbl{color:#8794b3;font-size:13px;font-family:'Rubik';letter-spacing:.5px;margin:14px 0 6px;}
+.tg-model{background:#121a2e;border:1px solid #243150;border-radius:9px;padding:10px 12px;color:#dbe4f5;font-size:13px;display:flex;justify-content:space-between;}
+.tg-main{padding:28px;text-align:center;color:#e8eef9;background:radial-gradient(600px 320px at 50% -10%,#16223e,transparent);}
+.tg-diamond{font-size:30px;color:#6b9bff;} .tg-main h3{color:#fff;font-size:30px;margin:8px 0;}
+.tg-main .tg-desc{color:#b4c0d8;font-size:15px;max-width:540px;margin:0 auto 6px;}
+.tg-by{color:#6b9bff;font-weight:600;font-size:15px;margin:12px 0 20px;font-family:'Rubik';}
+.tg-feats{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;} @media(max-width:680px){.tg-feats{grid-template-columns:1fr;}}
+.tg-feat{background:#0f1626;border:1px solid #1f2b47;border-radius:12px;padding:15px;text-align:right;}
+.tg-feat h5{color:#fff;font-size:15px;margin-bottom:6px;font-family:'Rubik';} .tg-feat p{color:#a7b4ce;font-size:14px;line-height:1.55;}
+.tg-status{background:#0c1120;border-top:1px solid #1c2740;padding:10px 16px;color:#94a2bf;font-size:14px;display:flex;gap:18px;align-items:center;direction:ltr;} .tg-status b{color:#febc2e;}
+
+/* references */
+.refbody{columns:2;column-gap:36px;font-size:15px;color:var(--ink-2);line-height:1.75;} @media(max-width:760px){.refbody{columns:1;}}
+.refbody .r{break-inside:avoid;margin-bottom:11px;} .refbody .r b{color:var(--ink);}
+.auth{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:16px 18px;box-shadow:var(--sh-1);}
+.auth .ab{flex-shrink:0;width:46px;height:46px;border-radius:12px;background:var(--grad-soft);display:flex;align-items:center;justify-content:center;font-size:23px;}
+.auth h5{font-size:17px;font-family:'Rubik';margin-bottom:3px;} .auth p{font-size:15px;color:var(--ink-2);line-height:1.6;}
+
+/* contact */
+.contact{background:linear-gradient(125deg,#1d4ed8,#0284c7 60%,#0891b2);position:relative;overflow:hidden;border-radius:var(--r-xl);padding:clamp(34px,4vw,46px);text-align:center;color:#fff;box-shadow:var(--sh-4);}
+.contact::before{content:"";position:absolute;inset:0;background:var(--grad-mesh);mix-blend-mode:screen;opacity:.6;}
+.contact>*{position:relative;z-index:1;}
+.contact h2{color:#fff;font-size:clamp(28px,3.2vw,40px);margin-bottom:8px;} .contact p{color:#e3eeff;font-size:19px;}
+.contact .ci{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:22px;}
+.contact .ci a{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.34);color:#fff;text-decoration:none;border-radius:var(--r);padding:14px 26px;font-weight:700;font-size:18px;direction:ltr;backdrop-filter:blur(8px);transition:background var(--d-base),transform var(--d-base);}
+.contact .ci a:hover{background:rgba(255,255,255,0.28);transform:translateY(-2px);}
+footer{padding:40px 0 70px;text-align:center;color:var(--muted);font-size:15px;}
+
+#toTop{position:fixed;bottom:56px;left:22px;width:50px;height:50px;border-radius:50%;background:var(--surface);border:1px solid var(--line);color:var(--blue-d);font-size:22px;cursor:pointer;z-index:997;opacity:0;pointer-events:none;transform:scale(.6);transition:opacity var(--d-base),transform var(--d-base) var(--ease-emphasis);box-shadow:var(--sh-3);}
+#toTop.show{opacity:1;pointer-events:all;transform:scale(1);}
+#toTop:hover{transform:scale(1.08) translateY(-2px);background:var(--surface-2);}
+#toTop:active{transform:scale(.95);}
+
+/* hero staged entrance */
+.hero .datebar,.hero h1,.hero-sub,.hero-meta .chip,.scrollcue{opacity:0;transform:translateY(16px);}
+body.loaded .hero .datebar{animation:heroIn var(--d-slow) var(--ease-entrance) .05s forwards;}
+body.loaded .hero h1{animation:heroIn var(--d-slow) var(--ease-entrance) .16s forwards;}
+body.loaded .hero-sub{animation:heroIn var(--d-slow) var(--ease-entrance) .30s forwards;}
+body.loaded .hero-meta .chip:nth-child(1){animation:heroIn var(--d-slow) var(--ease-entrance) .42s forwards;}
+body.loaded .hero-meta .chip:nth-child(2){animation:heroIn var(--d-slow) var(--ease-entrance) .50s forwards;}
+body.loaded .hero-meta .chip:nth-child(3){animation:heroIn var(--d-slow) var(--ease-entrance) .58s forwards;}
+body.loaded .scrollcue{animation:heroIn var(--d-slow) var(--ease-entrance) .72s forwards;}
+@keyframes heroIn{to{opacity:1;transform:none;}}
+
+/* idle hint */
+@keyframes hintpulse{0%,100%{transform:none;box-shadow:var(--sh-2);}50%{transform:translateY(-3px);box-shadow:var(--sh-3);}}
+.flip.hint .flip-in{animation:hintpulse 1.6s var(--ease-standard) 2;}
+.acc.hint{animation:hintpulse 1.6s var(--ease-standard) 2;}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important;}
+  html{scroll-behavior:auto;}
+  .rv,.rv-stagger>*{opacity:1!important;transform:none!important;}
+  .flip-in,.card,.stat{will-change:auto;}
+  .scrollcue,.flip.hint .flip-in,.acc.hint{animation:none!important;}
+}
+</style>
+</head>
+<body>
+<div class="pbar"><div class="pfill" id="pf"></div></div>
+<nav class="nav">
+  <div class="brand"><b>CFO</b> בעידן החדש <span>· ד״ר שי צבאן · בר־אילן</span></div>
+  <div class="nlinks" id="nlinks">
+    <a href="#where">איפה אנחנו</a>
+    <a href="#allowed">מה מותר</a>
+    <a href="#topg">העוזר המקומי</a>
+    <a href="#how">איך נעבוד</a>
+    <a href="#role">התפקיד</a>
+    <a href="#aifin">AI בפיננסים</a>
+    <a href="#value">מדדים</a>
+    <a href="#board">דירקטוריון</a>
+    <a href="#israel">ישראל</a>
+    <a href="#next">המשך</a>
+    <a href="#refs">מקורות</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <svg class="hero-blob" viewBox="0 0 600 400" aria-hidden="true"><defs>
+    <radialGradient id="b1"><stop offset="0" stop-color="#bcd6ff"/><stop offset="1" stop-color="#bcd6ff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="b2"><stop offset="0" stop-color="#a5e8ff"/><stop offset="1" stop-color="#a5e8ff" stop-opacity="0"/></radialGradient></defs>
+    <circle cx="430" cy="120" r="190" fill="url(#b1)"/><circle cx="160" cy="180" r="160" fill="url(#b2)"/>
+  </svg>
+  <div class="hero-deco"></div>
+  <div class="hero-in">
+    <div class="datebar"><span class="dot"></span> 23.6.2026 · הרצאה 1 · מפגש הפתיחה</div>
+    <h1><span class="g">CFO בעידן החדש</span><br>ניהול כספים בעידן ה-AI</h1>
+    <p class="hero-sub">מ״שומר הסף הפיננסי״ — לשותף אסטרטגי שמוביל את הארגון. מתחילים בשאלה אחת: מה כבר אפשר לעשות, ומה עדיין אסור?</p>
+    <div class="hero-meta">
+      <span class="chip">🎓 <b>ד״ר שי צבאן, <span class="ltr">Ph.D.</span></b></span>
+      <span class="chip">🏛️ <b>היחידה ללימודי חוץ · אוניברסיטת בר־אילן</b></span>
+      <span class="chip">🕔 <b>17:00–20:15</b></span>
+    </div>
+    <div class="scrollcue">גללו מטה — אנחנו מתחילים ↓</div>
+  </div>
+</header>
+
+<!-- WHERE WE ARE -->
+<section id="where">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="sec-num">01 / 11</span> 🧭 איפה אנחנו</div>
+    <h2 class="title rv">לא מהפכה אחת — <span class="g">מסע בשלושה שלבים</span></h2>
+    <p class="lead rv">ה-AI שאתם פוגשים לא נולד אתמול. הוא עבר מסע. <strong>לחצו על כל כרטיס לפי הסדר</strong> — הוא יתהפך ויראה לכם מה עומד מאחוריו. (כל מושג טכני מוסבר בפנים — לא מניחים שום ידע מוקדם.)</p>
+
+    <div class="legend rv" style="margin-top:20px;">
+      <span><i style="background:var(--blue)"></i> כחול = מושג</span>
+      <span><i style="background:var(--violet)"></i> סגול = AI / מעבדה</span>
+      <span><i style="background:var(--amber)"></i> ענבר = עצור וחשוב</span>
+      <span><i style="background:var(--emerald)"></i> ירוק = לעשות / טוב</span>
+      <span><i style="background:var(--rose)"></i> ורוד = סיכון</span>
+    </div>
+
+    <div class="illus rv" style="margin-top:26px;max-width:720px;" aria-hidden="true">
+      <svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" style="font-family:'Rubik',sans-serif;">
+        <defs><linearGradient id="rung" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient></defs>
+        <path d="M610 195 L370 135 L150 80" fill="none" stroke="#cfe0fb" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
+        <g transform="translate(545,150)">
+          <rect width="130" height="84" rx="16" fill="#fff" stroke="#d7e3f5" stroke-width="2"/>
+          <rect x="22" y="18" width="32" height="32" rx="6" fill="none" stroke="#2563eb" stroke-width="2.4"/><path d="M22 30h32M33 18v32" stroke="#2563eb" stroke-width="2"/>
+          <text x="65" y="70" text-anchor="middle" font-size="14.5" font-weight="700" fill="#0c1729">Excel · אוטומציה</text>
+          <circle cx="65" cy="-12" r="14" fill="url(#rung)"/><text x="65" y="-7" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">1</text>
+        </g>
+        <g transform="translate(305,90)">
+          <rect width="130" height="84" rx="16" fill="#fff" stroke="#cfe0fb" stroke-width="2"/>
+          <path d="M40 44a4 4 0 0 1-.5-8A5 5 0 0 1 49 35a3.4 3.4 0 0 1 1 6.7z" fill="none" stroke="#0369a1" stroke-width="2.4" transform="translate(12,-4)"/>
+          <text x="65" y="70" text-anchor="middle" font-size="14.5" font-weight="700" fill="#0c1729">צ׳אט בענן</text>
+          <circle cx="65" cy="-12" r="14" fill="url(#rung)"/><text x="65" y="-7" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">2</text>
+        </g>
+        <g transform="translate(60,35)">
+          <rect width="140" height="92" rx="18" fill="#eef4ff" stroke="#7c3aed" stroke-width="2.4"/>
+          <circle cx="44" cy="46" r="11" fill="none" stroke="#7c3aed" stroke-width="2.4"/><circle cx="84" cy="46" r="7" fill="none" stroke="#0369a1" stroke-width="2.4"/><path d="M55 46h22" stroke="#7c3aed" stroke-width="2"/>
+          <text x="70" y="78" text-anchor="middle" font-size="14.5" font-weight="800" fill="#6d28d9">ההווה · סוכנים</text>
+          <circle cx="70" cy="-13" r="15" fill="#7c3aed"/><text x="70" y="-8" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">3</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="flipgrid g3 rv" style="margin-top:14px;">
+      <div class="flip tall"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">📊</div><h4>שלב 1 · אוטומציה ב-Excel</h4><div class="sub">״המחשב עושה בדיוק מה שאמרתי״</div><div class="cta"><span class="tapme">↻ לחצו לחשיפה</span></div></div>
+        <div class="flip-face flip-back"><h4>📊 אוטומציה ב-Excel</h4><p>כללים נוקשים שאתם כותבים מראש. שני מושגים שכדאי להכיר:</p><p><strong>פקודות מאקרו</strong> = הקלטה של רצף פעולות שחוזר על עצמו בלחיצה. <strong>VBA</strong> = שפת התכנות הקטנה שבתוך Office לכתיבת מאקרו מתקדם.</p><div class="ex"><b>דוגמה:</b> טבלת <strong>Pivot</strong> (טבלת ציר) מסכמת טבלה ענקית לפי קטגוריות ע״י גרירת שדות, בלי נוסחאות. מהיר — אבל לא ״מבין״ כלום.</div></div>
+      </div></div>
+      <div class="flip tall"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">💬</div><h4>שלב 2 · צ׳אט בענן</h4><div class="sub">״המחשב מבין שאלה ועונה״</div><div class="cta"><span class="tapme">↻ לחצו לחשיפה</span></div></div>
+        <div class="flip-face flip-back"><h4>💬 צ׳אט בענן</h4><p><strong>למה ״בענן״?</strong> המודל רץ על שרתים של החברה, והטקסט שלכם נשלח לשם — המידע יוצא מהשליטה שלכם. ולכן עולה מיד ״האם מותר?״ (נחזור לזה).</p><p><strong>ולמה הוא ״ממציא״?</strong> הוא מנחש את המילה הסבירה הבאה לפי תבניות — לא שולף עובדות. כשלא בטוח, הוא עדיין מנסח משהו משכנע. לכן בודקים כל מספר.</p></div>
+      </div></div>
+      <div class="flip tall"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">🧩</div><h4>שלב 3 · ההווה</h4><div class="sub">RAG · Skills · סוכנים · תזמור · בקרות</div><div class="cta"><span class="tapme">↻ לחצו לחשיפה</span></div></div>
+        <div class="flip-face flip-back"><h4>🧩 ההווה</h4><p>״המחשב ניגש לנתונים שלי, מבצע רצף פעולות, ופועל בתוך גבולות שהגדרתי.״</p><p>כאן הערך האמיתי לפיננסים — וגם הסיכון. כל מילה כאן היא מושג, ונפרק אותה למטה אחת-אחת.</p><div class="ex"><b>דוגמה:</b> תהליך שמושך נתונים מה-ERP, מסמן חריגות, מכין טיוטת דוח — ועוצר לאישור שלכם.</div></div>
+      </div></div>
+    </div>
+
+    <h3 class="sub rv">🔤 המילון של ההווה — לחצו על כל מושג בנפרד</h3>
+    <p class="instr rv">כל קובייה נפתחת בלחיצה — עם הגדרה, דוגמה פיננסית, ו<strong>אילו מוצרים מוכרים</strong> כבר בנויים על זה היום.</p>
+    <div class="rv" style="margin-top:14px;">
+      <div class="acc"><div class="acc-h"><span class="ai">🔍</span><div><h4>RAG — יצירה מבוססת-אחזור</h4><div class="hsub">Retrieval-Augmented Generation</div></div><span class="chev">⌄</span></div>
+        <div class="acc-body"><div class="acc-bin">לפני שהמודל עונה, הוא ״שולף״ קטעי מידע רלוונטיים <strong>מהמסמכים שלכם</strong> ומבסס עליהם את התשובה — במקום להסתמך רק על מה ש״זכר״. כך התשובה מבוססת-מקור, וההזיות פוחתות.<div class="ex"><b>דוגמה פיננסית:</b> במקום לשאול ״מהי מדיניות הכרת ההכנסה?״, ה-RAG שולף את נוהל ה-IFRS 15 הפנימי שלכם ומצטט את הסעיף.</div><div class="uses">🏷️ מי כבר משתמש: <strong>Perplexity</strong> · <strong>Microsoft 365 Copilot</strong> · <strong>Glean</strong> · <strong>Harvey</strong> (משפט) · <strong>AlphaSense</strong> (מחקר פיננסי).</div></div></div>
+      </div>
+      <div class="acc"><div class="acc-h"><span class="ai">🧰</span><div><h4>Skills — יכולות ארוזות</h4><div class="hsub">חבילת ידע למשימה ספציפית</div></div><span class="chev">⌄</span></div>
+        <div class="acc-body"><div class="acc-bin">חבילות הוראות וידע שמלמדות את ה-AI לבצע משימה ״בדרך שלנו״ — כמו תוסף מומחיות. במקום להסביר כל פעם מאפס, ה-Skill מכיל את הפורמט והכללים הקבועים.<div class="ex"><b>דוגמה:</b> Skill להתאמות בנק שמכיר את מבנה הקובץ שלכם ואת חוקי ההתאמה — ומפעיל אותם זהה בכל פעם.</div></div></div>
+      </div>
+      <div class="acc"><div class="acc-h"><span class="ai">🤖</span><div><h4>סוכן (Agent) — לא עונה, פועל</h4><div class="hsub">מקבל מטרה ומבצע רצף פעולות</div></div><span class="chev">⌄</span></div>
+        <div class="acc-body"><div class="acc-bin">סוכן מקבל מטרה, מפרק לשלבים, מפעיל כלים (גישה לנתונים, חישוב, שליחה) ומתקדם ליעד — בתוך גבולות שהגדרתם, עם או בלי אישור אדם בנקודות מפתח.<div class="ex"><b>דוגמה:</b> ״סגור את חודש מרץ״ → מושך תנועות, מסמן חריגות, מכין יומני סגירה — ועוצר לאישור CFO.</div><div class="uses">🏷️ מי כבר משתמש: <strong>Claude Code</strong> ו-<strong>Devin</strong> (קוד) · <strong>Salesforce Agentforce</strong> · <strong>Intuit Assist</strong> ב-QuickBooks · <strong>ChatGPT agent</strong>.</div></div></div>
+      </div>
+      <div class="acc"><div class="acc-h"><span class="ai">🎛️</span><div><h4>תזמור ותזמון סוכנים</h4><div class="hsub">Orchestration &amp; Scheduling</div></div><span class="chev">⌄</span></div>
+        <div class="acc-body"><div class="acc-bin"><strong>תזמור</strong> = ניהול כמה סוכנים שעובדים יחד (מי, מתי, מה קורה בכשל). <strong>תזמון</strong> = הפעלה אוטומטית בזמן/אירוע מוגדר. ביחד: ״פס ייצור״ של עבודה אוטומטית.<div class="ex"><b>דוגמה:</b> בכל 1 בחודש נדלק תהליך — סוכן איסוף → סוכן התאמות → סוכן דיווח, עם התראה אם שלב נכשל.</div></div></div>
+      </div>
+      <div class="acc"><div class="acc-h"><span class="ai">🛡️</span><div><h4>בקרות אוטומטיות</h4><div class="hsub">Automated Controls</div></div><span class="chev">⌄</span></div>
+        <div class="acc-body"><div class="acc-bin">בקרות פנימיות שרצות אוטומטית ורציף על <strong>100% מהתנועות</strong> (לא מדגם בדיעבד), ומתעדות כל פעולה ל-audit trail.<div class="ex"><b>דוגמה:</b> כלל שחוסם/מסמן כל חשבונית מעל סכום מסוים בלי הזמנת רכש תואמת — ומתעד לצורך ביקורת SOX.</div></div></div>
+      </div>
+      <div class="acc"><div class="acc-h"><span class="ai">🎚️</span><div><h4>Fine-tuning — התאמת מודל</h4><div class="hsub">לאמן מודל קיים על הנתונים שלכם</div></div><span class="chev">⌄</span></div>
+        <div class="acc-body"><div class="acc-bin">לוקחים מודל קיים ו״מאמנים אותו עוד״ על דוגמאות מהארגון שלכם. שונה מ-RAG: ב-RAG המידע נשלף בזמן השאלה; כאן הידע ״נצרב״ במודל.<div class="ex"><b>שקיפות:</b> רוב הארגונים <em>לא</em> צריכים את זה. השילוב הזול והנפוץ הוא RAG + Skills + סוכנים על מודל חזק.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IS IT ALLOWED -->
+<section id="allowed">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="sec-num">02 / 11</span> ⚖️ סופר-חשוב</div>
+    <h2 class="title rv">הכלים מדהימים — אבל <span class="g">במה בכלל מותר להשתמש?</span></h2>
+    <p class="lead rv">לפני ״איך״, חייבים ״האם מותר״. רגולציה ואבטחת מידע הם <strong>השער</strong> שקובע מה מותר, מה עדיין אסור, ולאן זה הולך. <strong>לחצו על כל כרטיס</strong> — הוא יתהפך ויסביר.</p>
+
+    <div class="flipgrid g4 rv" style="margin-top:26px;">
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">🇮🇱</div><h4>חוק הגנת הפרטיות</h4><div class="sub">תיקון 13</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>🇮🇱 תיקון 13</h4><p>החוק הישראלי שמגן על מידע אישי. <strong>בתוקף מ-14.8.2025</strong> — הרפורמה הגדולה ביותר בו מעולם.</p><p>נתונים <strong>פיננסיים</strong> מוגדרים כעת ״מידע רגיש״; חובת ממונה הגנת פרטיות; ועיצומים כספיים כבדים. <span class="cite">IAPP · 2025</span></p></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">🇪🇺</div><h4>EU AI Act</h4><div class="sub">חוק ה-AI האירופי</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>🇪🇺 EU AI Act</h4><p>חוק ה-AI המקיף הראשון בעולם, מבוסס <strong>רמות סיכון</strong>. שימושים אסורים ו״אוריינות AI״ כבר בתוקף (2/2025).</p><p>מערכות ב<strong>סיכון גבוה</strong> (ניקוד אשראי, גיוס) נדחו ל-2027/2028. רלוונטי לחברה ישראלית שפועלת באיחוד. <span class="cite">EU Parliament · 6/2026</span></p></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">🔐</div><h4>SOX · Audit Trail</h4><div class="sub">בהקשר AI</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>🔐 SOX Audit Trail</h4><p>בחברה ציבורית (כולל ישראלית בנאסד״ק): כל פלט AI שנוגע בדוח חייב להיות <strong>בר-שחזור ובר-הסבר</strong>. ״ה-AI אמר״ אינו תיעוד.</p><p>מתעדים: מה הכלי עשה, על אילו נתונים, מה ה-prompt, ומי בדק. תקני PCAOB ל-AI נכנסים 2025–2026.</p></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">✅</div><h4>איך מתגברים?</h4><div class="sub">יש פתרונות</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>✅ איך מתגברים</h4><p><strong>1.</strong> אנונימיזציה אמיתית. <strong>2.</strong> אנטרפרייז/ZDR — הסכם שלא מאמן על הנתונים. <strong>3.</strong> ענן ב-Tenant שלכם. <strong>4.</strong> מודל מקומי — שום דבר לא יוצא.</p><p><strong>מגמת הרגולציה:</strong> מתהדקת — אבל עם מסלולי-תאימות מעשיים. לא ״אסור״, אלא ״תחת בקרה״.</p></div>
+      </div></div>
+    </div>
+
+    <div class="box warn rv" style="margin-top:22px;"><h4>🧷 כלל אצבע — פשטני בכוונה, רק נותן כיוון</h4><p><strong>״אם לא הייתם מפרסמים את זה בלינקדאין — אל תדביקו אותו בכלי AI ציבורי.״</strong> זה כלל גס שנותן כיוון מהיר, לא תשובה משפטית. בפועל יש פתרונות ברמת ה-<strong>אנטרפרייז</strong> שמאפשרים לעבוד גם עם נתונים רגישים — אבל חובה לבדוק כל ספק לגופו, לקרוא את ה-DPA, ולהיות זהירים. בהמשך הקורס נצלול לזה.</p></div>
+
+    <h3 class="sub rv">☁️ ענן · API · אנטרפרייז · מקומי — וכל דרכי-הביניים</h3>
+    <p class="instr rv">לא חייבים לבחור בין ״הכול בענן הציבורי״ ל״הכול מקומי״. <strong>לחצו על כל כרטיס</strong> לראות את דרך-הביניים שמתאימה לכם:</p>
+    <div class="flipgrid g3 rv" style="margin-top:14px;">
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">☁️</div><h4>ענן ציבורי</h4><div class="sub">החזק ביותר</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>☁️ ענן ציבורי (חזיתי)</h4><p>ChatGPT/Claude/Gemini. היכולת הגבוהה ביותר — אבל הנתונים יוצאים לספק. <strong>לא לנתונים רגישים</strong> בגרסה הצרכנית.</p></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">🔌</div><h4>API</h4><div class="sub">תשלום לפי שימוש</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>🔌 גישת API</h4><p>משלמים לפי ״טוקנים״ (יחידות טקסט). אצל הספקים הגדולים הנתונים <strong>לא משמשים לאימון</strong> כברירת מחדל, ויש אופציית ״אפס שמירת נתונים״ (ZDR).</p></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">🏢</div><h4>אנטרפרייז</h4><div class="sub">הסכם עסקי</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>🏢 הסכמי אנטרפרייז</h4><p>ChatGPT Enterprise · Claude for Work · Microsoft 365 Copilot. מתחייבים חוזית <strong>לא לאמן על הנתונים</strong>, עם DPA ו-ZDR.</p></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">🛡️</div><h4>ענן ב-Tenant שלכם</h4><div class="sub">בתוך הגבול שלכם</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>🛡️ ענן פרטי</h4><p><strong>Azure OpenAI · Amazon Bedrock · Google Vertex AI</strong> — המודל רץ בתוך חשבון-הענן שלכם, עם בקרת גישה ותיעוד. המידע לא ״יוצא״ לספק המודל.</p></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">🏛️</div><h4>ריבוני / ממשלתי</h4><div class="sub">סוברני</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>🏛️ הסדרים ריבוניים</h4><p>בישראל פועל <strong>Project Nimbus</strong> — ענן לאומי (~$1.2B, Google+AWS) עם מרכזי-נתונים מקומיים לגופי ממשלה. ספקים מציעים כיום ״AI ריבוני״ למדינות. <span class="cite">2021→</span></p></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">💻</div><h4>מקומי מלא</h4><div class="sub">כמו Top G</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>💻 מקומי מלא</h4><p>מודל פתוח שרץ על המחשב — <strong>שום דבר לא עוזב</strong>. הפתרון לנתונים הרגישים ביותר. בדיוק מה שנראה מיד ב-Top G.</p></div>
+      </div></div>
+    </div>
+
+    <div class="think rv" style="margin-top:26px;">
+      <div class="tt">🤔 שאלה מנחה (קלה)</div>
+      <div class="tq">איזה קובץ במחשב שלכם אתם <em>בטוחים</em> שאסור להעלות לכלי ענן ציבורי — ולמה?</div>
+      <div class="ts">אם עניתם בקלות — אתם כבר מבינים למה ״מקומי״ ו״אנטרפרייז״ אינם גימיק.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOP G -->
+<section id="topg">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="sec-num">03 / 11</span> ✨ דוגמה חיה</div>
+    <h2 class="title rv">עוזר כספים אישי — <span class="g">מקומי, פרטי וחינמי</span></h2>
+    <p class="lead rv">בניתי כלי קטן (בקוד הוא נקרא <span class="ltr">״antigravity project improvements״</span>, ועל המסך ״Top G״) כדי להראות שכל מה שדיברנו עליו אינו תיאוריה. הנה איך כלי כזה נבנה — <strong>לחצו על כל שלב</strong>.</p>
+
+    <div class="rv" style="margin:24px 0;">
+      <div class="tg-shell">
+        <div class="tg-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span>Top G</span></div>
+        <div class="tg-body">
+          <div class="tg-side">
+            <div class="tg-new">+ New Chat</div>
+            <div class="tg-row">how are you</div><div class="tg-row">hi there</div>
+            <div class="tg-row h">🧠 Memory &amp; Profile <span>▾</span></div>
+            <div class="tg-row h">🛠️ Tools &amp; Skills <span>▾</span></div>
+            <div class="tg-lbl">ACTIVE MODEL</div>
+            <div class="tg-model">Gemma 4 E2B (QAT-4bit) · Local <span>▾</span></div>
+          </div>
+          <div class="tg-main">
+            <div class="tg-diamond">◆</div><h3>Top G</h3>
+            <p class="tg-desc">מודל קוד-פתוח (Gemma) שרץ ישירות על המחשב — מהיר, ללא תקורה, ובאופן מלא לא-מקוון.</p>
+            <div class="tg-by">Created by Dr. Shay Tsaban</div>
+            <div class="tg-feats">
+              <div class="tg-feat"><h5>⚡ האצה מקומית</h5><p>רץ ישירות על המעבד — בלי שרת חיצוני.</p></div>
+              <div class="tg-feat"><h5>🧠 RAG אינסופי</h5><p>גוררים PDF-ים; הכלי שולף מהם ידע בלי שיצאו החוצה.</p></div>
+              <div class="tg-feat"><h5>🔒 100% פרטי</h5><p>אפס טלמטריה, אפס קריאות API. הנתונים לא עוזבים.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="tg-status">🟡 No Model Loaded &nbsp; CPU: <b>0%</b> &nbsp; GPU: <b>16%</b> &nbsp; RAM: <b>99%</b></div>
+      </div>
+    </div>
+
+    <h3 class="sub rv">🔧 איך כלי כזה נבנה — שלב אחרי שלב</h3>
+    <div class="vflow rv">
+      <div class="vstep"><div class="vn">01</div><h4>📦 מתחילים ממודל ב-Hugging Face</h4><p><strong>Hugging Face</strong> הוא ״ה-GitHub של מודלי AI״ — אתר שבו מפרסמים מודלים פתוחים. מורידים מודל פתוח (כמו Gemma של גוגל) — לרוב צריך <strong>Access Token</strong>, מפתח אישי שמוכיח שאושרתם להוריד.</p></div>
+      <div class="vconn">↓</div>
+      <div class="vstep"><div class="vn">02</div><h4>🎁 עוטפים את זה במעטפת יפה</h4><p>כותבים סקריפט (תוכנה קטנה) שעוטף את המודל בממשק נוח — בדיוק מה שראיתם ב-Top G. במקום שורת-פקודה, מקבלים אפליקציה עם כפתורים.</p></div>
+      <div class="vconn">↓</div>
+      <div class="vstep"><div class="vn">03</div><h4>➕ מוסיפים פיצ׳רים ומשפרים</h4><p>מוסיפים RAG (לגרור מסמכים), זיכרון, Skills וכלים — ומשפרים בהדרגה. כל פעם עוד יכולת.</p></div>
+      <div class="vconn">↓</div>
+      <div class="vstep" style="border-color:#fbd6bf;"><div class="vn" style="-webkit-text-stroke-color:#f6dcb8;">04</div><h4>⚠️ אבל — בזהירות</h4><p>אם לא עושים את זה נכון, אפשר <strong>לאבד מידע, ליצור תקלות, ולפתוח סיכוני אבטחה</strong>. הכלי הזה הוא בעיקר <strong>ללמידה עבורנו</strong> — לא מוצר מוגמר לסביבת ייצור.</p></div>
+    </div>
+
+    <h3 class="sub rv">🛠️ ובמה בונים דברים כאלה? לחצו לגלות</h3>
+    <div class="flipgrid g2 rv">
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">🚀</div><h4>Google Antigravity</h4><div class="sub">פלטפורמת פיתוח ״סוכנית״</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>🚀 Antigravity</h4><p>פלטפורמה של Google (נובמבר 2025) שבה אתם נותנים משימה בשפה חופשית, וסוכני AI מתכננים, כותבים ובודקים את הקוד בעצמם — על פני העורך, הטרמינל והדפדפן. יש שכבה חינמית. כמו לנהל ״מתכנת זוטר אוטומטי״.</p></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="flip-face flip-front"><div class="fic">⌨️</div><h4>Claude Code</h4><div class="sub">סוכן קוד בטרמינל</div><span class="tapme">↻ לחצו</span></div>
+        <div class="flip-face flip-back"><h4>⌨️ Claude Code</h4><p>כלי הקידוד הסוכני של Anthropic. ״מבין״ את כל הפרויקט, עורך כמה קבצים, מריץ בדיקות ומתקן שגיאות — בפקודות בשפה טבעית. מחקר מצא שגם <strong>לא-מהנדסים</strong> הצליחו איתו כמעט כמו מהנדסים.</p></div>
+      </div></div>
+    </div>
+    <div class="box info rv" style="margin-top:18px;"><h4>🔮 טיזר למפגש עתידי</h4><p>בהמשך נדגים רעיון מרתק: איך <strong>מודל קטן יכול לעזור לאמן או לשפר מודל גדול</strong> — ע״י פיקוח, ניקוי נתונים, או יצירת דוגמאות אימון. נשמע הפוך, אבל יש לזה בסיס מחקרי אמיתי (״weak-to-strong״).</p></div>
+  </div>
+</section>
+
+<!-- HOW WE WORK -->
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="sec-num">04 / 11</span> 🤝 איך נעבוד יחד</div>
+    <h2 class="title rv">חוזה, קהילה <span class="g">ושיקול דעת</span></h2>
+    <p class="lead rv">זה לא קורס שמרצים בו עליכם, וגם לא ״איפה ללחוץ״. המתכון הוא <strong>תוכן מקצועי + הרבה שיקול דעת</strong>. <strong>לחצו על כל קובייה</strong> כדי לפתוח מה מאחוריה.</p>
+
+    <div class="rv" style="margin-top:24px;">
+      <div class="acc"><div class="acc-h"><span class="ai">📥</span><div><h4>מה תקבלו מהקורס</h4></div><span class="chev">⌄</span></div>
+        <div class="acc-body"><div class="acc-bin">• כלים והבנה לשימוש כבר ביום ראשון בבוקר.<br>• שפה ובהירות מול ה-AI: במה הוא חזק, איפה הוא משקר, ומתי <strong>אסור</strong> לסמוך עליו.<br>• מסגרת שיפוט מקצועית — כולל רגולציה ואבטחת מידע.<br>• קהילת עמיתים שמתמודדת עם אותם אתגרים.</div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">📤</span><div><h4>מה מצופה מכם</h4></div><span class="chev">⌄</span></div>
+        <div class="acc-body"><div class="acc-bin">• להביא הקשר אמיתי (מאונונימיזציה), לא דוגמאות מומצאות.<br>• לנסות בזמן אמת — מי שרק צופה לא רוכש את השריר.<br>• לטעות בקול — טעות של ה-AI שתתפסו כאן שווה זהב.<br>• ספקנות מקצועית: כל פלט עובר את השיפוט שלכם.</div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">🔀</span><div><h4>פער ציפיות &amp; הדינמיות של הקורס</h4><div class="hsub">חשוב לקרוא</div></div><span class="chev">⌄</span></div>
+        <div class="acc-body"><div class="acc-bin">קורס בנושא חי כל-כך הוא <strong>דינמי</strong> מטבעו. לצד התוכן הסילבוסי, ייתכנו <strong>שינויים בסדר ובזהות המרצים</strong> — וזה לטובתכם: המטרה להביא את ה״טופ אוף דה טופ״ בכל נושא, גם אם זה אומר לגמּש את הלו״ז. אל תצפו ל״ספר לימוד קפוא״ — צפו למסע שמתעדכן עם השוק. גמישות מצדכם = ערך גבוה יותר עבורכם.</div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">👥</span><div><h4>קהילת עמיתים — שתי שכבות</h4></div><span class="chev">⌄</span></div>
+        <div class="acc-body"><div class="acc-bin"><strong>🌐 שכבה רחבה (כללית):</strong> שימוש בכלים, עקרונות, מה מותר ואסור — מתאים לכולם, ונלמד יחד.<br><br><strong>🧬 שכבה פרקטית (מקומית לכם):</strong> היישום משתנה מאוד מארגון לארגון, מאדם לאדם, מתפקיד לתפקיד, ולפי הנטיות הטכנולוגיות שלכם. אתם תשתפו נושאים רלוונטיים ספציפית עבורכם — ואנחנו נבנה יחד, ברמה מסוימת, הנגשה שלהם.</div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">💻</span><div><h4>לוגיסטיקה — מחשבים</h4></div><span class="chev">⌄</span></div>
+        <div class="acc-body"><div class="acc-bin">השתדלו להגיע עם מחשבים <strong>שאינם מוגבלים בהתקנות</strong>. אם אין אפשרות — נחשוב יחד על דרך לעקוף. הסיבה: מודלים בענן מוגבלים לעומת מה שאפשר עם התקנה מקומית (כמו Top G), והרבה מהערך נמצא דווקא שם.</div></div></div>
+    </div>
+
+    <h3 class="sub rv">🧭 העיקרון המנחה — לא סיסמה, החלטה</h3>
+    <p class="body rv">המטרה אינה ״לאמץ AI״, אלא <strong>לאמץ כלי, להבין את מגבלותיו, ובעיקר לדעת לשאול את השאלות הנכונות</strong> — ולהחליט לכל משימה כמה אוטונומיה לתת, לפי הסיכון וההפיכוּת. דוגמה:</p>
+    <div class="grid g2 rv">
+      <div class="box danger"><h4>❌ לא הגיוני</h4><p>לתת לסוכן AI <strong>לאשר ולשלם</strong> חשבונית ספק אוטומטית בלי בדיקת אדם. סיכון גבוה, פעולה כספית בלתי-הפיכה, חשיפה רגולטורית.</p></div>
+      <div class="box good"><h4>✅ מאוד הגיוני</h4><p>לתת לאותו סוכן <strong>להתאים</strong> חשבונית להזמנת רכש, <strong>לסמן חריגות</strong>, ולהכין לאישור שלכם בלחיצה. אותו כלי — אוטונומיה אחרת, לפי הסיכון.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- THE ROLE -->
+<section id="role">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="sec-num">05 / 11</span> 📈 התפקיד</div>
+    <h2 class="title rv">ה-CFO <span class="g">החדש</span> — מבקרה לאסטרטגיה</h2>
+    <p class="lead rv">״מבקרה לאסטרטגיה״ נשמע כמו סיסמה. אז קודם כול — דוגמה אמיתית מהשבועות האחרונים, ואז נפרק כל מילה.</p>
+
+    <div class="box good rv" style="margin-top:24px;"><h4>🏢 סיפור אמיתי: Marie Myers, סמנכ״לית הכספים של HPE</h4><p>צוות ה-FP&A שלה הכין כל שבוע מצגת של <strong>100 שקפים</strong> לפגישת הנהלה — שבוע עבודה שלם רק על הכנה. במקום זה, מיירס הובילה (עם Deloitte) מערכת AI שזכתה לכינוי <strong>״Alfred״</strong>. אבל קודם דרשה לתקן את ה-workflow תחת מנטרת ״מקור אמת אחד״, ורק אז נתנה לצוות לבנות סוכנים. <strong>התוצאה: קיצור ~40% במחזור הדיווח, הפחתה של 25%+ בעלויות עיבוד, ואוטומציה של ~90% מהעבודה הידנית על אותם 100 שקפים.</strong> במקביל הכשירה מחדש צוות של 3,000+ עובדים — לא רק <em>להשתמש</em> ב-AI אלא <em>לבנות</em> סוכנים. כך התפקיד עבר מ״בקרה על המספרים״ ל״הובלת דיונים ממוקדי-החלטה״. <span class="cite">Fortune · פברואר 2026</span></p></div>
+
+    <h3 class="sub rv">📚 מילון התפקיד — לחצו על כל מושג</h3>
+    <p class="instr rv">לא מניחים שום ידע מוקדם. כל קובייה נפתחת בלחיצה, עם הגדרה ודוגמה.</p>
+
+    <div class="acc-group rv" style="margin-top:16px;">
+      <div class="gh"><i></i> יסודות התפקיד — ״מה ה-CFO שולט בו״</div>
+      <div class="acc"><div class="acc-h"><span class="ai">📒</span><div><h4>הספרים (General Ledger)</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">הרישום המסודר של כל עסקה — כל שקל שנכנס ויצא — במערכת ERP (SAP, NetSuite, Priority). ״מקור האמת״.<div class="ex"><b>דוגמה:</b> מכירת מנוי שנתי ב-₪120K נרשמת כ״הכנסה נדחית״, ומדי חודש מוכרים ₪10K כהכנסה בפועל.</div></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">🎯</span><div><h4>התקציב (Budget)</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">תוכנית כספית קדימה ששימשת אמת-מידה שמולה משווים ביצוע בפועל.<div class="ex"><b>דוגמה:</b> תוקצבו ₪600K שיווק לרבעון; הוצאו ₪750K → ״חריגה״ של ₪150K להסביר.</div></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">🔒</span><div><h4>הסגירה (The Close)</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">ווידוא שכל התנועות נרשמו, התאמת חשבונות, ונעילת התקופה להפקת דוחות מהימנים. היעד המודרני: ״סגירה ללא מגע יד״. <span class="cite">Gartner</span><div class="ex"><b>דוגמה:</b> חברה ציבורית סוגרת רבעון תוך ~40 יום; התאמה ידנית של 200 חשבונות = 10 ימי עבודה.</div></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">📑</span><div><h4>הדוחות הכספיים</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">מאזן, רווח והפסד, תזרים מזומנים, ושינויים בהון — לפי תקן (IFRS בישראל, US-GAAP בארה״ב).<div class="ex"><b>דוגמה:</b> אפשר להציג רווח ₪5M אך תזרים שלילי ₪2M — כי לקוחות לא שילמו. רווחיות ≠ מזומן.</div></div></div></div>
+    </div>
+
+    <div class="acc-group rv">
+      <div class="gh"><i></i> משפת הצמיחה והסטארטאפים</div>
+      <div class="acc"><div class="acc-h"><span class="ai">🛫</span><div><h4>Runway ו-״שריפת מזומן״ (Burn)</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin"><strong>שריפת מזומן</strong> = כמה מזומן נטו החברה מוציאה כל חודש מעבר למה שהיא מכניסה. <strong>Runway</strong> = כמה חודשים עד שייגמר המזומן = מזומן ÷ שריפה חודשית.<div class="ex"><b>דוגמה:</b> ₪8M בקופה, שריפה ₪650K/חודש → Runway ~12 חודשים. זו השאלה הראשונה בכל דירקטוריון של סטארטאפ.</div></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">💼</span><div><h4>VC — קרן הון סיכון</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin"><strong>Venture Capital</strong> — קרנות שמשקיעות בחברות צעירות בסיכון גבוה, בתמורה לאחוזי בעלות (מניות), בתקווה לתשואה גבוהה באקזיט.<div class="ex"><b>בישראל:</b> כמעט כל סטארטאפ ממומן בסבבי VC. ה-CFO הוא איש הקשר המרכזי מולם.</div></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">📊</span><div><h4>מטריקות צמיחה — ARR · CAC · LTV · NRR</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin"><strong>ARR</strong> = הכנסה שנתית חוזרת. <strong>CAC</strong> = עלות גיוס לקוח. <strong>LTV</strong> = כמה לקוח שווה לכל אורך חייו. <strong>NRR</strong> = כמה ההכנסות מלקוחות <em>קיימים</em> גדלו (מעל 100% = גדלים מעצמם).<div class="ex"><b>מה זה אומר:</b> CAC=₪9,000 ו-LTV=₪30,000 → יחס 3.3:1 (בריא). NRR 120% = ״דביקות״ מצוינת. אלה המספרים שמשקיע בוחן ראשון.</div></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">🚪</span><div><h4>IPO ו-״אקזיט״</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin"><strong>IPO</strong> (הנפקה ראשונית) = המכירה הראשונה של מניות לציבור בבורסה. <strong>אקזיט</strong> = אירוע מימוש למייסדים/משקיעים — רכישה (M&A) או IPO.<div class="ex"><b>בישראל 2025:</b> eToro הונפקה בנאסד״ק לפי ~$4.3B; Wiz נרכשה ע״י Google ב-$32B.</div></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">🏗️</span><div><h4>מ״בניית תשתית״ ל״אסטרטגיה״</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin"><strong>תשתית</strong> = מערכות, ERP, תהליכים ובקרות שעובדים. <strong>אסטרטגיה</strong> = להשתמש באותה תשתית כדי להחליט <em>איפה להשקיע</em>. בלי תשתית מהימנה אין נתונים להחליט לפיהם.<div class="ex"><b>דוגמה (כמו HPE):</b> קודם ״מקור אמת אחד״ ואוטומציה של הדיווח, ואז הזמן מתפנה לדיוני הקצאת-הון.</div></div></div></div>
+    </div>
+
+    <div class="acc-group rv">
+      <div class="gh"><i></i> משפת החברה הציבורית</div>
+      <div class="acc"><div class="acc-h"><span class="ai">🌍</span><div><h4>ESG</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">מדידה ודיווח על היבטים <strong>סביבתיים, חברתיים וממשליים</strong>. תחת רגולציית CSRD האירופית זה הופך לחובת ביקורת מבוקרת.<div class="ex"><b>הקשר ל-AI:</b> בדיוק כאן RAG וסוכנים עוזרים לאסוף ולתקף את הנתונים הסביבתיים.</div></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">📄</span><div><h4>10-K · 20-F · 8-K (ארה״ב)</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin"><strong>10-K</strong> = דוח שנתי של חברה אמריקאית ל-SEC. <strong>20-F</strong> = הדוח השנתי המקביל ל<em>חברה זרה</em> (כמו ישראלית בנאסד״ק). <strong>8-K</strong> = דיווח מיידי על אירוע מהותי.<div class="ex"><b>מי מגיש מה:</b> חברה ישראלית דואלית בנאסד״ק מגישה לרוב 20-F שנתי + 8-K לאירועים.</div></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">🇮🇱</span><div><h4>דיווחים בשוק הישראלי — מערכת ״מאיה״</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">חברה הנסחרת בת״א מדווחת דרך מערכת <strong>מאיה (Maya)</strong> של הבורסה ורשות ני״ע: <strong>דוח תקופתי</strong> (שנתי), <strong>רבעוני</strong>, ו<strong>דיווחים מיידיים</strong> על אירועים מהותיים.<div class="ex"><b>שימושי:</b> במפגש הבא נמשוך נתונים אמיתיים ממאיה לניתוח.</div></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">📣</span><div><h4>משקיעים אקטיביסטים</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">משקיעים שרוכשים נתח בחברה כדי <strong>ללחוץ על ההנהלה והדירקטוריון</strong> לשינויים — אסטרטגיה, החזרת מזומן, מושבים בדירקטוריון.<div class="ex"><b>למה זה נוגע ל-CFO:</b> הם מנתחים כל מספר. דיווח חלש או לא-עקבי = הזמנה ללחץ אקטיביסטי.</div></div></div></div>
+    </div>
+
+    <div class="think rv" style="margin-top:26px;">
+      <div class="tt">🤔 שאלה מנחה (מעשית)</div>
+      <div class="tq">חשבו על דוח אחד שאתם מפיקים כל חודש. האם <em>הטיוטה הראשונה</em> שלו יכולה להיווצר אוטומטית — ואתם רק תבדקו ותחתמו?</div>
+      <div class="ts">אם כן — זה ה-Quick Win שלכם. אם לא — מה חוסם? נתונים? פורמט? אמון?</div>
+    </div>
+  </div>
+</section>
+
+<!-- AI IN FINANCE -->
+<section id="aifin">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="sec-num">06 / 11</span> 🤖 AI בפיננסים</div>
+    <h2 class="title rv">המסע מ<span class="g">אימוץ</span> ל<span class="g">ערך</span></h2>
+    <p class="lead rv">ה-AI כבר סטנדרט: השימוש בפונקציות הכספים קפץ בשנה מ-30% ל-75%. <span class="cite">KPMG 2025</span> אבל אימוץ ≠ ערך. הנה המסלול — ולמה רובם נופלים.</p>
+
+    <div class="vflow rv" style="margin-top:22px;">
+      <div class="vstep"><div class="vn">01</div><h4>🌱 אימוץ נרחב</h4><p>75% מפונקציות הכספים כבר משתמשות ב-AI; 88% מהמנהלים מגדילים תקציב. ישראל ראשונה בעולם בכישרון AI לנפש. <span class="cite">KPMG · Stanford AI Index</span></p></div>
+      <div class="vconn">↓</div>
+      <div class="vstep"><div class="vn">02</div><h4>⚠️ פער הערך</h4><p>רק כ-5% מהפיילוטים מניבים השפעה מדידה על הרווח. ריכוז כישרון ≠ הפקת ערך. <span class="cite">MIT NANDA 2025</span></p></div>
+      <div class="vconn">↓</div>
+      <div class="vstep"><div class="vn">03</div><h4>🎯 הפריצה</h4><p>הזוכים: תהליך אחד מדיד, כלי מתמחה (לא ״בונים לבד״), ו-KPI אחד. נפרק מיד.</p></div>
+    </div>
+
+    <h3 class="sub rv">🧯 ארבעת מצבי הכשל — לחצו על כל אחד (עם דוגמאות מהתעשייה)</h3>
+    <div class="rv">
+      <div class="acc"><div class="acc-h"><span class="ai">🌀</span><div><h4>1 · כולם מאמצים, מעטים מפיקים ערך</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">בארגון ישראלי: כל אחד פתח ChatGPT פרטי (״Shadow AI״), מנסח מיילים — אבל אף תהליך ליבה (סגירה, תזרים, דיווח) לא השתנה, ואין מדידת חיסכון. הרבה אקטיביות, אפס שינוי ב-P&L. אפילו בבנקים תועד פער בין ההצהרות למציאות ב-production. <span class="cite">Times of Israel</span></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">🎲</span><div><h4>2 · פיילוטים בלי אסטרטגיה</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">״AI Monday״: המנכ״ל מכריז שכל מחלקה חייבת ״פרויקט AI״ עד סוף הרבעון. נולדים עשרה פיילוטים מקבילים, אף אחד לא מחובר ליעד עסקי — וכולם נתקעים אחרי ה-demo. MIT: יותר מחצי מהתקציב הלך לשיווק, בעוד ה-ROI הגדול דווקא ב-Back-office.</div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">🗑️</span><div><h4>3 · איכות נתונים (Garbage in, garbage out)</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">קבוצה עם כמה חברות-בנות, כל אחת עם ERP ותרשים חשבונות שונה, מנסה סוכן שיכין דוח מאוחד. הסוכן ״ממציא״ מיפויים כי אין מקור-אמת אחיד. בלי ניקוי וממשל נתונים, גם המודל הכי חזק נכשל. <span class="cite">Gartner · 30% ננטשים אחרי PoC</span></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">🧑‍🔧</span><div><h4>4 · פער הכישרון</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">פרדוקס ישראלי: ראשונים בכישרון AI — אבל מעט אנשים שמבינים גם חשבונאות/בקרה <em>וגם</em> AI. הפער הוא <strong>בגשר בין הפיננסים ל-AI</strong> — וזו מטרת ההכשרה הזו. <span class="cite">רשות החדשנות 2025</span></div></div></div>
+    </div>
+
+    <h3 class="sub rv">🧮 הצד השני — בואו נירגע (אנטי-הייפ)</h3>
+    <p class="body rv">ה-ROI אמיתי, אבל <strong>לא חינם ולא אוטומטי</strong>: מודלים חזיתיים עולים כסף (טוקנים, רישוי, אינטגרציה, ממשל). והשוק מתקן אחורה:</p>
+    <div class="stats rv">
+      <div class="stat"><div class="n">42%</div><div class="l">מהחברות זנחו לפחות יוזמת AI אחת ב-2025 (מול 17% שנה קודם)</div><div class="s">S&P Global</div></div>
+      <div class="stat"><div class="n">40%+</div><div class="l">מפרויקטי ה-Agentic AI ייזנחו עד סוף 2027</div><div class="s">Gartner · 6/2025</div></div>
+      <div class="stat"><div class="n">~29%</div><div class="l">מהחברות שפיטרו בגלל AI — גייסו חזרה את אותם תפקידים</div><div class="s">Robert Half</div></div>
+    </div>
+    <div class="box warn rv" style="margin-top:16px;"><h4>🪃 מקרה Klarna</h4><p>צמצמה ~700 תפקידי שירות והחליפה ב-AI — וב-2025 <strong>החלה לגייס בני-אדם בחזרה</strong>. המנכ״ל: ״התמקדנו יותר מדי בעלות, והאיכות ירדה — זה לא בר-קיימא.״ <strong>המסר: לתכנן, למדוד, ואז להרחיב.</strong> <span class="cite">Fortune · 5/2025</span></p></div>
+
+    <div class="box info rv" style="margin-top:16px;"><h4>🔬 ״5% הצליחו״ — 5% ממי?</h4><p>מ<strong>יוזמת MIT Project NANDA</strong> (2025): נבדקו ~300 פריסות AI, ~150 ראיונות ו-~350 עובדים, <strong>בעיקר בארה״ב</strong>. ״הצלחה״ = השפעה מדידה על הרווח. רק ~5% עמדו בזה. הפרט החשוב: כלים ש<strong>נקנו מספק מתמחה הצליחו ~67%</strong>, מול בנייה פנימית ~שליש. הכשל ארגוני, לא טכנולוגי.</p></div>
+
+    <h3 class="sub rv">✍️ אנטומיה של פרומפט — ❌ עצלן מול ✅ מובנה</h3>
+    <div class="grid g2 rv">
+      <div class="box danger"><h4>❌ פרומפט עצלן</h4><p><em>״נתח לי את הדוח״</em> → תקציר כללי, בלי מספרים, בלי הקשר ענף, ולפעמים נתונים מומצאים. לא שמיש.</p></div>
+      <div class="box good"><h4>✅ פרומפט מובנה</h4><p>תפקיד + הקשר + משימה + מגבלות + פורמט פלט + הוראה לא להמציא = פלט חד, ממוקד, ובר-בדיקה. <strong>המבנה הוא הקסם.</strong></p></div>
+    </div>
+
+    <div class="lab rv" style="margin-top:22px;">
+      <div class="tag">🧪 AI LAB — ידיים על המקלדת</div>
+      <h4>צרו נתונים — ואז חקרו אותם כמו אנליסט</h4>
+      <div class="goal">🎯 מטרה: לגרום ל-AI לייצר נתונים (בלי בעיית אבטחת מידע), ואז להפעיל בינה עסקית ושיפוט.</div>
+      <div class="step"><span class="badge">1</span><span>היכנסו ל-Claude / ChatGPT / מודל מקומי והדביקו את הפרומפט.</span></div>
+      <div class="step"><span class="badge">2</span><span>קראו את הפלט, ואז <b>אתגרו</b>: ״איזו הנחה הכי שברירית? מה אתה לא יכול לדעת מהנתונים?״</span></div>
+      <div class="prompt"><button class="cp" data-t="lab1">Copy</button><span id="lab1">You are a senior FP&A analyst at a mid-sized Israeli B2B services company (₪60M revenue, 120 employees, reporting in ILS under IFRS). Generate a realistic SYNTHETIC quarterly P&L (fully fictional numbers) for the last 3 quarters: revenue, COGS, payroll, sales & marketing, G&A, operating profit. Then: (1) identify the 3 most material financial risks the trend reveals, one sentence each; (2) separate volume effects from price effects where relevant; (3) explicitly list every conclusion you CANNOT support from the data you generated, so I can investigate. Output as a clean table + a 120-word management commentary in Hebrew.</span></div>
+      <div class="anat">
+        <b>פירוק הפרומפט — למה ככה:</b>
+        <div class="row"><span class="k">Role + Context</span><span>״אנליסט FP&A בכיר בחברת שירותים ישראלית, ₪, IFRS״ — ממקם את ה-AI ונותן הקשר ענף ומטבע.</span></div>
+        <div class="row"><span class="k">Synthetic data</span><span>״נתונים סינתטיים מומצאים״ — כך אין סיכון אבטחת מידע.</span></div>
+        <div class="row"><span class="k">Task</span><span>3 סיכונים + הפרדת מחיר/כמות — משימה ממוקדת, לא ״נתח״ מעורפל.</span></div>
+        <div class="row"><span class="k">Anti-hallucination</span><span>״ציין כל מסקנה שאינך יכול לבסס״ — מאלץ את ה-AI להודות בגבולות.</span></div>
+        <div class="row"><span class="k">Output format</span><span>״טבלה + 120 מילה בעברית״ — שולטים בפורמט ובאורך.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE -->
+<section id="value">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="sec-num">07 / 11</span> 📊 מדדים</div>
+    <h2 class="title rv">מעבר ל-EBITDA — <span class="g">לכל חברה המדד שלה</span></h2>
+    <p class="lead rv">היזהרו ממלכודת ה״הכול SaaS״. <strong>לחצו</strong> לראות את המדדים של כל סוג חברה.</p>
+    <div class="rv" style="margin-top:22px;">
+      <div class="acc"><div class="acc-h"><span class="ai">🚀</span><div><h4>חברות צמיחה / SaaS</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin"><strong>Rule of 40:</strong> צמיחה + שולי רווח ≥ 40% (מעל = פרמיה). <strong>NRR:</strong> כמה הכנסות מלקוחות קיימים גדלו (≥120% מצוין). <strong>LTV/CAC:</strong> ערך לקוח ÷ עלות גיוסו (יעד ≥3:1). <strong>Runway:</strong> חודשי מזומן שנשארו.<div class="ex"><b>שקיפות:</b> LTV/CAC הפשוט מניח נטישה קבועה — מודל פשטני; לחברות בוגרות חשבו לפי קוהורטות. הידיעה הזו מגבירה אמינות מול הדירקטוריון.</div></div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">🏭</span><div><h4>חברות מסורתיות / תעשייה</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin"><strong>DSO</strong> (ימי גבייה): כל יום שמקצרים משחרר מזומן ״כלוא״ אצל לקוחות — <em>בלי לגייס שקל</em>. <strong>הון חוזר:</strong> מלאי + לקוחות − ספקים. <strong>מרווח תרומה ונקודת איזון.</strong> הגיבורים השקטים של ה-CFO שלא בהייטק.<div class="ex"><b>דוגמה:</b> הכנסה ₪60M, קיצור DSO מ-75 ל-55 יום משחרר ~₪3.3M מזומן.</div></div></div></div>
+    </div>
+
+    <div class="lab rv" style="margin-top:22px;">
+      <div class="tag">🧪 AI LAB — ידיים על המקלדת</div>
+      <h4>בנו תרחישים — ותנו ל-AI לאתגר את ההנחות</h4>
+      <div class="goal">🎯 מטרה: חשיבת תרחישים (scenario thinking) — לב הבינה העסקית.</div>
+      <div class="step"><span class="badge">1</span><span>הדביקו את הפרומפט; בקשו 3 תרחישים עם הנחות מפורשות.</span></div>
+      <div class="step"><span class="badge">2</span><span>אתגרו: ״איזו הנחה קריטית? מה צריך לקרות לתרחיש הפסימי?״</span></div>
+      <div class="prompt"><button class="cp" data-t="lab3">Copy</button><span id="lab3">Act as a CFO building a cash scenario model. Company: services firm, ₪60M annual revenue, 12% YoY growth, 9% operating margin, ₪8M cash, ₪650K monthly burn. Build 3 cash scenarios over 18 months (base / upside / downside). For EACH scenario: state your explicit assumptions, compute monthly runway and cash-out month, and flag the SINGLE assumption that most drives the outcome. Then tell me what early warning sign would signal the downside is materializing. Respond in Hebrew, with a compact table.</span></div>
+      <div class="anat">
+        <b>פירוק הפרומפט:</b>
+        <div class="row"><span class="k">Role</span><span>״Act as a CFO״ — מכוון את רמת הניתוח.</span></div>
+        <div class="row"><span class="k">Explicit assumptions</span><span>דורשים הנחות גלויות — החלטה טובה נשענת על הנחות, לא על מספר בודד.</span></div>
+        <div class="row"><span class="k">Single key driver</span><span>״ההנחה הקריטית ביותר״ — מכריח לתעדף, ומחדד איפה הסיכון.</span></div>
+        <div class="row"><span class="k">Early warning</span><span>הופך תחזית ל<em>כלי ניהול</em>: מה לנטר כדי לזהות מבעוד מועד.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOARD -->
+<section id="board">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="sec-num">08 / 11</span> 🏛️ דירקטוריון</div>
+    <h2 class="title rv">להפוך מספרים <span class="g">לסיפור שמניע החלטה</span></h2>
+    <p class="lead rv">דירקטוריון מחפש את מי ש<strong>אפשר לסמוך עליו</strong>: אמינות, בלי הפתעות, שיקול דעת, סיפור ברור.</p>
+
+    <div class="illus rv" style="margin-top:22px;max-width:720px;" aria-hidden="true">
+      <svg viewBox="0 0 720 140" xmlns="http://www.w3.org/2000/svg" style="font-family:'Rubik',sans-serif;">
+        <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M1 1l5 3.5-5 3.5" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/></marker></defs>
+        <g transform="translate(530,25)">
+          <rect width="160" height="90" rx="16" fill="#fff" stroke="#d7e3f5" stroke-width="2"/>
+          <circle cx="36" cy="40" r="13" fill="none" stroke="#0369a1" stroke-width="2.2"/><path d="M36 33v7l4 3" stroke="#0369a1" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <text x="100" y="36" text-anchor="middle" font-size="16" font-weight="800" fill="#0c1729">Context</text>
+          <text x="100" y="58" text-anchor="middle" font-size="13" fill="#51637f">המספרים</text>
+        </g>
+        <path d="M520 70h-32" stroke="#2563eb" stroke-width="2.4" marker-end="url(#ar)"/>
+        <g transform="translate(280,25)">
+          <rect width="160" height="90" rx="16" fill="#fff" stroke="#cfe0fb" stroke-width="2"/>
+          <path d="M36 50a13 13 0 1 1 14 0v6h-14z" fill="none" stroke="#7c3aed" stroke-width="2.2"/><path d="M38 56h10" stroke="#7c3aed" stroke-width="2"/>
+          <text x="105" y="36" text-anchor="middle" font-size="16" font-weight="800" fill="#0c1729">Insight</text>
+          <text x="105" y="58" text-anchor="middle" font-size="13" fill="#51637f">מה זה אומר</text>
+        </g>
+        <path d="M270 70h-32" stroke="#2563eb" stroke-width="2.4" marker-end="url(#ar)"/>
+        <g transform="translate(30,25)">
+          <rect width="160" height="90" rx="16" fill="#e9faf2" stroke="#bce8d1" stroke-width="2.2"/>
+          <path d="M28 40l8 8 14-15" stroke="#047857" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="105" y="36" text-anchor="middle" font-size="16" font-weight="800" fill="#0c1729">Action</text>
+          <text x="105" y="58" text-anchor="middle" font-size="13" fill="#047857">ההחלטה</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="grid g2 rv">
+      <div class="box danger"><h4>❌ שפיכת נתונים</h4><p>״ההכנסות ₪47.2M, +4%. המרכז ₪28M, הצפון ₪11M, הדרום ₪8.2M. ההוצאות +6%...״ → הדירקטור בטלפון.</p></div>
+      <div class="box good"><h4>✅ נרטיב שמוביל להחלטה</h4><p><strong>Context:</strong> כל הצמיחה מהמרכז. <strong>Insight:</strong> הצפון דרך כי איבדנו 2 אנשי מכירות; כל חודש = ~₪1.2M אבודים. <strong>Action:</strong> להעביר ₪0.8M לגיוס בצפון, החזר ברבעון. מאשרים?</p></div>
+    </div>
+
+    <div class="rv" style="margin-top:18px;">
+      <div class="acc"><div class="acc-h"><span class="ai">⭐</span><div><h4>שבעת כללי הזהב מול הדירקטוריון</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">🚨 חדשות רעות מוקדם וביוזמתכם · 📞 אל תפתיעו את היו״ר בחדר · 🔗 מספר תמיד מול הקשר · 🎯 תמיד עם המלצה · 🙋 ״אבדוק עד יום ה׳״ > מספר מומצא · 📄 הקצר מנצח (Pre-read 72 שעות) · 🎼 קול אחד עם ה-CEO.</div></div></div>
+      <div class="acc"><div class="acc-h"><span class="ai">🏢</span><div><h4>אותו סיפור — קהל אחר (לפי סוג חברה)</h4></div><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">ב<strong>סטארטאפ</strong> הדירקטוריון הוא קרנות VC — מוקד על צמיחה ו-Runway. ב<strong>חברה ציבורית</strong> נכנסת ועדת ביקורת, ושאלות הממשל החדשות הן על AI: ״יש Audit Trail לפלט? מי אחראי? מאיפה הדאטה?״</div></div></div>
+    </div>
+
+    <div class="lab rv" style="margin-top:22px;">
+      <div class="tag">🧪 AI LAB — ידיים על המקלדת</div>
+      <h4>תנו ל-AI לבקר את הפיץ׳ שלכם — כמו יו״ר ספקן</h4>
+      <div class="goal">🎯 מטרה: להפוך את ה-AI ל״טייס משנה״ ביקורתי — ההמחשה הטובה ביותר לעיקרון המנחה.</div>
+      <div class="step"><span class="badge">1</span><span>נסחו פיץ׳ בן 3 משפטים (Context / Insight / Action) לבקשת תקציב אמיתית.</span></div>
+      <div class="step"><span class="badge">2</span><span>הדביקו לפרומפט, קבלו ביקורת, ותקנו — אבל <b>אתם</b> מחליטים מה לקבל.</span></div>
+      <div class="prompt"><button class="cp" data-t="lab4">Copy</button><span id="lab4">Act as a skeptical, experienced board chair reviewing a CFO's budget request. Here is my 3-sentence pitch — Context, Insight, Action: [PASTE]. Critique it hard: (1) Does the Action include a specific amount, a timeline, AND a measurable return? (2) Does the Insight add something beyond what's already in the Context, or just repeat it? (3) What would a board member challenge first? Then rewrite a stronger version, and explain what you changed and why. Respond in Hebrew.</span></div>
+      <div class="anat"><b>פירוק:</b>
+        <div class="row"><span class="k">Skeptical chair</span><span>נותן ל-AI ״זווית״ ביקורתית — לא מחמיא, אלא תופס חולשות.</span></div>
+        <div class="row"><span class="k">3 בדיקות</span><span>סכום+זמן+החזר, Insight אמיתי, ונקודת-תורפה — מה שיו״ר באמת בודק.</span></div>
+        <div class="row"><span class="k">Explain changes</span><span>״הסבר מה תיקנת״ — כך אתם <em>לומדים</em>, לא רק מקבלים תוצר.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ISRAEL -->
+<section id="israel">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="sec-num">09 / 11</span> 🇮🇱 הזירה הישראלית</div>
+    <h2 class="title rv">הבעיה היא <span class="g">ההזדמנות שלכם</span></h2>
+    <p class="lead rv">ישראל מייצרת מהנדסים ומייסדים מצוינים — אבל לא מספיק מנהלי כספים אסטרטגיים. הפער הוא החלון שלכם.</p>
+    <div class="stats rv" style="margin-top:22px;">
+      <div class="stat"><div class="n">$15.6B</div><div class="l">גיוסי הייטק 2025 — אך רק 717 סבבים, הנמוך בעשור</div><div class="s">Startup Nation Central</div></div>
+      <div class="stat"><div class="n">$74B</div><div class="l">אקזיטים ו-M&A ב-2025</div><div class="s">SNC / Calcalist</div></div>
+      <div class="stat"><div class="n">$32B</div><div class="l">רכישת Wiz ע״י Google (הושלמה מרץ 2026)</div><div class="s">TechCrunch</div></div>
+      <div class="stat"><div class="n">18.3%</div><div class="l">חלק ההייטק מהתוצר · ~58% מהיצוא</div><div class="s">רשות החדשנות</div></div>
+    </div>
+
+    <h3 class="sub rv">🚀 חברות פינטק ישראליות שכדאי להכיר</h3>
+    <div class="grid g4 rv">
+      <div class="card"><span class="ic">💰</span><h4>Melio</h4><p>תשלומי B2B/AP. נרכשה ע״י Xero בעד ~$3B (אוק׳ 2025).</p></div>
+      <div class="card"><span class="ic">💳</span><h4>Tipalti</h4><p>אוטומציית AP גלובלית + סוכני AI. גיוס חוב $200M.</p></div>
+      <div class="card"><span class="ic">📗</span><h4>Datarails</h4><p>FP&A על Excel; השיקה FinanceOS שמחבר נתונים ל-Claude/ChatGPT.</p></div>
+      <div class="card"><span class="ic">🤖</span><h4>Stampli</h4><p>״Billy the Bot״ — AI לחשבוניות; 80B$+ חשבוניות בשנה.</p></div>
+    </div>
+
+    <div class="grid g2 rv" style="margin-top:20px;">
+      <div class="quote"><div class="qt">בנקאי השקעות מתארים ״בעיה אמיתית״ באיתור מנהלי כספים שמוכנים לרודשואו של IPO — האקוסיסטם מייצר מהנדסים, אבל לא מספיק CFOs אסטרטגיים.</div><div class="qa">— תצפית שוק · 2025</div></div>
+      <div class="card accent"><span class="ic">🎯</span><h4>ההזדמנות שלכם</h4><p>• <strong>ביקוש גדל</strong> — כל סטארטאפ ל-IPO צריך CFO.<br>• <strong>AI כיתרון</strong> — שכר CFO בכיר בת״א ~₪1M+ בשנה, עם ״פרמיית AI״. <span class="cite">JPost</span><br>• <strong>גלובליות</strong> — IFRS + US-GAAP רלוונטי בעולם.<br>• <strong>גם בלי IPO</strong> — בחברה מסורתית: AP, הון חוזר, קיצור סגירה.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT -->
+<section id="next">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="sec-num">10 / 11</span> 🔭 טיזר</div>
+    <h2 class="title rv">במפגש הבא: <span class="g">ידיים על המקלדת</span></h2>
+    <p class="lead rv">הרצאה 2 — ״ניתוח פיננסי עם כלי AI חינמיים״. פחות מצגת, יותר עשייה. תביאו לפטופ (רצוי לא-מוגבל בהתקנות). עיקרון מנחה: <strong>בינה מלאכותית כטייס משנה — לא הטייס.</strong></p>
+    <div class="grid g3 rv" style="margin-top:22px;">
+      <div class="card"><span class="ic">🧰</span><h4>שישה כלים חינמיים</h4><p>נכיר שישה כלים ונלמד <em>לצרף ביניהם</em> (עץ החלטה — איזה כלי, מתי).</p></div>
+      <div class="card"><span class="ic">🔎</span><h4>חילוץ נתונים מהשטח</h4><p>נמשוך נתונים ממאיה/TASE ו-EDGAR, ננתח יחסים פיננסיים ו-DuPont.</p></div>
+      <div class="card"><span class="ic">🛒</span><h4>Case Study: שופרסל</h4><p>מקרה בחינה מלא בשישה שלבים — כולל זיהוי אותות אזהרה.</p></div>
+    </div>
+    <div class="box good rv" style="margin-top:18px;"><h4>📌 שיעורי הבית</h4><p>בחרו חברה ישראלית ציבורית אחת, והביאו את הדוח הרבעוני האחרון שלה ממאיה. נעבוד עליו יחד — על נתונים אמיתיים.</p></div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="refs">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="sec-num">11 / 11</span> 📚 מקורות</div>
+    <h2 class="title rv">מי הם המקורות — <span class="g">ומה עוצמתם</span></h2>
+    <p class="lead rv">כל נתון מגובה במקור. לפני הרשימה — היכרות קצרה עם הגופים.</p>
+    <div class="grid g2 rv" style="margin-top:22px;">
+      <div class="auth"><div class="ab">🔭</div><div><h5>Gartner</h5><p>חברת מחקר וייעוץ גלובלית עם 2,400+ אנליסטים; סמכות מובילה בטרנספורמציית כספים ו-AI.</p></div></div>
+      <div class="auth"><div class="ab">📊</div><div><h5>McKinsey & Company</h5><p>חברת הייעוץ האסטרטגי המובילה; ה-Global Surveys שלה מקור-עוגן על תפקיד ה-CFO.</p></div></div>
+      <div class="auth"><div class="ab">📋</div><div><h5>Deloitte — CFO Signals</h5><p>״ארבע הגדולות״. סקר רבעוני של ~200 CFOs בחברות $1B+ — מזהה מגמות בזמן אמת.</p></div></div>
+      <div class="auth"><div class="ab">🎓</div><div><h5>MIT — Project NANDA</h5><p>יוזמת מחקר של MIT; דוח ״The GenAI Divide״ (2025) — האסמכתא ל״95% נכשלים״.</p></div></div>
+      <div class="auth"><div class="ab">🏛️</div><div><h5>Crist Kolder</h5><p>חברת השמה; ה-Volatility Report עוקב אחר כהונת מנהלי CEO/CFO ב-S&P 500.</p></div></div>
+      <div class="auth"><div class="ab">🇮🇱</div><div><h5>Startup Nation Central / רשות החדשנות</h5><p>מקורות-העוגן לנתוני ההייטק והחדשנות בישראל.</p></div></div>
+    </div>
+
+    <h3 class="sub rv">🔗 רשימת מקורות מלאה (לקריאה נוספת)</h3>
+    <div class="refbody rv">
+      <div class="r"><b>McKinsey</b> — The new CFO mandate (4.5→6.2, סקר גלובלי) — 2018</div>
+      <div class="r"><b>MIT NANDA</b> — The GenAI Divide 2025 (95%/5%; קנייה מול בנייה) — אוג׳ 2025</div>
+      <div class="r"><b>Deloitte</b> — CFO Signals Q4 2025 (87% AI קריטי; 54% סוכנים) — דצמ׳ 2025</div>
+      <div class="r"><b>Crist Kolder</b> — Volatility Report 2025 (CFO→CEO 10.26%) — 2025</div>
+      <div class="r"><b>KPMG</b> — Global AI in Finance 2025 (75%) · <b>McKinsey</b> — State of AI 2025 (88%)</div>
+      <div class="r"><b>Gartner</b> — Agentic 40%+ canceled by 2027 · 30% abandoned post-PoC · 55% touchless close</div>
+      <div class="r"><b>S&P Global</b> — 42% זנחו יוזמת AI ב-2025 · <b>Fortune/Robert Half</b> — Klarna; ~29% גייסו מחדש</div>
+      <div class="r"><b>Fortune / CFO Dive</b> — HPE: Marie Myers &amp; ״Alfred״ (40% / 25%+) — פברואר 2026</div>
+      <div class="r"><b>IAPP / Library of Congress</b> — תיקון 13 לחוק הגנת הפרטיות (בתוקף 14.8.2025)</div>
+      <div class="r"><b>European Parliament / Council</b> — EU AI Act &amp; Digital Omnibus (high-risk ל-2027/28) — 6/2026</div>
+      <div class="r"><b>Google Developers Blog</b> — Build with Google Antigravity — 18.11.2025</div>
+      <div class="r"><b>Anthropic</b> — Claude Code (מחקר 400K הפעלות; לא-מהנדסים) — 2025/26</div>
+      <div class="r"><b>Hugging Face Docs</b> — Gated models &amp; access tokens — 2026</div>
+      <div class="r"><b>Anthropic / OpenAI / Microsoft</b> — Enterprise: no-training + ZDR · <b>Azure/Bedrock/Vertex</b> — in-tenant</div>
+      <div class="r"><b>Wikipedia / DCD</b> — Project Nimbus (~$1.2B, Google+AWS, ישראל) — 2021→</div>
+      <div class="r"><b>OpenAI</b> — Weak-to-strong generalization — דצמ׳ 2023</div>
+      <div class="r"><b>Perplexity (Vespa) · Microsoft Learn · Glean · Harvey (CNBC) · AlphaSense</b> — מוצרי RAG — 2025/26</div>
+      <div class="r"><b>Devin (Cognition) · GitHub · Salesforce Agentforce · OpenAI ChatGPT agent · Intuit</b> — מוצרי סוכנים</div>
+      <div class="r"><b>Startup Nation Central / Calcalist / TechCrunch / Globes</b> — נתוני ישראל; Melio, Datarails, Tipalti, Stampli, Pagaya</div>
+      <div class="r"><b>Stanford HAI</b> — AI Index (כישרון AI) · <b>Bank of Israel</b> — Directive 369</div>
+    </div>
+    <p class="note rv" style="margin-top:14px;">⚠️ שקיפות: 4.5→6.2 מתוארך 2016→2018. מספרי המדגם של MIT נעים בין מקורות (צוין טווח). חלק מפרטי ה-AI הריבוני/מכסות Antigravity מסתמכים על מקורות משניים. נתון ROI ״$3.70 לכל $1״ מקורו IDC עבור Microsoft (2024) — נתון מובילים.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section style="padding-bottom:20px;">
+  <div class="wrap">
+    <div class="contact rv">
+      <div style="font-family:'Rubik';font-size:14px;letter-spacing:1.5px;opacity:.92;margin-bottom:8px;">תודה — ונתראה במפגש הבא 👋</div>
+      <h2>ד״ר שי צבאן, <span class="ltr">Ph.D.</span></h2>
+      <p>CFO בעידן החדש · ניהול כספים בעידן ה-AI — מחזור 2/26<br>היחידה ללימודי חוץ · אוניברסיטת בר־אילן</p>
+      <div class="ci">
+        <a href="mailto:shay.tsaban@gmail.com">✉️ shay.tsaban@gmail.com</a>
+        <a href="tel:+972506551519">📱 050-6551519</a>
+      </div>
+      <p style="font-size:16px;margin-top:18px;opacity:.94;">ה-CFOs שישקיעו ביכולות האלה <strong style="color:#fff;">עכשיו</strong> — יובילו את הטרנספורמציה המשמעותית ביותר בתולדות הפיננסים. בראש צלול, עם שיקול דעת, ותחת בקרה.</p>
+    </div>
+  </div>
+  <footer>© 2026 · ד״ר שי צבאן · הרצאה 1 · 23.6.2026</footer>
+</section>
+
+<button id="toTop" title="למעלה" aria-label="חזרה למעלה">↑</button>
+<div class="hintbar">💡 הרצאה אינטראקטיבית — <b>לחצו על הכרטיסים והקוביות</b> כדי לחשוף את התוכן (מצב מקרן)</div>
+
+<script>
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pf=document.getElementById('pf'),toTop=document.getElementById('toTop');
+const links=[...document.querySelectorAll('.nlinks a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+function onScroll(){
+  const h=document.documentElement,sc=h.scrollTop,max=h.scrollHeight-h.clientHeight;
+  pf.style.width=(max>0?sc/max*100:0)+'%';
+  toTop.classList.toggle('show',sc>700);
+  let idx=-1;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<=140)idx=i;});
+  links.forEach((a,i)=>a.classList.toggle('active',i===idx));
+}
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:RM?'auto':'smooth'}));
+
+/* stagger indices */
+document.querySelectorAll('.flipgrid, .grid.g2, .grid.g3, .grid.g4, .stats').forEach(g=>{
+  g.classList.add('rv-stagger');[...g.children].forEach((c,i)=>c.style.setProperty('--i', Math.min(i,5)));
+});
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.08, rootMargin:'0px 0px -7% 0px'});
+document.querySelectorAll('.rv, .rv-stagger').forEach(el=>io.observe(el));
+
+/* keyboard helper */
+function btnish(el){el.setAttribute('tabindex','0');el.setAttribute('role','button');
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});}
+
+/* flip cards */
+document.querySelectorAll('.flip').forEach(f=>{
+  btnish(f);f.setAttribute('aria-pressed','false');f.setAttribute('aria-label','הפוך כרטיס');
+  f.addEventListener('click',e=>{
+    if(e.target.closest('a,button'))return;
+    f.classList.remove('hint');
+    const open=f.classList.toggle('flipped');
+    f.setAttribute('aria-pressed',open);
+    f.classList.add('flipping');setTimeout(()=>f.classList.remove('flipping'),700);
+  });
+});
+/* accordions */
+document.querySelectorAll('.acc-h').forEach(h=>{
+  btnish(h);h.setAttribute('aria-expanded','false');
+  h.addEventListener('click',()=>{
+    const acc=h.parentElement;acc.classList.remove('hint');
+    const open=acc.classList.toggle('open');
+    h.setAttribute('aria-expanded',open);
+  });
+});
+/* copy */
+document.querySelectorAll('.cp').forEach(b=>b.addEventListener('click',e=>{
+  e.stopPropagation();
+  const el=document.getElementById(b.dataset.t);
+  if(navigator.clipboard)navigator.clipboard.writeText(el.textContent);
+  const o=b.textContent;b.textContent='✓ Copied';b.classList.add('ok');
+  setTimeout(()=>{b.textContent=o;b.classList.remove('ok');},1400);
+}));
+/* hero entrance */
+requestAnimationFrame(()=>document.body.classList.add('loaded'));
+/* one-time idle hint on first interactive element seen */
+let hinted=false;
+const hintIO=new IntersectionObserver(es=>{
+  if(hinted||RM)return;
+  if(es.some(e=>e.isIntersecting)){hinted=true;
+    const f=document.querySelector('#where .flip');
+    if(f){f.classList.add('hint');setTimeout(()=>f.classList.remove('hint'),3400);}
+    hintIO.disconnect();}
+},{threshold:.6});
+const firstFlip=document.querySelector('#where .flip');if(firstFlip)hintIO.observe(firstFlip);
+</script>
+</body>
+</html>
