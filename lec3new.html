@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הרצאה 3 · ניהול פיננסי מתקדם בעידן ה-AI · ד״ר שי צבאן</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#4f46e5; --primary-dark:#3730a3; --primary-light:#eef2ff;
+  --accent:#14b8a6; --accent-dark:#0f766e; --accent-light:#ccfbf1;
+  --pink:#ec4899; --purple:#a855f7; --blue:#3b82f6; --amber:#f59e0b; --red:#ef4444; --green:#10b981;
+  --ink:#0f172a; --ink-soft:#334155; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc; --white:#fff;
+  --shadow:0 10px 30px rgba(15,23,42,.08); --shadow-lg:0 20px 50px rgba(15,23,42,.14);
+  --radius:28px;
+  --navy-950:#0e1b2e; --navy-900:#142a45; --navy-800:#1c3a5e;
+  --gold-600:#a9791f; --gold-500:#c39a3a; --gold-400:#d8b862; --gold-100:#f3e6c4; --cream-50:#faf7f0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Heebo',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:21px;line-height:1.8;direction:rtl;-webkit-font-smoothing:antialiased}
+b,strong{font-weight:800}
+a{color:var(--primary)}
+h1,h2,h3,h4{line-height:1.15}
+/* ---------- progress + lesson pill ---------- */
+.progress{position:fixed;top:0;right:0;left:0;height:5px;background:transparent;z-index:1000}
+.progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .1s linear}
+.lesson-prog{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:850;background:rgba(15,23,42,.9);color:#fff;font-weight:800;font-size:13px;padding:6px 16px;border-radius:999px;backdrop-filter:blur(8px);box-shadow:var(--shadow);transition:opacity .3s}
+@media(max-width:600px){.lesson-prog{font-size:11px;top:60px}}
+/* ---------- top nav ---------- */
+.topnav{position:sticky;top:0;z-index:900;background:rgba(255,255,255,.86);backdrop-filter:blur(12px);border-bottom:3px solid var(--line)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:16px;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.badge-bi{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-weight:900;font-size:16px;display:grid;place-items:center;box-shadow:var(--shadow)}
+.brand .t{font-weight:800;font-size:15px;line-height:1.25}
+.brand .s{font-weight:500;font-size:11.5px;color:var(--muted)}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.nav-block{font-size:12px;font-weight:700;color:var(--ink-soft);text-decoration:none;padding:7px 11px;border-radius:999px;background:#fff;border:2px solid var(--line);white-space:nowrap;transition:.15s}
+.nav-block:hover{border-color:var(--primary);color:var(--primary)}
+.nav-block.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+@media(max-width:1240px){.nav-links{display:none}}
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;background:radial-gradient(1100px 480px at 82% -12%, #e8ecff 0%, #f8fafc 62%)}
+.hero-inner{max-width:1240px;margin:0 auto;padding:64px 22px 56px;display:grid;grid-template-columns:1.35fr .85fr;gap:42px;align-items:center}
+@media(max-width:1000px){.hero-inner{grid-template-columns:1fr;gap:30px}}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--line);color:var(--primary-dark);font-weight:800;font-size:14.5px;padding:8px 16px;border-radius:999px}
+.hero h1{font-size:clamp(38px,5.4vw,64px);font-weight:900;line-height:1.08;margin:20px 0 16px}
+.hero h1 .grad{background:linear-gradient(120deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-size:clamp(17px,2.1vw,23px);color:var(--ink-soft);max-width:680px;line-height:1.7}
+.meta-chips{display:flex;gap:11px;flex-wrap:wrap;margin:26px 0 24px}
+.chip{background:#fff;border:2px solid var(--line);border-radius:14px;padding:9px 15px;font-weight:700;font-size:14.5px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:16.5px;padding:14px 26px;border-radius:14px;text-decoration:none;transition:.18s}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;box-shadow:var(--shadow)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.btn-ghost{background:#fff;border:2px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--primary);color:var(--primary)}
+.hero-art{border-radius:24px;background:linear-gradient(135deg,var(--primary),var(--accent-dark));padding:16px;box-shadow:var(--shadow-lg);display:grid;grid-template-columns:1fr 1fr 1fr;grid-auto-rows:minmax(120px,1fr);gap:12px}
+.art-tile{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#fff;text-align:center;padding:8px;font-weight:700}
+.art-tile .l{font-size:13px}
+/* ---------- sections ---------- */
+main{display:block}
+.section{max-width:1080px;margin:0 auto;padding:84px 22px;scroll-margin-top:84px;border-top:1px solid var(--line)}
+.section:first-child{border-top:none}
+.block-tag{display:inline-block;background:var(--primary-light);color:var(--primary-dark);font-weight:800;font-size:13.5px;padding:7px 15px;border-radius:999px;letter-spacing:.2px}
+.section>h2{font-size:clamp(30px,4.3vw,50px);font-weight:900;margin:16px 0 6px;line-height:1.12}
+.section>h2 .g{background:linear-gradient(120deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.section-sub{font-size:clamp(16px,2vw,22px);color:var(--muted);margin-bottom:14px;max-width:860px}
+.deep-card{background:#fff;border:3px solid var(--line);border-radius:var(--radius);padding:clamp(22px,3.6vw,44px);box-shadow:var(--shadow);margin:22px 0}
+.deep-card h3{font-size:clamp(21px,2.6vw,29px);font-weight:900;margin:6px 0 12px}
+.deep-card h3 .g{background:linear-gradient(120deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.deep-card h4{font-size:20px;font-weight:800;margin:22px 0 9px}
+.deep-card p{margin:12px 0}
+.deep-card ul,.deep-card ol{margin:12px 0;padding-right:24px}
+.deep-card li{margin:8px 0}
+.lead{font-size:clamp(18px,2.1vw,22px);color:var(--ink-soft)}
+.sub-h{font-size:clamp(21px,2.7vw,30px);font-weight:900;margin:40px 0 6px}
+.sub-h .g{background:linear-gradient(120deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+/* ---------- info callouts ---------- */
+.info{border-radius:16px;padding:20px 24px;margin:20px 0;border-right:8px solid var(--primary);background:var(--primary-light)}
+.info .hd{font-weight:900;font-size:20px;margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.info p{margin:9px 0;font-size:18.5px}
+.info.tip{border-right-color:var(--green);background:#ecfdf5}
+.info.warn{border-right-color:var(--amber);background:#fffbeb}
+.info.important{border-right-color:var(--red);background:#fef2f2}
+.info.insight{border-right-color:var(--purple);background:#faf5ff}
+.info.term{border-right-color:var(--blue);background:#eff6ff}
+.soft-note{background:#fff;border:3px dashed var(--line);border-radius:14px;padding:16px 20px;color:var(--ink-soft);font-size:18.5px;font-weight:600;margin:16px 0}
+.arthur-note{background:linear-gradient(135deg,#eef2ff,#faf5ff);border:3px solid #c7d2fe;border-radius:18px;padding:20px 24px;margin:20px 0;font-size:19px;font-weight:600;color:#312e81;box-shadow:var(--shadow)}
+.arthur-note .tn-label{display:block;font-weight:900;color:#fff;background:var(--primary);padding:4px 14px;border-radius:999px;font-size:15.5px;margin-bottom:10px;width:fit-content}
+/* ---------- two-col / grids ---------- */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}
+@media(max-width:760px){.two-col{grid-template-columns:1fr}}
+.compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:20px 0}
+.compare-card{background:#fff;border:2px solid var(--line);border-radius:18px;padding:22px;border-top:6px solid var(--primary)}
+.compare-card.a{border-top-color:var(--green)} .compare-card.b{border-top-color:var(--amber)}
+.compare-card.c{border-top-color:var(--pink)} .compare-card.d{border-top-color:var(--blue)}
+.compare-card h4{margin-top:0;font-size:19px}
+.compare-card p{margin:10px 0}
+/* ---------- flow-steps ---------- */
+.flow-steps{display:flex;flex-direction:column;gap:13px;margin:20px 0}
+.flow-step{display:grid;grid-template-columns:54px 1fr;gap:16px;background:#fff;border:2px solid var(--line);border-radius:18px;padding:17px 19px}
+.flow-step .num{width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-weight:900;font-size:23px;display:grid;place-items:center}
+.flow-step .fs-title{font-weight:800;font-size:19.5px}
+.flow-step .fs-sub{color:var(--muted);font-size:15.5px;margin-top:1px}
+.flow-step .fs-details{color:var(--ink-soft);font-size:17px;margin-top:11px}
+/* ---------- big vertical flow ---------- */
+.vflow-big{display:flex;flex-direction:column;align-items:center;margin:28px 0}
+.vflow-big .vnode{width:min(760px,100%);background:#fff;border:3px solid var(--line);border-radius:24px;padding:20px 26px;display:flex;align-items:center;gap:22px;box-shadow:var(--shadow)}
+.vflow-big .vnode .ic{font-size:52px;line-height:1;flex-shrink:0;width:70px;text-align:center}
+.vflow-big .vnode .bd{flex:1}
+.vflow-big .vnode .bd b{font-size:22px;font-weight:900;display:block;line-height:1.2}
+.vflow-big .vnode .bd .sub{font-size:17px;color:var(--ink-soft);margin-top:4px}
+.vflow-big .vdown{font-size:42px;line-height:1;color:var(--accent);margin:2px 0;text-align:center}
+.vflow-big .vnode.c-indigo{border-color:var(--primary);background:linear-gradient(160deg,#fff,#eef2ff)}
+.vflow-big .vnode.c-teal{border-color:var(--accent-dark);background:linear-gradient(160deg,#fff,#ecfeff)}
+.vflow-big .vnode.c-amber{border-color:var(--amber);background:linear-gradient(160deg,#fff,#fffbeb)}
+.vflow-big .vnode.c-purple{border-color:var(--purple);background:linear-gradient(160deg,#fff,#faf5ff)}
+.vflow-big .vnode.c-green{border-color:var(--green);background:linear-gradient(160deg,#fff,#ecfdf5)}
+@media(max-width:620px){.vflow-big .vnode{flex-direction:column;text-align:center;gap:10px}}
+/* ---------- flip cards ---------- */
+.flip-grid{display:grid;gap:20px;margin:26px 0}
+.flip-grid.cols4{grid-template-columns:repeat(2,1fr)}
+.flip-grid.cols3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:980px){.flip-grid.cols3{grid-template-columns:1fr}.flip-grid.cols4{grid-template-columns:1fr}}
+.flip{perspective:1600px;cursor:pointer}
+.flip-inner{position:relative;display:grid;height:100%;min-height:230px;transition:transform .6s cubic-bezier(.4,.15,.2,1);transform-style:preserve-3d}
+.flip.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-face{position:relative;grid-area:1/1;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:24px;padding:28px 24px 34px;display:flex;flex-direction:column;justify-content:center;border:3px solid var(--line);background:#fff;box-shadow:var(--shadow)}
+.flip-front{align-items:center;text-align:center}
+.flip-front .ic{font-size:64px;line-height:1;margin-bottom:12px}
+.flip-front .ttl{font-size:23px;font-weight:900;line-height:1.25}
+.flip-front .ttl .en{display:block;font-size:15.5px;color:var(--muted);font-weight:700;margin-top:5px}
+.flip-front .hint{position:absolute;bottom:14px;left:0;right:0;font-size:14px;color:var(--primary);font-weight:800}
+.flip-num{position:absolute;top:14px;right:16px;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-weight:900;font-size:19px;display:grid;place-items:center;z-index:2}
+.flip-back{transform:rotateY(180deg);background:linear-gradient(155deg,#ffffff,#eef2ff);text-align:right}
+.flip-back .flip-num{display:none}
+.flip-back .bk-ttl{font-size:21px;font-weight:900;color:var(--primary-dark);margin-bottom:10px}
+.flip-back p{font-size:17px;margin:7px 0;line-height:1.55;color:var(--ink)}
+/* ---------- tables ---------- */
+.tbl-wrap{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;margin:18px 0;font-size:17px;background:#fff;border-radius:14px;overflow:hidden;border:2px solid var(--line)}
+.tbl th{background:var(--primary);color:#fff;padding:13px 15px;text-align:right;font-weight:800;font-size:16px}
+.tbl td{padding:12px 15px;border-top:1px solid var(--line);vertical-align:top}
+.tbl tr:hover td{background:var(--primary-light)}
+.tbl td:first-child{font-weight:700}
+.tbl .num{font-variant-numeric:tabular-nums;text-align:left;direction:ltr}
+.tbl th.num{text-align:left}
+/* ---------- code / prompt blocks ---------- */
+.code-block{position:relative;background:#0f172a;color:#e2e8f0;border:5px solid #1e293b;border-radius:18px;padding:36px 26px 26px;margin:20px 0;direction:ltr;text-align:left;overflow-x:auto}
+.code-block .lang{position:absolute;top:0;left:0;background:#1e293b;color:#94a3b8;font-size:12.5px;font-weight:700;padding:5px 15px;border-radius:0 0 10px 0;letter-spacing:1px}
+.code-block pre{margin:0;white-space:pre;font-family:'Courier New',monospace;font-size:16px;line-height:1.8;tab-size:2}
+.code-block .kw{color:#c4b5fd;font-weight:700}.code-block .str{color:#86efac}.code-block .num{color:#fcd34d}.code-block .comment{color:#7dd3fc;font-style:italic}
+.code-block .copy-btn{position:absolute;top:0;left:auto;right:0;background:#334155;color:#e2e8f0;border:none;font-size:12.5px;font-weight:700;padding:6px 16px;border-radius:0 0 0 10px;cursor:pointer;transition:.15s;z-index:3;font-family:'Heebo',sans-serif}
+.code-block .copy-btn:hover{background:var(--accent);color:#0f172a}
+.code-block .copy-btn.copied{background:#22c55e;color:#fff}
+/* prompt box: copyable Hebrew prompt for Claude */
+.promptbox{position:relative;background:linear-gradient(160deg,#f5f3ff,#eef2ff);border:3px solid #c7d2fe;border-radius:18px;padding:16px 20px 18px;margin:14px 0}
+.promptbox .pl{display:inline-flex;align-items:center;gap:7px;background:var(--primary);color:#fff;font-size:12.5px;font-weight:800;padding:4px 13px;border-radius:999px;margin-bottom:10px}
+.promptbox .ptext{font-size:17.5px;line-height:1.65;color:#1e1b4b;font-weight:600;white-space:pre-wrap}
+.promptbox .copy-btn{position:absolute;top:12px;left:14px;background:#fff;border:2px solid #c7d2fe;color:var(--primary-dark);font-size:12.5px;font-weight:800;padding:5px 14px;border-radius:999px;cursor:pointer;font-family:'Heebo',sans-serif;transition:.15s}
+.promptbox .copy-btn:hover{background:var(--primary);color:#fff}
+.promptbox .copy-btn.copied{background:#22c55e;color:#fff;border-color:#22c55e}
+/* ---------- mock window ---------- */
+.mock-window{background:#fff;border-radius:16px;border:3px solid var(--line);box-shadow:var(--shadow-lg);overflow:hidden;margin:20px 0}
+.mock-titlebar{background:#f1f5f9;padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:2px solid var(--line);direction:ltr}
+.mock-dot{width:12px;height:12px;border-radius:50%}
+.mock-dot.r{background:#ef4444}.mock-dot.y{background:#f59e0b}.mock-dot.g{background:#10b981}
+.mock-url{margin-inline-start:14px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 12px;font-size:13px;color:var(--muted);font-family:'Courier New',monospace}
+.mock-body{padding:16px 20px}
+.inline-code{font-family:'Courier New',monospace;background:var(--primary-light);color:var(--primary-dark);padding:2px 8px;border-radius:6px;font-size:.92em;direction:ltr;display:inline-block;font-weight:700}
+.kbd{font-family:'Courier New',monospace;background:#1e293b;color:#e2e8f0;padding:3px 9px;border-radius:6px;font-size:.9em;direction:ltr;display:inline-block}
+/* ---------- takeaway ---------- */
+.takeaway{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border-radius:24px;padding:34px 32px;margin:26px 0;box-shadow:var(--shadow-lg)}
+.takeaway .big-emoji{position:absolute;left:18px;top:-10px;font-size:120px;opacity:.16}
+.takeaway .hd{font-weight:900;font-size:16px;letter-spacing:.6px;opacity:.95;margin-bottom:8px}
+.takeaway .tx{font-weight:800;font-size:clamp(20px,2.6vw,28px);line-height:1.45;position:relative;z-index:2}
+/* ---------- takeaway-big (flow + points) ---------- */
+.takeaway-big{background:linear-gradient(160deg,#fff,#f5f3ff);border:3px solid var(--primary);border-radius:24px;padding:28px 30px;margin:26px 0;box-shadow:var(--shadow)}
+.takeaway-big>h4{font-size:23px;font-weight:900;color:var(--primary-dark);margin-bottom:16px}
+.tk-flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.tk-node{background:#fff;border:2px solid var(--line);border-radius:16px;padding:14px 12px;text-align:center;min-width:120px;box-shadow:var(--shadow)}
+.tk-node .tk-ic{font-size:34px;display:block;line-height:1;margin-bottom:6px}
+.tk-node .tk-lbl{font-weight:800;font-size:15px}
+.tk-node.tk-start{border-color:var(--muted)}
+.tk-node.tk-ok{border-color:var(--green);background:linear-gradient(160deg,#fff,#ecfdf5)}
+.tk-arrow{font-size:30px;color:var(--accent);font-weight:900}
+.tk-points{display:flex;flex-direction:column;gap:12px}
+.tk-point{display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px 16px;font-size:17px;line-height:1.55}
+.tk-point .tk-pic{font-size:26px;flex-shrink:0;line-height:1.2}
+@media(max-width:620px){.tk-flow{flex-direction:column}.tk-arrow{transform:rotate(90deg)}}
+/* ---------- pipe tracker ---------- */
+.pipe{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 6px}
+.pipe .pst{flex:1;min-width:120px;text-align:center;background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px 6px 8px;font-size:13px;font-weight:800;color:var(--muted);line-height:1.35}
+.pipe .pst .n{display:block;font-size:19px;margin-bottom:2px}
+.pipe .pst.done{border-color:var(--green);color:#047857;background:#ecfdf5}
+.pipe .pst.on{border-color:var(--primary);color:var(--primary-dark);background:var(--primary-light);box-shadow:var(--shadow);transform:scale(1.04)}
+.pipe-cap{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:18px}
+/* ---------- checkpoint / meaning ---------- */
+.checkpoint{background:#ecfdf5;border:3px solid var(--green);border-radius:18px;padding:18px 22px;margin:18px 0}
+.checkpoint .hd{font-weight:900;color:#065f46;font-size:19.5px;margin-bottom:6px}
+.checkpoint p{margin:8px 0;font-size:18px}
+.meaning{background:linear-gradient(160deg,#eef2ff,#fff);border:3px solid var(--primary);border-radius:18px;padding:18px 22px;margin:18px 0}
+.meaning .hd{font-weight:900;color:var(--primary-dark);font-size:19.5px;margin-bottom:6px}
+.meaning p{margin:9px 0;font-size:18.5px}
+/* ---------- checklist ---------- */
+.checklist{list-style:none;padding:0!important}
+.checklist li{padding-right:34px;position:relative;margin:10px 0;font-size:18px}
+.checklist li::before{content:"✓";position:absolute;right:0;top:2px;width:24px;height:24px;background:var(--green);color:#fff;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:900}
+/* ---------- "from the field" (israel) ---------- */
+.israel{background:#fff;border:2px solid var(--line);border-right:7px solid var(--blue);border-radius:16px;padding:18px 22px;margin:18px 0}
+.israel .hd{font-weight:800;font-size:18px;margin-bottom:4px}
+.next{display:grid;grid-template-columns:60px 1fr;gap:16px;background:linear-gradient(135deg,var(--primary-light),#fff);border:2px solid var(--line);border-radius:18px;padding:20px;margin:14px 0}
+.next .n{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-size:28px;display:grid;place-items:center}
+/* ================= FINANCE COMPONENTS ================= */
+/* ---- board-question / decision block ---- */
+.decision{background:linear-gradient(160deg,#eef2ff,#ffffff);border:3px solid var(--line);border-right:9px solid var(--primary);border-radius:20px;padding:22px 26px;margin:20px 0;box-shadow:var(--shadow)}
+.d-quote{font-size:clamp(19px,2.4vw,25px);font-weight:800;color:var(--navy-900);line-height:1.5;font-style:italic;margin-bottom:6px}
+.d-term{background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px 18px;margin:12px 0;font-size:17.5px;line-height:1.6}
+.d-term b{color:var(--primary-dark)}
+.d-dilemma{background:#fffbeb;border:2px solid var(--amber);border-radius:12px;padding:13px 18px;margin:14px 0 8px;font-size:18px}
+.d-lead-to{color:var(--primary-dark);font-weight:800;font-size:16px;margin-top:8px}
+/* ---- financial report ---- */
+.report{background:#fff;border:3px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);margin:20px 0}
+.report-head{background:linear-gradient(135deg,var(--navy-900),var(--navy-800));color:#fff;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.report-head .rh-co{font-weight:900;font-size:20px}
+.report-head .rh-t{color:var(--gold-400);font-size:13.5px;font-weight:700}
+.report-body{padding:8px 0}
+.report-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px;padding:9px 22px;font-size:16.5px;border-bottom:1px solid #eef1f6}
+.report-row .rr-label{font-weight:700}
+.report-row .rr-num{text-align:left;direction:ltr;font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.report-row.rr-head{background:#f8fafc;color:var(--muted);font-weight:800;font-size:13.5px;border-bottom:2px solid var(--navy-900)}
+.report-row.rr-head .rr-num{color:var(--muted);font-weight:800}
+.report-row.rr-total{border-top:2px solid var(--navy-900);border-bottom:3px double var(--navy-900);font-weight:900;background:#fbfcfe}
+.report-row.rr-total .rr-num{color:var(--ink);font-weight:900}
+.report-row.rr-flag{background:#fffbeb}
+.report-foot{padding:12px 22px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line)}
+.dl-btn{display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;font-weight:800;font-size:16px;padding:12px 22px;border-radius:14px;text-decoration:none;box-shadow:var(--shadow);transition:.18s}
+.dl-btn:hover{background:var(--primary-dark);transform:translateY(-2px);color:#fff}
+/* ---- live calculators (lab style) ---- */
+.calc{background:linear-gradient(180deg,#fff,#fbfdff);border:3px solid var(--accent);border-radius:24px;padding:clamp(18px,3vw,30px);margin:22px 0;box-shadow:var(--shadow)}
+.calc-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:16px}
+.calc-inputs label{display:flex;flex-direction:column;gap:6px;font-size:14.5px;font-weight:700;color:var(--ink-soft)}
+.calc-inputs input[type=number]{padding:11px 13px;border:2px solid var(--line);border-radius:11px;font-size:17px;font-family:'Heebo',sans-serif;direction:ltr;text-align:left;font-variant-numeric:tabular-nums}
+.calc-inputs input[type=number]:focus{border-color:var(--primary);outline:none}
+.calc-inputs input[type=range]{accent-color:var(--primary);height:26px}
+.rng-val{display:inline-block;font-weight:900;color:var(--primary-dark);font-variant-numeric:tabular-nums}
+.calc-btn{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;font-family:'Heebo',sans-serif;font-weight:800;font-size:17px;padding:13px 26px;border-radius:12px;cursor:pointer;box-shadow:var(--shadow);transition:.15s}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.dp-out,.mc-out,.al-out,.alm-out{margin-top:18px}
+.dp-eq{display:flex;align-items:stretch;justify-content:center;flex-wrap:wrap;gap:8px;margin:8px 0}
+.dp-term{background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px 16px;text-align:center;min-width:118px}
+.dp-term .dt-v{font-size:24px;font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums}
+.dp-term .dt-l{font-size:13.5px;color:var(--muted);font-weight:700;margin-top:3px}
+.dp-term.roe{background:linear-gradient(160deg,var(--navy-900),var(--navy-800));border-color:var(--navy-900)}
+.dp-term.roe .dt-v{color:#fff}.dp-term.roe .dt-l{color:var(--gold-400)}
+.dp-term.dominant{border-color:var(--primary);background:var(--primary-light);box-shadow:var(--shadow)}
+.dp-term.dominant .dt-v{color:var(--primary-dark)}
+.dp-op{font-size:26px;font-weight:900;color:var(--muted);display:flex;align-items:center}
+.dp-verdict{font-size:18px;margin-top:14px;background:#fff;border:2px solid var(--line);border-radius:12px;padding:12px 16px}
+.mc-note,.alm-note{font-size:17px;margin-top:12px;background:#fff;border:2px solid var(--line);border-radius:12px;padding:12px 16px;line-height:1.6}
+.al-pill{display:inline-flex;align-items:center;gap:8px;justify-content:center;margin:10px auto 0;padding:8px 20px;border-radius:999px;font-weight:900;font-size:16px;background:color-mix(in srgb, var(--pc) 14%, #fff);color:var(--pc);border:2px solid var(--pc);width:fit-content}
+.al-pill .al-dot{width:12px;height:12px;border-radius:50%;background:var(--pc)}
+.al-out{display:flex;flex-direction:column;align-items:center}
+.alm-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.alm-card{background:#fff;border:2px solid var(--line);border-radius:16px;padding:16px;text-align:center}
+.alm-card .alm-v{font-size:26px;font-weight:900;font-variant-numeric:tabular-nums}
+.alm-card .alm-l{font-size:13.5px;color:var(--muted);font-weight:700;margin-top:4px;line-height:1.4}
+.alm-card.neg{border-color:#fca5a5;background:#fef2f2}.alm-card.neg .alm-v{color:var(--red)}
+.alm-card.pos{border-color:#86efac;background:#ecfdf5}.alm-card.pos .alm-v{color:var(--green)}
+/* ---- hands-on (tnow) ---- */
+.tnow{background:linear-gradient(180deg,#fff,#f6fefb);border:3px solid var(--accent);border-radius:22px;padding:22px 24px;margin:22px 0;box-shadow:var(--shadow)}
+.tnow .th{font-weight:900;font-size:20px;color:var(--accent-dark);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.trow{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:11px 0;border-bottom:1px dashed var(--line);align-items:start}
+.trow:last-child{border-bottom:none}
+.trow .tk{background:var(--accent);color:#fff;font-weight:800;font-size:13.5px;padding:5px 10px;border-radius:999px;text-align:center;height:fit-content}
+.trow .done{background:#ecfdf5;border-radius:8px;padding:2px 6px;font-weight:700}
+.trow a.dl-btn{font-size:14px;padding:8px 14px}
+/* ---- hard question ---- */
+.hardq{background:linear-gradient(160deg,#0f172a,#1e293b);color:#e2e8f0;border-radius:24px;padding:28px 28px;margin:26px 0;box-shadow:var(--shadow-lg)}
+.hardq .hqt{display:inline-block;background:var(--amber);color:#0f172a;font-weight:900;font-size:14px;padding:6px 15px;border-radius:999px;margin-bottom:12px}
+.hardq .hqq{font-size:19px;line-height:1.6;font-weight:600}
+.hardq .hqq b{color:#a5b4fc}
+.hardq .acc{margin-top:16px;background:#0b1220;border-radius:14px;overflow:hidden;border:1px solid #1e293b}
+.hardq .acc-h{display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer}
+.hardq .acc-h .ai{font-size:22px}
+.hardq .acc-h h4{font-size:18px;color:#fff;margin:0;flex:1}
+.hardq .acc-h .chev{font-size:20px;color:#94a3b8;transition:.3s}
+.hardq .acc.open .acc-h .chev{transform:rotate(180deg)}
+.hardq .acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.hardq .acc.open .acc-body{max-height:900px}
+.hardq .acc-bin{padding:0 18px 18px;font-size:17px;line-height:1.7;color:#cbd5e1}
+.hardq .acc-bin b{color:#a5b4fc}
+/* ---- quiz ---- */
+.quiz{background:linear-gradient(160deg,#0f172a,#1e293b);color:#e2e8f0;border-radius:24px;padding:30px;margin:28px 0;box-shadow:var(--shadow-lg)}
+.quiz .q-tag{display:inline-block;background:var(--amber);color:#0f172a;font-weight:900;font-size:14px;padding:6px 15px;border-radius:999px;margin-bottom:12px}
+.quiz .q-txt{font-size:22px;font-weight:800;margin-bottom:8px;line-height:1.5}
+.quiz .q-note{font-size:15px;color:#94a3b8;margin-bottom:14px}
+.quiz-opt{display:block;width:100%;text-align:right;font-family:inherit;font-size:18px;font-weight:700;color:#e2e8f0;background:#0b1220;border:2px solid #334155;border-radius:14px;padding:15px 20px;margin:11px 0;cursor:pointer;transition:.15s}
+.quiz-opt:hover{border-color:var(--accent);transform:translateX(-4px)}
+.quiz-opt .k{display:inline-block;width:30px;height:30px;line-height:30px;text-align:center;background:#334155;border-radius:8px;margin-left:10px;font-weight:900}
+.quiz-opt.correct{background:#064e3b;border-color:#10b981;color:#d1fae5}
+.quiz-opt.correct .k{background:#10b981;color:#04231a}
+.quiz-opt.wrong{background:#4c0519;border-color:#ef4444;color:#fecaca}
+.quiz-opt.wrong .k{background:#ef4444;color:#3f0710}
+.quiz-opt.dim{opacity:.5}
+.quiz-fb{margin-top:16px;background:#020617;border-radius:14px;padding:18px 20px;font-size:17px;line-height:1.65;display:none}
+.quiz-fb.show{display:block}
+.quiz-fb .verdict{font-weight:900;font-size:19px;margin-bottom:6px}
+.quiz-fb .yv{display:flex;gap:12px;align-items:flex-start;margin-top:12px;border-top:1px solid #1e293b;padding-top:12px}
+.quiz-fb .yv .f{font-size:34px;flex-shrink:0}
+.quiz-fb .yv b{color:#a5b4fc}
+/* ---------- KEYNOTE INTRO ---------- */
+.kn{background:#000;color:#fff;font-family:'Heebo',system-ui,sans-serif;overflow:hidden}
+.kn-slide{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative}
+.kn-slide.short{min-height:80vh}
+.kn-eyebrow{font-size:clamp(14px,2vw,19px);font-weight:800;letter-spacing:4px;color:#8b93a7;margin-bottom:20px}
+.kn-title{font-size:clamp(38px,8vw,98px);font-weight:900;line-height:1.04;letter-spacing:-1px}
+.kn-title .g{background:linear-gradient(110deg,#5eead4,#818cf8 55%,#c084fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.kn-sub{font-size:clamp(19px,3.2vw,34px);font-weight:600;color:#cbd5e1;margin-top:26px;max-width:980px;line-height:1.4}
+.kn-small{font-size:clamp(15px,2vw,21px);color:#8b93a7;margin-top:22px;max-width:760px;line-height:1.6}
+.kn-scroll{position:absolute;bottom:28px;left:50%;color:#5b6479;font-size:14px;font-weight:700;animation:knbob 1.8s infinite;transform:translateX(-50%)}
+@keyframes knbob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,9px)}}
+.kn-feats{display:flex;flex-direction:column;gap:16px;margin-top:34px}
+.kn-feat{display:flex;gap:16px;align-items:center;justify-content:center;font-size:clamp(18px,3vw,32px);font-weight:800}
+.kn-feat .e{font-size:1.2em}
+.kn-yev{width:clamp(210px,40vw,380px);height:auto;filter:drop-shadow(0 24px 60px rgba(129,140,248,.5))}
+.kn-cta{margin-top:36px}
+.kn-cta button{font-family:inherit;font-weight:900;font-size:clamp(18px,2.4vw,25px);padding:18px 44px;border:none;border-radius:999px;cursor:pointer;background:linear-gradient(110deg,#5eead4,#818cf8);color:#0b0b0c;box-shadow:0 16px 44px rgba(129,140,248,.5);transition:.18s}
+.kn-cta button:hover{transform:translateY(-3px) scale(1.02)}
+.kn-skip{position:fixed;top:14px;left:18px;z-index:1300;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:9px 18px;font-family:inherit;font-weight:800;font-size:13px;cursor:pointer;backdrop-filter:blur(6px)}
+body:not(.pre-start) .kn-skip{display:none}
+.kn-pop{opacity:0;transform:scale(.55) translateY(24px);transition:opacity .8s ease, transform .9s cubic-bezier(.2,1.35,.3,1)}
+.kn-pop.show{opacity:1;transform:none}
+body.pre-start .topnav,body.pre-start .progress,body.pre-start .lesson-prog{display:none}
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease, transform .7s ease}
+.reveal.show{opacity:1;transform:none}
+.stagger>*{opacity:0;transform:translateY(24px);transition:opacity .55s ease, transform .55s ease}
+.stagger.show>*{opacity:1;transform:none}
+.stagger.show>*:nth-child(1){transition-delay:.04s}.stagger.show>*:nth-child(2){transition-delay:.16s}.stagger.show>*:nth-child(3){transition-delay:.28s}.stagger.show>*:nth-child(4){transition-delay:.40s}.stagger.show>*:nth-child(5){transition-delay:.52s}.stagger.show>*:nth-child(6){transition-delay:.64s}
+@media(prefers-reduced-motion:reduce){.reveal,.stagger>*,.kn-pop{opacity:1!important;transform:none!important}}
+/* ---------- ARTHUR mascot ---------- */
+.arthur{position:fixed;z-index:1200;bottom:20px;left:20px;display:flex;align-items:flex-end;gap:10px;max-width:340px;user-select:none;touch-action:none}
+.a-art{width:78px;height:78px;flex-shrink:0;cursor:grab;filter:drop-shadow(0 6px 14px rgba(15,23,42,.28))}
+.a-art:active{cursor:grabbing}
+.a-bubble{background:#fff;border:3px solid var(--primary);border-radius:18px 18px 4px 18px;padding:12px 16px;box-shadow:var(--shadow-lg);position:relative}
+.a-bhd{font-weight:900;color:var(--primary-dark);font-size:15px;margin-bottom:3px;display:flex;gap:8px;align-items:center;justify-content:space-between}
+.a-bhd .a-min{background:none;border:none;cursor:pointer;font-size:18px;color:var(--muted);font-weight:900;line-height:1}
+.a-tip{font-size:15px;line-height:1.5;color:var(--ink)}
+.arthur.min .a-bubble{display:none}
+.a-reopen{display:none}
+.arthur.min .a-reopen{display:grid;place-items:center;position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:900;cursor:pointer}
+@media(max-width:600px){.arthur{max-width:230px;bottom:12px;left:12px}.a-art{width:62px;height:62px}.a-tip{font-size:13.5px}}
+.arthur.pulse .a-bubble{animation:apulse .9s ease}
+@keyframes apulse{0%{transform:scale(1)}18%{transform:scale(1.10) rotate(-1deg);box-shadow:0 0 0 9px rgba(20,184,166,.35);border-color:var(--accent)}45%{transform:scale(1.02)}65%{transform:scale(1.05)}100%{transform:scale(1)}}
+.arthur.pulse .a-art{animation:anudge .85s ease}
+@keyframes anudge{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-12px) rotate(-8deg)}50%{transform:translateY(0)}72%{transform:translateY(-6px) rotate(6deg)}}
+.a-newbadge{display:none;background:var(--accent);color:#fff;font-size:11px;font-weight:900;padding:2px 9px;border-radius:999px;margin-inline-start:6px;white-space:nowrap}
+.arthur.pulse .a-newbadge{display:inline-block}
+.arthur{display:none}
+body.lesson-started .arthur{display:flex}
+footer{background:#0f172a;color:#cbd5e1;padding:46px 22px;text-align:center;margin-top:40px}
+footer .big{font-weight:800;color:#fff;font-size:19px;margin-bottom:8px}
+footer .small{font-size:14px;color:#64748b;margin-top:14px}
+</style>
+<noscript><style>.reveal,.stagger>*,.kn-pop{opacity:1!important;transform:none!important}.arthur{display:none!important}body.pre-start .kn{display:none!important}</style></noscript>
+</head>
+<body class="pre-start">
+<!-- ============ SVG DEFS: Arthur ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="arthurFace" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#eef2ff"/>
+  <path d="M12 100 Q20 74 38 70 L62 70 Q80 74 88 100 Z" fill="#1c3a5e"/>
+  <path d="M40 70 L50 86 L60 70 Z" fill="#fff"/>
+  <path d="M50 72 L45.5 79 L50 97 L54.5 79 Z" fill="#e0294b"/>
+  <path d="M45.5 72 L54.5 72 L50 79 Z" fill="#b81e3b"/>
+  <rect x="43" y="59" width="14" height="15" rx="5" fill="#e8b98c"/>
+  <circle cx="50" cy="46" r="29" fill="#f3c9a0"/>
+  <circle cx="22" cy="48" r="5" fill="#f3c9a0"/><circle cx="78" cy="48" r="5" fill="#f3c9a0"/>
+  <path d="M21 45 Q20 16 50 16 Q80 16 79 45 Q72 30 50 30 Q28 30 21 45 Z" fill="#2b2118"/>
+  <circle cx="34" cy="55" r="6" fill="#f2b98a" opacity=".55"/><circle cx="66" cy="55" r="6" fill="#f2b98a" opacity=".55"/>
+  <path d="M31 41 Q37 37 43 41" stroke="#2b2118" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M57 41 Q63 37 69 41" stroke="#2b2118" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <circle cx="38" cy="48" r="3.4" fill="#2b2118"/><circle cx="62" cy="48" r="3.4" fill="#2b2118"/>
+  <circle cx="39.2" cy="47" r="1.1" fill="#fff"/><circle cx="63.2" cy="47" r="1.1" fill="#fff"/>
+  <path d="M39 59 Q50 68 61 59" fill="none" stroke="#a0522d" stroke-width="2.6" stroke-linecap="round"/>
+</symbol></svg>
+
+<!-- ============ KEYNOTE INTRO ============ -->
+<button class="kn-skip" onclick="startLesson()">דלגו לשיעור ←</button>
+<div class="kn" id="intro">
+  <section class="kn-slide">
+    <div class="kn-eyebrow reveal">קורס CFO בעידן החדש · ד״ר שי צבאן</div>
+    <h1 class="kn-title reveal">מספרים.<br><span class="g">שמגיעים לדירקטוריון.</span></h1>
+    <p class="kn-sub reveal">הרצאה 3, ניהול פיננסי מתקדם בעידן ה-AI. ניתוח, אוצר, וסיכון, לפונקציית כספים בכירה בחברה ציבורית גדולה.</p>
+    <p class="kn-small reveal">מאת <b>ד״ר שי צבאן</b> · 6 ביולי 2026</p>
+    <div class="kn-scroll">גללו למטה ↓</div>
+  </section>
+  <section class="kn-slide">
+    <div class="kn-eyebrow reveal">שיטת העבודה של היום</div>
+    <h2 class="kn-title reveal">מקרה <span class="g">אחד.</span><br>כל התמונה.</h2>
+    <p class="kn-sub reveal">נלווה חברה ציבורית ממשית, קבוצת עזריאלי, לאורך כל היום. כל מושג נפתח באירוע אמיתי, נגזר לנתונים, מוביל לדילמה, ומשם ליישום מעשי מולכם, ב-Claude, על הנתונים האמיתיים.</p>
+  </section>
+  <section class="kn-slide short">
+    <div class="kn-eyebrow reveal">מה תיקחו מהיום</div>
+    <div class="kn-feats stagger">
+      <div class="kn-feat"><span class="e">🏢</span><span>נתונים פומביים של חברה ציבורית אמיתית, לא תרגיל</span></div>
+      <div class="kn-feat"><span class="e">📖</span><span>כל מונח מוגדר במלואו לפני שמשתמשים בו</span></div>
+      <div class="kn-feat"><span class="e">🧪</span><span>כל כלי שולח אתכם ליישום מעשי ב-Claude</span></div>
+      <div class="kn-feat"><span class="e">✍️</span><span>הבינה מבצעת. אתם מפרשים, ונשארים האחראים</span></div>
+    </div>
+    <div class="kn-scroll">גללו ↓</div>
+  </section>
+  <section class="kn-slide">
+    <svg class="kn-yev kn-pop" viewBox="0 0 100 100"><use href="#arthurFace"/></svg>
+    <h2 class="kn-title reveal" style="margin-top:18px">הכירו את <span class="g">ארתור.</span></h2>
+    <p class="kn-sub reveal">רואה חשבון ותיק, שילווה אתכם לאורך כל המפגש עם הערות מהשטח, טיפ בכל תחנה, ומדי פעם בדיחה על נקניק. גררו אותו לכל מקום נוח.</p>
+    <div class="kn-cta reveal"><button onclick="startLesson()">נתחיל, לאט ולעומק ←</button></div>
+  </section>
+</div>
+
+<div class="progress"><span id="bar"></span></div>
+<div class="lesson-prog" id="lessonProg">מודול 0 / 6 · 0%</div>
+
+<!-- ============ ARTHUR ============ -->
+<div class="arthur" id="arthur">
+  <svg class="a-art" id="aArt" viewBox="0 0 100 100"><use href="#arthurFace"/></svg>
+  <div class="a-bubble">
+    <div class="a-bhd"><span>ארתור · רו״ח ותיק 🎩 <span class="a-newbadge">💡 טיפ חדש</span></span><button class="a-min" onclick="arthurMin()" title="מזער">–</button></div>
+    <div class="a-tip" id="aTip">שלום, אני ארתור. אלווה אתכם לאורך היום עם הערות מהשטח וטיפ בכל תחנה. גררו אותי לאן שנוח.</div>
+  </div>
+  <div class="a-reopen" onclick="arthurReopen()" title="פתחו את ארתור">💬</div>
+</div>
+
+<!-- ============ TOP NAV ============ -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="badge-bi">CFO</div>
+      <div>
+        <div class="t">CFO בעידן החדש</div>
+        <div class="s">הרצאה 3 · ניהול פיננסי מתקדם · ד״ר שי צבאן</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a class="nav-block" href="#meet">00 · היכרות</a>
+      <a class="nav-block" href="#bridge">01 · הרבעון</a>
+      <a class="nav-block" href="#ecosystem">02 · ארגז הכלים</a>
+      <a class="nav-block" href="#analysis">03 · ניתוח</a>
+      <a class="nav-block" href="#treasury">04 · אוצר</a>
+      <a class="nav-block" href="#automation">05 · אוטומציה</a>
+      <a class="nav-block" href="#close">06 · סיכום</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-badge">🏢 הרצאה 3 · מקרה מלווה: קבוצת עזריאלי</span>
+      <h1>ניהול פיננסי מתקדם, <span class="grad">בעידן ה-AI</span></h1>
+      <p class="hero-sub">שלוש שאלות נחתו על שולחן סמנכ״ל הכספים הבוקר. כל אחת פותחת מודול: <b>ניתוח מתקדם</b> (מאיפה באה התשואה), <b>אוצר וניהול נכסים-התחייבויות</b> (מה החשיפה למדד), ו<b>אוטומציה</b> (איך מאיצים בלי לאבד אמינות). נענה עליהן אחת-אחת, על נתונים אמיתיים, כשהבינה מבצעת ואתם מפרשים.</p>
+      <div class="meta-chips">
+        <span class="chip">👤 ד״ר שי צבאן</span>
+        <span class="chip">📅 6.7.2026</span>
+        <span class="chip">⏱ כ-3 שעות</span>
+        <span class="chip">🏢 מקרה: עזריאלי (נתוני מאיה)</span>
+        <span class="chip">🧪 יישום מעשי ב-Claude</span>
+      </div>
+      <div class="cta">
+        <a class="btn btn-primary" href="#meet">בואו נתחיל ←</a>
+        <a class="btn btn-ghost" href="#analysis">קפיצה לניתוח המתקדם</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="art-tile"><span style="font-size:40px">📊</span><span class="l">פירוק DuPont</span></div>
+      <div class="art-tile"><span style="font-size:40px">🎲</span><span class="l">מונטה-קרלו</span></div>
+      <div class="art-tile"><span style="font-size:40px">⚖️</span><span class="l">Altman Z″</span></div>
+      <div class="art-tile"><span style="font-size:40px">🏦</span><span class="l">חשיפת מדד</span></div>
+      <div class="art-tile"><span style="font-size:40px">🤖</span><span class="l">אוטומציה</span></div>
+      <div class="art-tile"><span style="font-size:40px">🧠</span><span class="l">Claude</span></div>
+    </div>
+  </div>
+</header>
+<main>
+<!-- ==================== MODULE 00 · MEET ==================== -->
+<section class="section" id="meet">
+  <span class="block-tag">00 · היכרות</span>
+  <h2>רגע, מי יושב <span class="g">לצדנו?</span></h2>
+  <p class="section-sub">בהרצאה הקודמת נהגנו בזהירות: כלים חינמיים ומקומיים, שמירה על פרטיות, בלי למהר לשלם. זו הייתה הגישה הנכונה למשימות ההן. היום אנחנו יורדים לעומק העבודה הפיננסית, ולשם כך כדאי להכיר כראוי את העוזר שילווה אותנו לאורך כל היום.</p>
+  <div class="pipe">
+    <span class="pst on"><span class="n">🤝</span>היכרות</span>
+    <span class="pst"><span class="n">🪑</span>הרבעון</span>
+    <span class="pst"><span class="n">🧰</span>כלים</span>
+    <span class="pst"><span class="n">📊</span>ניתוח</span>
+    <span class="pst"><span class="n">🏦</span>אוצר</span>
+    <span class="pst"><span class="n">🤖</span>אוטומציה</span>
+  </div>
+  <div class="pipe-cap">אתם בתחנה 1 מתוך 6 · קודם מכירים את הכלי, אחר כך יורדים לעבודה</div>
+
+  <div class="deep-card">
+    <h3>מה הוא, בעצם</h3>
+    <p class="lead">Claude הוא עוזר בינה מלאכותית מבית Anthropic. מה שמבדיל אותו, ורלוונטי דווקא לעבודת כספים, אינו "כמה מהר הוא כותב", אלא ארבע תכונות מעשיות. לחצו על כל כרטיס:</p>
+    <div class="flip-grid cols4 stagger">
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="ic">🧠</div><div class="ttl">חשיבה זהירה וכנה</div><div class="hint">↻ הפכו</div></div>
+        <div class="flip-face flip-back"><div class="bk-ttl">🧠 חשיבה זהירה</div><p>מודל שמאומן להודות ב"אינני יודע" ולהימנע מהמצאה. תכונה קריטית כשמדובר במספרים שיגיעו לדירקטוריון.</p></div>
+      </div></div>
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="ic">📚</div><div class="ttl">הקשר ארוך מאוד</div><div class="hint">↻ הפכו</div></div>
+        <div class="flip-face flip-back"><div class="bk-ttl">📚 הקשר ארוך</div><p>מסוגל להחזיק דוח שנתי שלם, שטרי אג״ח, וחוזי חכירה בבת אחת, ולנתח אותם יחד.</p></div>
+      </div></div>
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="ic">🐍</div><div class="ttl">הרצת קוד אמיתי</div><div class="hint">↻ הפכו</div></div>
+        <div class="flip-face flip-back"><div class="bk-ttl">🐍 הרצת קוד</div><p>מבצע חישוב ממשי על הנתונים ומציג את הקוד, כך שכל מספר ניתן לאימות. לא ניחוש.</p></div>
+      </div></div>
+      <div class="flip"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="ic">🖥️</div><div class="ttl">עבודת סוכן על הקבצים</div><div class="hint">↻ הפכו</div></div>
+        <div class="flip-face flip-back"><div class="bk-ttl">🖥️ סוכן על הקבצים</div><p>הוא פועל על הקבצים שלכם ולא רק "עונה לשאלה", דרך יכולות שנכיר מיד אחת-אחת.</p></div>
+      </div></div>
+    </div>
+
+    <h4>איך הוא התפתח, בקצרה</h4>
+    <p>בשנתיים האחרונות היכולת קפצה מדרגה. אבל השאלה המעשית אינה "כמה חזק", אלא "מתי להשתמש בכל אחד". חשבו על זה כמו על צוות: מומחה לשאלות הכבדות, איש מקצוע מהיר ליומיום, ומתלמד זריז למשימות פשוטות. כך בנויה משפחת המודלים של 2026:</p>
+    <div class="flow-steps stagger">
+      <div class="flow-step"><div class="num">🎯</div><div><div class="fs-title">Claude Opus 4.8</div><div class="fs-sub">המודל העמוק ביותר</div><div class="fs-details">שמרו אותו לניתוח מורכב, שיפוט עדין, ובעיות שדורשות חשיבה כבדה. זה המודל שנפעיל על השאלות הקשות של הרבעון, כמו פירוק DuPont וניתוח Altman.</div></div></div>
+      <div class="flow-step"><div class="num">⚖️</div><div><div class="fs-title">Claude Sonnet 4.6</div><div class="fs-sub">המאוזן, ברירת המחדל</div><div class="fs-details">מהיר וחכם דיו לרוב העבודה השוטפת: ניסוח, סיכום, וחישובים סטנדרטיים.</div></div></div>
+      <div class="flow-step"><div class="num">⚡</div><div><div class="fs-title">Claude Haiku 4.5</div><div class="fs-sub">הזריז</div><div class="fs-details">למשימות קלות ומהירות בנפח גבוה, כשצריך תשובה כמעט מיידית ובעלות נמוכה.</div></div></div>
+    </div>
+    <div class="info term">
+      <div class="hd">🎚️ בפועל, איזה מודל לכל משימה</div>
+      <p>בוחרים את המודל בבורר שבראש חלון השיחה. לשאלות הכבדות של היום, פירוק DuPont וניתוח Altman, בחרו ב-<b>Opus 4.8</b>. לניסוח פסקה לדירקטוריון או סיכום, <b>Sonnet 4.6</b> מהיר ומספיק. כך משתמשים בצוות המודלים לפי המשימה, ולא סתם בחזק ביותר תמיד.</p>
+    </div>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="meet-pay">והשאלה שכולם שואלים: <span class="g">למה בכלל לשלם?</span></h3>
+  <div class="decision reveal">
+    <div class="d-quote">״בהרצאה הקודמת הראית לנו שאפשר להתחיל בחינם, ואפילו להריץ מודל על המחשב בלי לשלם שקל. אז למה עכשיו אתה ממליץ על מנוי בתשלום?״</div>
+    <p style="font-size:18px;">שאלה הוגנת, ותשובה כנה: יש פער אמיתי בין <b>להתנסות</b> לבין <b>לעבוד</b>. הכלים החינמיים היו מצוינים כדי להבין עקרונות, אך הם חלקיים. סביבת העבודה שנבנה היום חיה במנוי Claude Pro.</p>
+  </div>
+  <div class="two-col reveal">
+    <div class="compare-card b"><h4>הגרסה החינמית, ובמה היא מוגבלת</h4><p>גישה לצ׳אט בלבד, עם מכסה יומית. בלי Cowork (עבודה ישירה על הקבצים שלכם), בלי Projects, וגישה מוגבלת למודל החזק ביותר. מצוינת להיכרות, לא מספיקה לתהליך עבודה חוזר ובר-הגנה.</p></div>
+    <div class="compare-card a"><h4>Claude Pro, כ-20 דולר לחודש</h4><p>כולל את <b>Cowork</b> (עבודה על הדוחות עצמם), <b>Projects</b> (הקשר קבוע והפרדה בין ישויות), גישה ל-<b>Opus 4.8</b> לניתוח הכבד, הרצת <b>Skills</b> ללא תוספת תשלום, ומכסת שימוש נדיבה בהרבה.</p></div>
+  </div>
+  <div class="info insight reveal">
+    <div class="hd">💼 הזווית הפיננסית של ההחלטה</div>
+    <p>מנהל כספים שמעריך שעת עבודה שלו במאות שקלים אינו מתלבט באמת על 20 דולר לחודש. השאלה אינה העלות אלא הערך: אם הכלי מקצר תהליך של יומיים לשעתיים ומעלה את איכות הניתוח שמגיע לדירקטוריון, זו אחת ההשקעות הזולות בתקציב.</p>
+  </div>
+  <div class="info tip reveal" data-arthur="meet-ready">
+    <div class="hd">✅ עכשיו, אל שולחן העבודה</div>
+    <p>הכרנו את העוזר. נשב בכיסא, נפגוש את שלוש השאלות של הרבעון, ונתחיל לענות עליהן אחת-אחת, בכלים שנבנה יחד.</p>
+  </div>
+</section>
+
+<!-- ==================== MODULE 01 · THE QUARTER (3 board questions) ==================== -->
+<section class="section" id="bridge">
+  <span class="block-tag">01 · הרבעון שלנו</span>
+  <h2>שלוש שאלות <span class="g">על השולחן</span></h2>
+  <p class="section-sub">נשב בכיסא. אנחנו סמנכ״לי הכספים של קבוצת נדל״ן מניב ציבורית גדולה. הבוקר נחתו שלוש שאלות, מכיוונים שונים, וכל אחת מהן היא נקודת הפתיחה לנושא שנלמד היום. נכיר אותן לאט, אחת-אחת, כי בהן טמון כל ההיגיון של המפגש.</p>
+  <div class="pipe">
+    <span class="pst done"><span class="n">🤝</span>היכרות</span>
+    <span class="pst on"><span class="n">🪑</span>הרבעון</span>
+    <span class="pst"><span class="n">🧰</span>כלים</span>
+    <span class="pst"><span class="n">📊</span>ניתוח</span>
+    <span class="pst"><span class="n">🏦</span>אוצר</span>
+    <span class="pst"><span class="n">🤖</span>אוטומציה</span>
+  </div>
+  <div class="pipe-cap">אתם בתחנה 2 מתוך 6 · שלוש שאלות, שלושה מודולים. זה עמוד השדרה של היום</div>
+
+  <h3 class="sub-h reveal" data-arthur="dec1">השאלה הראשונה, מחדר <span class="g">הדירקטוריון</span></h3>
+  <div class="decision reveal">
+    <div class="d-quote">״התשואה על ההון שלנו עלתה השנה מ-5.8% ל-6.8%. יפה. אבל תסבירו לנו: זה טוב?״</div>
+    <p style="font-size:17px;">שאלה תמימה לכאורה, ומלכודת אמיתית. נפרק אותה לאט.</p>
+    <div class="d-term"><b>מה זו תשואה על ההון (ROE)?</b> היחס בין הרווח הנקי לבין ההון העצמי. במילים פשוטות, כמה רווח מייצרת כל שקל שהבעלים השקיעו בחברה. ROE של 7% אומר שבעד כל 100 שקלים הון, החברה ייצרה 7 שקלים רווח בשנה.</div>
+    <div class="d-term"><b>למה זו מלכודת אצל חברת נדל״ן?</b> חלק ניכר מהרווח שלנו אינו מגיע מהשכרת נכסים, אלא מ<b>שערוך</b>: עליית השווי החשבונאי של הנכסים בספרים. שערוך הוא רווח על הנייר, לא מזומן שנכנס לקופה. שנה טובה בשוק הנדל״ן יכולה לנפח את הרווח בלי ששילמנו או קיבלנו שקל.</div>
+    <div class="d-term"><b>וכאן נכנס המונח שהדירקטוריון באמת מתכוון אליו, גם אם לא אמר אותו: איכות הרווח.</b> כמה מהרווח הוא תזרימי, חוזר ומתמשך, לעומת חד-פעמי או חשבונאי בלבד. ROE של 6.8% שנשען על שערוך ומינוף הוא סיפור שונה לחלוטין מ-7% שמגיע מתפעול יציב.</div>
+    <p class="d-dilemma"><b>הדילמה שלנו:</b> לפרק את התשואה למרכיביה, ולומר לדירקטוריון לא רק "כמה", אלא "מאיפה, וכמה מזה איכותי".</p>
+    <div class="d-lead-to">→ זה מוביל אותנו אל מודול הניתוח הפיננסי המתקדם.</div>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="dec2">השאלה השנייה, מ<span class="g">ועדת הביקורת</span></h3>
+  <div class="decision reveal">
+    <div class="d-quote">״רוב החוב שלנו צמוד למדד, והאינפלציה מתחילה לטפס. מה החשיפה שלנו, והאם צריך לעשות משהו?״</div>
+    <div class="d-term"><b>מה זו הצמדה למדד?</b> חלק גדול מהחוב שלנו, מתוך כ-26.8 מיליארד שקל, מגויס באג״ח <b>צמוד למדד המחירים לצרכן</b>. כלומר קרן החוב גדלה אוטומטית עם עליית המדד. אם המדד עולה ב-3%, יתרת החוב שלנו עולה ב-3%. זה נוח כשהאינפלציה נמוכה, והופך לסיכון כשהיא מתעוררת.</div>
+    <div class="d-term"><b>מה זה מח״מ (משך חיים ממוצע)?</b> מדד לרגישות שווי החוב לשינוי בריבית. המח״מ שלנו הוא 5.8 שנים. ככלל אצבע, עלייה של 1% בריבית השוק מורידה את השווי הכלכלי של החוב בכ-5.8%. ככל שהמח״מ ארוך יותר, הרגישות גדולה יותר.</div>
+    <div class="d-term"><b>ומה זו בעצם "חשיפה"?</b> הרגישות של המצב הפיננסי שלנו לשינוי בגורם חיצוני שאיננו שולטים בו. כאן, הגורמים הם המדד והריבית. לכמת חשיפה פירושו לענות: אם המדד יעלה ב-X, כמה זה יעלה לנו.</div>
+    <p class="d-dilemma"><b>הדילמה שלנו:</b> לכמת את החשיפה במספר אחד ברור, ולהחליט אם ואיך לגדר אותה.</p>
+    <div class="d-lead-to">→ זה מוביל אותנו אל מודול האוצר וניהול נכסים והתחייבויות.</div>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="dec3">השאלה השלישית, מ<span class="g">המנכ״ל</span></h3>
+  <div class="decision reveal">
+    <div class="d-quote">״חבילת הדירקטוריון לוקחת שבועיים של עבודת אנליסטים בכל רבעון. אפשר מהר יותר, בלי לפגוע באיכות ובאמינות?״</div>
+    <div class="d-term"><b>המתח שבבסיס השאלה:</b> מהירות מול אמינות. הבינה המלאכותית מפתה לענות "בטח, נאמן הכול", אבל חבילת דירקטוריון היא מצג מהותי שאנחנו חתומים עליו. אוטומציה נכונה מאיצה את ההכנה, אך אינה מוחקת את הצורך בבקרה אנושית.</div>
+    <p class="d-dilemma"><b>הדילמה שלנו:</b> לבנות תהליך חוזר, מהיר ובר-הגנה, ולא אוסף של שיחות אקראיות.</p>
+    <div class="d-lead-to">→ זה מוביל אותנו אל מודול הבנייה והאוטומציה.</div>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="bridge-data">הנתונים שנשב איתם <span class="g">כל היום</span></h3>
+  <p class="lead reveal">כדי שהדיון יהיה אמיתי ולא תיאורטי, נעבוד על נתונים פומביים של חברה ציבורית ממשית, קבוצת עזריאלי, כפי שהם מופיעים בדוחותיה. כך זה נראה על הנייר:</p>
+  <div class="report reveal">
+    <div class="report-head"><span class="rh-co">קבוצת עזריאלי בע״מ</span><span class="rh-t">תמצית דוחות · 2025 · מיליוני ש״ח</span></div>
+    <div class="report-body">
+      <div class="report-row rr-head"><span class="rr-label">רווח והפסד</span><span class="rr-num">2023</span><span class="rr-num">2024</span><span class="rr-num">2025</span></div>
+      <div class="report-row"><span class="rr-label">הכנסות</span><span class="rr-num">3,300</span><span class="rr-num">3,550</span><span class="rr-num">3,800</span></div>
+      <div class="report-row"><span class="rr-label">NOI (רווח תפעולי מנכסים)</span><span class="rr-num">2,150</span><span class="rr-num">2,300</span><span class="rr-num">2,500</span></div>
+      <div class="report-row"><span class="rr-label">רווח משערוך נדל״ן</span><span class="rr-num">650</span><span class="rr-num">520</span><span class="rr-num">980</span></div>
+      <div class="report-row rr-total"><span class="rr-label">רווח נקי</span><span class="rr-num">1,450</span><span class="rr-num">1,500</span><span class="rr-num">1,900</span></div>
+      <div class="report-row rr-head"><span class="rr-label">מאזן ומימון</span><span class="rr-num">2023</span><span class="rr-num">2024</span><span class="rr-num">2025</span></div>
+      <div class="report-row"><span class="rr-label">סך נכסים</span><span class="rr-num">55,000</span><span class="rr-num">57,500</span><span class="rr-num">60,000</span></div>
+      <div class="report-row"><span class="rr-label">הון עצמי</span><span class="rr-num">25,000</span><span class="rr-num">26,500</span><span class="rr-num">28,000</span></div>
+      <div class="report-row rr-flag"><span class="rr-label">חוב פיננסי נטו</span><span class="rr-num">22,000</span><span class="rr-num">22,600</span><span class="rr-num">23,100</span></div>
+      <div class="report-row"><span class="rr-label">מח״מ ממוצע של החוב (שנים)</span><span class="rr-num">5.9</span><span class="rr-num">5.85</span><span class="rr-num">5.8</span></div>
+      <div class="report-row rr-flag"><span class="rr-label">שיעור חוב צמוד מדד</span><span class="rr-num">62%</span><span class="rr-num">64%</span><span class="rr-num">66%</span></div>
+    </div>
+    <div class="report-foot">נתונים פומביים, מעוגלים לצורך ההוראה. אינם המלצת השקעה. מקור: דיווחי החברה.</div>
+  </div>
+  <p class="reveal" style="text-align:center;margin:16px 0;"><a href="azrieli-financials.csv" download class="dl-btn">⬇ הורידו את נתוני עזריאלי (CSV), נעבוד עליהם כל היום</a></p>
+  <div class="info reveal" data-arthur="bridge-why">
+    <div class="hd">🏢 למה דווקא החברה הזו מלווה אותנו</div>
+    <p>בחרנו חברת נדל״ן מניב ציבורית משום שהמבנה הפיננסי שלה מפעיל, על מספרים אמיתיים, כמעט כל נושא מתקדם שנלמד היום. מינוף גבוה ושערוך נכסים נוגעים באיכות הרווח. חוב צמוד-מדד ומח״מ ארוך הם לב הדיון בניהול נכסים והתחייבויות. מקרה אחד, שמלכד את כל התמונה.</p>
+  </div>
+</section>
+<!-- ==================== MODULE 02 · ECOSYSTEM ==================== -->
+<section class="section" id="ecosystem">
+  <span class="block-tag">02 · ארגז הכלים</span>
+  <h2>איך בונים תשובה <span class="g">מהירה, חוזרת ובת-הגנה</span></h2>
+  <p class="section-sub">המנכ״ל ביקש להאיץ את חבילת הדירקטוריון בלי לוותר על אמינות. שיחה מזדמנת עם מודל שפה לא תספק זאת: היא לא חוזרת על עצמה, לא נשמרת, ולא ניתנת לביקורת. לפני שנצלול לניתוח עצמו, נבין את ארגז הכלים שמאפשר לפונקציית כספים לעבוד עם Claude באופן שיטתי. נלמד כל רכיב לעומק, ותמיד נחבר אותו למשימה פיננסית ממשית.</p>
+  <div class="pipe">
+    <span class="pst done"><span class="n">🤝</span>היכרות</span>
+    <span class="pst done"><span class="n">🪑</span>הרבעון</span>
+    <span class="pst on"><span class="n">🧰</span>כלים</span>
+    <span class="pst"><span class="n">📊</span>ניתוח</span>
+    <span class="pst"><span class="n">🏦</span>אוצר</span>
+    <span class="pst"><span class="n">🤖</span>אוטומציה</span>
+  </div>
+  <div class="pipe-cap">אתם בתחנה 3 מתוך 6 · חמישה רכיבים שהופכים "לשאול את הצ׳אט" לתהליך בר-הגנה</div>
+
+  <div class="info warn reveal" data-arthur="eco-why">
+    <div class="hd">⚠️ הבעיה שנפתור: למה "סתם לשאול את הצ׳אט" נכשל ברמת סמנכ״ל</div>
+    <p>שיחה חד-פעמית סובלת משלושה כשלים שאיש כספים בכיר אינו יכול לחיות איתם: <b>חוסר אחידות</b> (כל אנליסט שואל אחרת ומקבל שיטת חישוב שונה), <b>חוסר שחזור</b> (אי אפשר להוכיח למבקר איך התקבל מספר), ו<b>אובדן ידע</b> (השיטה נשארת בראש של מי ששאל, ונעלמת כשהוא עוזב). חמשת הרכיבים הבאים פותרים בדיוק את זה.</p>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="eco-three">רכיב ראשון: שלוש <span class="g">סביבות עבודה</span></h3>
+  <p class="lead reveal">אותו מודל, שלוש סביבות עם רמות שונות של גישה, שליטה ובקרה. הבחירה נקבעת לפי המשימה. הפכו כל כרטיס לדוגמה פיננסית:</p>
+  <div class="flip-grid cols3 stagger">
+    <div class="flip"><div class="flip-inner">
+      <div class="flip-face flip-front"><div class="ic">💬</div><div class="ttl">הצ׳אט<span class="en">חשיבה וטיוטה מהירה</span></div><div class="hint">↻ דוגמה</div></div>
+      <div class="flip-face flip-back"><div class="bk-ttl">💬 הצ׳אט</div><p><b>משימה:</b> "נסח שלוש שאלות חדות למנהל הנכסים על הירידה בתפוסה במגדל הצפוני." מצוין לניסוח וללבון רעיון. לא לעבודה על נתונים חסויים, כי הקובץ לא כאן.</p></div>
+    </div></div>
+    <div class="flip"><div class="flip-inner">
+      <div class="flip-face flip-front"><div class="ic">🖥️</div><div class="ttl">Cowork<span class="en">עבודה על הקבצים</span></div><div class="hint">↻ דוגמה</div></div>
+      <div class="flip-face flip-back"><div class="bk-ttl">🖥️ Cowork</div><p><b>משימה:</b> "קח את קובץ המאזן, חשב את חבילת היחסים לפי מדיניות הבית, והכן טיוטת טבלה לדירקטוריון." כאן Claude רואה את הקובץ, תחת הרשאות שאתם מגדירים ועם תיעוד. זו סביבת העבודה השוטפת.</p></div>
+    </div></div>
+    <div class="flip"><div class="flip-inner">
+      <div class="flip-face flip-front"><div class="ic">⌨️</div><div class="ttl">Claude Code<span class="en">תשתית ואוטומציה</span></div><div class="hint">↻ דוגמה</div></div>
+      <div class="flip-face flip-back"><div class="bk-ttl">⌨️ Claude Code</div><p><b>משימה:</b> "בנה תהליך שמושך מדי רבעון את הדוח, מריץ את חבילת היחסים, ומעדכן את המצגת." פחות ליומיום של סמנכ״ל, יותר להבין מה צוות ה-FP&amp;A יכול לבנות עבורכם.</p></div>
+    </div></div>
+  </div>
+  <div class="info reveal" data-arthur="eco-cowork"><p style="margin:0;"><b>הכלל המנחה:</b> אם הבינה צריכה לראות את הקבצים והנתונים שלכם, העבודה מתבצעת ב-Cowork. הצ׳אט הוא למחשבה מהירה, ו-Claude Code הוא לצוות שבונה לכם תשתית קבועה.</p></div>
+
+  <div class="tnow reveal">
+    <div class="th">⏱️ תרגול · פתחו את Cowork על תיקייה אמיתית</div>
+    <div class="trow"><span class="tk">שלב 1</span><span>ב-Claude, פתחו את Cowork ובחרו "Add folder". בחרו את התיקייה שבה שמור קובץ עזריאלי, ואשרו את הרשאת הגישה.</span></div>
+    <div class="trow"><span class="tk">שלב 2</span><span>הריצו את הבקשה הבאה. זו הפעם הראשונה שהמודל עובד על הקובץ שלכם:</span></div>
+    <div class="promptbox"><span class="pl">📋 PROMPT · הדביקו ל-Claude</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">קרא את azrieli-financials.csv וסכם אילו שדות ואילו שנים יש בו.</div></div>
+    <div class="trow"><span class="tk">✅ יעד</span><span class="done">המודל מדווח את מבנה הקובץ. מכאן הוא יכול להריץ עליו ניתוחים, תחת ההרשאות שנתתם.</span></div>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="eco-skills">רכיב שני: <span class="g">Skill</span>, מדיניות הבית שלכם</h3>
+  <p class="lead reveal">זה הרכיב החשוב ביותר, ובדרך כלל הכי לא מובן, אז נבנה אותו לאט. <b>Skill</b> הוא נוהל עבודה כתוב שאתם מגדירים פעם אחת, והמודל מבצע אותו באופן זהה בכל פעם. במונחים פיננסיים: זו <b>מדיניות החשבונאות והניתוח של הארגון, כתובה כך שגם אדם וגם מכונה מבצעים אותה זהה.</b></p>
+  <div class="two-col reveal">
+    <div class="compare-card d"><h4>מה הוא פותר</h4><p>בלי Skill, כל אנליסט שמבקש "חשב יחסי מינוף" עלול לקבל הגדרה מעט שונה: מישהו יכלול חכירות, מישהו לא; מישהו ישתמש ב-NOI, מישהו ב-EBITDA. עם Skill, ההגדרות נעולות. <b>אחידות ושחזוריות, בדיוק מה שביקורת דורשת.</b></p></div>
+    <div class="compare-card a"><h4>איך יוצרים אותו בפועל</h4><p><b>בממשק:</b> ב-Claude.ai נכנסים ל-Settings ← Customize ← Skills ← Upload, ומעלים תיקייה מכווצת (zip) שמכילה קובץ בשם SKILL.md. <b>בשיחה:</b> מבקשים מ-Claude עצמו לנסח עבורכם את ה-SKILL.md, ואז מעלים אותו. אין צורך בתכנות.</p></div>
+  </div>
+  <p class="lead reveal">כך נראה Skill אמיתי למדיניות היחסים של הקבוצה. נעבור עליו שורה-שורה:</p>
+  <div class="code-block reveal" data-lang="md"><span class="lang">SKILL.md · מדיניות הבית</span><pre>---
+name: house-ratio-pack
+description: Compute the firm's ratio pack for a property company from its statements.
+---
+# Ratio Pack - House Methodology
+
+## Definitions (locked)
+- FFO = net profit + depreciation - revaluation gains.
+- Net-debt / EBITDA uses NOI as the EBITDA proxy.
+- Covenant headroom = (limit - actual) / limit.
+
+## Steps
+1. Always run code to compute. Never estimate.
+2. Flag any covenant within 10% of its limit.
+3. State what cannot be concluded from the data.</pre></div>
+  <div class="flow-steps stagger">
+    <div class="flow-step"><div class="num">🏷️</div><div><div class="fs-title">name ו-description</div><div class="fs-sub">כרטיס הביקור</div><div class="fs-details">שתי השורות בראש הקובץ קובעות מתי המודל יפעיל את ה-Skill אוטומטית: כאן, בכל פעם שמוגשים דוחות של חברת נכסים. ניסוח מדויק כאן = הפעלה אמינה.</div></div></div>
+    <div class="flow-step"><div class="num">📐</div><div><div class="fs-title">Definitions (locked)</div><div class="fs-sub">הלב הפיננסי</div><div class="fs-details">כאן קובעים איך <b>הבית שלכם</b> מגדיר FFO, יחס מינוף ומרווח אמות-מידה. מרגע שזה כתוב, כל חישוב, של כל אנליסט, בכל שיחה, משתמש באותה הגדרה בדיוק. זה מה שהופך "ידע בראש של אנשים" לנכס ארגוני שמור.</div></div></div>
+    <div class="flow-step"><div class="num">✅</div><div><div class="fs-title">Steps, כללי הבקרה</div><div class="fs-sub">בקרת סיכון אכופה</div><div class="fs-details">"תמיד הרץ קוד" מבטיח חישוב בר-אימות. "סמן אמת-מידה בטווח 10% מהגבול" הוא בקרת סיכון אוטומטית. "ציין מה אי אפשר להסיק" מרסן ביטחון-יתר.</div></div></div>
+  </div>
+  <div class="info term reveal">
+    <div class="hd">📖 שלושה מונחים מה-Skill, בעברית</div>
+    <p><b>FFO</b> (Funds From Operations): מדד תזרימי מקובל בנדל״ן. הרווח הנקי בתוספת פחת ובניכוי רווחי שערוך, כדי לבודד את הרווח התפעולי החוזר מהרווח החשבונאי החד-פעמי.</p>
+    <p><b>EBITDA</b>: רווח לפני ריבית, מס, פחת והפחתות. קירוב לרווח התפעולי המזומני של החברה.</p>
+    <p><b>אמת-מידה פיננסית (Covenant)</b>: תנאי בהסכם ההלוואה, למשל "יחס חוב להון לא יעלה על X". <b>מרווח אמת-המידה</b> הוא המרחק בין הערך בפועל לגבול. ככל שהוא קטן, הסיכון להפרה גדול יותר.</p>
+  </div>
+  <div class="info tip reveal" data-arthur="eco-hebrew">
+    <div class="hd">🇮🇱 שאלה שתמיד עולה: אפשר לכתוב Skill בעברית?</div>
+    <p>כן. קובץ ה-SKILL.md הוא טקסט פשוט, כך שגוף ההוראות יכול להיות בעברית מלאה. את שורת ה-description, שקובעת מתי הכלי מופעל אוטומטית, כדאי לנסח בבהירות ולעיתים באנגלית לזיהוי אמין יותר, בעוד ההוראות עצמן בעברית. קיים גם מאגר ישראלי, <b>Skills IL</b> (agentskills.co.il), עם סקילים בעברית לתחומי מס, חשבונאות ורגולציה מקומית.</p>
+  </div>
+  <div class="tnow reveal">
+    <div class="th">⏱️ תרגול · בנו והריצו Skill על נתונים אמיתיים</div>
+    <div class="trow"><span class="tk">שלב 1</span><span>הורידו את קובץ הנתונים של עזריאלי: <a href="azrieli-financials.csv" download class="dl-btn">⬇ הורדת נתוני עזריאלי (CSV)</a></span></div>
+    <div class="trow"><span class="tk">שלב 2</span><span>בקשו מ-Claude לנסח עבורכם את ה-Skill:</span></div>
+    <div class="promptbox"><span class="pl">📋 PROMPT · הדביקו ל-Claude</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">נסח לי SKILL.md קצר בשם house-ratio-pack שמחשב רווחיות, מינוף ונזילות מדוחות של חברת נדל״ן, מריץ קוד, ומסמן אמת-מידה קרובה לגבול.</div></div>
+    <div class="trow"><span class="tk">שלב 3</span><span>שמרו את ההוראות בקובץ בשם SKILL.md בתוך תיקייה, וכווצו אותה לקובץ zip. זה הפורמט להעלאה.</span></div>
+    <div class="trow"><span class="tk">שלב 4</span><span>העלו דרך Settings ← Customize ← Skills ← Upload, פתחו שיחה, צרפו את ה-CSV, ובקשו את חבילת היחסים.</span></div>
+    <div class="trow"><span class="tk">✅ תוצאה נכונה</span><span class="done">FFO של 2025 כ-1,060 מ׳ ש״ח (רווח נקי 1,900 ועוד פחת 140 פחות שערוך 980). אם קיבלתם 1,900, המודל שכח לנטרל את השערוך.</span></div>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="eco-artifacts">רכיב שלישי: <span class="g">Artifact</span>, התוצר החי</h3>
+  <p class="lead reveal">עכשיו, אחרי שהבנו Skill, קל להבין Artifact ואת ההבדל. <b>Artifact</b> הוא תוצר חי שהמודל בונה ומציג בחלון צדדי לצד השיחה: מחשבון, טבלה אינטראקטיבית, גרף, או מסמך. אתם מתארים מה נדרש, ומקבלים כלי עובד, לא תיאור מילולי.</p>
+  <div class="info insight reveal"><div class="hd">🍽️ ההבדל בין Skill ל-Artifact, במשפט אחד</div><p><b>Skill הוא המתכון וכללי הבית; Artifact הוא המנה שיצאה מהם.</b> ה-Skill הוא השיטה החוזרת שהמודל מיישם; ה-Artifact הוא הפלט הקונקרטי של יישום אחד. דוגמה: מבקשים מ-Claude, שכבר יודע את מדיניות היחסים דרך ה-Skill, לייצר Artifact שהוא מחשבון מרווח אמות-מידה אינטראקטיבי לדירקטוריון.</p></div>
+  <div class="tnow reveal">
+    <div class="th">⏱️ תרגול · בנו Artifact פיננסי</div>
+    <div class="trow"><span class="tk">בקשה</span><span>הריצו בצ׳אט או ב-Cowork:</span></div>
+    <div class="promptbox"><span class="pl">📋 PROMPT · הדביקו ל-Claude</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">בנה Artifact: מחשבון מרווח אמת-מידה. קלט: יחס חוב להון בפועל והגבול החוזי. פלט: המרווח באחוזים, בצבע אדום מתחת ל-10%.</div></div>
+    <div class="trow"><span class="tk">הרצה</span><span>הזינו יחס חוב-להון של 32,000 חלקי 28,000 מול גבול חוזי של 1.5, וצלמו את התוצאה לשקף הדירקטוריון.</span></div>
+    <div class="trow"><span class="tk">✅ יעד</span><span class="done">כלי אינטראקטיבי עובד, לא תיאור. בדיוק כמו המחשבונים בהרצאה הזו.</span></div>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="eco-projects">רכיב רביעי: <span class="g">Projects</span>, מרחב שזוכר הקשר</h3>
+  <p class="lead reveal"><b>Project</b> הוא מרחב עבודה קבוע ב-Claude.ai. הוא מאגד שלושה דברים: הוראות קבועות (Custom Instructions), בסיס-ידע של קבצים, ושרשור שיחות שחולקות את אותו הקשר. כל שיחה בתוך הפרויקט מתחילה עם מלוא הרקע, ושום דבר אינו דולף בין פרויקטים.</p>
+  <div class="info tip reveal"><div class="hd">🗂️ למה זה משמעותי לפונקציית כספים</div><p>מקימים פרויקט "FP&amp;A קבוצה" שמכיל את מדיניות החשבונאות, את הדוחות האחרונים, ואת ה-Skills של הבית. מאותו רגע, כל ניתוח שמתחילים בתוכו כבר יודע את ההקשר המלא, משתמש בהגדרות הנכונות, ואינו מערבב נתונים בין ישויות שונות בקבוצה. זהו גם גבול הפרדה נקי לצורכי חיסיון ובקרה.</p></div>
+  <div class="tnow reveal">
+    <div class="th">⏱️ תרגול · הקימו פרויקט קבוע</div>
+    <div class="trow"><span class="tk">שלב 1</span><span>בסרגל הצד ב-Claude.ai, צרו פרויקט חדש בשם "עזריאלי FP&amp;A".</span></div>
+    <div class="trow"><span class="tk">שלב 2</span><span>העלו לבסיס-הידע את קובץ ה-CSV ואת ה-Skill שבניתם, והוסיפו הוראת קבע: "כל ניתוח לפי מדיניות הבית, הרץ קוד תמיד."</span></div>
+    <div class="trow"><span class="tk">✅ יעד</span><span class="done">כל שיחה חדשה בפרויקט כבר יודעת את ההקשר, ולא מתחילים מאפס.</span></div>
+  </div>
+
+  <h3 class="sub-h reveal">רכיב חמישי: <span class="g">Connectors</span>, חיבור למערכות</h3>
+  <p class="lead reveal"><b>מחברים (Connectors)</b> מאפשרים ל-Claude לגשת למערכות ארגוניות כמו Google Drive, Slack או מערכות פנימיות, על בסיס תקן פתוח בשם <b>MCP</b> (Model Context Protocol), שמגדיר כיצד עוזר בינה מלאכותית מתחבר בבטחה למערכות חיצוניות. הרעיון: במקום להעתיק נתונים ידנית, המודל ניגש למקור.</p>
+  <div class="info warn reveal"><div class="hd">⚖️ הערת יושר, וההיבט הרגולטורי</div><p>כאן, בכיתה, אין לנו סביבה חיה לחבר אליה, ולכן נסתפק בהבנת העיקרון. ונקודה מעשית קריטית: מחבר צריך לרוץ בהרשאות של המערכת המקורית ובמצב קריאה בלבד. הבינה רואה רק את מה שמותר למשתמש שהפעיל אותה לראות, לא יותר.</p><p><b>מה לוקחים ליום שני:</b> לפני אישור מחבר בארגון, דרשו מ-IT שתי הבטחות, גישת קריאה בלבד והרשאות זהות למשתמש המפעיל. זו שאלת הבדיקה שלכם.</p></div>
+
+  <div class="hardq reveal" data-arthur="eco-hardq">
+    <div class="hqt">🤔 שאלה קשה, בשלבים</div>
+    <div class="hqq"><b>שלב א:</b> המנכ״ל ראה שבנינו Skill ל-Cowork שמפיק את חבילת היחסים, ומחבר למחסן הנתונים. הוא מבקש שהמערכת תפיק ותשלח את חבילת הדירקטוריון לבד כל רבעון.<br><br><b>שלב ב:</b> טכנית, זה אפשרי. מה מפריד בין "המערכת מכינה" ל"המערכת שולחת בלי שאנחנו באמצע"?<br><br><b>שלב ג:</b> נסחו לעצמכם את התשובה, ואז שלחו ל-Claude את התרחיש ובקשו ארכיטקטורה שעוצרת לאישור אנושי. השוו לתשובתכם.</div>
+    <div class="acc"><div class="acc-h"><span class="ai">💡</span><h4>כיוון התשובה</h4><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">חבילת דירקטוריון היא מצג מהותי שאתם אחראים לו. אוטומציה ראויה עד שלב <b>הכנת הטיוטה</b>: איסוף, חישוב לפי ה-Skill, וניסוח ראשוני. השליחה מחייבת <b>סקירה וחתימה אנושית</b>. הסיכון אינו טכני אלא אחריותי: טעות שתגיע לדירקטוריון היא באחריותכם, לא של המודל. הארכיטקטורה הנכונה: הסוכן מכין ועוצר; אתם בודקים, מתקנים, ומשחררים ידנית. זה גם מה שביקורת פנימית ורגולטור יצפו לראות, בקרה אנושית מתועדת על תוצר מהותי.</div></div></div>
+  </div>
+
+  <div class="takeaway-big reveal">
+    <h4>📌 מה תיקחו איתכם ממודול זה</h4>
+    <div class="tk-flow">
+      <div class="tk-node tk-start"><span class="tk-ic">💬</span><span class="tk-lbl">צ׳אט לחשיבה</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node"><span class="tk-ic">📦</span><span class="tk-lbl">Skill למדיניות</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node"><span class="tk-ic">⚙️</span><span class="tk-lbl">Artifact לכלי</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node tk-ok"><span class="tk-ic">🗂️</span><span class="tk-lbl">Project להקשר</span></div>
+    </div>
+    <div class="tk-points">
+      <div class="tk-point"><span class="tk-pic">📦</span><div><b>Skill</b> הוא מדיניות הבית הכתובה, שמבוצעת זהה בכל פעם. זה הופך ידע אישי לנכס ארגוני שמור ובר-ביקורת.</div></div>
+      <div class="tk-point"><span class="tk-pic">⚙️</span><div><b>Artifact</b> הוא התוצר החי של יישום השיטה. Skill הוא המתכון, Artifact הוא המנה.</div></div>
+      <div class="tk-point"><span class="tk-pic">🗂️</span><div><b>Project</b> שומר את ההקשר וההגדרות במקום אחד, ומפריד נקי בין ישויות לצורכי חיסיון ובקרה.</div></div>
+    </div>
+  </div>
+</section>
+<!-- ==================== MODULE 03 · ADVANCED ANALYSIS ==================== -->
+<section class="section" id="analysis">
+  <span class="block-tag">03 · ניתוח מתקדם</span>
+  <h2>נחזור לשאלה של <span class="g">הדירקטוריון</span></h2>
+  <p class="section-sub">בפתיחה, יו״ר הדירקטוריון שאל אותנו שאלה פשוטה: התשואה על ההון עלתה מ-5.8% ל-6.8%, זה טוב? עכשיו, עם העוזר לצדנו, נבנה את התשובה. לא מספר בודד, אלא פירוק, טווח, ומבחן איתנות. שלושה כלים, כל אחד נולד משאלה אמיתית של בעל עניין.</p>
+  <div class="pipe">
+    <span class="pst done"><span class="n">🤝</span>היכרות</span>
+    <span class="pst done"><span class="n">🪑</span>הרבעון</span>
+    <span class="pst done"><span class="n">🧰</span>כלים</span>
+    <span class="pst on"><span class="n">📊</span>ניתוח</span>
+    <span class="pst"><span class="n">🏦</span>אוצר</span>
+    <span class="pst"><span class="n">🤖</span>אוטומציה</span>
+  </div>
+  <div class="pipe-cap">אתם בתחנה 4 מתוך 6 · תשובה לשאלה הראשונה: מאיפה באה התשואה, וכמה ממנה איכותית</div>
+
+  <div class="info tip reveal" data-arthur="an-data">
+    <div class="hd">📄 הנתונים שנעבוד עליהם, מהדוח שכבר ראינו</div>
+    <p>הכנסות 3,800 · רווח נקי 1,900 · הון עצמי 28,000 · סך נכסים 60,000 · NOI 2,500 · חוב פיננסי נטו 23,100. הכול במיליוני ש״ח, נתונים פומביים מעוגלים.</p>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="an-dupont">כלי ראשון · פירוק <span class="g">DuPont</span></h3>
+  <div class="decision reveal"><div class="d-quote">״התשואה עלתה. אבל מאיפה היא באה? האם החברה נעשתה רווחית יותר, יעילה יותר, או פשוט ממונפת יותר?״</div></div>
+  <div class="info term reveal">
+    <div class="hd">📖 קודם נגדיר: מה זה בכלל פירוק DuPont?</div>
+    <p>זהות חשבונאית ותיקה שמפרקת את התשואה על ההון (ROE) לשלושה מנועים שמוכפלים זה בזה. במקום לראות מספר אחד, רואים מאיפה הוא מגיע:</p>
+    <div class="soft-note" style="text-align:center;direction:ltr;font-weight:800;color:var(--primary-dark);">ROE = רווחיות נטו × מחזור הנכסים × מינוף פיננסי</div>
+    <ol style="padding-right:22px;">
+      <li><b>רווחיות נטו</b> (רווח נקי חלקי הכנסות): כמה מכל שקל הכנסה נשאר בסוף כרווח.</li>
+      <li><b>מחזור הנכסים</b> (הכנסות חלקי סך נכסים): כמה הכנסה מייצר כל שקל נכס. מדד ליעילות.</li>
+      <li><b>מינוף פיננסי</b> (סך נכסים חלקי הון עצמי): על כל שקל הון, כמה נכסים החברה מפעילה. מדד לתלות בחוב.</li>
+    </ol>
+    <p>המכפלה של השלושה חוזרת בדיוק ל-ROE, אבל עכשיו אפשר להראות לדירקטוריון <b>מי</b> מהמנועים הניע את העלייה.</p>
+  </div>
+  <p class="lead reveal">עכשיו נזין את המספרים של החברה ונראה את הפירוק חי. שנו כל שדה כדי לבחון תרחישים:</p>
+  <div class="calc reveal" id="dupont">
+    <div class="calc-inputs">
+      <label>רווח נקי (מ׳ ש״ח)<input type="number" id="dp-net" value="1900"></label>
+      <label>הכנסות (מ׳ ש״ח)<input type="number" id="dp-rev" value="3800"></label>
+      <label>סך נכסים (מ׳ ש״ח)<input type="number" id="dp-ta" value="60000"></label>
+      <label>הון עצמי (מ׳ ש״ח)<input type="number" id="dp-eq" value="28000"></label>
+    </div>
+    <button class="calc-btn" id="dp-run">חשב פירוק ROE ◀</button>
+    <div class="dp-out" id="dp-out"></div>
+  </div>
+  <div class="info reveal"><div class="hd">🎯 התובנה, וזו התשובה לדירקטוריון</div><p>אצל חברת נדל״ן כמו שלנו, מחזור הנכסים זעיר (הכנסה שנתית קטנה יחסית לנכסים של 60 מיליארד), בעוד המנוף גבוה והרווחיות מנופחת על ידי שערוך. כלומר התשואה נשענת על <b>מינוף ושערוך</b>, לא על שיפור תפעולי. זו בדיוק האבחנה שהדירקטוריון צריך לשמוע, וזה מה ש-AI יכול לחשב במהירות אבל <b>אתם</b> מפרשים ואחראים לה.</p></div>
+  <div class="tnow reveal">
+    <div class="th">⏱️ תרגול · הריצו את הפירוק מול Claude</div>
+    <div class="trow"><span class="tk">צירוף</span><span>פתחו שיחה חדשה, בחרו במודל Opus 4.8, וצרפו את קובץ ה-CSV שהורדתם. ודאו שהמודל קרא אותו.</span></div>
+    <div class="promptbox"><span class="pl">📋 PROMPT · הדביקו ל-Claude</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">פרק את ה-ROE של 2025 לפי DuPont מהקובץ המצורף, הרץ קוד והצג אותו, וכתוב משפט אחד לדירקטוריון מאיפה מגיעה התשואה.</div></div>
+    <div class="trow"><span class="tk">✅ תוצאה נכונה</span><span class="done">ROE כ-6.8%, רווחיות נטו כ-50%, מחזור הנכסים כ-0.063, מינוף כ-2.14. אם קיבלתם אחרת, הקלט שגוי.</span></div>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="an-mc">כלי שני · <span class="g">מונטה-קרלו</span></h3>
+  <div class="decision reveal"><div class="d-quote">״אנחנו בונים תקציב לשנה הבאה. תנו לי מספר ל-NOI הצפוי.״</div></div>
+  <div class="info term reveal">
+    <div class="hd">📖 קודם נגדיר: מה זו סימולציית מונטה-קרלו?</div>
+    <p>תחזית של "מספר אחד" יוצרת ביטחון-שווא, כי העתיד אינו ודאי. במקום זאת, מונטה-קרלו מריץ <b>אלפי תרחישים אקראיים</b> תחת הנחות אי-וודאות (כאן: תנודות בתפוסה ובאינפלציה שמזינה את שכר הדירה הצמוד), ומחזיר <b>התפלגות</b>. התוצאה אינה "ה-NOI יהיה X", אלא "ב-90% מהתרחישים הוא בין A ל-B". השיטה קרויה על שם קזינו מונטה-קרלו, כי היא מבוססת על הגרלה חוזרת ונשנית.</p>
+  </div>
+  <p class="lead reveal">הזיזו את הסליידרים כדי לשנות את הנחות אי-הוודאות, ולחצו הרץ:</p>
+  <div class="calc reveal" id="mc">
+    <div class="calc-inputs">
+      <label>NOI בסיס (מ׳ ש״ח)<input type="number" id="mc-base" value="2500"></label>
+      <label>אינפלציה ממוצעת (%)<input type="range" id="mc-infl" min="0" max="8" step="0.5" value="3"><span class="rng-val" id="mc-infl-v">3%</span></label>
+      <label>תנודתיות תפוסה (%)<input type="range" id="mc-vol" min="1" max="10" step="0.5" value="3"><span class="rng-val" id="mc-vol-v">3%</span></label>
+    </div>
+    <button class="calc-btn" id="mc-run">הרץ 5,000 תרחישים ◀</button>
+    <div class="mc-out" id="mc-out"></div>
+  </div>
+  <div class="tnow reveal">
+    <div class="th">⏱️ תרגול · תרגמו התפלגות להחלטה</div>
+    <div class="trow"><span class="tk">הנחות</span><span>ספקו למודל את מסגרת אי-הוודאות: תפוסה מתפלגת נורמלית עם סטיית תקן 3%, אינפלציה 3% בתוספת רעש של 1%.</span></div>
+    <div class="promptbox"><span class="pl">📋 PROMPT · הדביקו ל-Claude</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">קח את התרחיש הפסימי שקיבלתם (כ-2.44 מיליארד ש״ח), הפחת את שירות החוב השנתי (כ-777 מ׳ ריבית), וחשב את כרית הנזילות הנדרשת. הצג את הקוד.</div></div>
+    <div class="trow"><span class="tk">✅ תוצאה</span><span class="done">גם בתרחיש הפסימי (כ-2.44 מיליארד NOI) העסק מכסה את שירות החוב (כ-777 מ׳ ריבית) בעודף של כ-1.66 מיליארד ש״ח. זה מרווח הביטחון.</span></div>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="an-altman">כלי שלישי · מדד <span class="g">Altman</span></h3>
+  <div class="decision reveal"><div class="d-quote">״הבנק שוקל לחדש את קו האשראי, ומבקש אינדיקציה ליציבות הפיננסית שלנו.״</div></div>
+  <div class="info term reveal">
+    <div class="hd">📖 קודם נגדיר: מה זה מדד Altman Z?</div>
+    <p>מודל סטטיסטי שפיתח פרופ׳ אדוארד אלטמן ב-1968. הוא משלב חמישה יחסים פיננסיים לציון אחד שמעריך את הסבירות לחדלות פירעון בתוך כשנתיים. הגרסה שנשתמש בה, Z″, מותאמת לחברות שאינן יצרניות. בנקאים ומבקרים משתמשים בו כ<b>איתות מוקדם</b>. אחד המרכיבים הוא <b>EBIT</b>: הרווח התפעולי לפני הוצאות מימון ומס. אצלנו הוא נגזר כך: NOI 2,500 פחות הנהלה וכלליות 240, כלומר כ-2,260 מ׳ ש״ח. שימו לב: איננו כוללים כאן את רווחי השערוך, שהם רווח על הנייר, כדי לשמור על מדד תפעולי-מזומני עקבי עם ה-FFO.</p>
+  </div>
+  <p class="lead reveal">הזינו את המרכיבים וקבלו את הציון על סולם צבעוני:</p>
+  <div class="calc reveal" id="altman">
+    <div class="calc-inputs">
+      <label>הון חוזר (מ׳ ש״ח)<input type="number" id="al-wc" value="-1000"></label>
+      <label>עודפים צבורים (מ׳ ש״ח)<input type="number" id="al-re" value="15000"></label>
+      <label>EBIT, רווח תפעולי (מ׳ ש״ח)<input type="number" id="al-ebit" value="2260"></label>
+      <label>הון עצמי (מ׳ ש״ח)<input type="number" id="al-eq" value="28000"></label>
+      <label>סך התחייבויות (מ׳ ש״ח)<input type="number" id="al-tl" value="32000"></label>
+      <label>סך נכסים (מ׳ ש״ח)<input type="number" id="al-ta" value="60000"></label>
+    </div>
+    <button class="calc-btn" id="al-run">חשב ציון Z″ ◀</button>
+    <div class="al-out" id="al-out"></div>
+  </div>
+  <div class="info warn reveal"><div class="hd">⚠️ למה אסור לקחת ציון כזה כתורה מסיני</div><p>אלטמן כויל על חברות תעשייה אמריקאיות מ-1968. חברת נדל״ן עם מחזור הנכסים נמוך והון-חוזר שלילי (נורמלי בענף) עלולה לקבל ציון "אפור" למרות איתנות אמיתית. הלקח האסטרטגי: מודל הוא נקודת פתיחה לשאלה, לא תשובה סופית. ה-AI ייתן לכם את הציון בשנייה, והערך שלכם הוא לדעת <b>מתי המודל אינו מתאים להקשר</b> ולהסביר זאת לבנק.</p></div>
+  <div class="tnow reveal">
+    <div class="th">⏱️ תרגול · בקשו מ-Claude ביקורת עצמית על המדד</div>
+    <div class="promptbox"><span class="pl">📋 PROMPT · הדביקו ל-Claude</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">חשב את Altman Z″ לחברה, ואז מתח ביקורת: אילו מהנחות המודל אינן מתאימות לחברת נדל״ן מניב, וכיצד הייתי מציג זאת לבנק?</div></div>
+  </div>
+
+  <div class="hardq reveal" data-arthur="an-hardq">
+    <div class="hqt">🤔 שאלה קשה, בשלבים</div>
+    <div class="hqq"><b>שלב א:</b> ה-AI הריץ מונטה-קרלו והציג, בהרצה טיפוסית: "NOI צפוי חציוני כ-2.57 מיליארד, טווח 90% בין 2.44 ל-2.71 מיליארד".<br><br><b>שלב ב:</b> הדירקטוריון שואל "אז כמה זה יהיה?". מה התשובה המקצועית, ולמה דווקא היא, ולא מספר בודד?<br><br><b>שלב ג:</b> נסחו לעצמכם תשובה, ואז בקשו מ-Claude פסקה לדירקטוריון שמסבירה תחזית כטווח והסתברות, וגוזרת המלצת כרית נזילות. השוו לתשובתכם.</div>
+    <div class="acc"><div class="acc-h"><span class="ai">💡</span><h4>כיוון התשובה</h4><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">התשובה: "אין 'כמה יהיה', יש טווח והסתברות." התרחיש המרכזי הוא כ-2.58 מיליארד, אך יש 5% סיכוי לרדת מתחת ל-2.44 מיליארד אם התפוסה והאינפלציה יאכזבו. זו אינה התחמקות אלא אחריות: מספר בודד יוצר ביטחון-שווא ומסתיר סיכון. תפקיד הבכיר לתרגם את ההתפלגות להחלטה, למשל שמירת כרית נזילות שמכסה את התרחיש הפסימי. ה-AI מייצר את ההתפלגות, אתם מייצרים את המשמעות הניהולית ואחראים עליה.</div></div></div>
+  </div>
+
+  <div class="takeaway-big reveal">
+    <h4>📌 מה תיקחו איתכם ממודול זה</h4>
+    <div class="tk-flow">
+      <div class="tk-node tk-start"><span class="tk-ic">🔢</span><span class="tk-lbl">מספר בודד</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node"><span class="tk-ic">📊</span><span class="tk-lbl">פירוק למנועים</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node"><span class="tk-ic">🎲</span><span class="tk-lbl">טווח והסתברות</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node tk-ok"><span class="tk-ic">🧭</span><span class="tk-lbl">החלטה ניהולית</span></div>
+    </div>
+    <div class="tk-points">
+      <div class="tk-point"><span class="tk-pic">📊</span><div><b>DuPont:</b> תשואה על ההון אינה מספר, אלא שלושה מנועים. תמיד שאלו: רווחיות, יעילות, או מינוף.</div></div>
+      <div class="tk-point"><span class="tk-pic">🎲</span><div><b>מונטה-קרלו:</b> הציגו לדירקטוריון טווח והסתברות, לא ביטחון-שווא של מספר בודד.</div></div>
+      <div class="tk-point"><span class="tk-pic">⚠️</span><div><b>מודל אינו אמת:</b> Altman ודומיו הם נקודת פתיחה. הערך שלכם הוא לדעת מתי המודל אינו מתאים.</div></div>
+    </div>
+  </div>
+</section>
+<!-- ==================== MODULE 04 · TREASURY & ALM ==================== -->
+<section class="section" id="treasury">
+  <span class="block-tag">04 · אוצר וניהול נכסים-התחייבויות</span>
+  <h2>השאלה של <span class="g">ועדת הביקורת</span></h2>
+  <p class="section-sub">נחזור לשאלה השנייה של הבוקר: רוב החוב שלנו צמוד למדד, האינפלציה מתעוררת, מה החשיפה, והאם לגדר. זהו לב עבודת האוצר. נבנה את התשובה לאט, נגדיר כל מונח, נכמת את החשיפה על נתונים אמיתיים, ונראה היכן הבינה המלאכותית מאיצה את העבודה והיכן ההחלטה נשארת שלנו.</p>
+  <div class="pipe">
+    <span class="pst done"><span class="n">🤝</span>היכרות</span>
+    <span class="pst done"><span class="n">🪑</span>הרבעון</span>
+    <span class="pst done"><span class="n">🧰</span>כלים</span>
+    <span class="pst done"><span class="n">📊</span>ניתוח</span>
+    <span class="pst on"><span class="n">🏦</span>אוצר</span>
+    <span class="pst"><span class="n">🤖</span>אוטומציה</span>
+  </div>
+  <div class="pipe-cap">אתם בתחנה 5 מתוך 6 · תשובה לשאלה השנייה: כימות חשיפת המדד וההחלטה אם לגדר</div>
+
+  <div class="info tip reveal" data-arthur="tr-data">
+    <div class="hd">🏦 פרופיל החוב שנעבוד עליו, מנתוני החברה</div>
+    <p>חוב פיננסי כ-<b>26.8 מיליארד ש״ח</b>, מתוכו כ-<b>78% אג״ח</b>. כ-<b>66% צמוד למדד</b> (כ-17.7 מיליארד ש״ח). מח״מ ממוצע <b>5.8 שנים</b>, ריבית אפקטיבית ממוצעת <b>2.8%</b>. עלות הצמדת המדד בשנת 2025 הייתה כ-<b>546 מיליון ש״ח</b>.</p>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="tr-linkage">מונח ראשון: <span class="g">הצמדה למדד</span></h3>
+  <div class="info term reveal">
+    <div class="hd">📖 מה זה, ולמה זו מומחיות ישראלית</div>
+    <p>חוב <b>צמוד מדד</b> הוא חוב שקרן החוב שלו גדלה אוטומטית עם עליית מדד המחירים לצרכן. אם המדד עולה ב-3%, יתרת הקרן של חוב צמוד גדלה ב-3%, וזו הוצאת מימון נוספת בדוח. זו תכונה מבנית של שוק ההון הישראלי (אג״ח גליל, המדד הצמוד של הבורסה), ורוב מערכות האוצר הגלובליות אינן ממדלות אותה היטב. לכן דווקא כאן יש ערך רב לכלי מקומי או למודל שמבין את מוסכמות ההצמדה הישראליות.</p>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="tr-duration">מונח שני: <span class="g">מח״מ</span> ופער המח״מ</h3>
+  <div class="info term reveal">
+    <div class="hd">📖 מדד הרגישות לריבית</div>
+    <p><b>מח״מ (Duration)</b> מודד את רגישות שווי החוב לשינוי בריבית. ככלל אצבע, מח״מ של 5.8 שנים אומר שעלייה של 1% בריבית השוק מורידה את השווי הכלכלי של החוב בכ-5.8%. <b>פער המח״מ (Duration Gap)</b> הוא ההפרש בין מח״מ הנכסים למח״מ ההתחייבויות, והוא המדד המרכזי בניהול נכסים-התחייבויות: כשהפער גדול, שינוי ריבית מזיז את שווי הנכסים ואת שווי ההתחייבויות בקצב שונה, ונוצרת חשיפה.</p>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="tr-lab">מעבדת חשיפה חיה: <span class="g">אינפלציה וריבית</span></h3>
+  <p class="lead reveal">הזיזו את האינפלציה ואת זעזוע הריבית, וראו את החשיפה בזמן אמת. זה בדיוק החישוב שהבינה יכולה להריץ באלפי תרחישים, אבל ההחלטה מה לגדר נשארת שלכם.</p>
+  <div class="calc reveal" id="alm">
+    <div class="calc-inputs">
+      <label>חוב צמוד מדד (מ׳ ש״ח)<input type="number" id="alm-linked" value="17700"></label>
+      <label>סך החוב (מ׳ ש״ח)<input type="number" id="alm-debt" value="26800"></label>
+      <label>מח״מ (שנים)<input type="number" id="alm-dur" value="5.8" step="0.1"></label>
+      <label>הכנסות שכר-דירה צמודות (מ׳ ש״ח)<input type="number" id="alm-rent" value="1800"></label>
+      <label>אינפלציה שנתית (%)<input type="range" id="alm-cpi" min="0" max="6" step="0.5" value="3"><span class="rng-val" id="alm-cpi-v">3%</span></label>
+      <label>זעזוע ריבית (נק׳ בסיס)<input type="range" id="alm-shock" min="-100" max="200" step="25" value="100"><span class="rng-val" id="alm-shock-v">100</span></label>
+    </div>
+    <button class="calc-btn" id="alm-run">חשב חשיפה ◀</button>
+    <div class="alm-out" id="alm-out"></div>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="tr-hedge">התובנה: <span class="g">הגידור הטבעי</span>, וההחלטה האמיתית</h3>
+  <div class="info tip reveal">
+    <div class="hd">🔀 מדוע חברת נדל״ן אינה בהכרח מפחדת מאינפלציה</div>
+    <p>מצד אחד, האינפלציה מגדילה את החוב הצמוד (הוצאה). מצד שני, היא מגדילה גם את <b>שכר הדירה הצמוד</b> ואת <b>שווי הנכסים</b>. זהו <b>גידור טבעי</b>: התחייבות צמודה מול נכס והכנסה צמודים. ההחלטה האסטרטגית אינה טכנית אלא ניהולית: <b>איזה חלק מהחוב להשאיר צמוד כגידור מכוון, ואיזה חלק לנטרל לנומינלי.</b> זו הכרעה על תחזית האינפלציה בישראל, ואף מודל אינו יכול לקבל אותה במקומכם.</p>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="tr-covenant">אמות-מידה פיננסיות <span class="g">והתראה מוקדמת</span></h3>
+  <div class="info reveal">
+    <div class="hd">⏱️ השימוש הבשל ביותר של AI באוצר</div>
+    <p>הלוואות ואג״ח כוללות <b>אמות-מידה פיננסיות</b> (Covenants), למשל יחס חוב-לשווי (LTV) או יחס כיסוי שירות חוב, שאסור לחרוג מהן. ניטור ידני הוא רבעוני ואיטי. מערכת AI קוראת את שטרי הנאמנות, מושכת נתונים חיים, ובודקת כל אמת-מידה ברציפות, ומתריעה על שחיקת מרווח <b>שישה עד עשרה שבועות מוקדם יותר</b> מתהליך ידני. בסביבת ריבית גבוהה, שבה המרווחים דקים יותר, ההתראה המוקדמת הזו שווה זהב.</p>
+  </div>
+  <div class="info warn reveal">
+    <div class="hd">🎯 מה באמת עובד באוצר, ומה עדיין שיווק</div>
+    <p><b>עובד היום:</b> חיזוי תזרים ונזילות (Kyriba דיווחה על קיצור תכנון נזילות מ-10 לכ-1.3 שעות בשבוע), ניטור אמות-מידה, והרצת אלפי תרחישי ריבית ומדד בשניות. <b>עדיין הייפ:</b> AI ש"מנבא" את שער השקל או את הריבית כמקור לרווח. הערך האמיתי הוא בכימות ובבקרה, לא בניבוי כיוון השוק.</p>
+  </div>
+
+  <div class="hardq reveal" data-arthur="tr-hardq">
+    <div class="hqt">🤔 שאלה קשה, בשלבים</div>
+    <div class="hqq"><b>שלב א:</b> המודל הריץ 5,000 תרחישי אינפלציה והראה שאם המדד יעלה ב-4%, עלות ההצמדה תזנק בכ-700 מיליון ש״ח.<br><br><b>שלב ב:</b> יועץ ההשקעות מציע לגדר את כל החוב הצמוד ולעבור לנומינלי. מדוע דווקא זו לא בהכרח ההחלטה הנכונה?<br><br><b>שלב ג:</b> בקשו מ-Claude לנתח את הגידור הטבעי, ולהסביר מתי גידור מלא של ההצמדה דווקא מגדיל סיכון. השוו לתשובתכם.</div>
+    <div class="acc"><div class="acc-h"><span class="ai">💡</span><h4>כיוון התשובה</h4><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">גידור מלא של ההצמדה מנטרל את החוב הצמוד, אבל משאיר את <b>הנכסים וההכנסות צמודים ללא מקבילה בצד ההתחייבות</b>. אם האינפלציה תעלה, שווי הנכסים ושכר הדירה יגדלו, אך החוב הנומינלי לא, וזה נשמע טוב, אך אתם מוותרים על ההתאמה שהגנה עליכם בתרחיש ההפוך: אם האינפלציה תרד או תהפוך לדפלציה, חוב נומינלי נשאר גבוה בעוד ההכנסות הצמודות מתכווצות. ההחלטה הנכונה היא <b>התאמה חלקית</b>, שמשאירה חלק מההצמדה כגידור טבעי מול הנכסים הצמודים, לפי תיאבון הסיכון של הדירקטוריון. הבינה מכמתת כל תרחיש, אתם קובעים את התמהיל.</div></div></div>
+  </div>
+
+  <div class="tnow reveal">
+    <div class="th">⏱️ תרגול · בקשו מ-Claude ניתוח מח״מ ותרחישי מדד</div>
+    <div class="trow"><span class="tk">צירוף</span><span>פתחו שיחה עם Opus 4.8, צרפו את קובץ ה-CSV של עזריאלי, וודאו שהמודל קרא את פרופיל החוב.</span></div>
+    <div class="promptbox"><span class="pl">📋 PROMPT · הדביקו ל-Claude</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">מהחוב הצמוד (17,700) ומהמח״מ (5.8), חשב את עלות ההצמדה ואת רגישות שווי החוב לזעזוע של 100 נק׳ בסיס. הרץ קוד והצג אותו.</div></div>
+    <div class="trow"><span class="tk">✅ תוצאה נכונה</span><span class="done">עלות הצמדה בכ-3% אינפלציה כ-531 מ׳ ש״ח (קרוב ל-546 בפועל). זעזוע 100 נק׳ בסיס משנה את שווי החוב בכ-5.8%.</span></div>
+  </div>
+
+  <div class="takeaway-big reveal">
+    <h4>📌 מה תיקחו איתכם ממודול זה</h4>
+    <div class="tk-flow">
+      <div class="tk-node tk-start"><span class="tk-ic">📊</span><span class="tk-lbl">פרופיל החוב</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node"><span class="tk-ic">📐</span><span class="tk-lbl">כימות חשיפה</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node"><span class="tk-ic">🔀</span><span class="tk-lbl">גידור טבעי</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node tk-ok"><span class="tk-ic">🧭</span><span class="tk-lbl">תמהיל צמוד/נומינלי</span></div>
+    </div>
+    <div class="tk-points">
+      <div class="tk-point"><span class="tk-pic">📐</span><div><b>חשיפה היא מספר:</b> "אם המדד יעלה ב-X, זה יעלה לנו Y". הבינה מכמתת אלפי תרחישים בשניות.</div></div>
+      <div class="tk-point"><span class="tk-pic">🔀</span><div><b>גידור טבעי:</b> חוב צמוד מול הכנסות ונכסים צמודים. אל תנטרלו אותו בלי לחשוב.</div></div>
+      <div class="tk-point"><span class="tk-pic">⏱️</span><div><b>ניטור אמות-מידה</b> הוא השימוש הבשל: התראה 6 עד 10 שבועות מוקדם יותר על חריגה מתקרבת.</div></div>
+    </div>
+  </div>
+</section>
+<!-- ==================== MODULE 05 · AGENTIC AUTOMATION ==================== -->
+<section class="section" id="automation">
+  <span class="block-tag">05 · אוטומציה אג׳נטית</span>
+  <h2>השאלה של <span class="g">המנכ״ל</span></h2>
+  <p class="section-sub">השאלה השלישית של הבוקר: חבילת הדירקטוריון לוקחת שבועיים, אפשר מהר יותר בלי לפגוע באמינות. כאן נכנסת האוטומציה האג׳נטית. נבחין בין מה שבאמת עובד היום למה שעדיין שיווק, כי ברמת חברה ציבורית, טעות שמגיעה לדירקטוריון היא באחריותכם.</p>
+  <div class="pipe">
+    <span class="pst done"><span class="n">🤝</span>היכרות</span>
+    <span class="pst done"><span class="n">🪑</span>הרבעון</span>
+    <span class="pst done"><span class="n">🧰</span>כלים</span>
+    <span class="pst done"><span class="n">📊</span>ניתוח</span>
+    <span class="pst done"><span class="n">🏦</span>אוצר</span>
+    <span class="pst on"><span class="n">🤖</span>אוטומציה</span>
+  </div>
+  <div class="pipe-cap">אתם בתחנה 6 מתוך 6 · תשובה לשאלה השלישית: להאיץ את חבילת הדירקטוריון בלי לוותר על אמינות</div>
+
+  <h3 class="sub-h reveal" data-arthur="au-agent">מה זה "סוכן", <span class="g">ומה הוא לא</span></h3>
+  <div class="info reveal">
+    <div class="hd">🤖 עוזר-על מפוקח, לא טייס אוטומטי</div>
+    <p><b>סוכן (Agent)</b> הוא רצף פעולות אוטומטי: שולף נתונים, מחשב, מנסח טיוטה, ומצטט מקורות, כדי לייצר תוצר שלם כמו מזכר סטיות או טיוטת חבילת דירקטוריון. התמונה הכנה של 2026: סוכנים הם <b>עוזרי מחקר מפוקחים, לא כותבים אוטונומיים.</b> הם מקצרים טיוטה ראשונה מ-40% עד 60%, אך אדם מאשר וחותם. הערך נובע מ<b>היקף מוגדר וצר</b>, לא מאוטונומיה.</p>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="au-close">מה כבר <span class="g">עובד היום</span>, במספרים</h3>
+  <div class="tbl-wrap reveal">
+    <table class="tbl">
+      <tr><th>תחום</th><th>מה AI עושה</th><th class="num">תוצאה מדווחת</th></tr>
+      <tr><td>סגירה חשבונאית</td><td>התאמות ותזמור אוטומטיים</td><td class="num">6.1 → 3.4 ימים</td></tr>
+      <tr><td>התאמות (reconciliation)</td><td>הכנה והתאמה אוטומטית</td><td class="num">חיסכון 80-90%</td></tr>
+      <tr><td>חשבוניות ספקים (AP)</td><td>קליטה, קידוד והתאמה</td><td class="num">78% ללא מגע אנושי</td></tr>
+      <tr><td>ניטור עסקאות</td><td>בדיקת 100% מהתנועות</td><td class="num">פי 15 יותר סימונים</td></tr>
+    </table>
+  </div>
+  <p class="soft-note reveal">מקורות: BlackLine, FloQast, Vic.ai (מקרה Countsy), AppZen. מספרי ספקים מדווחים עצמית, כיוון כללי ולא הבטחה.</p>
+
+  <h3 class="sub-h reveal" data-arthur="au-doc">אינטליגנציית מסמכים: <span class="g">שליפה עם ציטוט</span></h3>
+  <div class="info term reveal">
+    <div class="hd">🔗 הכלל שאסור לוותר עליו: ציטוט למקור</div>
+    <p>כלים כמו NotebookLM (שליפה סגורה, כל תשובה מצוטטת למקור שהעליתם) ו-Hebbia מאפשרים לחלץ מספרים מתוך שטרי אג״ח, דוחות ותמלילים, כשכל טענה מקושרת לעמוד המקור. <b>מספר לא-מצוטט ממודל הוא סיכון, מספר מצוטט הוא פרודוקטיביות.</b> דרשו מהצוות שליפה מצוטטת בלבד.</p>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="au-board">התשובה הישירה למנכ״ל: <span class="g">שכבת האמינות</span></h3>
+  <div class="info tip reveal">
+    <div class="hd">✅ איך מאיצים את חבילת הדירקטוריון בלי לוותר על אמינות</div>
+    <p>כך צוות הכספים של Anthropic עצמו עובד: מוסרים את המצגת ואת המודל לסוכן, ומבקשים שני דברים בכל רענון נתונים. ראשית, <b>לאמת שכל מספר וכל טענה מתיישבים למקור אחד אמין.</b> שנית, <b>לקרוא את הנרטיב "כמו חבר דירקטוריון"</b>, ולסמן היכן ההערה בשקף 4 סותרת את המספר בשקף 17, או היכן הוצג מדד בלי הגדרה. זו שכבת בקרה מתחת לעבודה, שמשחררת 10 עד 20 שעות בשבוע להתמקדות במסגור ובניתוח קדימה. האדם עדיין חותם, אבל על תוצר שכבר עבר ביקורת עקביות.</p>
+  </div>
+
+  <h3 class="sub-h reveal" data-arthur="au-reality">בדיקת מציאות: <span class="g">הצניעות שמצילה תקציב</span></h3>
+  <div class="info warn reveal">
+    <div class="hd">⚠️ למה רוב הפיילוטים נכשלים, ומה עושים אחרת</div>
+    <p>מחקר MIT מצא ש<b>כ-95% מפיילוטי ה-AI בארגונים אינם מניבים החזר מדיד</b>, לא בגלל איכות המודל אלא בגלל אינטגרציה חלשה בתהליך העבודה. Gartner צופה ש<b>מעל 40% מפרויקטי הסוכנים יבוטלו עד 2027</b> על רקע עלות ותועלת לא ברורה. וממצא מפתיע: <b>קניית כלי מוכן מצליחה פי כ-3 מבנייה עצמית.</b> הדפוס המנצח ברור: קנו כלי ייעודי, בחרו נקודת כאב אחת מוגדרת, שלבו אותו בתהליך האמיתי, ודרשו תוצאה מדידה לפני שמרחיבים.</p>
+  </div>
+
+  <h3 class="sub-h reveal">מהשטח: <span class="g">מי כבר עושה את זה</span></h3>
+  <div class="tbl-wrap reveal">
+    <table class="tbl">
+      <tr><th>ארגון</th><th>מה עושים</th><th class="num">תוצאה</th></tr>
+      <tr><td>קרן העושר של נורווגיה (NBIM)</td><td>סינון כ-9,000 חברות, ניטור סיכונים</td><td class="num">15% פרודוקטיביות</td></tr>
+      <tr><td>JPMorgan</td><td>גישת LLM לכל העובדים</td><td class="num">230 אלף משתמשים</td></tr>
+      <tr><td>Morgan Stanley</td><td>עוזר ליועצים</td><td class="num">98% מהצוותים</td></tr>
+    </table>
+  </div>
+
+  <div class="hardq reveal" data-arthur="au-hardq">
+    <div class="hqt">🤔 שאלה קשה, בשלבים</div>
+    <div class="hqq"><b>שלב א:</b> בניתם סוכן שמכין את חבילת הדירקטוריון: אוסף נתונים, מחשב יחסים לפי מדיניות הבית, ומנסח טיוטה. הוא חוסך שבוע וחצי.<br><br><b>שלב ב:</b> המנכ״ל מבקש שהסוכן גם ישלח את החבילה לדירקטוריון לבד. מדוע לא, גם אם טכנית זה עובד מושלם?<br><br><b>שלב ג:</b> בקשו מ-Claude ארכיטקטורה שבה הסוכן מכין את כל החבילה אך עוצר לאישור אנושי לפני שליחה, וציין אילו בקרות ראוי לתעד. השוו לתשובתכם.</div>
+    <div class="acc"><div class="acc-h"><span class="ai">💡</span><h4>כיוון התשובה</h4><span class="chev">⌄</span></div><div class="acc-body"><div class="acc-bin">חבילת דירקטוריון היא מצג מהותי שאתם אחראים לו. אוטומציה ראויה עד שלב <b>הכנת הטיוטה</b>: איסוף, חישוב, וניסוח ראשוני. השליחה מחייבת <b>סקירה וחתימה אנושית</b>. הסיכון אינו טכני אלא אחריותי: טעות שתגיע לדירקטוריון היא באחריותכם, לא של המודל. הארכיטקטורה הנכונה: הסוכן מכין ועוצר, אתם בודקים, מתקנים, ומשחררים ידנית. זה גם מה שמפריד את מי שמצליח עם AI ממי שהפרויקט שלו מבוטל: היקף מוגדר עם נקודת בקרה אנושית, לא אוטונומיה מלאה.</div></div></div>
+  </div>
+
+  <div class="tnow reveal">
+    <div class="th">⏱️ תרגול · תנו לסוכן להכין, ואתם תחתמו</div>
+    <div class="trow"><span class="tk">בקשה</span><span>ב-Cowork, צרפו את קובץ עזריאלי והריצו:</span></div>
+    <div class="promptbox"><span class="pl">📋 PROMPT · הדביקו ל-Claude</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">הכן טיוטת עמוד סיכום לדירקטוריון: יחסי מפתח, שתי נקודות סיכון, ומשפט המלצה. ציין מקור לכל מספר.</div></div>
+    <div class="trow"><span class="tk">בקרה</span><span>עברו על כל מספר מול המקור, תקנו את הניסוח, וזו החתימה שלכם.</span></div>
+    <div class="trow"><span class="tk">✅ יעד</span><span class="done">טיוטה מוכנה בדקות, אך התוצר הסופי עבר את הביקורת האנושית שלכם.</span></div>
+  </div>
+
+  <div class="takeaway-big reveal">
+    <h4>📌 מה תיקחו איתכם ממודול זה</h4>
+    <div class="tk-flow">
+      <div class="tk-node tk-start"><span class="tk-ic">🤖</span><span class="tk-lbl">הסוכן מכין</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node"><span class="tk-ic">🔗</span><span class="tk-lbl">מצטט למקור</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node"><span class="tk-ic">🔍</span><span class="tk-lbl">אתם בודקים</span></div>
+      <div class="tk-arrow">→</div>
+      <div class="tk-node tk-ok"><span class="tk-ic">✍️</span><span class="tk-lbl">אתם חותמים</span></div>
+    </div>
+    <div class="tk-points">
+      <div class="tk-point"><span class="tk-pic">✅</span><div><b>בשל היום:</b> סגירה, התאמות, AP, ניטור עסקאות, שליפה מצוטטת. שם ה-ROI אמיתי.</div></div>
+      <div class="tk-point"><span class="tk-pic">🧾</span><div><b>שכבת האמינות:</b> תנו לסוכן לאמת שכל מספר מתיישב למקור, זה מאיץ בלי לפגוע באמון.</div></div>
+      <div class="tk-point"><span class="tk-pic">🎯</span><div><b>הדפוס המנצח:</b> קנו כלי ייעודי, נקודת כאב אחת, שלבו בתהליך, דרשו תוצאה מדידה.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== MODULE 06 · CLOSE (loop closure) ==================== -->
+<section class="section" id="close">
+  <span class="block-tag">06 · סיכום</span>
+  <h2>נסגור את <span class="g">המעגל</span></h2>
+  <p class="section-sub">פתחנו את הבוקר בשלוש שאלות שנחתו על השולחן. עברנו מכל שאלה אל הכלי שעונה עליה. עכשיו נחזור לכל שאלה, ונענה עליה במשפט אחד ברור, כמו שנעשה בישיבת הדירקטוריון עצמה.</p>
+  <div class="pipe">
+    <span class="pst done"><span class="n">🤝</span>היכרות</span>
+    <span class="pst done"><span class="n">🪑</span>הרבעון</span>
+    <span class="pst done"><span class="n">🧰</span>כלים</span>
+    <span class="pst done"><span class="n">📊</span>ניתוח</span>
+    <span class="pst done"><span class="n">🏦</span>אוצר</span>
+    <span class="pst done"><span class="n">🤖</span>אוטומציה</span>
+  </div>
+  <div class="pipe-cap">כל שש התחנות מאחוריכם ✓ · שלוש שאלות, שלוש תשובות</div>
+
+  <div class="deep-card" data-arthur="close">
+    <h3>שלוש התשובות, <span class="g">אחת-אחת</span></h3>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="num">📊</div><div><div class="fs-title">לדירקטוריון: "התשואה עלתה, זה טוב?"</div><div class="fs-sub">התשובה: תלוי מאיפה היא באה</div><div class="fs-details">פירקנו את ה-ROE ל-DuPont וראינו שהעלייה נשענת על <b>מינוף ושערוך</b>, לא על שיפור תפעולי. התשובה לדירקטוריון: "התשואה עלתה, אך איכותה בינונית, כי חלק ניכר ממנה חשבונאי ולא תזרימי. ה-FFO, המדד התזרימי, מספר סיפור מתון יותר."</div></div></div>
+      <div class="flow-step"><div class="num">🏦</div><div><div class="fs-title">לוועדת הביקורת: "מה החשיפה למדד?"</div><div class="fs-sub">התשובה: מכומתת, ומגודרת חלקית בטבע</div><div class="fs-details">כימתנו: כ-17.7 מיליארד חוב צמוד, עלות הצמדה כ-530 עד 700 מיליון לשנה תלוי במדד. אך יש <b>גידור טבעי</b> מול שכר דירה ונכסים צמודים. ההמלצה: לא לגדר הכול, אלא לקבוע תמהיל צמוד-נומינלי מכוון לפי תיאבון הסיכון.</div></div></div>
+      <div class="flow-step"><div class="num">🤖</div><div><div class="fs-title">למנכ״ל: "אפשר להאיץ את חבילת הדירקטוריון?"</div><div class="fs-sub">התשובה: כן, עד שלב הטיוטה</div><div class="fs-details">סוכן מכין את החבילה, מאמת כל מספר למקור, וקורא את הנרטיב כחבר דירקטוריון. חוסך שבוע וחצי. אך <b>החתימה נשארת אנושית</b>. מהירות ואמינות לא סותרות, אם בונים את התהליך נכון.</div></div></div>
+    </div>
+  </div>
+
+  <div class="deep-card">
+    <h3>ספריית ה-<span class="g">Prompts</span> של היום</h3>
+    <p class="lead">כל הבקשות המרכזיות שהרצנו, במקום אחד, מוכנות להעתקה. זו נקודת הפתיחה לספריית ה-Prompts של הצוות שלכם:</p>
+    <div class="promptbox"><span class="pl">📋 ניתוח · DuPont</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">פרק את ה-ROE של 2025 לפי DuPont מהקובץ המצורף, הרץ קוד והצג אותו, וכתוב משפט אחד לדירקטוריון מאיפה מגיעה התשואה.</div></div>
+    <div class="promptbox"><span class="pl">📋 ניתוח · מונטה-קרלו</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">הרץ סימולציית מונטה-קרלו ל-NOI לשנה הבאה: בסיס 2,500, אינפלציה 3% ברעש 1%, תפוסה נורמלית עם סטיית תקן 3%. החזר חציון וטווח 90%, וגזור המלצת כרית נזילות.</div></div>
+    <div class="promptbox"><span class="pl">📋 אוצר · חשיפת מדד ומח״מ</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">מהחוב הצמוד (17,700) ומהמח״מ (5.8), חשב את עלות ההצמדה ואת רגישות שווי החוב לזעזוע של 100 נק׳ בסיס, ונתח את הגידור הטבעי מול שכר דירה ונכסים צמודים. הרץ קוד והצג אותו.</div></div>
+    <div class="promptbox"><span class="pl">📋 אוטומציה · טיוטת דירקטוריון</span><button class="copy-btn" type="button">📋 העתק</button><div class="ptext">הכן טיוטת עמוד סיכום לדירקטוריון: יחסי מפתח, שתי נקודות סיכון, ומשפט המלצה. ציין מקור לכל מספר, ועצור לאישור לפני כל שליחה.</div></div>
+  </div>
+
+  <div class="deep-card">
+    <h3>מה לעשות <span class="g">ביום שני בבוקר</span></h3>
+    <ul class="checklist">
+      <li>הפעילו מנוי Claude Pro, והקימו פרויקט "FP&amp;A קבוצה" עם מדיניות הבית והדוחות האחרונים.</li>
+      <li>כתבו Skill אחד למדיניות היחסים שלכם, ונעלו בו את הגדרות ה-FFO והמינוף. זה הנכס הארגוני הראשון שלכם.</li>
+      <li>בחרו נקודת כאב אחת מוגדרת (סגירה, התאמות, או חבילת דירקטוריון), והריצו עליה פיילוט עם יעד מדיד.</li>
+      <li>דרשו מכל תוצר: מספר מצוטט למקור, וחתימה אנושית לפני כל מצג מהותי.</li>
+    </ul>
+  </div>
+
+  <div class="arthur-note" data-arthur="close">
+    <span class="tn-label">🎩 ארתור נפרד</span>
+    עברנו את כל המסלול: הכרנו את הכלי, פגשנו שלוש שאלות אמיתיות, ובנינו לכל אחת תשובה על נתונים ממשיים. קחו דבר אחד: הבינה משנה <b>מי מבצע</b>, לא <b>מי חתום</b>. תבנו, תנתחו, תנהלו סיכון, ותישארו האחראים. וכמו נקניק טוב, הכול בשכבות, לאט, ועם שיטה. נתראה בהרצאה הבאה!
+  </div>
+
+  <div class="takeaway">
+    <div class="big-emoji">🎯</div>
+    <div class="hd">השורה התחתונה של ההרצאה</div>
+    <div class="tx">ניהול פיננסי מתקדם בעידן ה-AI אינו "לתת למודל לענות". זה לשאול שאלה חדה, לתת לבינה לחשב ולכמת במהירות, ולהישאר האדם שמפרש, מחליט, וחותם. הכלי השתנה. האחריות לא.</div>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="big">🎓 סוף הרצאה 3 · ניהול פיננסי מתקדם בעידן ה-AI</div>
+  <div>קורס CFO בעידן החדש · הרצאה 3 · 6.7.2026 · מאת ד״ר שי צבאן</div>
+  <div class="small">מקרה מלווה: קבוצת עזריאלי, נתונים פומביים מעוגלים לצורך הוראה · אינם המלצת השקעה · כל כלי שולח ליישום מעשי ב-Claude על הנתונים</div>
+</footer>
+<script>
+/* ============ CORE UI: progress, nav, reveal, flip, accordion, copy, keynote ============ */
+(function(){
+  var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var bar=document.getElementById('bar');
+  var sections=[].slice.call(document.querySelectorAll('main .section'));
+  var navlinks=[].slice.call(document.querySelectorAll('.nav-block'));
+  var lp=document.getElementById('lessonProg');
+  function onScroll(){
+    var h=document.documentElement, sc=h.scrollTop, max=h.scrollHeight-h.clientHeight;
+    if(bar) bar.style.width=(max>0?(sc/max*100):0)+'%';
+    var cur=sections[0], idx=0;
+    for(var i=0;i<sections.length;i++){ if(sections[i].getBoundingClientRect().top<=140){ cur=sections[i]; idx=i; } }
+    navlinks.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href')==='#'+(cur&&cur.id)); });
+    var pct = max>0 ? Math.round(sc/max*100) : 0;
+    if(lp) lp.textContent='מודול '+(idx+1)+' / '+sections.length+' · '+pct+'%';
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('load', onScroll); onScroll();
+
+  /* reveal + stagger */
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } }); }, {threshold:.12});
+  document.querySelectorAll('.reveal,.stagger,.kn-pop').forEach(function(el){ io.observe(el); });
+
+  /* flip cards */
+  document.querySelectorAll('.flip').forEach(function(f){
+    f.setAttribute('tabindex','0'); f.setAttribute('role','button');
+    function tog(e){ if(e && e.target && e.target.closest('a,button')) return; f.classList.toggle('flipped'); }
+    f.addEventListener('click',tog);
+    f.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();f.classList.toggle('flipped');} });
+  });
+
+  /* hardq accordion */
+  document.querySelectorAll('.hardq .acc-h').forEach(function(h){
+    h.setAttribute('tabindex','0'); h.setAttribute('role','button');
+    function tog(){ h.parentElement.classList.toggle('open'); }
+    h.addEventListener('click',tog);
+    h.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();tog();} });
+  });
+
+  /* copy: prompt boxes */
+  function wireCopy(btn, getText){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var text=getText();
+      function ok(){ var o=btn.textContent; btn.textContent='✓ הועתק'; btn.classList.add('copied'); clearTimeout(btn._t); btn._t=setTimeout(function(){ btn.textContent=o; btn.classList.remove('copied'); },1500); }
+      if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(ok).catch(function(){ fallback(text); ok(); }); }
+      else { fallback(text); ok(); }
+    });
+  }
+  function fallback(text){ try{ var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);}catch(_){} }
+  document.querySelectorAll('.promptbox').forEach(function(pb){
+    var btn=pb.querySelector('.copy-btn'), txt=pb.querySelector('.ptext');
+    if(btn&&txt) wireCopy(btn, function(){ return txt.textContent; });
+  });
+  /* copy: code blocks (inject button) */
+  document.querySelectorAll('.code-block').forEach(function(block){
+    var pre=block.querySelector('pre'); if(!pre) return;
+    var btn=document.createElement('button'); btn.type='button'; btn.className='copy-btn'; btn.textContent='📋 העתק';
+    wireCopy(btn, function(){ return pre.textContent; });
+    block.appendChild(btn);
+  });
+
+  /* keynote start */
+  window.startLesson=function(){
+    document.body.classList.remove('pre-start');
+    document.body.classList.add('lesson-started');
+    var h=document.querySelector('.hero'); if(h) h.scrollIntoView({behavior:RM?'auto':'smooth'});
+  };
+  var hero=document.querySelector('.hero');
+  if(hero){ var o=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ document.body.classList.remove('pre-start'); document.body.classList.add('lesson-started'); o.disconnect(); } }); },{threshold:.08}); o.observe(hero); }
+})();
+</script>
+<script>
+/* ============ ARTHUR: draggable mascot + per-section tips ============ */
+(function(){
+  var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var arthur=document.getElementById('arthur'); if(!arthur) return;
+  var tipEl=document.getElementById('aTip'), art=document.getElementById('aArt');
+  var TIPS={
+    meet:"שלום, אני ארתור, רואה חשבון ותיק. אלווה אתכם היום עם הערות מהשטח וטיפ בכל תחנה. גררו אותי לאן שנוח.",
+    "meet-pay":"בהרצאה 2 חסכנו לכם כסף. עכשיו אני ממליץ להוציא 20 דולר. לא סתירה: אז התנסינו, היום עובדים.",
+    "meet-ready":"הכרנו. עכשיו לעבודה. כמו לפני ארוחה טובה, קודם פורסים, אחר כך אוכלים.",
+    bridge:"שבו רגע בכיסא. כל שאלה שנראה היום היא החלטה פיננסית אמיתית, והבינה רק עוזרת להגיע אליה טוב ומהר יותר.",
+    dec1:"אל תתנו למספר יפה לעוור אתכם. ROE של 7% משערוך זה לא כמו 7% מתפעול. תמיד שאלו מאיפה הרווח.",
+    dec2:"חשיפה זו לא מילה מפחידה, זו מספר. 'אם המדד יעלה באחוז, זה יעלה לנו X'. ברגע שכימתם, אפשר להחליט.",
+    dec3:"מהירות ואמינות לא סותרות, אם בונים תהליך נכון. אוטומציה מכינה, אתם חותמים. תכף נראה איך.",
+    "bridge-data":"שימו לב לשתי השורות המודגשות: החוב הצמוד עולה, והמח״מ ארוך. שם מסתתרת החשיפה שוועדת הביקורת שאלה עליה.",
+    "bridge-why":"נדל״ן מניב הוא מקרה מושלם: מינוף, שערוך, והצמדה, הכול על מספרים אמיתיים. גם קצת כמו נקניק טוב, הכול בשכבות.",
+    ecosystem:"לפני שבונים, שאלו: 'מה יקרה כשאבקש את אותו דבר בעוד רבעון?'. אם התשובה אינה 'בדיוק אותו חישוב', חסר לכם Skill.",
+    "eco-why":"שיחה אקראית טובה לרעיון. אבל אי אפשר להגיש למבקר 'שאלתי וזה מה שיצא'. צריך שיטה חוזרת.",
+    "eco-three":"שאלה שתכריע עבורכם: 'האם הבינה צריכה לראות את הקבצים שלי?'. כן, זה Cowork. רק מחשבה, זה הצ׳אט.",
+    "eco-cowork":"כאן מתבצעת העבודה האמיתית. Cowork רואה את התיקייה שלכם, אך רק מה שהתרתם, ומתעד כל פעולה.",
+    "eco-skills":"Skill הוא מדיניות הבית שלכם, כתובה. במקום להסביר בכל פעם איך מגדירים FFO, כותבים פעם אחת ונעולים על זה.",
+    "eco-hebrew":"כן, אפשר בעברית. אני כותב הוראות בעברית ואת שורת ההפעלה באנגלית. וכן, בדקתי, גם מתכון לנקניק אפשר.",
+    "eco-artifacts":"Skill הוא המתכון, Artifact הוא המנה. אחרי שהבנתם את זה, כל מחשבון שתראו היום פתאום מובן.",
+    "eco-projects":"פרויקט שומר את ההקשר במקום אחד. וההפרדה בין ישויות חשובה, בדיוק כמו שלא מערבבים סלמי חריף עם עדין.",
+    "eco-hardq":"הפיתוי לתת לזה לרוץ לבד גדול. אך תוצר מהותי מחייב חתימה אנושית. לא מגבלה טכנית, אלא אחריות.",
+    analysis:"תשואה על ההון היא לעולם לא מספר בודד. היא תמיד שלושה מנועים: רווחיות, יעילות, ומינוף. השאלה: מי מהם מניע כאן.",
+    "an-data":"כל המספרים כאן הם מהדוח שכבר ראיתם. תמיד תחזרו למקור אחד, לא לזיכרון.",
+    "an-dupont":"פירוק DuPont הוא כמו לפתוח שעון: אותו זמן על הלוח, אבל עכשיו רואים אילו גלגלים מזיזים אותו.",
+    "an-mc":"מספר בודד לתקציב זה ביטחון-שווא. תנו לדירקטוריון טווח והסתברות, לא נבואה.",
+    "an-altman":"Altman הוא איתות, לא גזר-דין. אצל נדל״ן הוא נוטה להחמיר, ותפקידכם לדעת מתי הוא לא מתאים.",
+    "an-hardq":"כשישאלו 'אז כמה', אל תיפלו למלכודת המספר הבודד. 'טווח והסתברות' זו התשובה הבוגרת.",
+    treasury:"אוצר הוא ניהול התאמות: מח״מ נכסים מול התחייבויות, מטבע מול מטבע, מדד מול מדד. הפער הוא החשיפה.",
+    "tr-data":"26.8 מיליארד חוב, שני שליש צמוד. זו לא רק כותרת, זו הזירה. כל תרחיש שנריץ יושב על המספרים האלה.",
+    "tr-linkage":"צמוד מדד זה כמו חשבון שגדל מעצמו עם האינפלציה. נוח כשהמדד שקט, כואב כשהוא מתעורר.",
+    "tr-duration":"מח״מ 5.8 אומר: אחוז ריבית מזיז כמעט 6% משווי החוב. זה לא תיאורטי, זה מיליארדים.",
+    "tr-lab":"שחקו עם הסליידרים. שימו לב שההצמדה בכ-3% נוחתת על כ-530 מיליון, בדיוק כמו במציאות.",
+    "tr-hedge":"אל תמהרו לגדר הכול. חוב צמוד מול נכסים צמודים זה גידור טבעי. כמו לאזן צלחת, לא להעיף אותה.",
+    "tr-covenant":"ההתראה המוקדמת על אמת-מידה מתקרבת היא השווי האמיתי. 6 שבועות מראש זה ההבדל בין לתקן להתפוצץ.",
+    "tr-hardq":"היועץ אמר 'גדר הכול'. אבל גידור מלא חושף אתכם לכיוון ההפוך. חשבו לשני הצדדים.",
+    automation:"סוכן שמכין דוח הוא נכס. סוכן ששולח בלי אישור הוא סיכון. ההבדל הוא בקרה אנושית מתועדת.",
+    "au-agent":"סוכן טוב הוא מתמחה חרוץ, לא שותף בכיר. הוא מכין נהדר, אבל החתימה עדיין שלכם.",
+    "au-close":"המספרים אמיתיים אבל מדווחים על ידי הספקים. התייחסו אליהם ככיוון, לא כהבטחה חתומה.",
+    "au-doc":"מספר בלי מקור הוא שמועה. דרשו ציטוט לעמוד המקור, ואז זו פרודוקטיביות, לא סיכון.",
+    "au-board":"זו התשובה למנכ״ל: הסוכן מאמת כל מספר ומקריא את הסיפור כמו חבר דירקטוריון. אתם עדיין חותמים.",
+    "au-reality":"95% מהפיילוטים לא מחזירים. הסוד לא במודל, אלא בלבחור כאב אחד ולשלב אותו בתהליך אמיתי.",
+    "au-hardq":"'טכנית אפשר' זו לא סיבה. חבילת דירקטוריון היא באחריותכם, לכן הסוכן עוצר, ואתם משגרים.",
+    close:"קחו דבר אחד: הבינה משנה מי מבצע, לא מי חתום. תבנו, תנתחו, תנהלו סיכון, ותישארו האחראים."
+  };
+  var curId=null;
+  function setTip(id){
+    if(!TIPS[id]) return;
+    tipEl.textContent=TIPS[id];
+    arthur.classList.remove('pulse'); void arthur.offsetWidth; arthur.classList.add('pulse');
+    clearTimeout(window._aT); window._aT=setTimeout(function(){ arthur.classList.remove('pulse'); },1600);
+  }
+  /* pick best-visible anchor */
+  var visible={};
+  function pickBest(){
+    var bestId=null, bestRatio=0;
+    for(var k in visible){ if(visible[k]>bestRatio && TIPS[k]){ bestRatio=visible[k]; bestId=k; } }
+    if(bestId && bestId!==curId){ curId=bestId; setTip(curId); }
+  }
+  var tipIO=new IntersectionObserver(function(es){
+    es.forEach(function(e){ var id=e.target.getAttribute('data-arthur')||e.target.id; if(!id) return; visible[id]= e.isIntersecting ? e.intersectionRatio : 0; });
+    pickBest();
+  },{threshold:[0,0.15,0.3,0.5,0.75],rootMargin:'-16% 0px -45% 0px'});
+  document.querySelectorAll('section[id],[data-arthur]').forEach(function(s){ tipIO.observe(s); });
+
+  /* drag both axes */
+  function clampX(x){ return Math.max(6, Math.min(x, window.innerWidth - arthur.offsetWidth - 6)); }
+  function clampY(y){ return Math.max(6, Math.min(y, window.innerHeight - arthur.offsetHeight - 6)); }
+  var dragging=false, dx=0, dy=0, moved=false;
+  function down(e){ dragging=true; moved=false;
+    var r=arthur.getBoundingClientRect();
+    var cx=(e.touches?e.touches[0].clientX:e.clientX), cy=(e.touches?e.touches[0].clientY:e.clientY);
+    dx=cx-r.left; dy=cy-r.top; arthur.style.bottom='auto'; e.preventDefault();
+  }
+  function move(e){ if(!dragging) return; moved=true;
+    var cx=(e.touches?e.touches[0].clientX:e.clientX), cy=(e.touches?e.touches[0].clientY:e.clientY);
+    arthur.style.left=clampX(cx-dx)+'px'; arthur.style.top=clampY(cy-dy)+'px'; arthur.style.right='auto';
+  }
+  function up(){ dragging=false; }
+  art.addEventListener('mousedown',down); art.addEventListener('touchstart',down,{passive:false});
+  window.addEventListener('mousemove',move); window.addEventListener('touchmove',move,{passive:false});
+  window.addEventListener('mouseup',up); window.addEventListener('touchend',up);
+  window.arthurMin=function(){ arthur.classList.add('min'); };
+  window.arthurReopen=function(){ arthur.classList.remove('min'); };
+})();
+</script>
+<script>
+/* ============ LIVE FINANCIAL CALCULATORS (retinted to reference palette) ============ */
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var fmt0=function(n){return Math.round(n).toLocaleString('en-US');};
+  var fmt=function(n,d){return (n).toLocaleString('en-US',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
+
+  /* ---- DuPont ---- */
+  function dupont(){
+    var net=+$('dp-net').value, rev=+$('dp-rev').value, ta=+$('dp-ta').value, eq=+$('dp-eq').value;
+    if(!rev||!ta||!eq){return;}
+    var nm=net/rev, at=rev/ta, lev=ta/eq, roe=net/eq;
+    var drivers=[{k:'רווחיות נטו',v:(nm*100).toFixed(1)+'%',m:Math.abs(Math.log(nm))},
+                 {k:'מחזור הנכסים',v:at.toFixed(3),m:Math.abs(Math.log(at))},
+                 {k:'מינוף פיננסי',v:lev.toFixed(2),m:Math.abs(Math.log(lev))}];
+    var domIdx=0; for(var i=1;i<3;i++){ if(drivers[i].m>drivers[domIdx].m) domIdx=i; }
+    function term(d,i,isRoe){ var cls='dp-term'+(isRoe?' roe':'')+(!isRoe&&i===domIdx?' dominant':'');
+      return '<div class="'+cls+'"><div class="dt-v">'+d.v+'</div><div class="dt-l">'+d.k+'</div></div>'; }
+    $('dp-out').innerHTML='<div class="dp-eq">'
+      +term({k:'ROE, תשואה על ההון',v:(roe*100).toFixed(1)+'%'},-1,true)
+      +'<div class="dp-op">=</div>'+term(drivers[0],0)
+      +'<div class="dp-op">×</div>'+term(drivers[1],1)
+      +'<div class="dp-op">×</div>'+term(drivers[2],2)+'</div>'
+      +'<p class="dp-verdict">המנוע הדומיננטי של התשואה: <b>'+drivers[domIdx].k+'</b>. '
+      +(at<0.2?'מחזור הנכסים זעיר, טיפוסי לנדל״ן מניב, כך שהתשואה נשענת על רווחיות ומינוף ולא על יעילות תפעולית.':'')+'</p>';
+  }
+  if($('dp-run')){ $('dp-run').addEventListener('click',dupont); dupont(); }
+
+  /* ---- Monte Carlo ---- */
+  function randn(){ var u=0,v=0; while(u===0)u=Math.random(); while(v===0)v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+  function mc(){
+    var base=+$('mc-base').value, infl=+$('mc-infl').value/100, vol=+$('mc-vol').value/100;
+    var N=5000, res=[];
+    for(var i=0;i<N;i++){ var rent=1+(infl+randn()*0.01), occ=1+randn()*vol; res.push(base*rent*occ); }
+    res.sort(function(a,b){return a-b;});
+    var p=function(q){return res[Math.floor(q*N)];};
+    var p5=p(0.05),p50=p(0.5),p95=p(0.95);
+    var lo=res[0],hi=res[N-1],bins=28,counts=new Array(bins).fill(0);
+    for(var j=0;j<N;j++){ var b=Math.min(bins-1,Math.floor((res[j]-lo)/(hi-lo)*bins)); counts[b]++; }
+    var maxc=Math.max.apply(null,counts);
+    var W=760,H=250,mL=10,mR=10,mT=22,mB=34,iw=W-mL-mR,ih=H-mT-mB;
+    var X=function(val){return mL+(val-lo)/(hi-lo)*iw;};
+    var bars='',k,bx,bh,mid,bw=iw/bins;
+    for(k=0;k<bins;k++){ bx=mL+k*bw; bh=counts[k]/maxc*ih; mid=lo+(k+0.5)/bins*(hi-lo);
+      var fill=mid<p5?'#ef4444':'#a5b4fc';
+      bars+='<rect x="'+(bx+0.5).toFixed(1)+'" y="'+(mT+ih-bh).toFixed(1)+'" width="'+(bw-1).toFixed(1)+'" height="'+bh.toFixed(1)+'" fill="'+fill+'"'+(mid<p5?' fill-opacity="0.9"':'')+'/>'; }
+    function vline(val,label,col,dash){ var px=X(val).toFixed(1);
+      return '<line x1="'+px+'" y1="'+mT+'" x2="'+px+'" y2="'+(mT+ih)+'" stroke="'+col+'" stroke-width="1.6"'+(dash?' stroke-dasharray="4 3"':'')+'/>'
+      +'<text x="'+px+'" y="'+(mT-6)+'" text-anchor="middle" font-size="12" font-weight="700" fill="'+col+'">'+label+'</text>'; }
+    var ticks='',t,tv;
+    for(t=0;t<=4;t++){ tv=lo+(hi-lo)*t/4; ticks+='<text x="'+X(tv).toFixed(1)+'" y="'+(mT+ih+18)+'" text-anchor="middle" font-size="11.5" fill="#64748b">'+fmt(tv)+'</text>'; }
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="התפלגות NOI, 5000 תרחישים">'
+      +'<rect x="'+X(p5).toFixed(1)+'" y="'+mT+'" width="'+(X(p95)-X(p5)).toFixed(1)+'" height="'+ih+'" fill="#4f46e5" fill-opacity="0.06"/>'
+      +bars
+      +'<line x1="'+mL+'" y1="'+(mT+ih)+'" x2="'+(W-mR)+'" y2="'+(mT+ih)+'" stroke="#cbd5e1"/>'
+      +vline(p50,'חציון '+fmt(p50),'#0f172a',false)
+      +vline(p5,'p5 '+fmt(p5),'#ef4444',true)
+      +vline(p95,'p95 '+fmt(p95),'#10b981',true)
+      +ticks
+      +'<text x="'+(W-mR)+'" y="'+(H-4)+'" text-anchor="end" font-size="11.5" fill="#64748b">מ׳ ש״ח →</text></svg>';
+    $('mc-out').innerHTML=svg+'<p class="mc-note">90% מהתרחישים בין <b>'+fmt(p5)+'</b> ל-<b>'+fmt(p95)+'</b> מ׳ ש״ח. האזור האדום הוא 5% התרחישים הגרועים, ועליו בונים את כרית הנזילות.</p>';
+  }
+  if($('mc-run')){ $('mc-run').addEventListener('click',mc);
+    var iv=$('mc-infl'),vv=$('mc-vol');
+    if(iv)iv.addEventListener('input',function(){$('mc-infl-v').textContent=iv.value+'%';});
+    if(vv)vv.addEventListener('input',function(){$('mc-vol-v').textContent=vv.value+'%';});
+    mc(); }
+
+  /* ---- Altman Z'' arc dial ---- */
+  function altman(){
+    var wc=+$('al-wc').value, re=+$('al-re').value, ebit=+$('al-ebit').value, eq=+$('al-eq').value, tl=+$('al-tl').value, ta=+$('al-ta').value;
+    if(!ta||!tl){return;}
+    var X1=wc/ta,X2=re/ta,X3=ebit/ta,X4=eq/tl;
+    var Z=6.56*X1+3.26*X2+6.72*X3+1.05*X4;
+    var zoneKey = Z>2.6?'safe':(Z>1.1?'grey':'distress');
+    var W=360,H=196,cx=180,cy=176,r=134,Zmax=5;
+    var zc=Math.max(0,Math.min(Zmax,Z));
+    function ang(v){return Math.PI*(1-v/Zmax);}
+    function P(v,rad){var a=ang(v);return [cx+rad*Math.cos(a),cy-rad*Math.sin(a)];}
+    function arc(v0,v1,rad,col,w){var a=P(v0,rad),b=P(v1,rad),large=(ang(v0)-ang(v1))>Math.PI?1:0;
+      return '<path d="M'+a[0].toFixed(1)+' '+a[1].toFixed(1)+' A'+rad+' '+rad+' 0 '+large+' 1 '+b[0].toFixed(1)+' '+b[1].toFixed(1)+'" fill="none" stroke="'+col+'" stroke-width="'+w+'" stroke-linecap="butt"/>'; }
+    function tick(v){var o=P(v,r-15),ii=P(v,r+3),lp=P(v,r+15);
+      return '<line x1="'+o[0].toFixed(1)+'" y1="'+o[1].toFixed(1)+'" x2="'+ii[0].toFixed(1)+'" y2="'+ii[1].toFixed(1)+'" stroke="#fff" stroke-width="3"/>'
+      +'<text x="'+lp[0].toFixed(1)+'" y="'+lp[1].toFixed(1)+'" font-size="11" fill="#64748b" text-anchor="middle">'+v+'</text>'; }
+    var np=P(zc,r-28);
+    var col={safe:'#10b981',grey:'#b45309',distress:'#ef4444'}[zoneKey];
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:400px;margin:0 auto;display:block;" role="img" aria-label="מדד Altman Z דו-תג">'
+      +arc(0,1.1,r,'#e6a9a0',22)+arc(1.1,2.6,r,'#e8d9b0',22)+arc(2.6,Zmax,r,'#a9d3ba',22)
+      +tick(1.1)+tick(2.6)
+      +'<line x1="'+cx+'" y1="'+cy+'" x2="'+np[0].toFixed(1)+'" y2="'+np[1].toFixed(1)+'" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>'
+      +'<circle cx="'+cx+'" cy="'+cy+'" r="7" fill="#0f172a"/>'
+      +'<text x="'+cx+'" y="'+(cy-40)+'" text-anchor="middle" font-size="44" font-weight="800" fill="'+col+'">'+Z.toFixed(2)+'</text>'
+      +'<text x="'+cx+'" y="'+(cy-20)+'" text-anchor="middle" font-size="13" fill="#64748b">Z score</text></svg>';
+    var pill={safe:'אזור בטוח',grey:'אזור אפור, דורש בחינה',distress:'אזור מצוקה'}[zoneKey];
+    $('al-out').innerHTML=svg
+      +'<div class="al-pill" style="--pc:'+col+'"><span class="al-dot"></span>'+pill+'</div>'
+      +'<p style="font-size:14px;color:var(--muted);margin-top:10px;text-align:center;">X1='+X1.toFixed(3)+' · X2='+X2.toFixed(3)+' · X3='+X3.toFixed(3)+' · X4='+X4.toFixed(3)+'</p>';
+  }
+  if($('al-run')){ $('al-run').addEventListener('click',altman); altman(); }
+
+  /* ---- ALM exposure lab ---- */
+  function alm(){
+    var linked=+$('alm-linked').value, debt=+$('alm-debt').value, dur=+$('alm-dur').value, rent=+$('alm-rent').value;
+    var cpi=+$('alm-cpi').value/100, shock=+$('alm-shock').value;
+    if(!debt){return;}
+    var accretion=linked*cpi, rentUplift=rent*cpi, netDrag=accretion-rentUplift;
+    var dy=shock/10000, priceImpact=-dur*dy*debt;
+    $('alm-out').innerHTML='<div class="alm-cards">'
+      +'<div class="alm-card neg"><div class="alm-v">'+fmt0(accretion)+'</div><div class="alm-l">עלות ההצמדה על החוב (מ׳ ש״ח)</div></div>'
+      +'<div class="alm-card pos"><div class="alm-v">'+fmt0(rentUplift)+'</div><div class="alm-l">קיזוז משכר-דירה צמוד</div></div>'
+      +'<div class="alm-card '+(netDrag>0?'neg':'pos')+'"><div class="alm-v">'+fmt0(netDrag)+'</div><div class="alm-l">חשיפה נטו לאינפלציה</div></div>'
+      +'<div class="alm-card '+(priceImpact<0?'neg':'pos')+'"><div class="alm-v">'+fmt0(priceImpact)+'</div><div class="alm-l">השפעת זעזוע הריבית על שווי החוב</div></div>'
+      +'</div>'
+      +'<p class="alm-note">באינפלציה של '+($('alm-cpi').value)+'%, עלות ההצמדה כ-<b>'+fmt0(accretion)+'</b> מ׳ ש״ח, ומקוזזת חלקית בכ-<b>'+fmt0(rentUplift)+'</b> מ׳ מהכנסות צמודות. זעזוע ריבית של '+$('alm-shock').value+' נק׳ בסיס משנה את השווי הכלכלי של החוב בכ-<b>'+fmt0(priceImpact)+'</b> מ׳ ש״ח.</p>';
+  }
+  if($('alm-run')){ $('alm-run').addEventListener('click',alm);
+    var c=$('alm-cpi'),sh=$('alm-shock');
+    if(c)c.addEventListener('input',function(){$('alm-cpi-v').textContent=c.value+'%';});
+    if(sh)sh.addEventListener('input',function(){$('alm-shock-v').textContent=sh.value;});
+    alm(); }
+})();
+</script>
+</body>
+</html>
