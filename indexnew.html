@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFO בעידן החדש · קורס מאת ד״ר שי צבאן · אוניברסיטת בר-אילן</title>
+<meta name="description" content="קורס בן ארבעה מפגשים על ניהול כספים בעידן הבינה המלאכותית. מ׳שומר הסף׳ לשותף אסטרטגי.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#4f46e5; --primary-dark:#3730a3; --primary-light:#eef2ff;
+  --accent:#14b8a6; --accent-dark:#0f766e; --purple:#a855f7;
+  --ink:#0f172a; --ink-soft:#334155; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc; --white:#fff;
+  --shadow:0 10px 30px rgba(15,23,42,.08); --shadow-lg:0 24px 60px rgba(15,23,42,.16);
+  --r:26px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Heebo',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+.grad-t{background:linear-gradient(115deg,#5eead4,#818cf8 52%,#c084fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad-l{background:linear-gradient(120deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- top bar ---------- */
+.topbar{position:fixed;top:0;right:0;left:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 26px;transition:.3s}
+.topbar.scrolled{background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:11px 26px}
+.tb-brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:16px;transition:.3s}
+.topbar.scrolled .tb-brand{color:var(--ink)}
+.tb-logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;color:#fff;font-weight:900;font-size:14px;flex-shrink:0}
+.tb-brand small{display:block;font-weight:500;font-size:11px;opacity:.7}
+.tb-cta{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:700;font-size:13.5px;padding:9px 18px;border-radius:999px;transition:.2s}
+.topbar.scrolled .tb-cta{background:var(--primary);border-color:var(--primary)}
+.tb-cta:hover{transform:translateY(-1px)}
+@media(max-width:640px){.tb-brand small{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 90px;background:#07070b;color:#fff;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;pointer-events:none}
+.orb.o1{width:520px;height:520px;background:#4f46e5;top:-140px;right:-80px;animation:float1 16s ease-in-out infinite}
+.orb.o2{width:460px;height:460px;background:#14b8a6;bottom:-160px;left:-90px;animation:float2 19s ease-in-out infinite}
+.orb.o3{width:380px;height:380px;background:#a855f7;top:40%;left:50%;transform:translateX(-50%);opacity:.28;animation:float3 22s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,40px)}}
+@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}}
+@keyframes float3{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-40px)}}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%)}
+.hero-in{position:relative;z-index:2;max-width:900px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:800;letter-spacing:2px;color:#a5b4fc;background:rgba(129,140,248,.12);border:1px solid rgba(129,140,248,.3);border-radius:999px;padding:8px 18px;margin-bottom:28px}
+.hero h1{font-size:clamp(46px,9vw,104px);font-weight:900;line-height:1.02;letter-spacing:-2px}
+.hero .h1-sub{display:block;font-size:clamp(22px,3.6vw,40px);font-weight:700;color:#e2e8f0;margin-top:14px;letter-spacing:-.5px}
+.hero-sub{font-size:clamp(17px,2.2vw,22px);color:#aab3c5;max-width:640px;margin:26px auto 0;line-height:1.6}
+.hero-stats{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:38px 0 34px}
+.hstat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 22px;min-width:120px}
+.hstat b{display:block;font-size:28px;font-weight:900;background:linear-gradient(115deg,#5eead4,#818cf8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hstat span{font-size:13px;color:#8b93a7;font-weight:600}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(110deg,#5eead4,#818cf8);color:#0b0b0c;font-weight:900;font-size:18px;padding:16px 38px;border-radius:999px;box-shadow:0 16px 44px rgba(129,140,248,.4);transition:.2s}
+.hero-cta:hover{transform:translateY(-3px) scale(1.02)}
+.hero-instr{margin-top:26px;font-size:15px;color:#8b93a7}
+.hero-instr b{color:#cbd5e1}
+.scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:#5b6479;font-size:13px;font-weight:700;z-index:2;animation:bob 1.9s infinite}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+/* ---------- sections ---------- */
+.section{padding:clamp(64px,9vw,110px) 0}
+.sec-head{text-align:center;max-width:720px;margin:0 auto clamp(40px,5vw,60px)}
+.sec-tag{display:inline-block;font-weight:800;font-size:13.5px;letter-spacing:1px;color:var(--primary-dark);background:var(--primary-light);border-radius:999px;padding:7px 16px;margin-bottom:16px}
+.sec-head h2{font-size:clamp(30px,4.6vw,50px);font-weight:900;line-height:1.12;letter-spacing:-1px}
+.sec-head p{font-size:clamp(16px,2vw,20px);color:var(--muted);margin-top:12px}
+
+/* ---------- lecture cards ---------- */
+.lecs{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+@media(max-width:900px){.lecs{grid-template-columns:1fr;max-width:560px;margin:0 auto}}
+.lec{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:0;box-shadow:var(--shadow);overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s,border-color .35s}
+.lec:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:transparent}
+.lec-top{height:7px;background:var(--cardgrad)}
+.lec-body{padding:28px 26px 24px;display:flex;flex-direction:column;flex:1}
+.lec-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.lec-num{width:52px;height:52px;border-radius:15px;background:var(--cardgrad);color:#fff;font-weight:900;font-size:22px;display:grid;place-items:center;box-shadow:var(--shadow)}
+.lec-when{text-align:left;font-size:12.5px;color:var(--muted);font-weight:700;line-height:1.5}
+.lec-when b{display:block;color:var(--ink-soft);font-size:14px}
+.lec-ic{font-size:38px;line-height:1;margin-bottom:8px}
+.lec h3{font-size:24px;font-weight:900;letter-spacing:-.4px;line-height:1.2;margin-bottom:10px}
+.lec p{font-size:15.5px;color:var(--ink-soft);line-height:1.65;flex:1}
+.lec-chips{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 20px}
+.lec-chip{font-size:12.5px;font-weight:700;color:var(--primary-dark);background:var(--primary-light);border-radius:999px;padding:5px 12px}
+.lec-go{display:flex;align-items:center;justify-content:space-between;background:var(--cardgrad);color:#fff;font-weight:800;font-size:16px;border-radius:15px;padding:14px 20px;transition:.25s}
+.lec:hover .lec-go{filter:brightness(1.05)}
+.lec-go .arr{font-size:20px;transition:transform .25s}
+.lec:hover .lec-go .arr{transform:translateX(-6px)}
+.lec.c1{--cardgrad:linear-gradient(135deg,#4f46e5,#6366f1)}
+.lec.c2{--cardgrad:linear-gradient(135deg,#4f46e5,#14b8a6)}
+.lec.c3{--cardgrad:linear-gradient(135deg,#7c3aed,#a855f7)}
+.lec.c2 .lec-chip{color:var(--accent-dark);background:#e6fbf6}
+.lec.c3 .lec-chip{color:#6d28d9;background:#f5f3ff}
+
+/* ---------- lecture 4 · coming soon ---------- */
+.lec-soon{display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:center;margin-top:26px;background:repeating-linear-gradient(135deg,#f8fafc,#f8fafc 15px,#f1f5fb 15px,#f1f5fb 30px);border:2px dashed #cbd5e1;border-radius:var(--r);padding:26px 32px;position:relative;overflow:hidden}
+.lec-soon .soon-badge{width:60px;height:60px;border-radius:16px;background:#e2e8f0;color:#94a3b8;font-weight:900;font-size:24px;display:grid;place-items:center;flex-shrink:0}
+.lec-soon .soon-tag{display:inline-block;font-weight:800;font-size:13px;color:#64748b;background:#e2e8f0;border-radius:999px;padding:5px 14px;margin-bottom:10px}
+.lec-soon h3{font-size:22px;font-weight:900;color:#475569;letter-spacing:-.3px;margin-bottom:8px;line-height:1.2}
+.lec-soon p{font-size:15px;color:#64748b;line-height:1.6;max-width:660px}
+.lec-soon .lec-chips{margin:14px 0 0}
+.lec-soon .lec-chip{color:#64748b;background:#e2e8f0}
+.soon-cta{text-align:center;flex-shrink:0}
+.soon-pill{display:inline-block;background:#94a3b8;color:#fff;font-weight:800;font-size:15px;padding:12px 26px;border-radius:999px;cursor:not-allowed;opacity:.9;white-space:nowrap}
+.soon-when{display:block;font-size:12.5px;color:#94a3b8;font-weight:700;margin-top:8px;max-width:150px}
+@media(max-width:760px){.lec-soon{grid-template-columns:1fr;text-align:center;justify-items:center}.lec-soon p{max-width:none}.soon-cta{margin-top:6px}.soon-when{max-width:none}}
+
+/* ---------- highlights ---------- */
+.hl-band{background:linear-gradient(160deg,#0f172a,#1e293b);color:#fff;border-radius:32px;padding:clamp(36px,5vw,56px);position:relative;overflow:hidden}
+.hl-band::before{content:"";position:absolute;width:400px;height:400px;border-radius:50%;background:#4f46e5;filter:blur(90px);opacity:.28;top:-120px;left:-80px}
+.hl-band::after{content:"";position:absolute;width:360px;height:360px;border-radius:50%;background:#14b8a6;filter:blur(90px);opacity:.24;bottom:-120px;right:-60px}
+.hl-inner{position:relative;z-index:2}
+.hl-inner h2{font-size:clamp(26px,3.6vw,40px);font-weight:900;text-align:center;margin-bottom:8px}
+.hl-inner .hl-sub{text-align:center;color:#aab3c5;margin-bottom:36px;font-size:17px}
+.hl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:860px){.hl-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.hl-grid{grid-template-columns:1fr}}
+.hl{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:24px 20px;text-align:center;transition:.25s}
+.hl:hover{background:rgba(255,255,255,.1);transform:translateY(-4px)}
+.hl .e{font-size:40px;display:block;margin-bottom:12px}
+.hl h4{font-size:17px;font-weight:800;margin-bottom:6px}
+.hl p{font-size:13.5px;color:#9aa3b5;line-height:1.55}
+
+/* ---------- instructor ---------- */
+.instr{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:clamp(28px,4vw,44px);box-shadow:var(--shadow)}
+@media(max-width:640px){.instr{grid-template-columns:1fr;text-align:center;justify-items:center}}
+.instr-av{position:relative;width:150px;height:150px;flex-shrink:0}
+.instr-av .mono{width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;color:#fff;font-size:52px;font-weight:900;box-shadow:var(--shadow-lg)}
+.instr-av .arthur-badge{position:absolute;bottom:-6px;left:-6px;width:58px;height:58px;border-radius:50%;background:#fff;border:3px solid var(--line);box-shadow:var(--shadow);overflow:hidden}
+.instr-tag{display:inline-block;font-weight:800;font-size:13px;color:var(--primary-dark);background:var(--primary-light);border-radius:999px;padding:5px 14px;margin-bottom:12px}
+.instr h3{font-size:clamp(24px,3vw,32px);font-weight:900;margin-bottom:4px}
+.instr .role{color:var(--accent-dark);font-weight:700;font-size:16px;margin-bottom:14px}
+.instr p{color:var(--ink-soft);font-size:16px;line-height:1.7;max-width:640px}
+
+/* ---------- path note ---------- */
+.pathnote{display:flex;align-items:center;gap:14px;justify-content:center;background:var(--primary-light);border:1px solid #c7d2fe;border-radius:18px;padding:16px 24px;max-width:640px;margin:34px auto 0;color:var(--primary-dark);font-weight:700;font-size:15.5px}
+.pathnote .e{font-size:24px}
+
+/* ---------- footer ---------- */
+footer{background:#07070b;color:#8b93a7;text-align:center;padding:50px 24px}
+footer .fl{color:#fff;font-weight:800;font-size:18px;margin-bottom:6px}
+footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+.rv-s>*{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.rv-s.in>*{opacity:1;transform:none}
+.rv-s.in>*:nth-child(2){transition-delay:.1s}.rv-s.in>*:nth-child(3){transition-delay:.2s}.rv-s.in>*:nth-child(4){transition-delay:.3s}
+@media(prefers-reduced-motion:reduce){.rv,.rv-s>*{opacity:1!important;transform:none!important}.orb{animation:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="arthurFace" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#eef2ff"/>
+  <path d="M12 100 Q20 74 38 70 L62 70 Q80 74 88 100 Z" fill="#1c3a5e"/>
+  <path d="M40 70 L50 86 L60 70 Z" fill="#fff"/>
+  <path d="M50 72 L45.5 79 L50 97 L54.5 79 Z" fill="#e0294b"/>
+  <path d="M45.5 72 L54.5 72 L50 79 Z" fill="#b81e3b"/>
+  <rect x="43" y="59" width="14" height="15" rx="5" fill="#e8b98c"/>
+  <circle cx="50" cy="46" r="29" fill="#f3c9a0"/>
+  <circle cx="22" cy="48" r="5" fill="#f3c9a0"/><circle cx="78" cy="48" r="5" fill="#f3c9a0"/>
+  <path d="M21 45 Q20 16 50 16 Q80 16 79 45 Q72 30 50 30 Q28 30 21 45 Z" fill="#2b2118"/>
+  <circle cx="34" cy="55" r="6" fill="#f2b98a" opacity=".55"/><circle cx="66" cy="55" r="6" fill="#f2b98a" opacity=".55"/>
+  <path d="M31 41 Q37 37 43 41" stroke="#2b2118" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M57 41 Q63 37 69 41" stroke="#2b2118" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <circle cx="38" cy="48" r="3.4" fill="#2b2118"/><circle cx="62" cy="48" r="3.4" fill="#2b2118"/>
+  <circle cx="39.2" cy="47" r="1.1" fill="#fff"/><circle cx="63.2" cy="47" r="1.1" fill="#fff"/>
+  <path d="M39 59 Q50 68 61 59" fill="none" stroke="#a0522d" stroke-width="2.6" stroke-linecap="round"/>
+</symbol></svg>
+
+<div class="topbar" id="topbar">
+  <a class="tb-brand" href="#top"><span class="tb-logo">CFO</span><span>CFO בעידן החדש<small>ד״ר שי צבאן · בר-אילן</small></span></a>
+  <a class="tb-cta" href="#lectures">למסלול הקורס ←</a>
+</div>
+
+<header class="hero" id="top">
+  <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-in">
+    <div class="hero-eyebrow rv">אוניברסיטת בר-אילן · היחידה ללימודי חוץ</div>
+    <h1 class="rv">CFO <span class="grad-t">בעידן החדש</span><span class="h1-sub">ניהול כספים בעידן הבינה המלאכותית</span></h1>
+    <p class="hero-sub rv">קורס בן ארבעה מפגשים שלוקח את מנהל הכספים מ״שומר הסף״ אל תפקיד של שותף אסטרטגי, עם ידיים על המקלדת, הדגמות חיות, ומקרים אמיתיים מחברות ציבוריות.</p>
+    <div class="hero-stats rv-s">
+      <div class="hstat"><b>4</b><span>מפגשים</span></div>
+      <div class="hstat"><b>10+</b><span>שעות תוכן</span></div>
+      <div class="hstat"><b>∞</b><span>הדגמות חיות</span></div>
+      <div class="hstat"><b>עברית</b><span>מלאה</span></div>
+    </div>
+    <a class="hero-cta rv" href="#lectures">בחרו מפגש והתחילו ↓</a>
+    <div class="hero-instr rv">בהנחיית <b>ד״ר שי צבאן</b>, בליווי ארתור, המנחה הדיגיטלי שלכם</div>
+  </div>
+  <div class="scrollcue">גללו למטה ↓</div>
+</header>
+
+<main>
+<section class="section" id="lectures">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">מסלול הקורס</span>
+      <h2>ארבעה מפגשים, <span class="grad-l">מסע אחד</span></h2>
+      <p>כל מפגש עומד בפני עצמו, אך יחד הם בונים את הדרך מהיסודות ועד לניהול פיננסי מתקדם. מומלץ ללכת לפי הסדר.</p>
+    </div>
+
+    <div class="lecs rv-s">
+      <a class="lec c1" href="lec1-new.html">
+        <div class="lec-top"></div>
+        <div class="lec-body">
+          <div class="lec-row"><div class="lec-num">01</div><div class="lec-when"><b>22 ביוני 2026</b>מפגש הפתיחה</div></div>
+          <div class="lec-ic">🧭</div>
+          <h3>יסודות: משומר הסף לשותף</h3>
+          <p>המסע של הבינה המלאכותית בשלושה שלבים, מה מותר להראות לה ומה אסור, עוזר AI מקומי שרץ אצלכם, ואיך מנהל הכספים הופך משומר סף לשותף אסטרטגי. בלי להניח שום ידע מוקדם.</p>
+          <div class="lec-chips"><span class="lec-chip">יסודות</span><span class="lec-chip">מה מותר</span><span class="lec-chip">עוזר מקומי</span><span class="lec-chip">התפקיד האסטרטגי</span></div>
+          <div class="lec-go"><span>כניסה למפגש</span><span class="arr">←</span></div>
+        </div>
+      </a>
+
+      <a class="lec c2" href="lec2-new.html">
+        <div class="lec-top"></div>
+        <div class="lec-body">
+          <div class="lec-row"><div class="lec-num">02</div><div class="lec-when"><b>29 ביוני 2026</b>ידיים על המקלדת</div></div>
+          <div class="lec-ic">⌨️</div>
+          <h3>ניתוח פיננסי עם כלי AI</h3>
+          <p>פרטיות לפי תיקון 13 עם תרגיל קו אדום, שליטה ב-Temperature עם הדגמה חיה, ניתוח דוחות מלא עם מחשבון יחסים ו-DuPont, ואיך תופסים את ה-AI בדיוק כשהוא טועה, לפני שחותמים.</p>
+          <div class="lec-chips"><span class="lec-chip">פרטיות</span><span class="lec-chip">Temperature</span><span class="lec-chip">ניתוח דוחות</span><span class="lec-chip">אימות</span></div>
+          <div class="lec-go"><span>כניסה למפגש</span><span class="arr">←</span></div>
+        </div>
+      </a>
+
+      <a class="lec c3" href="lec3-new.html">
+        <div class="lec-top"></div>
+        <div class="lec-body">
+          <div class="lec-row"><div class="lec-num">03</div><div class="lec-when"><b>6 ביולי 2026</b>ניהול מתקדם</div></div>
+          <div class="lec-ic">📊</div>
+          <h3>ניהול פיננסי מתקדם בעידן ה-AI</h3>
+          <p>פירוק DuPont, סימולציית מונטה-קרלו ומדד Altman, אוצר וניהול נכסים-התחייבויות, חשיפת מדד ואוטומציה אג׳נטית, הכל על מקרה מלווה אמיתי: קבוצת עזריאלי, על נתונים פומביים.</p>
+          <div class="lec-chips"><span class="lec-chip">ניתוח מתקדם</span><span class="lec-chip">אוצר</span><span class="lec-chip">חשיפת מדד</span><span class="lec-chip">אוטומציה</span></div>
+          <div class="lec-go"><span>כניסה למפגש</span><span class="arr">←</span></div>
+        </div>
+      </a>
+    </div>
+
+      <div class="lec-soon rv">
+        <div class="soon-badge">04</div>
+        <div class="soon-body">
+          <span class="soon-tag">🔒 המפגש הבא · המשך יבוא</span>
+          <h3>בניית פייפליין מלא, אוטומציות וליווי לקוח וירטואלי</h3>
+          <p>שלב ההתנסות. כלים וניתוחים פיננסיים מתקדמים יותר, אוטומציות מקצה לקצה, בניית פייפליין עבודה שלם, והתנסות מעשית מול לקוח וירטואלי, מהשאלה הראשונה ועד התוצר החתום.</p>
+          <div class="lec-chips"><span class="lec-chip">כלים מתקדמים</span><span class="lec-chip">אוטומציות</span><span class="lec-chip">פייפליין מלא</span><span class="lec-chip">לקוח וירטואלי</span></div>
+        </div>
+        <div class="soon-cta">
+          <span class="soon-pill">המשך יבוא</span>
+          <span class="soon-when">יתקיים כשבוע לאחר מפגש 3</span>
+        </div>
+      </div>
+
+    <div class="pathnote rv"><span class="e">🧭</span><span>חדשים בקורס? התחילו במפגש הראשון, הוא בנוי כנקודת פתיחה שלא מניחה שום ידע מוקדם.</span></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="hl-band rv">
+      <div class="hl-inner">
+        <h2>למה הקורס הזה <span class="grad-t">שונה</span></h2>
+        <p class="hl-sub">לא עוד מצגת. סביבת למידה אינטראקטיבית שנבנתה כדי שתעבדו, לא רק תקשיבו.</p>
+        <div class="hl-grid rv-s">
+          <div class="hl"><span class="e">🎥</span><h4>הקלטה מלאה</h4><p>לכל מפגש מצורפת הקלטת וידאו מלאה, לצפייה חוזרת בקצב שלכם.</p></div>
+          <div class="hl"><span class="e">🧪</span><h4>הדגמות חיות</h4><p>מחשבונים אינטראקטיביים ומעבדות שרצות בתוך הדף, לא רק תיאור.</p></div>
+          <div class="hl"><span class="e">🏢</span><h4>מקרים אמיתיים</h4><p>נתונים פומביים של חברות ציבוריות, לא תרגילים סינתטיים.</p></div>
+          <div class="hl"><span class="e">🎩</span><h4>ארתור לצדכם</h4><p>מנחה דיגיטלי שמלווה כל שלב עם טיפ מהשטח, בכל מפגש.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag">המנחה</span>
+      <h2>מי עומד <span class="grad-l">מאחורי הקורס</span></h2>
+    </div>
+    <div class="instr rv">
+      <div class="instr-av">
+        <div class="mono">שצ</div>
+        <div class="arthur-badge"><svg viewBox="0 0 100 100" width="100%" height="100%"><use href="#arthurFace"/></svg></div>
+      </div>
+      <div>
+        <span class="instr-tag">🎓 מרצה הקורס</span>
+        <h3>ד״ר שי צבאן</h3>
+        <div class="role">היחידה ללימודי חוץ · אוניברסיטת בר-אילן</div>
+        <p>הקורס משלב תיאוריה פיננסית מתקדמת עם יישום מעשי של כלי בינה מלאכותית בעבודת מנהל הכספים. הגישה: קודם מבינים את המושג הפיננסי לעומק, ורק אז נותנים לבינה לזרז את העבודה, כשהאדם נשאר זה שמפרש, מחליט, וחותם.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="fl">CFO בעידן החדש</div>
+  <div>קורס בן ארבעה מפגשים · ניהול כספים בעידן הבינה המלאכותית</div>
+  <div class="fs">מאת ד״ר שי צבאן · היחידה ללימודי חוץ, אוניברסיטת בר-אילן · 2026</div>
+</footer>
+
+<script>
+(function(){
+  var tb=document.getElementById('topbar');
+  function onScroll(){ tb.classList.toggle('scrolled', (document.documentElement.scrollTop||document.body.scrollTop)>60); }
+  document.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:.14});
+  document.querySelectorAll('.rv,.rv-s').forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
