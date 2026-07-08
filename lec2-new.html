@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -745,8 +744,156 @@ html.js-anim .seqitem:not(.show){transform:translateY(14px);transition:transform
 .figcap{text-align:center;font-size:14px;color:var(--muted);margin-top:8px;font-style:italic;}
 </style>
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap');
+/* ============ LECTURE 3 DESIGN SKIN (applied over Lecture 2) ============ */
+/* single unified font everywhere */
+*{font-family:'Heebo',system-ui,sans-serif !important;}
+/* re-tokenized palette -> cascades the L3 look across every component */
+:root{
+  --bg:#f8fafc;
+  --bg-grad:radial-gradient(1100px 520px at 82% -12%, #e8ecff 0%, transparent 60%),radial-gradient(900px 600px at -6% 8%, #e6fbf6 0%, transparent 55%),linear-gradient(180deg,#fbfbfd 0%,#f6f8fc 100%);
+  --surface:#ffffff; --surface-1:#fbfdff; --surface-2:#f5f7fb; --surface-3:#eef2ff;
+  --glass:rgba(255,255,255,.86); --glass-brd:#e2e8f0;
+  --ink:#0f172a; --ink-2:#1e293b; --ink-3:#334155; --muted:#64748b;
+  --line:#e2e8f0; --line-2:#eef2f7; --line-strong:#cbd5e1;
+  --blue:#4f46e5; --blue-d:#4338ca; --blue-l:#818cf8; --blue-wash:#eef2ff;
+  --sky:#4f46e5; --cyan:#0f766e; --teal:#0f766e;
+  --violet:#7c3aed; --violet-d:#6d28d9; --violet-l:#a78bfa; --violet-wash:#f5f3ff;
+  --emerald:#0f766e; --emerald-wash:#ecfdf5; --emerald-brd:#99f6e4;
+  --amber:#b45309; --amber-wash:#fffbeb; --amber-brd:#fde68a;
+  --rose:#e11d48; --rose-wash:#fff1f2; --rose-brd:#fecdd3;
+  --info-wash:#eef2ff; --info-brd:#c7d2fe;
+  --grad:linear-gradient(120deg,#4f46e5 0%,#14b8a6 100%);
+  --grad-text:linear-gradient(120deg,#4f46e5,#14b8a6 82%);
+  --grad-soft:linear-gradient(135deg,#eef2ff,#ecfeff);
+  --grad-violet:linear-gradient(135deg,#4f46e5,#a855f7);
+  --grad-mesh:radial-gradient(600px 400px at 18% 12%, rgba(79,70,229,.14),transparent 60%),radial-gradient(620px 460px at 88% 8%, rgba(20,184,166,.16),transparent 62%),radial-gradient(700px 520px at 60% 110%, rgba(168,85,247,.10),transparent 60%);
+  --sh-0:0 1px 2px rgba(15,23,42,.05);
+  --sh-1:0 4px 14px rgba(15,23,42,.06);
+  --sh-2:0 10px 30px rgba(15,23,42,.08);
+  --sh-3:0 20px 50px rgba(15,23,42,.14);
+  --sh-4:0 28px 64px rgba(15,23,42,.20);
+  --r-sm:12px; --r:18px; --r-lg:22px; --r-xl:28px;
+}
+/* crisp L3-style card borders */
+.card,.stat,.dtree,.tempwrap,.ratio,.redline,.fm-step,.dnode,.vstep,.vstep-card,.choice,.tbl,.report,.calc,.bzcard{border-width:2px !important;}
+/* nav -> clean white with solid pill active (L3) */
+.nav{background:rgba(255,255,255,.9) !important;}
+.nlinks a.active,.nlinks a:hover{background:var(--blue) !important;color:#fff !important;}
+.nlinks a.active::after,.nlinks a:hover::after{opacity:0 !important;}
+/* hero grid deco + hintbar recolor to indigo/teal */
+.hero-deco{background-image:linear-gradient(rgba(79,70,229,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(79,70,229,.05) 1px,transparent 1px) !important;}
+.hintbar{background:linear-gradient(90deg,#4f46e5,#14b8a6) !important;}
+/* Arthur -> indigo suit to match the L3 mascot */
+#arthur .a-art path[fill="#1d4ed8"]{fill:#4f46e5;}
+#arthur .a-art path[fill="#1742b0"]{fill:#3730a3;}
+#arthur .a-art path[fill="#16306e"]{fill:#312e81;}
+#arthur .a-art path[fill="#1c3f8c"]{fill:#4338ca;}
+</style>
+<style>
+/* ===== Keynote intro (Lecture 3) ===== */
+.kn{background:#000;color:#fff;overflow:hidden;position:relative;z-index:5;}
+.kn-slide{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative;}
+.kn-slide.short{min-height:80vh;}
+.kn-eyebrow{font-size:clamp(14px,2vw,19px);font-weight:800;letter-spacing:4px;color:#8b93a7;margin-bottom:20px;}
+.kn-title{font-size:clamp(38px,8vw,98px);font-weight:900;line-height:1.04;letter-spacing:-1px;color:#fff;}
+.kn-title .g{background:linear-gradient(110deg,#5eead4,#818cf8 55%,#c084fc);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+.kn-sub{font-size:clamp(19px,3.2vw,34px);font-weight:600;color:#cbd5e1;margin-top:26px;max-width:980px;line-height:1.4;}
+.kn-small{font-size:clamp(15px,2vw,21px);color:#8b93a7;margin-top:22px;}
+.kn-scroll{position:absolute;bottom:28px;left:50%;color:#5b6479;font-size:14px;font-weight:700;animation:knbob 1.8s infinite;transform:translateX(-50%);}
+@keyframes knbob{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,9px);}}
+.kn-feats{display:flex;flex-direction:column;gap:16px;margin-top:34px;}
+.kn-feat{display:flex;gap:16px;align-items:center;justify-content:center;font-size:clamp(18px,3vw,32px);font-weight:800;color:#fff;}
+.kn-feat .e{font-size:1.2em;}
+.kn-yev{width:clamp(210px,40vw,360px);height:auto;filter:drop-shadow(0 24px 60px rgba(129,140,248,.5));}
+.kn-cta{margin-top:36px;}
+.kn-cta button{font-family:inherit;font-weight:900;font-size:clamp(18px,2.4vw,25px);padding:18px 44px;border:none;border-radius:999px;cursor:pointer;background:linear-gradient(110deg,#5eead4,#818cf8);color:#0b0b0c;box-shadow:0 16px 44px rgba(129,140,248,.5);transition:.18s;}
+.kn-cta button:hover{transform:translateY(-3px) scale(1.02);}
+.kn-skip{position:fixed;top:14px;left:18px;z-index:1300;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:9px 18px;font-family:inherit;font-weight:800;font-size:13px;cursor:pointer;backdrop-filter:blur(6px);}
+body:not(.pre-start) .kn-skip{display:none;}
+.kn .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+.kn .reveal.show{opacity:1;transform:none;}
+.kn .stagger>*{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease;}
+.kn .stagger.show>*{opacity:1;transform:none;}
+.kn .stagger.show>*:nth-child(2){transition-delay:.14s;}.kn .stagger.show>*:nth-child(3){transition-delay:.28s;}.kn .stagger.show>*:nth-child(4){transition-delay:.42s;}
+.kn-pop{opacity:0;transform:scale(.55) translateY(24px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,1.35,.3,1);}
+.kn-pop.show{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){.kn .reveal,.kn .stagger>*,.kn-pop{opacity:1!important;transform:none!important;}}
+/* hide the lecture chrome while the intro is on screen */
+body.pre-start .nav,body.pre-start .pbar,body.pre-start .hintbar,body.pre-start #toTop{display:none!important;}
+body.pre-start{overflow-x:hidden;}
+/* ===== Arthur = Lecture 3 mascot (overrides L2 #arthur) ===== */
+#arthur.arthur{position:fixed;bottom:20px;left:20px;right:auto;top:auto;width:auto;display:flex;align-items:flex-end;gap:10px;max-width:340px;z-index:1200;filter:none;touch-action:none;user-select:none;}
+#arthur .a-art{width:78px;height:78px;flex-shrink:0;cursor:grab;filter:drop-shadow(0 6px 14px rgba(15,23,42,.28));}
+#arthur.dragging .a-art{cursor:grabbing;}
+#arthur .a-bubble{position:static;width:auto;max-width:260px;background:#fff;border:3px solid var(--blue);border-radius:18px 18px 4px 18px;padding:12px 16px;box-shadow:var(--sh-3);opacity:1;transform:none;pointer-events:auto;}
+#arthur .a-bubble::after{display:none;}
+#arthur .a-bhd{font-weight:900;color:var(--blue-d);font-size:14px;margin-bottom:3px;display:flex;gap:8px;align-items:center;justify-content:space-between;}
+#arthur .a-bhd .a-min{background:none;border:none;cursor:pointer;font-size:18px;color:var(--muted);font-weight:900;line-height:1;}
+#arthur .a-tip{font-size:14.5px;line-height:1.5;color:var(--ink-2);}
+#arthur .a-newbadge{display:none;background:var(--teal);color:#fff;font-size:11px;font-weight:900;padding:2px 9px;border-radius:999px;margin-inline-start:6px;}
+#arthur.pulse .a-newbadge{display:inline-block;}
+#arthur .a-reopen{display:none;}
+#arthur.min .a-bubble{display:none;}
+#arthur.min .a-reopen{display:grid;place-items:center;position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--teal);color:#fff;font-size:12px;font-weight:900;cursor:pointer;}
+#arthur.pulse .a-bubble{animation:apulse .9s ease;}
+@keyframes apulse{0%{transform:scale(1);}18%{transform:scale(1.10) rotate(-1deg);box-shadow:0 0 0 9px rgba(20,184,166,.35);border-color:var(--teal);}45%{transform:scale(1.02);}65%{transform:scale(1.05);}100%{transform:scale(1);}}
+#arthur.pulse .a-art{animation:anudge .85s ease;}
+@keyframes anudge{0%,100%{transform:translateY(0) rotate(0);}25%{transform:translateY(-12px) rotate(-8deg);}50%{transform:translateY(0);}72%{transform:translateY(-6px) rotate(6deg);}}
+body.pre-start #arthur{display:none;}
+@media(max-width:600px){#arthur.arthur{max-width:230px;}#arthur .a-art{width:62px;height:62px;}}
+</style>
 </head>
-<body>
+<body class="pre-start">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="arthurFace" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#eef2ff"/>
+  <path d="M12 100 Q20 74 38 70 L62 70 Q80 74 88 100 Z" fill="#1c3a5e"/>
+  <path d="M40 70 L50 86 L60 70 Z" fill="#fff"/>
+  <path d="M50 72 L45.5 79 L50 97 L54.5 79 Z" fill="#e0294b"/>
+  <path d="M45.5 72 L54.5 72 L50 79 Z" fill="#b81e3b"/>
+  <rect x="43" y="59" width="14" height="15" rx="5" fill="#e8b98c"/>
+  <circle cx="50" cy="46" r="29" fill="#f3c9a0"/>
+  <circle cx="22" cy="48" r="5" fill="#f3c9a0"/><circle cx="78" cy="48" r="5" fill="#f3c9a0"/>
+  <path d="M21 45 Q20 16 50 16 Q80 16 79 45 Q72 30 50 30 Q28 30 21 45 Z" fill="#2b2118"/>
+  <circle cx="34" cy="55" r="6" fill="#f2b98a" opacity=".55"/><circle cx="66" cy="55" r="6" fill="#f2b98a" opacity=".55"/>
+  <path d="M31 41 Q37 37 43 41" stroke="#2b2118" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M57 41 Q63 37 69 41" stroke="#2b2118" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <circle cx="38" cy="48" r="3.4" fill="#2b2118"/><circle cx="62" cy="48" r="3.4" fill="#2b2118"/>
+  <circle cx="39.2" cy="47" r="1.1" fill="#fff"/><circle cx="63.2" cy="47" r="1.1" fill="#fff"/>
+  <path d="M39 59 Q50 68 61 59" fill="none" stroke="#a0522d" stroke-width="2.6" stroke-linecap="round"/>
+</symbol></svg>
+<button class="kn-skip" onclick="startLesson()">דלגו לשיעור ←</button>
+<div class="kn" id="intro">
+  <section class="kn-slide">
+    <div class="kn-eyebrow reveal">קורס CFO בעידן החדש · ד״ר שי צבאן</div>
+    <h1 class="kn-title reveal">מהאסטרטגיה.<br><span class="g">אל המקלדת.</span></h1>
+    <p class="kn-sub reveal">הרצאה 2, ניתוח פיננסי עם כלי AI. ידיים על המקלדת: מה מותר להראות ל-AI, איך מריצים ניתוח דוחות מלא, ואיך תופסים אותו כשהוא טועה.</p>
+    <p class="kn-small reveal">מאת <b>ד״ר שי צבאן</b> · 29 ביוני 2026</p>
+    <div class="kn-scroll">גללו למטה ↓</div>
+  </section>
+  <section class="kn-slide">
+    <div class="kn-eyebrow reveal">העיקרון המנחה</div>
+    <h2 class="kn-title reveal">קודם <span class="g">מותר.</span><br>אחר כך איך.</h2>
+    <p class="kn-sub reveal">לפני שבוחרים כלי, שואלים מה מותר להראות ל-AI. הבינה היא טייס המשנה שמכין טיוטה במהירות. אתם מאמתים, חותמים, ונשארים האחראים.</p>
+  </section>
+  <section class="kn-slide short">
+    <div class="kn-eyebrow reveal">מה תיקחו מהיום</div>
+    <div class="kn-feats stagger">
+      <div class="kn-feat"><span class="e">🛡️</span><span>מה מותר להראות ל-AI לפי תיקון 13, עם תרגיל קו אדום</span></div>
+      <div class="kn-feat"><span class="e">🎛️</span><span>שליטה ב-Temperature, עם הדגמה חיה</span></div>
+      <div class="kn-feat"><span class="e">📊</span><span>ניתוח דוחות מלא, מחשבון יחסים ו-DuPont</span></div>
+      <div class="kn-feat"><span class="e">🔍</span><span>לתפוס את ה-AI כשהוא טועה, לפני שחותמים</span></div>
+    </div>
+    <div class="kn-scroll">גללו ↓</div>
+  </section>
+  <section class="kn-slide">
+    <svg class="kn-yev kn-pop" viewBox="0 0 100 100"><use href="#arthurFace"/></svg>
+    <h2 class="kn-title reveal" style="margin-top:18px">הכירו את <span class="g">ארתור.</span></h2>
+    <p class="kn-sub reveal">רואה חשבון ותיק, שילווה אתכם לאורך המפגש עם טיפ בכל תחנה, ומדי פעם בדיחה על נקניק. גררו אותו לכל מקום נוח.</p>
+    <div class="kn-cta reveal"><button onclick="startLesson()">בואו נתחיל ←</button></div>
+  </section>
+</div>
 <div class="pbar"><div class="pfill" id="pf"></div></div>
 <nav class="nav">
   <div class="brand"><b>CFO</b> בעידן החדש <span>· הרצאה 2 · ד״ר שי צבאן</span></div>
@@ -767,6 +914,16 @@ html.js-anim .seqitem:not(.show){transform:translateY(14px);transition:transform
 </nav>
 
 <!-- HERO · COLD OPEN -->
+<!-- embedded full lecture recording (with L3 caption, above hero) -->
+<div style="max-width:860px;margin:84px auto 8px;padding:0 22px;text-align:center;">
+  <h3 style="font-size:clamp(20px,2.4vw,27px);font-weight:900;color:#1e1b4b;margin:0 0 6px;">🎥 להלן הרצאת ההקלטה המלאה</h3>
+  <p style="font-size:16.5px;color:#334155;margin:0;line-height:1.65;">מערך השיעור מדבר בעד עצמו, אבל מי שרוצה לראות את ההדגמות החיות והספציפיות שהתפתחו יחד עמכם, זה המקום:</p>
+</div>
+<div style="max-width:860px;margin:14px auto 30px;padding:0 22px;">
+  <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:20px;overflow:hidden;box-shadow:0 20px 50px rgba(15,23,42,.14);border:3px solid #e2e8f0;">
+    <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" src="https://www.youtube.com/embed/i7bQob8Z5yE" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+  </div>
+</div>
 <header class="hero">
   <div class="hero-deco"></div>
   <div class="hero-in">
@@ -2053,51 +2210,13 @@ html.js-anim .seqitem:not(.show){transform:translateY(14px);transition:transform
 
 
 <!-- ARTHUR — draggable virtual assistant -->
-<div id="arthur" role="complementary" aria-label="ארתור — עוזר וירטואלי">
-  <button class="a-close" aria-label="הסתר או הצג את ארתור">×</button>
-  <div class="a-bubble" aria-live="polite"></div>
-  <svg class="a-art" viewBox="0 0 140 156" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <!-- shoulders / suit -->
-    <path d="M14 156 C14 120 40 104 70 104 C100 104 126 120 126 156 Z" fill="#1d4ed8"/>
-    <path d="M14 156 C14 120 40 104 70 104 C100 104 126 120 126 156 Z" fill="none" stroke="#1742b0" stroke-width="2"/>
-    <!-- lapels -->
-    <path d="M70 104 L52 156 L60 156 L70 116 Z" fill="#1742b0"/>
-    <path d="M70 104 L88 156 L80 156 L70 116 Z" fill="#1742b0"/>
-    <!-- shirt collar -->
-    <path d="M70 104 L58 120 L70 128 L82 120 Z" fill="#ffffff"/>
-    <path d="M70 104 L58 120 L66 121 Z" fill="#eef3fb"/>
-    <path d="M70 104 L82 120 L74 121 Z" fill="#eef3fb"/>
-    <!-- tie -->
-    <path d="M70 110 L64 118 L70 124 L76 118 Z" fill="#16306e"/>
-    <path d="M70 124 L64 122 L67 150 L70 154 L73 150 L76 122 Z" fill="#1c3f8c"/>
-    <!-- neck -->
-    <rect x="60" y="90" width="20" height="20" rx="9" fill="#eeb589"/>
-    <!-- ears -->
-    <circle cx="33" cy="60" r="8" fill="#f4c89e"/>
-    <circle cx="107" cy="60" r="8" fill="#f4c89e"/>
-    <!-- head -->
-    <circle cx="70" cy="58" r="40" fill="#f4c89e"/>
-    <!-- cheeks -->
-    <circle cx="48" cy="70" r="8" fill="#f3ad82" opacity=".55"/>
-    <circle cx="92" cy="70" r="8" fill="#f3ad82" opacity=".55"/>
-    <!-- hair -->
-    <path d="M30 58 C28 28 48 14 70 14 C92 14 112 28 110 58 C110 46 100 40 92 41 C90 30 80 26 70 26 C60 26 50 30 48 41 C40 40 30 46 30 58 Z" fill="#1a1a1a"/>
-    <path d="M30 58 C29 50 33 45 39 44 L40 56 C36 55 32 56 30 58 Z" fill="#1a1a1a"/>
-    <path d="M110 58 C111 50 107 45 101 44 L100 56 C104 55 108 56 110 58 Z" fill="#1a1a1a"/>
-    <!-- eyebrows -->
-    <path d="M50 50 q8 -6 16 0" fill="none" stroke="#2a2a2a" stroke-width="3" stroke-linecap="round"/>
-    <path d="M74 50 q8 -6 16 0" fill="none" stroke="#2a2a2a" stroke-width="3" stroke-linecap="round"/>
-    <!-- eyes -->
-    <circle cx="58" cy="60" r="5.2" fill="#26303f"/>
-    <circle cx="82" cy="60" r="5.2" fill="#26303f"/>
-    <circle cx="59.6" cy="58.4" r="1.7" fill="#fff"/>
-    <circle cx="83.6" cy="58.4" r="1.7" fill="#fff"/>
-    <!-- nose -->
-    <path d="M70 62 q3 6 -2 9" fill="none" stroke="#e0a074" stroke-width="2.4" stroke-linecap="round"/>
-    <!-- smile -->
-    <path d="M56 78 q14 13 28 0" fill="none" stroke="#b5654d" stroke-width="3.2" stroke-linecap="round"/>
-  </svg>
-  <div class="a-name">ארתור</div>
+<div id="arthur" class="arthur" role="complementary" aria-label="ארתור, עוזר וירטואלי">
+  <svg class="a-art" id="aArt" viewBox="0 0 100 100" aria-hidden="true"><use href="#arthurFace"/></svg>
+  <div class="a-bubble">
+    <div class="a-bhd"><span>ארתור · רו״ח ותיק 🎩 <span class="a-newbadge">💡 טיפ חדש</span></span><button class="a-min" type="button" onclick="arthurMin()" title="מזער">–</button></div>
+    <div class="a-tip" id="aTip">שלום, אני ארתור. אלווה אתכם לאורך ההרצאה עם טיפ בכל תחנה. גררו אותי לאן שנוח.</div>
+  </div>
+  <div class="a-reopen" onclick="arthurReopen()" title="פתחו את ארתור">💬</div>
 </div>
 
 
@@ -2390,108 +2509,71 @@ const firstFlip=document.querySelector('#where .flip');if(firstFlip)hintIO.obser
     c.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();tog();} });
   });
 
-  /* ---------- ARTHUR ---------- */
+  /* ---------- ARTHUR (Lecture 3 mascot) ---------- */
   var arthur=document.getElementById('arthur');
-  if(!arthur) return;
-  var bubble=arthur.querySelector('.a-bubble');
-  var TIPS={
-    hero:"שלום, אני ארתור — רואה חשבון, בדיוק כמוכם. אגרור את עצמי לאורך ההרצאה ואלחש לכם טיפים. אפשר לגרור אותי הצידה 😊",
-    recap:"טיפ: אל תבחרו את הדוח הכי קשה — בחרו את הכי <b>חוזר</b>. אוטומציה משתלמת על מה שעושים כל חודש, לא פעם בשנה.",
-    law:"כלל אצבע שלי: אם לא הייתי שולח את זה בוואטסאפ לא-מוצפן — לא מדביק אותו בצ׳אט ענן ציבורי. ו'אין חובת רישום' ≠ 'החוק לא חל'.",
-    landscape:"רוב העבודה היומיומית שלכם לא רגישה — שם הענן מנצח. שמרו 'מקומי' לרגעים שבהם שם הלקוח על הקובץ.",
-    tools:"אל תתאהבו בכלי אחד. אני פותח את Claude לכתיבת חוות דעת, ואת ChatGPT כשצריך לחשב על קובץ. הכלי משרת את המשימה.",
-    studio:"שמרו את הוראת המערכת השמרנית כקובץ טקסט — תדביקו אותה בכל ניתוח דוח. זו חגורת הבטיחות שלכם נגד המצאות.",
-    temp:"בנמוך הרעיונות משעממים, בגבוה המספרים מסוכנים. אין טמפרטורה אחת לכול — בוחרים לפי המשימה. אין סליידר? כתבו 'ענה דטרמיניסטי ושמרני'.",
-    dataanalysis:"המילה הקסומה: 'הרץ קוד והצג אותו'. רואים את הקוד = יכולים לבדוק. מודל ש'רק עונה' מספר — לא לכסף.",
-    analysis:"'צמיחה רעילה' היא המלכודת שאני הכי תופס אצל לקוחות — מכירות שיא ותזרים שלילי. תמיד בדקו אם הרווח הפך למזומן בקופה.",
-    verify:"אני בודק 5 מספרים ביד: גולמי, שוטף, מהיר, כיסוי ריבית, DSO. אם אחד שגוי — אני חושד בכל הפלט.",
-    field:"דוח של מאות עמודים? תנו ל-NotebookLM לשלוף עם הפניה לעמוד — ופתחו את העמוד לאמת. אין הפניה? אל תסמכו על המספר.",
-    news:"הכלי הכי זול שלמדתם היום — נוהל callback להעברות. הוא מציל יותר כסף מכל פרומפט.",
-    close:"היה כיף! זכרו — אני (וכל AI) טייס המשנה. אתם הטייס, ואתם חותמים. נתראה במפגש הבא 👋",
-    /* ---- sub-anchor tips (data-arthur) — Arthur speaks to the exact block you're on ---- */
-    "recap-fin":"שימו לב למספר בטבלה: 55 שעות בחודש. זה לא 'נחמד' — זה שווה-ערך לעובד נוסף. ככה מצדיקים שכר-טרחה גבוה.",
-    "law-sensitive":"טיפ לזיהוי מהיר: אם יש על הקובץ שם, ת״ז, ח.פ. או מספר חשבון — זה רגיש. אם זו שאלת ידע כללית — לא. נסו את ההדגמה.",
-    "law-dpa":"DPA הוא חוזה, לא קסם. הוא מקטין סיכון אבל לא מבטל את הצורך בהסכמת הלקוח. תמיד שאלו: 'יש לי רשות מהלקוח?'",
-    "law-enterprise":"זו השאלה שמפרידה חובבן ממקצוען. 'חסוי מול הספק' זה לא 'מותר לפי חוק'. החוזה לא גובר על תיקון 13 או על דין זר.",
-    "law-crossborder":"גם ענן אמריקאי 'מערבי' אינו חסין — חוק CLOUD Act מגיע גם לשרת באירופה. 'מערבי' לא אומר 'פרטי'.",
-    "law-redline":"כשאתם מסמנים, חשבו כמו עורך-דין: 'האם זה משייך למישהו מזוהה?'. שם, מספר, חשבון — אדום. תובנה כללית — ירוק.",
-    "landscape-spectrum":"אל תחשבו 'ענן או מקומי' כשחור-לבן. יש רצף שלם. בחרו נקודה לפי כמה הקובץ רגיש.",
-    "landscape-mac":"סוד קטן: אם יש לכם Mac עם שבב M, אתם יושבים על מכונת AI מקומית מעולה — בזכות הזיכרון המאוחד. תכף אראה לכם.",
-    "tools-engines":"אל תתאהבו בכלי אחד. אני פותח Claude לחוות-דעת, ChatGPT לחישוב על קובץ, ומקומי למידע רגיש. הכלי משרת את המשימה.",
-    "studio-panel":"AI Studio זה מגרש האימונים שלי — כאן רואים את כל הכפתורים שמוסתרים בצ׳אט הרגיל. וזה חינם.",
-    "temp-lab":"שחקו עם הסליידר! העלו ל-1.5 ולחצו 'הרץ' — תראו איך אותו חישוב נותן מספרים שונים. בדיוק למה שלכסף משאירים 0.",
-    "analysis-redflags":"כאן הלב של העבודה: רווח עולה אבל תזרים שלילי = 'צמיחה רעילה'. תמיד בדקו אם הרווח הפך למזומן בקופה.",
-    "verify-trap":"שימו לב למלכודת: ה-AI 'הראה עבודה' ועדיין טעה. תמיד הריצו מספר-מפתח אחד בעצמכם לפני חתימה."
-  };
-  function setTip(id){ if(TIPS[id]){ bubble.innerHTML=TIPS[id]; ensureDismiss(); bubble.classList.add('show'); } }
-  /* inject a dismiss-× into the bubble so the speech bubble can be closed without minimizing Arthur */
-  function ensureDismiss(){
-    if(bubble.querySelector('.a-bdismiss')) return;
-    var b=document.createElement('button'); b.className='a-bdismiss'; b.type='button'; b.setAttribute('aria-label','סגור בלון'); b.textContent='×';
-    b.addEventListener('click',function(e){ e.stopPropagation(); bubble.classList.remove('show'); });
-    bubble.appendChild(b);
+  if(arthur){
+    var tipEl=document.getElementById('aTip'), art=arthur.querySelector('.a-art');
+    var TIPS={
+      hero:"שלום, אני ארתור, רואה חשבון ותיק. אלווה אתכם לאורך ההרצאה עם טיפ בכל תחנה. אפשר לגרור אותי הצידה 😊",
+      recap:"טיפ: אל תבחרו את הדוח הכי קשה, בחרו את הכי <b>חוזר</b>. אוטומציה משתלמת על מה שעושים כל חודש, לא פעם בשנה.",
+      law:"כלל אצבע שלי: אם לא הייתי שולח את זה בוואטסאפ לא-מוצפן, לא מדביק אותו בצ׳אט ענן ציבורי. ו'אין חובת רישום' אינו 'החוק לא חל'.",
+      landscape:"רוב העבודה היומיומית שלכם לא רגישה, שם הענן מנצח. שמרו 'מקומי' לרגעים שבהם שם הלקוח על הקובץ.",
+      tools:"אל תתאהבו בכלי אחד. אני פותח את Claude לכתיבת חוות דעת, ואת ChatGPT כשצריך לחשב על קובץ. הכלי משרת את המשימה.",
+      studio:"שמרו את הוראת המערכת השמרנית כקובץ טקסט, תדביקו אותה בכל ניתוח דוח. זו חגורת הבטיחות שלכם נגד המצאות.",
+      temp:"בנמוך הרעיונות משעממים, בגבוה המספרים מסוכנים. אין טמפרטורה אחת לכול, בוחרים לפי המשימה. אין סליידר? כתבו 'ענה דטרמיניסטי ושמרני'.",
+      dataanalysis:"המילה הקסומה: 'הרץ קוד והצג אותו'. רואים את הקוד אפשר לבדוק. מודל ש'רק עונה' מספר, לא לכסף.",
+      analysis:"'צמיחה רעילה' היא המלכודת שאני הכי תופס אצל לקוחות: מכירות שיא ותזרים שלילי. תמיד בדקו אם הרווח הפך למזומן בקופה.",
+      verify:"אני בודק 5 מספרים ביד: גולמי, שוטף, מהיר, כיסוי ריבית, DSO. אם אחד שגוי, אני חושד בכל הפלט.",
+      field:"דוח של מאות עמודים? תנו ל-NotebookLM לשלוף עם הפניה לעמוד, ופתחו את העמוד לאמת. אין הפניה? אל תסמכו על המספר.",
+      news:"הכלי הכי זול שלמדתם היום: נוהל callback להעברות. הוא מציל יותר כסף מכל פרומפט.",
+      close:"היה כיף! זכרו, אני, וכל AI, טייס המשנה. אתם הטייס, ואתם חותמים. נתראה במפגש הבא 👋",
+      "recap-fin":"שימו לב למספר בטבלה: 55 שעות בחודש. זה לא 'נחמד', זה שווה-ערך לעובד נוסף. ככה מצדיקים שכר-טרחה גבוה.",
+      "law-sensitive":"טיפ לזיהוי מהיר: אם יש על הקובץ שם, ת״ז, ח.פ. או מספר חשבון, זה רגיש. אם זו שאלת ידע כללית, לא. נסו את ההדגמה.",
+      "law-dpa":"DPA הוא חוזה, לא קסם. הוא מקטין סיכון אבל לא מבטל את הצורך בהסכמת הלקוח. תמיד שאלו: 'יש לי רשות מהלקוח?'",
+      "law-enterprise":"זו השאלה שמפרידה חובבן ממקצוען. 'חסוי מול הספק' זה לא 'מותר לפי חוק'. החוזה לא גובר על תיקון 13 או על דין זר.",
+      "law-crossborder":"גם ענן אמריקאי 'מערבי' אינו חסין, חוק CLOUD Act מגיע גם לשרת באירופה. 'מערבי' לא אומר 'פרטי'.",
+      "law-redline":"כשאתם מסמנים, חשבו כמו עורך-דין: 'האם זה משייך למישהו מזוהה?'. שם, מספר, חשבון, אדום. תובנה כללית, ירוק.",
+      "landscape-spectrum":"אל תחשבו 'ענן או מקומי' כשחור-לבן. יש רצף שלם. בחרו נקודה לפי כמה הקובץ רגיש.",
+      "landscape-principles":"מודל מקומי שווה כשהמידע לא יכול לעזוב את המחשב. בשאר הזמן, הענן חזק וזול יותר.",
+      "landscape-mac":"סוד קטן: אם יש לכם Mac עם שבב M, אתם יושבים על מכונת AI מקומית מעולה, בזכות הזיכרון המאוחד. תכף אראה לכם.",
+      "tools-engines":"אל תתאהבו בכלי אחד. אני פותח Claude לחוות-דעת, ChatGPT לחישוב על קובץ, ומקומי למידע רגיש. הכלי משרת את המשימה.",
+      "studio-panel":"AI Studio זה מגרש האימונים שלי, כאן רואים את כל הכפתורים שמוסתרים בצ׳אט הרגיל. וזה חינם.",
+      "temp-lab":"שחקו עם הסליידר! העלו ל-1.5 ולחצו 'הרץ', תראו איך אותו חישוב נותן מספרים שונים. בדיוק למה שלכסף משאירים 0.",
+      "analysis-redflags":"כאן הלב של העבודה: רווח עולה אבל תזרים שלילי הוא 'צמיחה רעילה'. תמיד בדקו אם הרווח הפך למזומן בקופה.",
+      "verify-trap":"שימו לב למלכודת: ה-AI 'הראה עבודה' ועדיין טעה. תמיד הריצו מספר-מפתח אחד בעצמכם לפני חתימה."
+    };
+    var curId=null;
+    function setTip(id){ if(!TIPS[id])return; tipEl.innerHTML=TIPS[id]; arthur.classList.remove('pulse'); void arthur.offsetWidth; arthur.classList.add('pulse'); clearTimeout(window._aT); window._aT=setTimeout(function(){ arthur.classList.remove('pulse'); },1600); }
+    var visible={};
+    function pickBest(){ var bestId=null,bestR=0; for(var k in visible){ if(visible[k]>bestR&&TIPS[k]){ bestR=visible[k]; bestId=k; } } if(bestId&&bestId!==curId){ curId=bestId; setTip(curId); } }
+    var tipIO=new IntersectionObserver(function(es){ es.forEach(function(e){ var id=e.target.getAttribute('data-arthur')||e.target.id; if(!id)return; visible[id]= e.isIntersecting ? e.intersectionRatio : 0; }); pickBest(); },{threshold:[0,0.15,0.3,0.5,0.75],rootMargin:'-16% 0px -45% 0px'});
+    [].slice.call(document.querySelectorAll('section[id],[data-arthur]')).forEach(function(el){ tipIO.observe(el); });
+    function clampX(x){ return Math.max(6, Math.min(x, window.innerWidth - arthur.offsetWidth - 6)); }
+    function clampY(y){ return Math.max(6, Math.min(y, window.innerHeight - arthur.offsetHeight - 6)); }
+    var dragging=false, dx=0, dy=0;
+    function down(e){ dragging=true; var r=arthur.getBoundingClientRect(); var cx=(e.touches?e.touches[0].clientX:e.clientX), cy=(e.touches?e.touches[0].clientY:e.clientY); dx=cx-r.left; dy=cy-r.top; arthur.style.bottom='auto'; e.preventDefault(); }
+    function move(e){ if(!dragging)return; var cx=(e.touches?e.touches[0].clientX:e.clientX), cy=(e.touches?e.touches[0].clientY:e.clientY); arthur.style.left=clampX(cx-dx)+'px'; arthur.style.top=clampY(cy-dy)+'px'; arthur.style.right='auto'; }
+    function up(){ dragging=false; }
+    art.addEventListener('mousedown',down); art.addEventListener('touchstart',down,{passive:false});
+    window.addEventListener('mousemove',move); window.addEventListener('touchmove',move,{passive:false});
+    window.addEventListener('mouseup',up); window.addEventListener('touchend',up);
+    window.arthurMin=function(){ arthur.classList.add('min'); };
+    window.arthurReopen=function(){ arthur.classList.remove('min'); };
+    setTimeout(function(){ setTip('hero'); }, RM?0:1200);
   }
-
-  /* position: restore or default. Full X+Y drag. */
-  function clampX(x){ return Math.max(8, Math.min(x, window.innerWidth - arthur.offsetWidth - 8)); }
-  function clampY(y){ return Math.max(8, Math.min(y, window.innerHeight - arthur.offsetHeight - 8)); }
-  var savedX=null, savedY=null; try{ savedX=localStorage.getItem('arthurX'); savedY=localStorage.getItem('arthurY'); }catch(e){}
-  function place(x,y){ arthur.style.left=clampX(x)+'px'; arthur.style.top=clampY(y)+'px'; arthur.style.right='auto'; arthur.style.bottom='auto';
-    /* flip bubble below Arthur when he is in the upper half of the screen */
-    arthur.classList.toggle('bubble-below', (clampY(y) < window.innerHeight*0.42));
-  }
-  if(savedX!==null && savedY!==null){ place(parseFloat(savedX), parseFloat(savedY)); }
-  else { arthur.style.right='18px'; arthur.style.bottom='84px'; arthur.style.left='auto'; arthur.style.top='auto'; }
-
-  /* drag — both axes */
-  var art=arthur.querySelector('.a-art'), dragging=false, dx=0, dy=0, moved=false;
-  function down(e){ dragging=true; moved=false; arthur.classList.add('dragging');
-    var rect=arthur.getBoundingClientRect();
-    var cx=(e.touches?e.touches[0].clientX:e.clientX), cy=(e.touches?e.touches[0].clientY:e.clientY);
-    dx=cx-rect.left; dy=cy-rect.top;
-    var hint=arthur.querySelector('.a-draghint'); if(hint) hint.remove();
-    e.preventDefault();
-  }
-  function move(e){ if(!dragging) return; moved=true;
-    var cx=(e.touches?e.touches[0].clientX:e.clientX), cy=(e.touches?e.touches[0].clientY:e.clientY);
-    place(cx-dx, cy-dy);
-  }
-  function up(){ if(!dragging) return; dragging=false; arthur.classList.remove('dragging');
-    try{ localStorage.setItem('arthurX', parseFloat(arthur.style.left)||0); localStorage.setItem('arthurY', parseFloat(arthur.style.top)||0); }catch(e){}
-  }
-  art.addEventListener('mousedown',down); art.addEventListener('touchstart',down,{passive:false});
-  window.addEventListener('mousemove',move); window.addEventListener('touchmove',move,{passive:false});
-  window.addEventListener('mouseup',up); window.addEventListener('touchend',up);
-  window.addEventListener('resize',function(){ if(arthur.style.top){ place(parseFloat(arthur.style.left)||window.innerWidth-150, parseFloat(arthur.style.top)||window.innerHeight-220);} });
-
-  /* close / tuck */
-  var closeBtn=arthur.querySelector('.a-close');
-  if(closeBtn) closeBtn.addEventListener('click',function(e){ e.stopPropagation(); arthur.classList.toggle('tucked'); });
-  art.addEventListener('click',function(){ if(moved) return; if(arthur.classList.contains('tucked')) arthur.classList.remove('tucked'); });
-
-  /* contextual bubble — tracks BOTH section[id] and fine-grained [data-arthur] anchors.
-     The most-visible target in the focus band wins, so Arthur speaks to the exact block. */
-  var curId='hero';
-  var visible={}; /* id -> intersectionRatio */
-  function pickBest(){
-    var bestId=null, bestRatio=0;
-    for(var k in visible){ if(visible[k]>bestRatio && TIPS[k]){ bestRatio=visible[k]; bestId=k; } }
-    if(bestId && bestId!==curId){ curId=bestId; setTip(curId); }
-  }
-  var tipIO=new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      var id=e.target.getAttribute('data-arthur')||e.target.id;
-      if(!id) return;
-      visible[id]= e.isIntersecting ? e.intersectionRatio : 0;
-    });
-    pickBest();
-  },{threshold:[0,0.15,0.3,0.5,0.75],rootMargin:'-18% 0px -45% 0px'});
-  [].slice.call(document.querySelectorAll('section[id], [data-arthur]')).forEach(function(s){ tipIO.observe(s); });
-
-  /* intro */
-  setTimeout(function(){ setTip('hero'); if(!savedX){ var h=document.createElement('div'); h.className='a-draghint'; h.textContent='גררו אותי 👉'; arthur.appendChild(h); setTimeout(function(){ if(h.parentNode) h.remove(); },5000);} }, RM?0:1400);
 })();
 </script>
 
+<script>
+/* keynote intro controller */
+(function(){
+  var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } }); },{threshold:.12});
+  document.querySelectorAll('.kn .reveal,.kn .stagger,.kn-pop').forEach(function(el){ io.observe(el); });
+  window.startLesson=function(){ document.body.classList.remove('pre-start'); var h=document.querySelector('.hero'); if(h) h.scrollIntoView({behavior:RM?'auto':'smooth'}); };
+  var hero=document.querySelector('.hero');
+  if(hero){ var o=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ document.body.classList.remove('pre-start'); o.disconnect(); } }); },{threshold:.08}); o.observe(hero); }
+})();
+</script>
 </body>
 </html>
