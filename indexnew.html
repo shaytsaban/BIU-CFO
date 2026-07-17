@@ -95,18 +95,23 @@ a{text-decoration:none;color:inherit}
 .lec.c2 .lec-chip{color:var(--accent-dark);background:#e6fbf6}
 .lec.c3 .lec-chip{color:#6d28d9;background:#f5f3ff}
 
-/* ---------- lecture 4 · coming soon ---------- */
-.lec-soon{display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:center;margin-top:26px;background:repeating-linear-gradient(135deg,#f8fafc,#f8fafc 15px,#f1f5fb 15px,#f1f5fb 30px);border:2px dashed #cbd5e1;border-radius:var(--r);padding:26px 32px;position:relative;overflow:hidden}
-.lec-soon .soon-badge{width:60px;height:60px;border-radius:16px;background:#e2e8f0;color:#94a3b8;font-weight:900;font-size:24px;display:grid;place-items:center;flex-shrink:0}
-.lec-soon .soon-tag{display:inline-block;font-weight:800;font-size:13px;color:#64748b;background:#e2e8f0;border-radius:999px;padding:5px 14px;margin-bottom:10px}
-.lec-soon h3{font-size:22px;font-weight:900;color:#475569;letter-spacing:-.3px;margin-bottom:8px;line-height:1.2}
-.lec-soon p{font-size:15px;color:#64748b;line-height:1.6;max-width:660px}
-.lec-soon .lec-chips{margin:14px 0 0}
-.lec-soon .lec-chip{color:#64748b;background:#e2e8f0}
-.soon-cta{text-align:center;flex-shrink:0}
-.soon-pill{display:inline-block;background:#94a3b8;color:#fff;font-weight:800;font-size:15px;padding:12px 26px;border-radius:999px;cursor:not-allowed;opacity:.9;white-space:nowrap}
-.soon-when{display:block;font-size:12.5px;color:#94a3b8;font-weight:700;margin-top:8px;max-width:150px}
-@media(max-width:760px){.lec-soon{grid-template-columns:1fr;text-align:center;justify-items:center}.lec-soon p{max-width:none}.soon-cta{margin-top:6px}.soon-when{max-width:none}}
+/* ---------- lecture 4 · featured (live) ---------- */
+.lec-feat{display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:center;margin-top:26px;background:linear-gradient(160deg,#0f172a,#1e293b);border-radius:var(--r);padding:28px 34px;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);color:#fff}
+.lec-feat::before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;background:#14b8a6;filter:blur(90px);opacity:.22;top:-140px;left:-70px;pointer-events:none}
+.lec-feat::after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:#818cf8;filter:blur(90px);opacity:.22;bottom:-140px;right:-50px;pointer-events:none}
+.lec-feat>*{position:relative;z-index:2}
+.feat-badge{width:62px;height:62px;border-radius:16px;background:linear-gradient(135deg,#5eead4,#818cf8);color:#0b0b0c;font-weight:900;font-size:24px;display:grid;place-items:center;flex-shrink:0;box-shadow:var(--shadow)}
+.feat-tag{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:13px;color:#5eead4;background:rgba(94,234,212,.12);border:1px solid rgba(94,234,212,.3);border-radius:999px;padding:5px 14px;margin-bottom:11px}
+.feat-tag .live{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 0 4px rgba(52,211,153,.25)}
+.lec-feat h3{font-size:23px;font-weight:900;letter-spacing:-.3px;margin-bottom:8px;line-height:1.2;color:#fff}
+.lec-feat p{font-size:15px;color:#aab3c5;line-height:1.6;max-width:660px}
+.feat-chips{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 0}
+.feat-chip{font-size:12.5px;font-weight:700;color:#c7d2fe;background:rgba(129,140,248,.14);border:1px solid rgba(129,140,248,.24);border-radius:999px;padding:5px 12px}
+.feat-cta{text-align:center;flex-shrink:0}
+.feat-pill{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(110deg,#5eead4,#818cf8);color:#0b0b0c;font-weight:900;font-size:16px;padding:14px 28px;border-radius:999px;white-space:nowrap;box-shadow:0 12px 32px rgba(129,140,248,.35);transition:.2s}
+.lec-feat:hover .feat-pill{transform:translateY(-2px) scale(1.02)}
+.feat-when{display:block;font-size:12.5px;color:#8b93a7;font-weight:700;margin-top:9px;max-width:160px}
+@media(max-width:760px){.lec-feat{grid-template-columns:1fr;text-align:center;justify-items:center}.lec-feat p{max-width:none}.feat-cta{margin-top:6px}.feat-when{max-width:none}}
 
 /* ---------- highlights ---------- */
 .hl-band{background:linear-gradient(160deg,#0f172a,#1e293b);color:#fff;border-radius:32px;padding:clamp(36px,5vw,56px);position:relative;overflow:hidden}
@@ -243,19 +248,19 @@ footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
       </a>
     </div>
 
-      <div class="lec-soon rv">
-        <div class="soon-badge">04</div>
-        <div class="soon-body">
-          <span class="soon-tag">🔒 המפגש הבא · המשך יבוא</span>
-          <h3>בניית פייפליין מלא, אוטומציות וליווי לקוח וירטואלי</h3>
-          <p>שלב ההתנסות. כלים וניתוחים פיננסיים מתקדמים יותר, אוטומציות מקצה לקצה, בניית פייפליין עבודה שלם, והתנסות מעשית מול לקוח וירטואלי, מהשאלה הראשונה ועד התוצר החתום.</p>
-          <div class="lec-chips"><span class="lec-chip">כלים מתקדמים</span><span class="lec-chip">אוטומציות</span><span class="lec-chip">פייפליין מלא</span><span class="lec-chip">לקוח וירטואלי</span></div>
+      <a class="lec-feat rv" href="https://shaytsaban.github.io/BIU-CFO/lecture4new.html">
+        <div class="feat-badge">04</div>
+        <div class="feat-body">
+          <span class="feat-tag"><span class="live"></span>המפגש האחרון · זמין עכשיו, כולל הקלטה מלאה</span>
+          <h3>התנסות מעשית ומקרי בוחן: פייפליין אוטומציה פיננסית מלא</h3>
+          <p>שלב ההתנסות. מפת הכלים המלאה של Claude בתשלום, בניית פייפליין עבודה שלם מקצה לקצה על מקרה חברה, ומקרי בוחן מעבודת הסמנכ״לים והסמנכ״ליות בקורס, מהשאלה הראשונה ועד התוצר החתום. עם הדגמות חיות והקלטת וידאו מוטמעת.</p>
+          <div class="feat-chips"><span class="feat-chip">מפת הכלים</span><span class="feat-chip">פייפליין מלא</span><span class="feat-chip">Skill · Artifact</span><span class="feat-chip">מקרי בוחן</span><span class="feat-chip">🎬 הקלטה</span></div>
         </div>
-        <div class="soon-cta">
-          <span class="soon-pill">המשך יבוא</span>
-          <span class="soon-when">יתקיים כשבוע לאחר מפגש 3</span>
+        <div class="feat-cta">
+          <span class="feat-pill">כניסה למפגש ←</span>
+          <span class="feat-when">14 ביולי 2026</span>
         </div>
-      </div>
+      </a>
 
     <div class="pathnote rv"><span class="e">🧭</span><span>חדשים בקורס? התחילו במפגש הראשון, הוא בנוי כנקודת פתיחה שלא מניחה שום ידע מוקדם.</span></div>
   </div>
