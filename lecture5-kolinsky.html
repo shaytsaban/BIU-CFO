@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מפגש 05 · מימון, מינוף, תשואה · רו״ח עמית קולינסקי · CFO בעידן החדש</title>
+<meta name="description" content="מפגש חמישי בקורס CFO בעידן החדש. הרצאת אורח מאת רו״ח עמית קולינסקי: היבטים מתקדמים בגיוס הון, אפיקי מימון, מינוף פיננסי ותמהיל הון. כולל חומרי ההרצאה המלאים.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#4f46e5; --primary-dark:#3730a3; --primary-light:#eef2ff;
+  --accent:#14b8a6; --accent-dark:#0f766e; --gold:#e0a63a; --gold-dark:#b7791f;
+  --ink:#0f172a; --ink-soft:#334155; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc; --white:#fff;
+  --shadow:0 10px 30px rgba(15,23,42,.08); --shadow-lg:0 24px 60px rgba(15,23,42,.16);
+  --r:26px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Heebo',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.grad-t{background:linear-gradient(115deg,#fbbf24,#f59e0b 52%,#818cf8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad-l{background:linear-gradient(120deg,var(--gold-dark),var(--primary));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* top bar */
+.topbar{position:fixed;top:0;right:0;left:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 26px;transition:.3s}
+.topbar.scrolled{background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:11px 26px}
+.tb-brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:16px;transition:.3s}
+.topbar.scrolled .tb-brand{color:var(--ink)}
+.tb-logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;color:#fff;font-weight:900;font-size:14px;flex-shrink:0}
+.tb-brand small{display:block;font-weight:500;font-size:11px;opacity:.7}
+.tb-cta{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:700;font-size:13.5px;padding:9px 18px;border-radius:999px;transition:.2s}
+.topbar.scrolled .tb-cta{background:var(--primary);border-color:var(--primary)}
+.tb-cta:hover{transform:translateY(-1px)}
+@media(max-width:640px){.tb-brand small{display:none}}
+
+/* hero */
+.hero{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:118px 24px 64px;background:#0b1220;color:#fff;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(75px);opacity:.5;pointer-events:none}
+.orb.o1{width:520px;height:520px;background:#c98a1e;top:-150px;right:-90px}
+.orb.o2{width:440px;height:440px;background:#4f46e5;bottom:-160px;left:-90px}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%)}
+.hero-in{position:relative;z-index:2;max-width:860px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:800;letter-spacing:2px;color:#fcd34d;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.32);border-radius:999px;padding:8px 18px;margin-bottom:26px}
+.hero h1{font-size:clamp(44px,8vw,92px);font-weight:900;line-height:1.04;letter-spacing:-2px}
+.hero .h1-sub{display:block;font-size:clamp(20px,3.2vw,34px);font-weight:700;color:#e2e8f0;margin-top:16px;letter-spacing:-.5px}
+.hero-sub{font-size:clamp(16px,2.1vw,21px);color:#aab3c5;max-width:660px;margin:24px auto 0;line-height:1.65}
+.lect-card{display:inline-flex;align-items:center;gap:16px;margin-top:36px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:14px 22px 14px 26px;text-align:right}
+.lect-av{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#fbbf24,#b7791f);color:#3a2a06;font-weight:900;font-size:22px;display:grid;place-items:center;flex-shrink:0}
+.lect-card b{display:block;font-size:18px;font-weight:900;color:#fff}
+.lect-card span{font-size:13px;color:#9aa3b5;font-weight:600;letter-spacing:.5px}
+.hero-meta{margin-top:22px;font-size:14.5px;color:#8b93a7;font-weight:700}
+.hero-meta .dot{margin:0 10px;opacity:.5}
+
+/* no-recording banner */
+.norec{max-width:1080px;margin:-38px auto 0;position:relative;z-index:20;padding:0 24px}
+.norec-in{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid #fde68a;border-right:6px solid var(--gold);border-radius:18px;padding:18px 24px;box-shadow:var(--shadow)}
+.norec .e{font-size:30px;flex-shrink:0}
+.norec b{color:var(--ink);font-size:16.5px;font-weight:900;display:block;margin-bottom:2px}
+.norec p{color:var(--ink-soft);font-size:14.5px;line-height:1.55;margin:0}
+@media(max-width:560px){.norec-in{flex-direction:column;text-align:center;border-right:none;border-top:6px solid var(--gold)}}
+
+/* sections */
+.section{padding:clamp(38px,5vw,60px) 0}
+.sec-head{text-align:center;max-width:720px;margin:0 auto clamp(26px,3vw,38px)}
+.sec-tag{display:inline-block;font-weight:800;font-size:13px;letter-spacing:1px;color:var(--gold-dark);background:#fef6e3;border-radius:999px;padding:7px 16px;margin-bottom:14px}
+.sec-head h2{font-size:clamp(28px,4.2vw,44px);font-weight:900;line-height:1.14;letter-spacing:-1px}
+.sec-head p{font-size:clamp(15px,1.9vw,19px);color:var(--muted);margin-top:12px}
+
+/* topic modules */
+.mods{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:820px){.mods{grid-template-columns:1fr;max-width:560px;margin:0 auto}}
+.mod{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:30px 28px;box-shadow:var(--shadow);border-top:6px solid var(--gold)}
+.mod:nth-child(2){border-top-color:var(--primary)}
+.mod .mnum{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px}
+.mod h3{font-size:22px;font-weight:900;letter-spacing:-.4px;line-height:1.25;margin-bottom:12px}
+.mod p{font-size:15px;color:var(--ink-soft);line-height:1.65;margin-bottom:16px}
+.mod-chips{display:flex;flex-wrap:wrap;gap:7px}
+.mod-chip{font-size:12.5px;font-weight:700;color:var(--gold-dark);background:#fef6e3;border-radius:999px;padding:5px 12px}
+.mod:nth-child(2) .mod-chip{color:var(--primary-dark);background:var(--primary-light)}
+
+/* materials / embeds */
+.mat{display:flex;flex-direction:column;gap:34px}
+.matcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.mathead{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:22px 26px;border-bottom:1px solid var(--line)}
+.mathead .mt-l{display:flex;align-items:center;gap:14px}
+.mt-ic{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#0b1220,#334155);color:#fbbf24;font-weight:900;font-size:15px;display:grid;place-items:center;flex-shrink:0}
+.mt-l b{display:block;font-size:18px;font-weight:900;letter-spacing:-.3px}
+.mt-l span{font-size:13px;color:var(--muted);font-weight:600}
+.mt-btns{display:flex;gap:10px;flex-wrap:wrap}
+.mbtn{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:14px;padding:11px 18px;border-radius:12px;transition:.2s;white-space:nowrap}
+.mbtn.primary{background:var(--ink);color:#fff}
+.mbtn.ghost{background:var(--primary-light);color:var(--primary-dark)}
+.mbtn:hover{transform:translateY(-2px)}
+.matframe{width:100%;height:min(78vh,880px);border:0;display:block;background:#f1f5f9}
+.matframe.short{height:min(62vh,720px)}
+@media(max-width:560px){.matframe{height:70vh}}
+
+/* footer */
+footer{background:#0b1220;color:#8b93a7;text-align:center;padding:48px 24px}
+footer .fl{color:#fff;font-weight:800;font-size:18px;margin-bottom:6px}
+footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
+footer a{color:#cbd5e1;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <a class="tb-brand" href="indexnew.html"><span class="tb-logo">CFO</span><span>CFO בעידן החדש<small>ד״ר שי צבאן · בר-אילן</small></span></a>
+  <a class="tb-cta" href="indexnew.html">→ חזרה למסלול הקורס</a>
+</div>
+
+<header class="hero">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-in">
+    <div class="hero-eyebrow">מפגש חמישי · הרצאת אורח · 21 ביולי 2026</div>
+    <h1>מימון. מינוף. <span class="grad-t">תשואה.</span><span class="h1-sub">היבטים מתקדמים בגיוס הון ובניית תמהיל ההון</span></h1>
+    <p class="hero-sub">מסלול בין אפיקי המימון המתוחכמים של המשק הישראלי לבין השיטות שהופכות הון לתשואה בפועל, מתוך ניסיון שטח ולא מהתאוריה בלבד.</p>
+    <div class="lect-card">
+      <div class="lect-av">עק</div>
+      <div>
+        <b>רו״ח עמית קולינסקי</b>
+        <span>ייעוץ כלכלי אסטרטגי · Finance &amp; Leverage Strategy</span>
+      </div>
+    </div>
+    <div class="hero-meta">מפגש 05<span class="dot">•</span>קורס CFO בעידן החדש<span class="dot">•</span>אוניברסיטת בר-אילן</div>
+  </div>
+</header>
+
+<div class="norec">
+  <div class="norec-in">
+    <span class="e">🎬</span>
+    <div>
+      <b>אין הקלטת וידאו למפגש זה</b>
+      <p>לבקשת המרצה, מפגש זה אינו מוקלט. חומרי ההרצאה המלאים מצורפים למטה ומהווים את התיעוד הרשמי של המפגש.</p>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<section class="section" id="topics">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">על מה דיברנו</span>
+      <h2>שני צירים, <span class="grad-l">שיטה אחת</span></h2>
+      <p>מפה מדויקת של אפיקי המימון של המשק הישראלי, ואיך בונים מהם תמהיל הון שמייצר תשואה. הרצאה יישומית, לא רשימת מקורות מימון.</p>
+    </div>
+    <div class="mods">
+      <div class="mod">
+        <span class="mnum">ציר 01</span>
+        <h3>אפיקי מימון, קרנות והלוואות מיזנין</h3>
+        <p>מימון בנקאי מול גופים חוץ בנקאיים, מכשירים היברידיים והלוואות מיזנין, וסקירת הקרנות המרכזיות הפעילות היום בשוק. מתי כל אפיק מתאים, ואיפה נמצא הסיכון.</p>
+        <div class="mod-chips"><span class="mod-chip">מימון בנקאי</span><span class="mod-chip">חוב פרטי</span><span class="mod-chip">מיזנין</span><span class="mod-chip">מכשירים היברידיים</span><span class="mod-chip">קרנות</span></div>
+      </div>
+      <div class="mod">
+        <span class="mnum">ציר 02</span>
+        <h3>מינוף פיננסי ובניית תמהיל הון</h3>
+        <p>אסטרטגיית מימון ותמהיל הון לאורך שלבי הצמיחה של החברה, ניהול המאזן, ודילמת המינוף הפיננסי. השיטה: לאבחן, לכמת, לעצב, לנהל, לפני שמדברים עם הגורם המממן.</p>
+        <div class="mod-chips"><span class="mod-chip">תמהיל הון</span><span class="mod-chip">מינוף פיננסי</span><span class="mod-chip">ניהול מאזן</span><span class="mod-chip">ניהול תהליך</span><span class="mod-chip">אבחון וכימות</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="materials" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">חומרי ההרצאה</span>
+      <h2>כל <span class="grad-l">התיעוד</span> של המפגש</h2>
+      <p>שני הקבצים למטה הם החומר המלא של הרצאת האורח. אפשר לצפות בהם כאן בדף, לפתוח בכרטיסייה חדשה או להוריד.</p>
+    </div>
+
+    <div class="mat">
+      <div class="matcard">
+        <div class="mathead">
+          <div class="mt-l">
+            <div class="mt-ic">PDF</div>
+            <div>
+              <b>מימון · מינוף · תשואה</b>
+              <span>דף ההרצאה המלא · אפיקי מימון ומינוף פיננסי</span>
+            </div>
+          </div>
+          <div class="mt-btns">
+            <a class="mbtn primary" href="assets/lecture5-kolinsky-financing-leverage.pdf" target="_blank" rel="noopener">↗ פתיחה בכרטיסייה</a>
+            <a class="mbtn ghost" href="assets/lecture5-kolinsky-financing-leverage.pdf" download>↓ הורדה</a>
+          </div>
+        </div>
+        <iframe class="matframe short" src="assets/lecture5-kolinsky-financing-leverage.pdf#view=FitH" title="מימון, מינוף, תשואה - דף ההרצאה" loading="lazy"></iframe>
+      </div>
+
+      <div class="matcard">
+        <div class="mathead">
+          <div class="mt-l">
+            <div class="mt-ic">PDF</div>
+            <div>
+              <b>היבטים מתקדמים בגיוס הון</b>
+              <span>מצגת ההרצאה של רו״ח עמית קולינסקי</span>
+            </div>
+          </div>
+          <div class="mt-btns">
+            <a class="mbtn primary" href="assets/lecture5-kolinsky-capital-raising.pdf" target="_blank" rel="noopener">↗ פתיחה בכרטיסייה</a>
+            <a class="mbtn ghost" href="assets/lecture5-kolinsky-capital-raising.pdf" download>↓ הורדה</a>
+          </div>
+        </div>
+        <iframe class="matframe" src="assets/lecture5-kolinsky-capital-raising.pdf#view=FitH" title="היבטים מתקדמים בגיוס הון - מצגת" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="fl">CFO בעידן החדש</div>
+  <div>מפגש 05 · הרצאת אורח מאת רו״ח עמית קולינסקי · 21 ביולי 2026</div>
+  <div class="fs">קורס מאת ד״ר שי צבאן · היחידה ללימודי חוץ, אוניברסיטת בר-אילן · 2026<br><a href="indexnew.html">→ חזרה למסלול הקורס המלא</a></div>
+</footer>
+
+<script>
+(function(){
+  var tb=document.getElementById('topbar');
+  function onScroll(){ tb.classList.toggle('scrolled', (document.documentElement.scrollTop||document.body.scrollTop)>60); }
+  document.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+})();
+</script>
+</body>
+</html>
