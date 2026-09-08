@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CFO בעידן החדש · קורס מאת ד״ר שי צבאן · אוניברסיטת בר-אילן</title>
-<meta name="description" content="קורס בן שבעה מפגשים על ניהול כספים בעידן הבינה המלאכותית. מ׳שומר הסף׳ לשותף אסטרטגי.">
+<title>הכשרת מנהלי כספים בעידן ה-AI · ד״ר שי צבאן · היחידה ללימודי תעודה, אוניברסיטת בר-אילן</title>
+<meta name="description" content="הכשרת מנהלי כספים בעידן ה-AI: קורס בן שנים-עשר מפגשים (48 שעות אקדמיות) של היחידה ללימודי תעודה באוניברסיטת בר-אילן. ניהול כספים בעידן הבינה המלאכותית, מ׳שומר הסף׳ לשותף אסטרטגי.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -25,16 +25,18 @@ a{text-decoration:none;color:inherit}
 .grad-l{background:linear-gradient(120deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* ---------- top bar ---------- */
-.topbar{position:fixed;top:0;right:0;left:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 26px;transition:.3s}
-.topbar.scrolled{background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:11px 26px}
-.tb-brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:16px;transition:.3s}
+.topbar{position:fixed;top:0;right:0;left:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 26px;transition:.3s}
+.topbar.scrolled{background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:9px 26px}
+.tb-brand{display:flex;align-items:center;gap:12px;color:#fff;font-weight:800;font-size:15.5px;transition:.3s;min-width:0}
 .topbar.scrolled .tb-brand{color:var(--ink)}
-.tb-logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;color:#fff;font-weight:900;font-size:14px;flex-shrink:0}
+.tb-logo{height:44px;padding:5px 10px;border-radius:11px;background:#fff;display:flex;align-items:center;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.22)}
+.topbar.scrolled .tb-logo{box-shadow:none;border:1px solid var(--line)}
+.tb-logo img{height:100%;width:auto;display:block}
 .tb-brand small{display:block;font-weight:500;font-size:11px;opacity:.7}
 .tb-cta{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:700;font-size:13.5px;padding:9px 18px;border-radius:999px;transition:.2s}
 .topbar.scrolled .tb-cta{background:var(--primary);border-color:var(--primary)}
 .tb-cta:hover{transform:translateY(-1px)}
-@media(max-width:640px){.tb-brand small{display:none}}
+@media(max-width:640px){.tb-brand small{display:none}.tb-brand span:not(.tb-logo){display:none}}
 
 /* ---------- hero ---------- */
 .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 90px;background:#07070b;color:#fff;overflow:hidden}
@@ -48,8 +50,10 @@ a{text-decoration:none;color:inherit}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%)}
 .hero-in{position:relative;z-index:2;max-width:900px}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:800;letter-spacing:2px;color:#a5b4fc;background:rgba(129,140,248,.12);border:1px solid rgba(129,140,248,.3);border-radius:999px;padding:8px 18px;margin-bottom:28px}
-.hero h1{font-size:clamp(46px,9vw,104px);font-weight:900;line-height:1.02;letter-spacing:-2px}
-.hero .h1-sub{display:block;font-size:clamp(22px,3.6vw,40px);font-weight:700;color:#e2e8f0;margin-top:14px;letter-spacing:-.5px}
+.hero-logo{display:inline-block;background:#fff;border-radius:18px;padding:14px 26px;margin-bottom:26px;box-shadow:0 12px 34px rgba(0,0,0,.4)}
+.hero-logo img{display:block;width:min(360px,72vw);height:auto}
+.hero h1{font-size:clamp(40px,7.6vw,92px);font-weight:900;line-height:1.06;letter-spacing:-2px}
+.hero .h1-sub{display:block;font-size:clamp(20px,3.2vw,36px);font-weight:700;color:#e2e8f0;margin-top:16px;letter-spacing:-.5px}
 .hero-sub{font-size:clamp(17px,2.2vw,22px);color:#aab3c5;max-width:640px;margin:26px auto 0;line-height:1.6}
 .hero-stats{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:38px 0 34px}
 .hstat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 22px;min-width:120px}
@@ -130,6 +134,23 @@ a{text-decoration:none;color:inherit}
 .lec-feat.board .feat-tag{color:#e8c766;background:rgba(212,175,55,.12);border-color:rgba(212,175,55,.32)}
 .lec-feat.board .feat-chip{color:#e7d9b0;background:rgba(212,175,55,.1);border-color:rgba(212,175,55,.22)}
 .lec-feat.board .feat-pill{background:linear-gradient(110deg,#e6c260,#c19a2e);box-shadow:0 12px 32px rgba(212,175,55,.3)}
+/* lecture 8 · AI tools workshop (forest green / sky) */
+.lec-feat.tools{background:linear-gradient(160deg,#052e22,#0f5c47)}
+.lec-feat.tools::before{background:#38bdf8}
+.lec-feat.tools::after{background:#1f8a6b}
+.lec-feat.tools .feat-badge{background:linear-gradient(135deg,#7dd3fc,#0ea5e9);color:#052e22}
+.lec-feat.tools .feat-tag{color:#7dd3fc;background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.32)}
+.lec-feat.tools .feat-chip{color:#d8f1ff;background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.22)}
+.lec-feat.tools .feat-pill{background:linear-gradient(110deg,#7dd3fc,#0ea5e9);box-shadow:0 12px 32px rgba(56,189,248,.3)}
+/* sessions not yet online */
+.lec-soon{display:flex;align-items:center;gap:18px;margin-top:26px;background:#fff;border:2px dashed #cbd5e1;border-radius:var(--r);padding:22px 30px;color:var(--ink-soft)}
+.lec-soon .sn{display:grid;place-items:center;width:62px;height:62px;border-radius:16px;background:var(--primary-light);color:var(--primary-dark);font-weight:900;font-size:15px;flex-shrink:0;direction:ltr;text-align:center;line-height:1.1}
+.lec-soon b{display:block;font-size:18px;font-weight:900;color:var(--ink);margin-bottom:3px}
+.lec-soon p{font-size:14.5px;line-height:1.6;margin:0}
+@media(max-width:560px){.lec-soon{flex-direction:column;text-align:center}}
+.progress{display:inline-flex;align-items:center;gap:9px;margin-top:16px;font-size:14px;font-weight:800;color:var(--accent-dark);background:#e6fbf6;border:1px solid #99f6e4;border-radius:999px;padding:7px 16px}
+.progress .bar{width:120px;height:8px;border-radius:999px;background:#ccfbf1;overflow:hidden;direction:ltr}
+.progress .bar i{display:block;height:100%;width:66.7%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--accent))}
 /* lecture 7 · IFRS standards (teal) */
 .lec-feat.ifrs{background:linear-gradient(160deg,#062421,#0f766e)}
 .lec-feat.ifrs::before{background:#2dd4bf}
@@ -172,6 +193,8 @@ a{text-decoration:none;color:inherit}
 
 /* ---------- footer ---------- */
 footer{background:#07070b;color:#8b93a7;text-align:center;padding:50px 24px}
+.foot-logo{display:inline-block;background:#fff;border-radius:14px;padding:10px 18px;margin-bottom:18px}
+.foot-logo img{display:block;width:250px;max-width:70vw;height:auto}
 footer .fl{color:#fff;font-weight:800;font-size:18px;margin-bottom:6px}
 footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
 
@@ -204,7 +227,7 @@ footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
 </symbol></svg>
 
 <div class="topbar" id="topbar">
-  <a class="tb-brand" href="#top"><span class="tb-logo">CFO</span><span>CFO בעידן החדש<small>ד״ר שי צבאן · בר-אילן</small></span></a>
+  <a class="tb-brand" href="#top"><span class="tb-logo"><img src="assets/biu-certificate-studies-logo.png" alt="היחידה ללימודי תעודה, המערך לתוכניות ייעודיות, אוניברסיטת בר-אילן"></span><span>הכשרת מנהלי כספים בעידן ה-AI<small>ד״ר שי צבאן · היחידה ללימודי תעודה, אוניברסיטת בר-אילן</small></span></a>
   <a class="tb-cta" href="#lectures">למסלול הקורס ←</a>
 </div>
 
@@ -212,12 +235,13 @@ footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
   <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
   <div class="hero-grid"></div>
   <div class="hero-in">
-    <div class="hero-eyebrow rv">אוניברסיטת בר-אילן · היחידה ללימודי חוץ</div>
-    <h1 class="rv">CFO <span class="grad-t">בעידן החדש</span><span class="h1-sub">ניהול כספים בעידן הבינה המלאכותית</span></h1>
-    <p class="hero-sub rv">קורס בן שבעה מפגשים שלוקח את מנהל הכספים מ״שומר הסף״ אל תפקיד של שותף אסטרטגי, עם ידיים על המקלדת, הדגמות חיות, ומקרים אמיתיים מחברות ציבוריות.</p>
+    <a class="hero-logo rv" href="https://birad.biu.ac.il/" target="_blank" rel="noopener"><img src="assets/biu-certificate-studies-logo.png" alt="היחידה ללימודי תעודה, המערך לתוכניות ייעודיות, אוניברסיטת בר-אילן"></a>
+    <div class="hero-eyebrow rv">אוניברסיטת בר-אילן · היחידה ללימודי תעודה</div>
+    <h1 class="rv">הכשרת מנהלי כספים <span class="grad-t">בעידן ה-AI</span><span class="h1-sub">ניהול כספים בעידן הבינה המלאכותית: מ״שומר הסף״ לשותף אסטרטגי</span></h1>
+    <p class="hero-sub rv">קורס בן שנים-עשר מפגשים של היחידה ללימודי תעודה, שלוקח את מנהל הכספים מ״שומר הסף״ אל תפקיד של שותף אסטרטגי, עם ידיים על המקלדת, הדגמות חיות, ומקרים אמיתיים מחברות ציבוריות.</p>
     <div class="hero-stats rv-s">
-      <div class="hstat"><b>7</b><span>מפגשים</span></div>
-      <div class="hstat"><b>10+</b><span>שעות תוכן</span></div>
+      <div class="hstat"><b>12</b><span>מפגשים</span></div>
+      <div class="hstat"><b>48</b><span>שעות אקדמיות</span></div>
       <div class="hstat"><b>∞</b><span>הדגמות חיות</span></div>
       <div class="hstat"><b>עברית</b><span>מלאה</span></div>
     </div>
@@ -232,8 +256,9 @@ footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
   <div class="wrap">
     <div class="sec-head rv">
       <span class="sec-tag">מסלול הקורס</span>
-      <h2>שבעה מפגשים, <span class="grad-l">מסע אחד</span></h2>
-      <p>כל מפגש עומד בפני עצמו, אך יחד הם בונים את הדרך מהיסודות ועד לניהול פיננסי מתקדם. מומלץ ללכת לפי הסדר.</p>
+      <h2>שנים-עשר מפגשים, <span class="grad-l">מסע אחד</span></h2>
+      <p>כל מפגש עומד בפני עצמו, אך יחד הם בונים את הדרך מהיסודות ועד לניהול פיננסי מתקדם. מומלץ ללכת לפי הסדר. חומרי המפגשים מועלים לאתר בהדרגה, לאחר קיומם.</p>
+      <div class="progress"><span>8 מתוך 12 מפגשים כבר באתר</span><span class="bar"><i></i></span></div>
     </div>
 
     <div class="lecs rv-s">
@@ -330,6 +355,28 @@ footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
         </div>
       </a>
 
+      <a class="lec-feat tools rv" href="https://shaytsaban.github.io/BIU-CFO/lecture8-maor.html">
+        <div class="feat-badge">08</div>
+        <div class="feat-body">
+          <span class="feat-tag">הרצאת אורח · סדנה מעשית</span>
+          <h3>מדריך פעולות בכלי AI: סקיל ב-Claude, מודל מקומי, סוכן Hermes ואפליקציה ב-Lovable</h3>
+          <p>הרצאת אורח מאת מאור משה, מהנדס בכיר לשעבר באינטל העולמית. מדריך צעד-אחר-צעד בארבעה מסלולים: התקנת סקיל עברי לדוחות כספיים ב-Claude, הפעלת מודל שפה מקומי עם Ollama, התקנת סוכן Hermes וחיבורו למודל בענן דרך OpenRouter, ובניית אפליקציה ופרסומה ב-Lovable. כולל דף פקודות, תרגול מסכם ואת המדריך המלא לצפייה והורדה.</p>
+          <div class="feat-chips"><span class="feat-chip">סקילים</span><span class="feat-chip">Ollama · Gemma</span><span class="feat-chip">סוכן Hermes</span><span class="feat-chip">Lovable</span><span class="feat-chip norec">🎬 ללא הקלטה</span></div>
+        </div>
+        <div class="feat-cta">
+          <span class="feat-pill">לחומרי המפגש ←</span>
+          <span class="feat-when">1 בספטמבר 2026 · מאור משה</span>
+        </div>
+      </a>
+
+      <div class="lec-soon rv">
+        <div class="sn">09<br>–12</div>
+        <div>
+          <b>עוד ארבעה מפגשים בדרך</b>
+          <p>הקורס כולל שנים-עשר מפגשים. חומרי המפגשים הבאים יועלו לכאן לאחר קיומם.</p>
+        </div>
+      </div>
+
     <div class="pathnote rv"><span class="e">🧭</span><span>חדשים בקורס? התחילו במפגש הראשון, הוא בנוי כנקודת פתיחה שלא מניחה שום ידע מוקדם.</span></div>
   </div>
 </section>
@@ -365,7 +412,7 @@ footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
       <div>
         <span class="instr-tag">🎓 מרצה הקורס</span>
         <h3>ד״ר שי צבאן</h3>
-        <div class="role">היחידה ללימודי חוץ · אוניברסיטת בר-אילן</div>
+        <div class="role">היחידה ללימודי תעודה · אוניברסיטת בר-אילן</div>
         <p>הקורס משלב תיאוריה פיננסית מתקדמת עם יישום מעשי של כלי בינה מלאכותית בעבודת מנהל הכספים. הגישה: קודם מבינים את המושג הפיננסי לעומק, ורק אז נותנים לבינה לזרז את העבודה, כשהאדם נשאר זה שמפרש, מחליט, וחותם.</p>
       </div>
     </div>
@@ -374,9 +421,10 @@ footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
 </main>
 
 <footer>
-  <div class="fl">CFO בעידן החדש</div>
-  <div>קורס בן שבעה מפגשים · ניהול כספים בעידן הבינה המלאכותית</div>
-  <div class="fs">מאת ד״ר שי צבאן · היחידה ללימודי חוץ, אוניברסיטת בר-אילן · 2026</div>
+  <a class="foot-logo" href="https://birad.biu.ac.il/" target="_blank" rel="noopener"><img src="assets/biu-certificate-studies-logo.png" alt="היחידה ללימודי תעודה, המערך לתוכניות ייעודיות, אוניברסיטת בר-אילן"></a>
+  <div class="fl">הכשרת מנהלי כספים בעידן ה-AI</div>
+  <div>קורס בן שנים-עשר מפגשים · 48 שעות אקדמיות · ניהול כספים בעידן הבינה המלאכותית</div>
+  <div class="fs">מאת ד״ר שי צבאן · היחידה ללימודי תעודה, אוניברסיטת בר-אילן · 2026</div>
 </footer>
 
 <script>
