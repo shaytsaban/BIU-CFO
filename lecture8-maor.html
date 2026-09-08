@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מפגש 08 · מדריך פעולות בכלי AI · מאור משה · הכשרת מנהלי כספים בעידן ה-AI</title>
+<meta name="description" content="מפגש שמיני בקורס הכשרת מנהלי כספים בעידן ה-AI (היחידה ללימודי תעודה, אוניברסיטת בר-אילן). הרצאת אורח מאת מאור משה: התקנת סקיל ב-Claude, הפעלת מודל מקומי עם Ollama, סוכן Hermes ובניית אפליקציה ב-Lovable. כולל את המדריך המלא.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#4f46e5; --primary-dark:#3730a3; --primary-light:#eef2ff;
+  --g1:#052e22; --g2:#0f5c47; --g3:#1f8a6b; --mint:#e8f5ef; --mint-2:#d3ece1;
+  --sky:#38bdf8; --sky-light:#e0f2fe; --sky-dark:#0369a1;
+  --ink:#0f172a; --ink-soft:#334155; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc; --white:#fff;
+  --shadow:0 10px 30px rgba(15,23,42,.08); --shadow-lg:0 24px 60px rgba(15,23,42,.16);
+  --r:26px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Heebo',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-align:right}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.grad-t{background:linear-gradient(115deg,#7dd3fc,#5eead4 55%,#a7f3d0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad-l{background:linear-gradient(120deg,var(--g2),var(--sky-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+/* top bar */
+.topbar{position:fixed;top:0;right:0;left:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 26px;transition:.3s}
+.topbar.scrolled{background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:9px 26px}
+.tb-brand{display:flex;align-items:center;gap:12px;color:#fff;font-weight:800;font-size:15.5px;transition:.3s;min-width:0}
+.topbar.scrolled .tb-brand{color:var(--ink)}
+.tb-logo{height:44px;padding:5px 10px;border-radius:11px;background:#fff;display:flex;align-items:center;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.22)}
+.topbar.scrolled .tb-logo{box-shadow:none;border:1px solid var(--line)}
+.tb-logo img{height:100%;width:auto;display:block}
+.tb-brand small{display:block;font-weight:500;font-size:11px;opacity:.75}
+.tb-cta{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:700;font-size:13.5px;padding:9px 18px;border-radius:999px;transition:.2s;white-space:nowrap}
+.topbar.scrolled .tb-cta{background:var(--g2);border-color:var(--g2)}
+.tb-cta:hover{transform:translateY(-1px)}
+@media(max-width:640px){.tb-brand small{display:none}.tb-brand span:not(.tb-logo){display:none}}
+
+/* hero */
+.hero{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:118px 24px 64px;background:var(--g1);color:#fff;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(75px);opacity:.5;pointer-events:none}
+.orb.o1{width:520px;height:520px;background:#1f8a6b;top:-150px;right:-90px}
+.orb.o2{width:440px;height:440px;background:#0ea5e9;bottom:-160px;left:-90px;opacity:.38}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%)}
+.hero-in{position:relative;z-index:2;max-width:880px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:800;letter-spacing:2px;color:#7dd3fc;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.32);border-radius:999px;padding:8px 18px;margin-bottom:26px}
+.hero h1{font-size:clamp(38px,7vw,78px);font-weight:900;line-height:1.06;letter-spacing:-1.5px}
+.hero .h1-sub{display:block;font-size:clamp(18px,2.8vw,30px);font-weight:700;color:#e2e8f0;margin-top:16px;letter-spacing:-.5px;line-height:1.35}
+.hero-sub{font-size:clamp(16px,2.1vw,21px);color:#b5c7c0;max-width:700px;margin:24px auto 0;line-height:1.65}
+.lect-card{display:inline-flex;align-items:center;gap:16px;margin-top:36px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:14px 22px 14px 26px;text-align:right}
+.lect-av{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#7dd3fc,#0ea5e9);color:#052e22;font-weight:900;font-size:22px;display:grid;place-items:center;flex-shrink:0}
+.lect-card b{display:block;font-size:18px;font-weight:900;color:#fff}
+.lect-card span{font-size:13px;color:#9fb3ab;font-weight:600;letter-spacing:.3px}
+.hero-meta{margin-top:22px;font-size:14.5px;color:#8fa39b;font-weight:700}
+.hero-meta .dot{margin:0 10px;opacity:.5}
+
+/* no-recording banner */
+.norec{max-width:1080px;margin:-38px auto 0;position:relative;z-index:20;padding:0 24px}
+.norec-in{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid #fde68a;border-right:6px solid #e0a63a;border-radius:18px;padding:18px 24px;box-shadow:var(--shadow)}
+.norec .e{font-size:30px;flex-shrink:0}
+.norec b{color:var(--ink);font-size:16.5px;font-weight:900;display:block;margin-bottom:2px}
+.norec p{color:var(--ink-soft);font-size:14.5px;line-height:1.55;margin:0}
+@media(max-width:560px){.norec-in{flex-direction:column;text-align:center;border-right:none;border-top:6px solid #e0a63a}}
+
+/* sections */
+.section{padding:clamp(38px,5vw,60px) 0}
+.sec-head{text-align:center;max-width:780px;margin:0 auto clamp(26px,3vw,38px)}
+.sec-tag{display:inline-block;font-weight:800;font-size:13px;letter-spacing:1px;color:var(--g2);background:var(--mint);border-radius:999px;padding:7px 16px;margin-bottom:14px}
+.sec-head h2{font-size:clamp(28px,4.2vw,44px);font-weight:900;line-height:1.14;letter-spacing:-1px}
+.sec-head p{font-size:clamp(15px,1.9vw,19px);color:var(--muted);margin-top:12px}
+
+/* overview grid */
+.ov{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:900px){.ov{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.ov{grid-template-columns:1fr}}
+.ovc{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 22px 20px;box-shadow:var(--shadow);border-top:5px solid var(--g3);transition:.25s}
+.ovc:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.ovc .n{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;font-weight:900;font-size:17px;margin-bottom:12px;direction:ltr}
+.ovc .e{font-size:30px;line-height:1;margin-bottom:8px}
+.ovc h3{font-size:18.5px;font-weight:900;letter-spacing:-.3px;line-height:1.3;margin-bottom:6px}
+.ovc p{font-size:14px;color:var(--muted);line-height:1.55;margin:0;flex:1}
+.ovc .go{margin-top:14px;font-size:13.5px;font-weight:800;color:var(--g2)}
+.ovc:nth-child(2){border-top-color:var(--sky)}
+.ovc:nth-child(2) .n{background:linear-gradient(135deg,var(--sky-dark),var(--sky))}
+.ovc:nth-child(3){border-top-color:#7c3aed}
+.ovc:nth-child(3) .n{background:linear-gradient(135deg,#5b21b6,#8b5cf6)}
+.ovc:nth-child(4){border-top-color:#e0a63a}
+.ovc:nth-child(4) .n{background:linear-gradient(135deg,#b7791f,#f2c14e)}
+
+/* tracks */
+.track{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:26px}
+.track-head{display:flex;align-items:center;gap:16px;padding:22px 26px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,#fff,var(--mint))}
+.track-head .n{width:54px;height:54px;border-radius:15px;background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;font-weight:900;font-size:20px;display:grid;place-items:center;flex-shrink:0;direction:ltr}
+.track-head h3{font-size:22px;font-weight:900;letter-spacing:-.3px;line-height:1.25}
+.track-head span{display:block;font-size:14px;color:var(--muted);font-weight:600;margin-top:2px}
+.track.t2 .track-head{background:linear-gradient(90deg,#fff,var(--sky-light))}
+.track.t2 .track-head .n{background:linear-gradient(135deg,var(--sky-dark),var(--sky))}
+.track.t3 .track-head{background:linear-gradient(90deg,#fff,#f3efff)}
+.track.t3 .track-head .n{background:linear-gradient(135deg,#5b21b6,#8b5cf6)}
+.track.t4 .track-head{background:linear-gradient(90deg,#fff,#fdf3dd)}
+.track.t4 .track-head .n{background:linear-gradient(135deg,#b7791f,#f2c14e)}
+.track-body{display:grid;grid-template-columns:1.5fr 1fr;gap:26px;padding:24px 26px 26px}
+@media(max-width:820px){.track-body{grid-template-columns:1fr}}
+.what{background:var(--mint);border-radius:16px;padding:14px 18px;font-size:15px;color:var(--ink-soft);margin-bottom:18px;line-height:1.6}
+.what b{color:var(--g2)}
+.track.t2 .what{background:var(--sky-light)}.track.t2 .what b{color:var(--sky-dark)}
+.track.t3 .what{background:#f3efff}.track.t3 .what b{color:#5b21b6}
+.track.t4 .what{background:#fdf3dd}.track.t4 .what b{color:#8a5a0f}
+.steps{list-style:none;counter-reset:s}
+.steps > li{position:relative;padding:0 46px 0 0;margin-bottom:14px;font-size:15.5px;line-height:1.6;color:var(--ink-soft)}
+.steps > li::before{counter-increment:s;content:counter(s);position:absolute;right:0;top:2px;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font-weight:900;font-size:14px;display:grid;place-items:center}
+.steps li b{color:var(--ink)}
+.steps > li:last-child{margin-bottom:0}
+.steps ul{list-style:disc;margin:8px 22px 0 0;padding:0}
+.steps ul li{padding:0;margin-bottom:6px;font-size:14.5px;color:var(--ink-soft);line-height:1.65}
+.steps ul li::marker{color:var(--g3)}
+.sub{font-size:13.5px;color:var(--muted);display:block;margin-top:3px}
+.side h4{font-size:14px;font-weight:900;letter-spacing:.5px;color:var(--muted);margin-bottom:10px}
+.note{background:#fff8e6;border:1px solid #fde68a;border-radius:14px;padding:12px 14px;font-size:14px;color:#5c4408;line-height:1.55;margin-bottom:10px}
+.note b{color:#7a5a05}
+.note.ok{background:#eefbf4;border-color:#bbf0d3;color:#124d33}.note.ok b{color:#0f5c47}
+.note.info{background:var(--sky-light);border-color:#bae6fd;color:#0c3d5c}.note.info b{color:var(--sky-dark)}
+.ui{direction:ltr;unicode-bidi:isolate;display:inline-block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;background:#f1f5f9;border:1px solid var(--line);border-radius:8px;padding:2px 9px;color:var(--ink);white-space:nowrap}
+.cmd{direction:ltr;unicode-bidi:isolate;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#0b1220;color:#e2e8f0;border-radius:12px;padding:11px 14px;margin:8px 0 6px;overflow-x:auto}
+.cmd code{white-space:nowrap}
+.cmd .p{color:#7dd3fc;margin-right:8px;user-select:none}
+.copy{font-family:'Heebo',sans-serif;font-size:12px;font-weight:800;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e2e8f0;border-radius:8px;padding:5px 11px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:.2s}
+.copy:hover{background:rgba(255,255,255,.2)}
+.copy.done{background:#16a34a;border-color:#16a34a;color:#fff}
+.quote{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px;padding:12px 16px;font-size:14.5px;color:var(--ink-soft);line-height:1.6;margin:8px 0 6px;font-style:normal}
+
+/* cheat sheet */
+.cheat{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:760px){.cheat{grid-template-columns:1fr}}
+.cc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px 12px;box-shadow:var(--shadow)}
+.cc b{display:block;font-size:14.5px;font-weight:900;margin-bottom:2px}
+.cc span{font-size:13px;color:var(--muted)}
+
+/* checklist */
+.chk{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:700px){.chk{grid-template-columns:1fr}}
+.chk label{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;box-shadow:var(--shadow);font-size:15px;line-height:1.55;color:var(--ink-soft);transition:.2s}
+.chk label:hover{border-color:var(--g3)}
+.chk input{margin-top:5px;width:18px;height:18px;accent-color:var(--g2);flex-shrink:0}
+.chk label b{color:var(--ink)}
+.chk label.on{background:var(--mint);border-color:var(--g3)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.links{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.links{grid-template-columns:1fr}}
+.lk{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);transition:.2s}
+.lk:hover{transform:translateY(-3px);border-color:var(--g3)}
+.lk .e{font-size:24px;flex-shrink:0}
+.lk b{display:block;font-size:14.5px;font-weight:900;line-height:1.3}
+.lk small{display:block;font-size:12px;color:var(--muted);direction:ltr;text-align:right;unicode-bidi:isolate;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:230px}
+
+/* materials / embed */
+.matcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.mathead{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:22px 26px;border-bottom:1px solid var(--line)}
+.mathead .mt-l{display:flex;align-items:center;gap:14px}
+.mt-ic{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,var(--g1),var(--g3));color:#a7f3d0;font-weight:900;font-size:15px;display:grid;place-items:center;flex-shrink:0}
+.mt-l b{display:block;font-size:18px;font-weight:900;letter-spacing:-.3px}
+.mt-l span{font-size:13px;color:var(--muted);font-weight:600}
+.mt-btns{display:flex;gap:10px;flex-wrap:wrap}
+.mbtn{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:14px;padding:11px 18px;border-radius:12px;transition:.2s;white-space:nowrap}
+.mbtn.primary{background:var(--ink);color:#fff}
+.mbtn.ghost{background:var(--mint);color:var(--g2)}
+.mbtn.pptx{background:#fdf3dd;color:#8a5a0f}
+.mbtn:hover{transform:translateY(-2px)}
+.matframe{width:100%;height:min(80vh,900px);border:0;display:block;background:#f1f5f9}
+@media(max-width:560px){.matframe{height:72vh}}
+.matnote{font-size:13px;color:var(--muted);text-align:center;padding:14px 20px;background:#f8fafc}
+
+/* footer */
+footer{background:var(--g1);color:#8fa39b;text-align:center;padding:48px 24px}
+.foot-logo{display:inline-block;background:#fff;border-radius:14px;padding:10px 18px;margin-bottom:18px}
+.foot-logo img{display:block;width:250px;max-width:70vw;height:auto}
+footer .fl{color:#fff;font-weight:800;font-size:18px;margin-bottom:6px}
+footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
+footer a{color:#cbd5e1;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <a class="tb-brand" href="indexnew.html"><span class="tb-logo"><img src="assets/biu-certificate-studies-logo.png" alt="היחידה ללימודי תעודה, המערך לתוכניות ייעודיות, אוניברסיטת בר-אילן"></span><span>הכשרת מנהלי כספים בעידן ה-AI<small>ד״ר שי צבאן · היחידה ללימודי תעודה, אוניברסיטת בר-אילן</small></span></a>
+  <a class="tb-cta" href="indexnew.html">→ חזרה למסלול הקורס</a>
+</div>
+
+<header class="hero">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-in">
+    <div class="hero-eyebrow">מפגש שמיני · הרצאת אורח · 1 בספטמבר 2026</div>
+    <h1>מדריך פעולות <span class="grad-t">בכלי AI</span><span class="h1-sub">התקנת סקיל ב-Claude, הפעלת מודל מקומי, סוכן Hermes ובניית אפליקציה ב-Lovable</span></h1>
+    <p class="hero-sub">סדנה מעשית בארבעה מסלולים, צעד אחר צעד: מהתקנת סקיל עברי לדוחות כספיים ב-Claude, דרך מודל שפה שרץ על המחשב שלכם וסוכן שמבצע משימות בעצמו, ועד אפליקציה קטנה שנבנית ומתפרסמת בלי לכתוב קוד.</p>
+    <div class="lect-card">
+      <div class="lect-av">ממ</div>
+      <div>
+        <b>מאור משה</b>
+        <span>מהנדס בכיר לשעבר, אינטל העולמית</span>
+      </div>
+    </div>
+    <div class="hero-meta">מפגש 08<span class="dot">•</span>הכשרת מנהלי כספים בעידן ה-AI<span class="dot">•</span>היחידה ללימודי תעודה, אוניברסיטת בר-אילן</div>
+  </div>
+</header>
+
+<div class="norec">
+  <div class="norec-in">
+    <span class="e">🎬</span>
+    <div>
+      <b>אין הקלטת וידאו למפגש זה</b>
+      <p>לצערנו, בשל תקלות טכניות אצל המרצה, מפגש זה לא הוקלט. המדריך המלא של ההרצאה (מצגת בת 41 שקפים, מעודכנת ל-7 בספטמבר 2026) מצורף בדף זה לצפייה ולהורדה, ומהווה את התיעוד הרשמי של המפגש.</p>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<section class="section" id="overview">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">מה תרגלנו</span>
+      <h2>ארבעה מסלולים, <span class="grad-l">ארבעה כלים</span></h2>
+      <p>כל מסלול עומד בפני עצמו ומסתיים בתוצר שאפשר לבדוק. ההדגמה במפגש נעשתה על מחשב <span class="ltr">Windows</span> עם <span class="ltr">PowerShell</span>.</p>
+    </div>
+    <div class="ov">
+      <a class="ovc" href="#t1"><span class="n">01</span><span class="e">🧩</span><h3>סקיל ב-Claude</h3><p>מורידים סקיל עברי לדוחות כספיים מספריית <span class="ltr">SKILLS-IL</span>, מעלים אותו ל-Claude ובודקים אותו על נתונים פיקטיביים.</p><span class="go">למסלול ←</span></a>
+      <a class="ovc" href="#t2"><span class="n">02</span><span class="e">💻</span><h3>מודל מקומי עם Ollama</h3><p>מתקינים <span class="ltr">Ollama</span>, מורידים את המודל <span class="ltr">Gemma</span> ומנהלים איתו שיחה ראשונה, הכול על המחשב שלכם.</p><span class="go">למסלול ←</span></a>
+      <a class="ovc" href="#t3"><span class="n">03</span><span class="e">🤖</span><h3>סוכן Hermes</h3><p>מתקינים סוכן בקוד פתוח, מגדירים ספק ומודל דרך <span class="ltr">OpenRouter</span>, ובוחרים אילו כלים מותר לו להפעיל.</p><span class="go">למסלול ←</span></a>
+      <a class="ovc" href="#t4"><span class="n">04</span><span class="e">🚀</span><h3>אפליקציה ב-Lovable</h3><p>מתארים אפליקציה בעברית, בודקים אותה בתצוגה מקדימה, מבקשים שינוי ממוקד ומפרסמים קישור חי.</p><span class="go">למסלול ←</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tracks" style="padding-top:0">
+  <div class="wrap">
+
+    <div class="track t1" id="t1">
+      <div class="track-head">
+        <div class="n">01</div>
+        <div><h3>התקנת סקיל מ-SKILLS-IL ב-Claude</h3><span>סקיל = חבילת הוראות מוכנה שמלמדת את Claude לבצע משימה חוזרת באותה צורה בכל פעם</span></div>
+      </div>
+      <div class="track-body">
+        <div>
+          <div class="what"><b>מה זה נותן:</b> במקום לכתוב כל פעם פרומפט ארוך, מעלים פעם אחת סקיל שמגדיר איך מכינים דוח כספי ישראלי, ומאותו רגע Claude יודע לעבוד לפיו.</div>
+          <ol class="steps">
+            <li><b>בוחרים סקיל באתר.</b> נכנסים לספריית הסקילים בעברית, מחפשים ״דוחות כספיים״, פותחים את ״דוחות כספיים ישראליים״ וקוראים מה הסקיל עושה.</li>
+            <li><b>מורידים את הסקיל כקובץ ZIP.</b> מגיעים אל ״איך להשתמש בסקיל הזה״, בוחרים <span class="ltr">Claude.ai</span> או <span class="ltr">Claude Desktop</span> לפי סביבת העבודה, לוחצים ״הורדת ZIP״ ושומרים את הקובץ.</li>
+            <li><b>מוסיפים את הסקיל ל-Claude.</b> <code class="ui">Customize → Skills → + → Create skill → Upload a skill</code><span class="sub">מעלים את קובץ ה-ZIP ומוודאים שהסקיל מופיע כפעיל. לפני ההעלאה: בהגדרות <span class="ltr">Capabilities</span> מפעילים הרצת קוד ויצירת קבצים.</span></li>
+            <li><b>מפעילים ובודקים.</b> פותחים שיחה חדשה ומבקשים משימה שמתאימה לסקיל, למשל:
+              <div class="quote">״השתמש בסקיל <span class="ltr">israeli-financial-reports</span>. הכן טיוטת דוח רווח והפסד בעברית לעסק לדוגמה. הצג בנפרד נתונים חסרים והנחות.״</div>
+              <span class="sub">בודקים שהסקיל מופיע כפעיל ושהתוצר מתאים לנתונים ולבקשה.</span></li>
+          </ol>
+        </div>
+        <div class="side">
+          <h4>שימו לב</h4>
+          <div class="note"><b>טיוטה, לא דוח.</b> בדוגמה הפיננסית התוצר הוא טיוטה לבדיקה ולא דוח שהוגש. מי שחותם הוא עדיין אתם.</div>
+          <div class="note ok"><b>נתונים פיקטיביים בלבד.</b> את התרגול עושים על עסק לדוגמה, לא על נתוני החברה שלכם.</div>
+          <div class="note info"><b>המסלול העדכני.</b> הורדת ZIP והעלאה דרך מסך הסקילים, לפי מרכז העזרה הרשמי של Claude (קישור בסוף הדף).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="track t2" id="t2">
+      <div class="track-head">
+        <div class="n">02</div>
+        <div><h3>התקנת Ollama ושיחה עם מודל מקומי</h3><span>Ollama = תוכנה שמריצה מודל שפה על המחשב שלכם, בלי לשלוח את השיחה לשרת חיצוני</span></div>
+      </div>
+      <div class="track-body">
+        <div>
+          <div class="what"><b>מה זה נותן:</b> מודל מקומי עובד גם בלי אינטרנט והנתונים לא עוזבים את המחשב. בתמורה הוא קטן וחכם פחות ממודל ענן, ותלוי בזיכרון ובחומרה שיש לכם.</div>
+          <ol class="steps">
+            <li><b>מתקינים את Ollama ב-Windows.</b> נכנסים לעמוד ההורדה הרשמי, בוחרים <span class="ltr">Windows</span> ומעתיקים את פקודת <span class="ltr">PowerShell</span> שמופיעה באתר. פותחים <span class="ltr">PowerShell</span>, מדביקים ולוחצים <span class="ltr">Enter</span>:
+              <div class="cmd"><code><span class="p">PS&gt;</span>irm https://ollama.com/install.ps1 | iex</code><button class="copy" data-copy="irm https://ollama.com/install.ps1 | iex">העתקה</button></div>
+              <span class="sub">אפשר גם להוריד את מתקין Windows מהאתר ולהשלים התקנה גרפית.</span></li>
+            <li><b>בודקים את ההתקנה.</b> פותחים חלון <span class="ltr">PowerShell</span> חדש ומריצים:
+              <div class="cmd"><code><span class="p">PS&gt;</span>ollama --version</code><button class="copy" data-copy="ollama --version">העתקה</button></div></li>
+            <li><b>בוחרים מודל מקומי.</b> פותחים את עמוד <span class="ltr">Gemma</span> באתר Ollama, בוחרים את הדגם המקומי ומעתיקים את פקודת ההרצה כפי שהיא:
+              <div class="cmd"><code><span class="p">PS&gt;</span>ollama run gemma4:e2b</code><button class="copy" data-copy="ollama run gemma4:e2b">העתקה</button></div>
+              <span class="sub">גודל ההורדה: <span class="ltr">7.2 GB</span>. הזיכרון הדרוש תלוי במודל, בחלון ההקשר ובחומרה.</span></li>
+            <li><b>שיחה ראשונה עם המודל.</b> ממתינים לסיום ההורדה הראשונה. כשמופיע שדה ההודעה כותבים למשל:
+              <div class="quote">״הסבר בעברית פשוטה מהו מודל שפה מקומי, ותן דוגמה לשימוש בו בשיעור.״</div>
+              <span class="sub">תשובה שמופיעה במסוף מאשרת שהמודל מגיב. ליציאה מהשיחה וחזרה ל-PowerShell:</span>
+              <div class="cmd"><code><span class="p">&gt;&gt;&gt;</span>/bye</code><button class="copy" data-copy="/bye">העתקה</button></div></li>
+          </ol>
+        </div>
+        <div class="side">
+          <h4>שימו לב</h4>
+          <div class="note info"><b>מסוף (Terminal).</b> חלון טקסט שבו מקלידים פקודות למחשב. ב-Windows קוראים לו <span class="ltr">PowerShell</span>. כל הפקודות בדף מוקלדות בו באנגלית, משמאל לימין.</div>
+          <div class="note"><b>חלון הקשר.</b> כמות הטקסט שהמודל ״זוכר״ בשיחה אחת. ככל שהוא גדול יותר, נדרש יותר זיכרון.</div>
+          <div class="note ok"><b>מתי זה מתאים למנהל כספים:</b> ניסוח, סיכום ותרגול על חומר רגיש שאסור להעלות לענן. לניתוח כבד עדיין עדיף מודל ענן.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="track t3" id="t3">
+      <div class="track-head">
+        <div class="n">03</div>
+        <div><h3>התקנת Hermes והגדרת ספק ומודל</h3><span>Hermes = סוכן AI בקוד פתוח של Nous Research: הוא מקבל משימה, מפרק אותה לשלבים ומפעיל כלים כדי לבצע אותה</span></div>
+      </div>
+      <div class="track-body">
+        <div>
+          <div class="what"><b>איך זה בנוי:</b> המודל (מקומי או בענן) הוא ה״מוח״ שחושב; <span class="ltr">Hermes</span> הוא המנהל שמריץ את המשימה ואת הכלים. הסוכן יכול לעבוד עם קבצים, לשמור זיכרון בין שיחות וליצור סקילים למשימות חוזרות. מתקינים דרך Ollama, ובהמשך מחברים למודל בענן דרך <span class="ltr">OpenRouter</span>.</div>
+          <ol class="steps">
+            <li><b>מתקינים דרך Ollama.</b> מוודאים ש-Ollama מעודכן, פותחים <span class="ltr">PowerShell</span> חדש ומריצים:
+              <div class="cmd"><code><span class="p">PS&gt;</span>ollama launch hermes</code><button class="copy" data-copy="ollama launch hermes">העתקה</button></div>
+              <span class="sub">אם Hermes חסר, הפקודה מציגה בקשה להתקין אותו: בוחרים <span class="ltr">Yes</span> בעזרת מקשי החצים ולוחצים <span class="ltr">Enter</span>. המתקין מוריד את הרכיבים, מתקין <span class="ltr">Python</span> ויוצר סביבת עבודה. ממתינים לסיום; אין צורך להפעיל ידנית את סביבת Python שמוזכרת בפלט.</span></li>
+            <li><b>המסלול המקומי (אופציונלי).</b> בבורר המודלים בוחרים מודל מקומי שמתאים לחומרת המחשב ותומך בכלים, ממתינים להגדרת החיבור האוטומטית, בשירותי ההודעות בוחרים <span class="ltr">Skip</span>, ומתחילים במשימה קטנה בתיקיית תרגול. אחרי הודעת ההצלחה יוצאים מהבורר עם <span class="ltr">Esc</span>; Hermes נשאר מותקן.</li>
+            <li><b>הגדרה מלאה עם OpenRouter.</b> פותחים <span class="ltr">PowerShell</span> חדש, מריצים את האשף ובוחרים <span class="ltr">Full setup</span> (בהדגמה: אפשרות 2):
+              <div class="cmd"><code><span class="p">PS&gt;</span>hermes setup</code><button class="copy" data-copy="hermes setup">העתקה</button></div>
+              <span class="sub">האשף מציג היכן נשמרות ההגדרות ומחיל ברירות מחדל. ואז, בסדר הזה:</span>
+              <ul>
+                <li><b>ספק:</b> <span class="ltr">OpenRouter</span> (אפשרות 3). שירות שמחבר את הסוכן למאות מודלים בענן דרך חשבון אחד.</li>
+                <li><b>מפתח API:</b> מזינים מפתח אישי מ-<span class="ltr">openrouter.ai/keys</span>. בהדגמה הוזן מפתח דמה, ולכן לא ניתן היה להריץ משימה בענן.</li>
+                <li><b>מודל:</b> <span class="ltr">anthropic/claude-haiku-4.5</span> (אפשרות 6). אפשר לבחור מודל אחר מהקטלוג; זמינות ומחירים משתנים.</li>
+                <li><b>סביבת מסוף:</b> <span class="ltr">Local</span> (אפשרות 1). המודל פועל בענן, אבל הפקודות והקבצים מטופלים במחשב שלכם.</li>
+                <li><b>שירותי הודעות:</b> משאירים הכול ללא סימון ולוחצים <span class="ltr">Enter</span>. חיבור Telegram או WhatsApp הוא שלב אופציונלי (<span class="ltr">hermes setup gateway</span>).</li>
+                <li><b>כלים:</b> משאירים פעילים חיפוש, דפדפן, מסוף, קבצים והרצת קוד, וגם סקילים, תכנון משימות, זיכרון, חיפוש שיחות, שאלות הבהרה והאצלת משימות. מסירים כלים שאינם נדרשים לתרגול.</li>
+                <li><b>דפדפן:</b> <span class="ltr">Local Browser</span> (אפשרות 1). <b>חיפוש:</b> <span class="ltr">DuckDuckGo</span> (אפשרות 4), ללא מפתח נוסף.</li>
+              </ul></li>
+            <li><b>מפעילים, משנים, עוצרים.</b> אחרי ההגדרה, פקודת ההפעלה השוטפת היא <span class="ltr">hermes</span>. לשינוי ספק, מודל או מפתח:
+              <div class="cmd"><code><span class="p">PS&gt;</span>hermes setup model</code><button class="copy" data-copy="hermes setup model">העתקה</button></div>
+              <span class="sub">האשף מפעיל תהליך רקע (<span class="ltr">Gateway</span>) גם כשלא נבחר שירות הודעות. בסיום העבודה עוצרים אותו ובודקים שאינו פועל:</span>
+              <div class="cmd"><code><span class="p">PS&gt;</span>hermes gateway stop</code><button class="copy" data-copy="hermes gateway stop">העתקה</button></div></li>
+          </ol>
+        </div>
+        <div class="side">
+          <h4>שימו לב</h4>
+          <div class="note"><b>מפתח API הוא סיסמה.</b> לא משתפים, לא מצלמים ולא מדביקים בשיחות. הודעת ״נשמר״ באשף אינה בדיקת תקינות של המפתח.</div>
+          <div class="note ok"><b>תיקיית תרגול מוגדרת.</b> נותנים לסוכן משימות רק בתוך תיקייה ייעודית, לא על קבצי העבודה האמיתיים. סוכן עם כלי קבצים ומסוף יכול לשנות ולמחוק.</div>
+          <div class="note info"><b>ההדגמה במפגש.</b> במחשב ההדגמה נדרש תיקון נתיב משתמש קצר יותר לפני ההתקנה. בהתקנה שמסתיימת כרגיל פשוט ממשיכים לשלב הבא.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="track t4" id="t4">
+      <div class="track-head">
+        <div class="n">04</div>
+        <div><h3>בניית אפליקציה ישירות באתר Lovable</h3><span>Lovable = שירות שבונה אפליקציית ווב מתיאור בשפה חופשית, ומפרסם אותה בקישור</span></div>
+      </div>
+      <div class="track-body">
+        <div>
+          <div class="what"><b>מה זה נותן:</b> כלי פנימי קטן (מעקב משימות, טופס, מחשבון) בלי מתכנת ובלי לכתוב קוד. בדוגמה מהמפגש: מנהל משימות לימוד בעברית, עם נתוני תרגול פיקטיביים.</div>
+          <ol class="steps">
+            <li><b>מתארים את האפליקציה.</b> נכנסים ל-<span class="ltr">lovable.dev</span> ומתחברים. מתארים בעברית את האפליקציה ואת הפעולות הרצויות, מבקשים ממשק בעברית ובכיווניות מימין לשמאל, ושולחים.</li>
+            <li><b>בודקים את התוצאה הראשונית.</b> לאחר הבנייה, התצוגה המקדימה בעורך מאפשרת להשתמש באפליקציה ולבדוק שהיא עושה מה שביקשתם.</li>
+            <li><b>משפרים ובודקים שוב.</b> בודקים פעולה אמיתית (למשל הוספת משימה), מבקשים בצ׳אט שינוי ממוקד ובודקים שוב. בודקים גם תצוגת נייד ואת הכיווניות בעברית.
+              <div class="quote">דוגמת בקשת שינוי: ״הוסף סינון למשימות של השבוע הקרוב״</div></li>
+            <li><b>מפרסמים ומקבלים קישור.</b> <code class="ui">Publish → בדיקת הכתובת והגדרות הגישה → Publish</code><span class="sub">מעתיקים את הקישור ובודקים שהוא נפתח. אחרי שינוי נוסף מעדכנים את האתר החי דרך <code class="ui">Publish → Publish changes</code>.</span></li>
+          </ol>
+        </div>
+        <div class="side">
+          <h4>שימו לב</h4>
+          <div class="note"><b>הגדרות גישה.</b> לפני הפרסום בודקים מי יכול לפתוח את הקישור. אפליקציה עם נתונים פנימיים לא מפרסמים לכולם.</div>
+          <div class="note ok"><b>שינוי אחד בכל פעם.</b> בקשה ממוקדת קלה לבדיקה; בקשה של עשרה שינויים בבת אחת קשה לאמת.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="cheat" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">דף פקודות</span>
+      <h2>הפקודות לשימוש <span class="grad-l">במהלך התרגול</span></h2>
+      <p>כולן מוקלדות ב-<span class="ltr">PowerShell</span>. לחיצה על ״העתקה״ מעתיקה את הפקודה ללוח.</p>
+    </div>
+    <div class="cheat">
+      <div class="cc"><b>התקנת Ollama ב-PowerShell</b><span>פקודת ההתקנה הרשמית מעמוד ההורדה של Ollama</span><div class="cmd"><code><span class="p">PS&gt;</span>irm https://ollama.com/install.ps1 | iex</code><button class="copy" data-copy="irm https://ollama.com/install.ps1 | iex">העתקה</button></div></div>
+      <div class="cc"><b>הורדה והפעלה של המודל המקומי</b><span>ההורדה הראשונה נמשכת זמן; אחר כך המודל נפתח מיד</span><div class="cmd"><code><span class="p">PS&gt;</span>ollama run gemma4:e2b</code><button class="copy" data-copy="ollama run gemma4:e2b">העתקה</button></div></div>
+      <div class="cc"><b>התקנה ראשונה של Hermes דרך Ollama</b><span>מציעה להתקין את הסוכן אם הוא חסר</span><div class="cmd"><code><span class="p">PS&gt;</span>ollama launch hermes</code><button class="copy" data-copy="ollama launch hermes">העתקה</button></div></div>
+      <div class="cc"><b>הפעלה שוטפת של הסוכן</b><span>לאחר הגדרת OpenRouter; לשינוי מודל: <span class="ltr">hermes setup model</span></span><div class="cmd"><code><span class="p">PS&gt;</span>hermes</code><button class="copy" data-copy="hermes">העתקה</button></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="practice" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">תרגול מסכם</span>
+      <h2>ארבע משימות <span class="grad-l">לבית</span></h2>
+      <p>סמנו כל משימה כשסיימתם. הסימון נשמר בדפדפן שלכם בלבד.</p>
+    </div>
+    <div class="chk">
+      <label><input type="checkbox" data-k="l8-1"><span><b>סקיל:</b> מתקינים סקיל אחד ובודקים משימה שמתאימה לו.</span></label>
+      <label><input type="checkbox" data-k="l8-2"><span><b>מודל מקומי:</b> מריצים את Gemma ושואלים שאלה בעברית.</span></label>
+      <label><input type="checkbox" data-k="l8-3"><span><b>Hermes:</b> מגדירים ספק ומודל. מפתח דמה אינו מאפשר להריץ משימה בענן, לכן להרצה אמיתית נדרש מפתח אישי.</span></label>
+      <label><input type="checkbox" data-k="l8-4"><span><b>Lovable:</b> בונים אפליקציה קטנה ובודקים לפחות פעולה אחת.</span></label>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="links" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">קישורים שימושיים</span>
+      <h2>המקורות <span class="grad-l">מהמצגת</span></h2>
+    </div>
+    <div class="links">
+      <a class="lk" href="https://agentskills.co.il/he/skills" target="_blank" rel="noopener"><span class="e">🧩</span><span><b>ספריית SKILLS-IL בעברית</b><small>agentskills.co.il/he/skills</small></span></a>
+      <a class="lk" href="https://support.claude.com/en/articles/12512180-use-skills-in-claude" target="_blank" rel="noopener"><span class="e">📘</span><span><b>הוראות העלאת סקילים ל-Claude</b><small>support.claude.com</small></span></a>
+      <a class="lk" href="https://ollama.com/download/windows" target="_blank" rel="noopener"><span class="e">💻</span><span><b>הורדת Ollama ל-Windows</b><small>ollama.com/download/windows</small></span></a>
+      <a class="lk" href="https://docs.ollama.com/integrations/hermes" target="_blank" rel="noopener"><span class="e">🤖</span><span><b>Hermes דרך Ollama: המדריך הרשמי</b><small>docs.ollama.com/integrations/hermes</small></span></a>
+      <a class="lk" href="https://lovable.dev/" target="_blank" rel="noopener"><span class="e">🚀</span><span><b>התחלה ישירה עם Lovable</b><small>lovable.dev</small></span></a>
+      <a class="lk" href="https://openrouter.ai/keys" target="_blank" rel="noopener"><span class="e">🔑</span><span><b>מפתחות API של OpenRouter</b><small>openrouter.ai/keys</small></span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="materials" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">חומר ההרצאה</span>
+      <h2>המדריך <span class="grad-l">המלא</span></h2>
+      <p>מצגת ההרצאה של מאור משה, 41 שקפים עם צילומי מסך של כל שלב. אפשר לצפות בה כאן בדף, לפתוח בכרטיסייה חדשה, או להוריד כ-PDF או כקובץ PowerPoint המקורי.</p>
+    </div>
+    <div class="matcard">
+      <div class="mathead">
+        <div class="mt-l">
+          <div class="mt-ic">PDF</div>
+          <div>
+            <b>מדריך פעולות בכלי AI</b>
+            <span>מצגת ההרצאה · מאור משה · גרסה מעודכנת ל-7 בספטמבר 2026</span>
+          </div>
+        </div>
+        <div class="mt-btns">
+          <a class="mbtn primary" href="assets/lecture8-maor-ai-tools-guide.pdf" target="_blank" rel="noopener">↗ פתיחה בכרטיסייה</a>
+          <a class="mbtn ghost" href="assets/lecture8-maor-ai-tools-guide.pdf" download>↓ הורדת PDF</a>
+          <a class="mbtn pptx" href="assets/lecture8-maor-ai-tools-guide.pptx" download>↓ הורדת PowerPoint</a>
+        </div>
+      </div>
+      <iframe class="matframe" src="assets/lecture8-maor-ai-tools-guide.pdf#view=FitH" title="מדריך פעולות בכלי AI - מצגת ההרצאה" loading="lazy"></iframe>
+      <div class="matnote">לא רואים את המצגת? השתמשו בכפתור ״פתיחה בכרטיסייה״ או באחד מכפתורי ההורדה למעלה.</div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <a class="foot-logo" href="https://birad.biu.ac.il/" target="_blank" rel="noopener"><img src="assets/biu-certificate-studies-logo.png" alt="היחידה ללימודי תעודה, המערך לתוכניות ייעודיות, אוניברסיטת בר-אילן"></a>
+  <div class="fl">הכשרת מנהלי כספים בעידן ה-AI</div>
+  <div>מפגש 08 · הרצאת אורח מאת מאור משה · 1 בספטמבר 2026</div>
+  <div class="fs">קורס מאת ד״ר שי צבאן · היחידה ללימודי תעודה, אוניברסיטת בר-אילן · 2026<br><a href="indexnew.html">→ חזרה למסלול הקורס המלא</a></div>
+</footer>
+
+<script>
+(function(){
+  var tb=document.getElementById('topbar');
+  function onScroll(){ tb.classList.toggle('scrolled', (document.documentElement.scrollTop||document.body.scrollTop)>60); }
+  document.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var t=btn.getAttribute('data-copy');
+      function done(){ btn.classList.add('done'); btn.textContent='הועתק ✓'; setTimeout(function(){btn.classList.remove('done');btn.textContent='העתקה';},1600); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,function(){fallback();}); } else { fallback(); }
+      function fallback(){ var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); done(); }
+    });
+  });
+
+  document.querySelectorAll('.chk input').forEach(function(cb){
+    var k=cb.getAttribute('data-k');
+    try{ if(localStorage.getItem(k)==='1'){ cb.checked=true; cb.parentNode.classList.add('on'); } }catch(e){}
+    cb.addEventListener('change',function(){
+      cb.parentNode.classList.toggle('on',cb.checked);
+      try{ localStorage.setItem(k,cb.checked?'1':'0'); }catch(e){}
+    });
+  });
+})();
+</script>
+</body>
+</html>
