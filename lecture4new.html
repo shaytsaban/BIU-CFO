@@ -34,6 +34,8 @@ h1,h2,h3,h4{line-height:1.15}
 .nav-inner{max-width:1280px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:16px;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
 .badge-bi{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-weight:900;font-size:16px;display:grid;place-items:center;box-shadow:var(--shadow)}
+.badge-bi.logo-plate{width:auto;height:44px;padding:5px 9px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;box-shadow:none}
+.badge-bi.logo-plate img{height:100%;width:auto;display:block}
 .brand .t{font-weight:800;font-size:15px;line-height:1.25}
 .brand .s{font-weight:500;font-size:11.5px;color:var(--muted)}
 .nav-links{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
@@ -498,7 +500,7 @@ footer .small{font-size:14px;color:#64748b;margin-top:14px}
 <button class="kn-skip" onclick="startLesson()">דלגו לשיעור ←</button>
 <div class="kn" id="intro">
   <section class="kn-slide">
-    <div class="kn-eyebrow reveal">קורס CFO בעידן החדש · ד״ר שי צבאן</div>
+    <div class="kn-eyebrow reveal">קורס הכשרת מנהלי כספים בעידן ה-AI · ד״ר שי צבאן</div>
     <h1 class="kn-title reveal">מפרומפט.<br><span class="g">לפייפליין.</span></h1>
     <p class="kn-sub reveal">הרצאה 4, התנסות מעשית ומקרי בוחן מעבודת הסמנכ״לים והסמנכ״ליות. <b>פרומפט</b> הוא הוראה אחת שכותבים ל-Claude, פעם אחת. <b>פייפליין</b> הוא פס ייצור: שרשרת קבועה של תחנות שרצה בשבילכם כל חודש, באותו סדר. היום עוברים מהראשון לשני, לאט ומהתחלה.</p>
     <p class="kn-small reveal">מאת <b>ד״ר שי צבאן</b> · 14 ביולי 2026</p>
@@ -548,9 +550,9 @@ footer .small{font-size:14px;color:#64748b;margin-top:14px}
 <nav class="topnav">
   <div class="nav-inner">
     <div class="brand">
-      <div class="badge-bi">CFO</div>
+      <div class="badge-bi logo-plate"><img src="assets/biu-certificate-studies-logo.png" alt="היחידה ללימודי תעודה, המערך לתוכניות ייעודיות, אוניברסיטת בר-אילן"></div>
       <div>
-        <div class="t">CFO בעידן החדש</div>
+        <div class="t">הכשרת מנהלי כספים בעידן ה-AI</div>
         <div class="s">הרצאה 4 · התנסות מעשית ומקרי בוחן · ד״ר שי צבאן</div>
       </div>
     </div>
@@ -588,7 +590,7 @@ footer .small{font-size:14px;color:#64748b;margin-top:14px}
         <span class="chip">⏱ כ-3 שעות</span>
         <span class="chip">🏗️ פייפליין מלא, חי, מולכם</span>
         <span class="chip">🧑‍💼 מקרי בוחן של המשתתפים</span>
-        <span class="chip" style="border-color:var(--accent);color:var(--accent-dark)">🔄 גרסה 6 · 14.7.2026</span>
+        <span class="chip" style="border-color:var(--accent);color:var(--accent-dark)">🔄 גרסה 7 · 8.9.2026</span>
       </div>
       <div class="cta">
         <a class="btn btn-primary" href="#recap">בואו נתחיל ←</a>
@@ -612,7 +614,7 @@ footer .small{font-size:14px;color:#64748b;margin-top:14px}
     <div class="vhd"><span class="dot"></span>הקלטת המפגש המלאה</div>
     <div class="vsub">מפגש 4 · 14 ביולי 2026 · צפו בהקלטה, ובמקביל התקדמו בעמוד האינטראקטיבי שמתחת. שניהם מכסים בדיוק את אותו חומר.</div>
     <div class="vwrap">
-      <iframe src="https://www.youtube.com/embed/WBY3PgHT5KI" title="הרצאה 4 · CFO בעידן החדש · ד״ר שי צבאן" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/WBY3PgHT5KI" title="הרצאה 4 · הכשרת מנהלי כספים בעידן ה-AI · ד״ר שי צבאן" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
     <div class="vfoot">לא נטען? צפו ישירות ב-<a href="https://youtu.be/WBY3PgHT5KI" target="_blank" rel="noopener">YouTube</a>. גללו למטה כדי להתחיל את המפגש האינטראקטיבי ↓</div>
   </div>
@@ -1980,7 +1982,7 @@ description: Monthly budget-vs-actual variance review for a
 </main>
 <footer>
   <div class="big">🎓 סוף הרצאה 4 · התנסות מעשית ומקרי בוחן מעבודת הסמנכ״לים והסמנכ״ליות</div>
-  <div>קורס CFO בעידן החדש · הרצאה 4 · 14.7.2026 · מאת ד״ר שי צבאן</div>
+  <div>קורס הכשרת מנהלי כספים בעידן ה-AI · הרצאה 4 · 14.7.2026 · מאת ד״ר שי צבאן</div>
   <div class="small">נתוני "מגדלי השרון" סינתטיים לצורך הוראה · אינם המלצת השקעה · תיאורי היכולות נכונים ליולי 2026 וייתכנו עדכונים · כל תרגיל נעשה ב-Claude על הנתונים המצורפים</div>
   <div class="small">גרסת קובץ: 6 · עודכנה 14.7.2026 · אם החותמת בעמוד שלכם שונה, פתחו את הקובץ העדכני</div>
 </footer>
