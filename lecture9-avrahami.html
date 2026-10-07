@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מפגש 09 · יישומי בינה מלאכותית בניהול כספי, חלק א · ד״ר פאול אברהמי · הכשרת מנהלי כספים בעידן ה-AI</title>
+<meta name="description" content="מפגש תשיעי בקורס הכשרת מנהלי כספים בעידן ה-AI. הרצאת אורח של ד״ר פאול אברהמי, חלק א. כולל קובץ שיעור הבא עם הנחיות להכנה לפני הרצאה 10.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#4f46e5; --primary-dark:#3730a3; --primary-light:#eef2ff;
+  --g1:#2d0a1c; --g2:#8f1d4a; --g3:#d6336c; --mint:#fdecf2; --mint-2:#d3ece1;
+  --sky:#fb7185; --sky-light:#ffe4e9; --sky-dark:#be123c;
+  --ink:#0f172a; --ink-soft:#334155; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc; --white:#fff;
+  --shadow:0 10px 30px rgba(15,23,42,.08); --shadow-lg:0 24px 60px rgba(15,23,42,.16);
+  --r:26px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Heebo',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-align:right}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.grad-t{background:linear-gradient(115deg,#fda4af,#fb7185 55%,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad-l{background:linear-gradient(120deg,var(--g2),var(--sky-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+/* top bar */
+.topbar{position:fixed;top:0;right:0;left:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 26px;transition:.3s}
+.topbar.scrolled{background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:9px 26px}
+.tb-brand{display:flex;align-items:center;gap:12px;color:#fff;font-weight:800;font-size:15.5px;transition:.3s;min-width:0}
+.topbar.scrolled .tb-brand{color:var(--ink)}
+.tb-logo{height:44px;padding:5px 10px;border-radius:11px;background:#fff;display:flex;align-items:center;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.22)}
+.topbar.scrolled .tb-logo{box-shadow:none;border:1px solid var(--line)}
+.tb-logo img{height:100%;width:auto;display:block}
+.tb-brand small{display:block;font-weight:500;font-size:11px;opacity:.75}
+.tb-cta{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:700;font-size:13.5px;padding:9px 18px;border-radius:999px;transition:.2s;white-space:nowrap}
+.topbar.scrolled .tb-cta{background:var(--g2);border-color:var(--g2)}
+.tb-cta:hover{transform:translateY(-1px)}
+@media(max-width:640px){.tb-brand small{display:none}.tb-brand span:not(.tb-logo){display:none}}
+
+/* hero */
+.hero{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:118px 24px 64px;background:var(--g1);color:#fff;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(75px);opacity:.5;pointer-events:none}
+.orb.o1{width:520px;height:520px;background:#d6336c;top:-150px;right:-90px}
+.orb.o2{width:440px;height:440px;background:#e11d48;bottom:-160px;left:-90px;opacity:.38}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 20%,transparent 75%)}
+.hero-in{position:relative;z-index:2;max-width:880px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:800;letter-spacing:2px;color:#fda4af;background:rgba(251,113,133,.12);border:1px solid rgba(251,113,133,.32);border-radius:999px;padding:8px 18px;margin-bottom:26px}
+.hero h1{font-size:clamp(38px,7vw,78px);font-weight:900;line-height:1.06;letter-spacing:-1.5px}
+.hero .h1-sub{display:block;font-size:clamp(18px,2.8vw,30px);font-weight:700;color:#e2e8f0;margin-top:16px;letter-spacing:-.5px;line-height:1.35}
+.hero-sub{font-size:clamp(16px,2.1vw,21px);color:#b5c7c0;max-width:700px;margin:24px auto 0;line-height:1.65}
+.lect-card{display:inline-flex;align-items:center;gap:16px;margin-top:36px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:14px 22px 14px 26px;text-align:right}
+.lect-av{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#fda4af,#e11d48);color:#2d0a1c;font-weight:900;font-size:22px;display:grid;place-items:center;flex-shrink:0}
+.lect-card b{display:block;font-size:18px;font-weight:900;color:#fff}
+.lect-card span{font-size:13px;color:#9fb3ab;font-weight:600;letter-spacing:.3px}
+.hero-meta{margin-top:22px;font-size:14.5px;color:#8fa39b;font-weight:700}
+.hero-meta .dot{margin:0 10px;opacity:.5}
+
+/* no-recording banner */
+.norec{max-width:1080px;margin:-38px auto 0;position:relative;z-index:20;padding:0 24px}
+.norec-in{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid #fde68a;border-right:6px solid #e0a63a;border-radius:18px;padding:18px 24px;box-shadow:var(--shadow)}
+.norec .e{font-size:30px;flex-shrink:0}
+.norec b{color:var(--ink);font-size:16.5px;font-weight:900;display:block;margin-bottom:2px}
+.norec p{color:var(--ink-soft);font-size:14.5px;line-height:1.55;margin:0}
+@media(max-width:560px){.norec-in{flex-direction:column;text-align:center;border-right:none;border-top:6px solid #e0a63a}}
+
+/* sections */
+.section{padding:clamp(38px,5vw,60px) 0}
+.sec-head{text-align:center;max-width:780px;margin:0 auto clamp(26px,3vw,38px)}
+.sec-tag{display:inline-block;font-weight:800;font-size:13px;letter-spacing:1px;color:var(--g2);background:var(--mint);border-radius:999px;padding:7px 16px;margin-bottom:14px}
+.sec-head h2{font-size:clamp(28px,4.2vw,44px);font-weight:900;line-height:1.14;letter-spacing:-1px}
+.sec-head p{font-size:clamp(15px,1.9vw,19px);color:var(--muted);margin-top:12px}
+
+/* overview grid */
+.ov{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:900px){.ov{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.ov{grid-template-columns:1fr}}
+.ovc{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 22px 20px;box-shadow:var(--shadow);border-top:5px solid var(--g3);transition:.25s}
+.ovc:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.ovc .n{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;font-weight:900;font-size:17px;margin-bottom:12px;direction:ltr}
+.ovc .e{font-size:30px;line-height:1;margin-bottom:8px}
+.ovc h3{font-size:18.5px;font-weight:900;letter-spacing:-.3px;line-height:1.3;margin-bottom:6px}
+.ovc p{font-size:14px;color:var(--muted);line-height:1.55;margin:0;flex:1}
+.ovc .go{margin-top:14px;font-size:13.5px;font-weight:800;color:var(--g2)}
+.ovc:nth-child(2){border-top-color:var(--sky)}
+.ovc:nth-child(2) .n{background:linear-gradient(135deg,var(--sky-dark),var(--sky))}
+.ovc:nth-child(3){border-top-color:#7c3aed}
+.ovc:nth-child(3) .n{background:linear-gradient(135deg,#5b21b6,#8b5cf6)}
+.ovc:nth-child(4){border-top-color:#e0a63a}
+.ovc:nth-child(4) .n{background:linear-gradient(135deg,#b7791f,#f2c14e)}
+
+/* tracks */
+.track{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:26px}
+.track-head{display:flex;align-items:center;gap:16px;padding:22px 26px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,#fff,var(--mint))}
+.track-head .n{width:54px;height:54px;border-radius:15px;background:linear-gradient(135deg,var(--g2),var(--g3));color:#fff;font-weight:900;font-size:20px;display:grid;place-items:center;flex-shrink:0;direction:ltr}
+.track-head h3{font-size:22px;font-weight:900;letter-spacing:-.3px;line-height:1.25}
+.track-head span{display:block;font-size:14px;color:var(--muted);font-weight:600;margin-top:2px}
+.track.t2 .track-head{background:linear-gradient(90deg,#fff,var(--sky-light))}
+.track.t2 .track-head .n{background:linear-gradient(135deg,var(--sky-dark),var(--sky))}
+.track.t3 .track-head{background:linear-gradient(90deg,#fff,#f3efff)}
+.track.t3 .track-head .n{background:linear-gradient(135deg,#5b21b6,#8b5cf6)}
+.track.t4 .track-head{background:linear-gradient(90deg,#fff,#fdf3dd)}
+.track.t4 .track-head .n{background:linear-gradient(135deg,#b7791f,#f2c14e)}
+.track-body{display:grid;grid-template-columns:1.5fr 1fr;gap:26px;padding:24px 26px 26px}
+@media(max-width:820px){.track-body{grid-template-columns:1fr}}
+.what{background:var(--mint);border-radius:16px;padding:14px 18px;font-size:15px;color:var(--ink-soft);margin-bottom:18px;line-height:1.6}
+.what b{color:var(--g2)}
+.track.t2 .what{background:var(--sky-light)}.track.t2 .what b{color:var(--sky-dark)}
+.track.t3 .what{background:#f3efff}.track.t3 .what b{color:#5b21b6}
+.track.t4 .what{background:#fdf3dd}.track.t4 .what b{color:#8a5a0f}
+.steps{list-style:none;counter-reset:s}
+.steps > li{position:relative;padding:0 46px 0 0;margin-bottom:14px;font-size:15.5px;line-height:1.6;color:var(--ink-soft)}
+.steps > li::before{counter-increment:s;content:counter(s);position:absolute;right:0;top:2px;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font-weight:900;font-size:14px;display:grid;place-items:center}
+.steps li b{color:var(--ink)}
+.steps > li:last-child{margin-bottom:0}
+.steps ul{list-style:disc;margin:8px 22px 0 0;padding:0}
+.steps ul li{padding:0;margin-bottom:6px;font-size:14.5px;color:var(--ink-soft);line-height:1.65}
+.steps ul li::marker{color:var(--g3)}
+.sub{font-size:13.5px;color:var(--muted);display:block;margin-top:3px}
+.side h4{font-size:14px;font-weight:900;letter-spacing:.5px;color:var(--muted);margin-bottom:10px}
+.note{background:#fff8e6;border:1px solid #fde68a;border-radius:14px;padding:12px 14px;font-size:14px;color:#5c4408;line-height:1.55;margin-bottom:10px}
+.note b{color:#7a5a05}
+.note.ok{background:#eefbf4;border-color:#bbf0d3;color:#124d33}.note.ok b{color:#8f1d4a}
+.note.info{background:var(--sky-light);border-color:#bae6fd;color:#0c3d5c}.note.info b{color:var(--sky-dark)}
+.ui{direction:ltr;unicode-bidi:isolate;display:inline-block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;background:#f1f5f9;border:1px solid var(--line);border-radius:8px;padding:2px 9px;color:var(--ink);white-space:nowrap}
+.cmd{direction:ltr;unicode-bidi:isolate;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#0b1220;color:#e2e8f0;border-radius:12px;padding:11px 14px;margin:8px 0 6px;overflow-x:auto}
+.cmd code{white-space:nowrap}
+.cmd .p{color:#fda4af;margin-right:8px;user-select:none}
+.copy{font-family:'Heebo',sans-serif;font-size:12px;font-weight:800;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e2e8f0;border-radius:8px;padding:5px 11px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:.2s}
+.copy:hover{background:rgba(255,255,255,.2)}
+.copy.done{background:#16a34a;border-color:#16a34a;color:#fff}
+.quote{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px;padding:12px 16px;font-size:14.5px;color:var(--ink-soft);line-height:1.6;margin:8px 0 6px;font-style:normal}
+
+/* cheat sheet */
+.cheat{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:760px){.cheat{grid-template-columns:1fr}}
+.cc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px 12px;box-shadow:var(--shadow)}
+.cc b{display:block;font-size:14.5px;font-weight:900;margin-bottom:2px}
+.cc span{font-size:13px;color:var(--muted)}
+
+/* checklist */
+.chk{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:700px){.chk{grid-template-columns:1fr}}
+.chk label{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;box-shadow:var(--shadow);font-size:15px;line-height:1.55;color:var(--ink-soft);transition:.2s}
+.chk label:hover{border-color:var(--g3)}
+.chk input{margin-top:5px;width:18px;height:18px;accent-color:var(--g2);flex-shrink:0}
+.chk label b{color:var(--ink)}
+.chk label.on{background:var(--mint);border-color:var(--g3)}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.links{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.links{grid-template-columns:1fr}}
+.lk{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);transition:.2s}
+.lk:hover{transform:translateY(-3px);border-color:var(--g3)}
+.lk .e{font-size:24px;flex-shrink:0}
+.lk b{display:block;font-size:14.5px;font-weight:900;line-height:1.3}
+.lk small{display:block;font-size:12px;color:var(--muted);direction:ltr;text-align:right;unicode-bidi:isolate;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:230px}
+
+/* materials / embed */
+.matcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.mathead{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:22px 26px;border-bottom:1px solid var(--line)}
+.mathead .mt-l{display:flex;align-items:center;gap:14px}
+.mt-ic{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,var(--g1),var(--g3));color:#fff;font-weight:900;font-size:15px;display:grid;place-items:center;flex-shrink:0}
+.mt-l b{display:block;font-size:18px;font-weight:900;letter-spacing:-.3px}
+.mt-l span{font-size:13px;color:var(--muted);font-weight:600}
+.mt-btns{display:flex;gap:10px;flex-wrap:wrap}
+.mbtn{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:14px;padding:11px 18px;border-radius:12px;transition:.2s;white-space:nowrap}
+.mbtn.primary{background:var(--ink);color:#fff}
+.mbtn.ghost{background:var(--mint);color:var(--g2)}
+.mbtn.pptx{background:#fdf3dd;color:#8a5a0f}
+.mbtn:hover{transform:translateY(-2px)}
+.matframe{width:100%;height:min(80vh,900px);border:0;display:block;background:#f1f5f9}
+@media(max-width:560px){.matframe{height:72vh}}
+.matnote{font-size:13px;color:var(--muted);text-align:center;padding:14px 20px;background:#f8fafc}
+
+/* footer */
+footer{background:var(--g1);color:#8fa39b;text-align:center;padding:48px 24px}
+.foot-logo{display:inline-block;background:#fff;border-radius:14px;padding:10px 18px;margin-bottom:18px}
+.foot-logo img{display:block;width:250px;max-width:70vw;height:auto}
+footer .fl{color:#fff;font-weight:800;font-size:18px;margin-bottom:6px}
+footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
+footer a{color:#cbd5e1;font-weight:700}
+
+.vwrap{position:relative;padding-bottom:56.25%;height:0;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-lg);background:#000}
+.vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.callout{max-width:1080px;margin:-38px auto 0;position:relative;z-index:20;padding:0 24px}
+.callout-in{display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:#fff;border:2px solid var(--acc);border-radius:22px;padding:22px 26px;box-shadow:var(--shadow-lg)}
+.callout .e{font-size:38px;flex-shrink:0}
+.callout .tx{flex:1;min-width:240px}
+.callout b{display:block;font-size:20px;font-weight:900;color:var(--ink);margin-bottom:3px}
+.callout p{margin:0;font-size:15px;color:var(--ink-soft);line-height:1.55}
+.cbtn{display:inline-flex;align-items:center;gap:8px;background:var(--g2);color:#fff;font-weight:900;font-size:16px;padding:14px 26px;border-radius:14px;white-space:nowrap;transition:.2s;box-shadow:0 10px 26px rgba(0,0,0,.18)}
+.cbtn:hover{transform:translateY(-2px)}
+.cbtn.alt{background:var(--ink)}
+.topics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.topics{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.topics{grid-template-columns:1fr}}
+.tc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow);border-top:5px solid var(--g3);transition:.25s}
+.tc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.tc .tn{display:inline-grid;place-items:center;min-width:34px;height:34px;padding:0 8px;border-radius:10px;background:var(--g2);color:#fff;font-weight:900;font-size:14px;margin-bottom:10px;direction:ltr}
+.tc h3{font-size:17.5px;font-weight:900;line-height:1.3;margin-bottom:5px}
+.tc p{font-size:14px;color:var(--muted);line-height:1.55;margin:0}
+.promptbox{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;background:linear-gradient(120deg,var(--g1),var(--g2));color:#fff;border-radius:var(--r);padding:26px 30px;box-shadow:var(--shadow-lg)}
+.promptbox b{display:block;font-size:21px;font-weight:900;margin-bottom:4px}
+.promptbox p{margin:0;color:rgba(255,255,255,.8);font-size:15px;max-width:560px;line-height:1.55}
+.promptbox a.cbtn{background:#fff;color:var(--g1)}
+</style>
+</head>
+<body>
+<div class="topbar" id="topbar">
+  <a class="tb-brand" href="indexnew.html"><span class="tb-logo"><img src="assets/biu-certificate-studies-logo.png" alt="היחידה ללימודי תעודה, המערך לתוכניות ייעודיות, אוניברסיטת בר-אילן"></span><span>הכשרת מנהלי כספים בעידן ה-AI<small>ד״ר שי צבאן · היחידה ללימודי תעודה, אוניברסיטת בר-אילן</small></span></a>
+  <a class="tb-cta" href="indexnew.html">→ חזרה למסלול הקורס</a>
+</div>
+<header class="hero">
+  <div class="orb o1"></div><div class="orb o2"></div><div class="hero-grid"></div>
+  <div class="hero-in">
+    <div class="hero-eyebrow">מפגש תשיעי · הרצאת אורח · 8 בספטמבר 2026</div>
+    <h1>יישומי בינה מלאכותית <span class="grad-t">בניהול כספי</span><span class="h1-sub">חלק א</span></h1>
+    <p class="hero-sub">ההרצאה הראשונה מתוך שתיים של ד״ר פאול אברהמי. לקראת ההרצאה הבאה מצורף קובץ הנחיות להכנה, שחובה להשלים לפניה.</p>
+    <div class="lect-card"><div class="lect-av">פא</div><div><b>ד״ר פאול אברהמי</b><span>מרצה אורח · בינה מלאכותית בניהול כספי</span></div></div>
+    <div class="hero-meta">מפגש 09<span class="dot">•</span>הכשרת מנהלי כספים בעידן ה-AI<span class="dot">•</span>היחידה ללימודי תעודה, אוניברסיטת בר-אילן</div>
+  </div>
+</header>
+<div class="callout"><div class="callout-in"><span class="e">📌</span><div class="tx"><b>שימו לב: משימת הכנה חובה לפני הרצאה 10</b><p>כדי לעבוד בשיתוף בהרצאה הבאה (15.9.2026, קלוד קוד), יש להשלים מראש כמה התקנות. כל ההנחיות בקובץ ״שיעור הבא״.</p></div><a class="cbtn" href="assets/lecture9-next-lesson-instructions.docx" download>↓ קובץ ״שיעור הבא״ (Word)</a></div></div>
+<main>
+<section class="section"><div class="wrap"><div class="sec-head"><span class="sec-tag">הרצאה 10 בדרך</span><h2>מה מכינים <span class="grad-l">מראש</span></h2><p>ההרצאה הבאה היא סדנה שבה כל משתתף עובד על המחשב שלו. ההכנה היא תנאי להשתתפות מלאה.</p></div><div class="track"><div class="track-head"><div class="n">▶</div><div><h3>הנחיות להכנה לקראת הרצאה 10</h3><span>מתוך הקובץ ״הנחיות לביצוע לפני השיעור הבא״ של ד״ר פאול אברהמי · ההדגמה ב-Windows</span></div></div>
+<div class="track-body"><div>
+<div class="what"><b>המטרה:</b> שיהיה לכם על המחשב סביבת עבודה מוכנה (Git, עורך קוד, Claude ופרויקט לדוגמה), כך שאפשר יהיה להתחיל לעבוד יחד מרגע פתיחת ההרצאה.</div>
+<ol class="steps">
+<li><b>מתקינים Git.</b> כלי לניהול גרסאות של קוד. <a class="ui" href="https://git-scm.com/install/windows" target="_blank" rel="noopener">git-scm.com/install/windows</a></li>
+<li><b>מתקינים Visual Studio Code.</b> עורך הקוד שבו נעבוד. <a class="ui" href="https://code.visualstudio.com/download" target="_blank" rel="noopener">code.visualstudio.com/download</a></li>
+<li><b>מתקינים את Claude ופותחים חשבון.</b> עדיף חשבון <span class="ltr">Pro</span>. <a class="ui" href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a></li>
+<li><b>פותחים תיקייה ייעודית</b> בתיקיית המשתמש שלכם (בדוגמה: <span class="ltr">C:\Users\&lt;שם המשתמש&gt;\claude</span>), ב-<span class="ltr">PowerShell</span> או בשורת הפקודה:<div class="cmd"><code><span class="p">&gt;</span>mkdir claude</code><button class="copy" data-copy="mkdir claude">העתקה</button></div></li>
+<li><b>נכנסים לתיקייה ומשכפלים את פרויקט הדוגמה</b> (מעקב הוצאות בסיסי):<div class="cmd"><code><span class="p">&gt;</span>cd claude</code><button class="copy" data-copy="cd claude">העתקה</button></div><div class="cmd"><code><span class="p">&gt;</span>git clone https://github.com/mosh-hamedani/expense-tracker-starter.git</code><button class="copy" data-copy="git clone https://github.com/mosh-hamedani/expense-tracker-starter.git">העתקה</button></div></li>
+<li><b>נכנסים לתיקיית הפרויקט ופותחים אותה בעורך:</b><div class="cmd"><code><span class="p">&gt;</span>cd expense-tracker-starter</code><button class="copy" data-copy="cd expense-tracker-starter">העתקה</button></div><div class="cmd"><code><span class="p">&gt;</span>code .</code><button class="copy" data-copy="code .">העתקה</button></div><span class="sub">הפקודה פותחת את Visual Studio Code על הפרויקט. משם נמשיך בהרצאה.</span></li>
+</ol></div>
+<div class="side"><h4>שימו לב</h4>
+<div class="note"><b>עושים את זה לפני ההרצאה.</b> ההתקנות וההורדה הראשונה לוקחות זמן, ועדיף שלא יתנו עליהן את זמן ההרצאה.</div>
+<div class="note ok"><b>קובץ ההנחיות המלא.</b> אותן הנחיות בדיוק, כפי ששלח המרצה, כולל פרטי קשר לשאלות.</div>
+<a class="cbtn" href="assets/lecture9-next-lesson-instructions.docx" download style="margin-top:6px">↓ הורדת הקובץ</a></div></div></div></div></section>
+<section class="section" style="padding-top:0"><div class="wrap"><div class="sec-head"><span class="sec-tag">על ההרצאה</span><h2>חלק א, <span class="grad-l">הבסיס</span></h2></div><div class="matcard" style="padding:26px 30px"><p style="font-size:16px;line-height:1.75;color:var(--ink-soft);margin:0">זו ההרצאה הראשונה מתוך שתיים של ד״ר פאול אברהמי בנושא <b style="color:var(--ink)">יישומי בינה מלאכותית בניהול כספי</b>. החלק הראשון מניח את הבסיס, והחלק השני, בהרצאה 10 (15.9.2026), עובר להדגמה מעשית של כלים מתקדמים וקלוד קוד על פרויקט אמיתי. להרצאה זו אין מצגת מלווה, ולכן מרכז הדף הוא משימת ההכנה להרצאה הבאה.</p></div></div></section>
+
+</main>
+<footer>
+  <a class="foot-logo" href="https://birad.biu.ac.il/" target="_blank" rel="noopener"><img src="assets/biu-certificate-studies-logo.png" alt="היחידה ללימודי תעודה, המערך לתוכניות ייעודיות, אוניברסיטת בר-אילן"></a>
+  <div class="fl">הכשרת מנהלי כספים בעידן ה-AI</div>
+  <div>מפגש 09 · ד״ר פאול אברהמי</div>
+  <div class="fs">קורס מאת ד״ר שי צבאן · היחידה ללימודי תעודה, אוניברסיטת בר-אילן · 2026<br><a href="indexnew.html">→ חזרה למסלול הקורס המלא</a></div>
+</footer>
+<script>
+(function(){
+  var tb=document.getElementById('topbar');
+  function onScroll(){ tb.classList.toggle('scrolled', (document.documentElement.scrollTop||document.body.scrollTop)>60); }
+  document.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var t=btn.getAttribute('data-copy');
+      function done(){ btn.classList.add('done'); btn.textContent='הועתק ✓'; setTimeout(function(){btn.classList.remove('done');btn.textContent='העתקה';},1600); }
+      function fb(){ var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); done(); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,fb); } else { fb(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
