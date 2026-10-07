@@ -150,7 +150,41 @@ a{text-decoration:none;color:inherit}
 @media(max-width:560px){.lec-soon{flex-direction:column;text-align:center}}
 .progress{display:inline-flex;align-items:center;gap:9px;margin-top:16px;font-size:14px;font-weight:800;color:var(--accent-dark);background:#e6fbf6;border:1px solid #99f6e4;border-radius:999px;padding:7px 16px}
 .progress .bar{width:120px;height:8px;border-radius:999px;background:#ccfbf1;overflow:hidden;direction:ltr}
-.progress .bar i{display:block;height:100%;width:66.7%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.progress .bar i{display:block;height:100%;width:91.7%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.lec-feat.ai9{background:linear-gradient(160deg,#2d0a1c,#6b1740)}
+.lec-feat.ai9::before{background:#fb7185}
+.lec-feat.ai9::after{background:#be123c}
+.lec-feat.ai9 .feat-badge{background:linear-gradient(135deg,#fda4af,#e11d48);color:#2d0a1c}
+.lec-feat.ai9 .feat-tag{color:#fda4af;background:rgba(251,113,133,.12);border-color:rgba(251,113,133,.32)}
+.lec-feat.ai9 .feat-chip{color:#ffe4e9;background:rgba(251,113,133,.1);border-color:rgba(251,113,133,.22)}
+.lec-feat.ai9 .feat-pill{background:linear-gradient(110deg,#fda4af,#e11d48);box-shadow:0 12px 32px rgba(251,113,133,.3)}
+.lec-feat.ai10{background:linear-gradient(160deg,#160f3a,#312e81)}
+.lec-feat.ai10::before{background:#a78bfa}
+.lec-feat.ai10::after{background:#4c35c9}
+.lec-feat.ai10 .feat-badge{background:linear-gradient(135deg,#c4b5fd,#7c5cff);color:#160f3a}
+.lec-feat.ai10 .feat-tag{color:#c4b5fd;background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.32)}
+.lec-feat.ai10 .feat-chip{color:#ede9fe;background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.22)}
+.lec-feat.ai10 .feat-pill{background:linear-gradient(110deg,#c4b5fd,#7c5cff);box-shadow:0 12px 32px rgba(167,139,250,.3)}
+.lec-feat.val11{background:linear-gradient(160deg,#2b1404,#6b3407)}
+.lec-feat.val11::before{background:#fbbf24}
+.lec-feat.val11::after{background:#d97706}
+.lec-feat.val11 .feat-badge{background:linear-gradient(135deg,#fde68a,#d97706);color:#2b1404}
+.lec-feat.val11 .feat-tag{color:#fcd34d;background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.32)}
+.lec-feat.val11 .feat-chip{color:#fef3c7;background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.22)}
+.lec-feat.val11 .feat-pill{background:linear-gradient(110deg,#fde68a,#f59e0b);box-shadow:0 12px 32px rgba(251,191,36,.3)}
+.feat-chip.must{color:#fff;background:rgba(251,113,133,.3);border-color:rgba(251,113,133,.6)}
+.feat-must{display:flex;align-items:center;gap:10px;margin-top:14px;background:rgba(255,255,255,.1);border:1px solid rgba(251,113,133,.5);border-radius:14px;padding:11px 16px;font-size:14.5px;font-weight:800;color:#fff;line-height:1.5}
+.feat-must .e{font-size:22px}
+.feat-must a{color:#ffd6dd;text-decoration:underline;text-underline-offset:3px}
+.lec-plan{display:flex;align-items:center;gap:20px;margin-top:26px;background:#fff;border:2px dashed #c7d2fe;border-radius:var(--r);padding:24px 32px}
+.lec-plan .sn{display:grid;place-items:center;width:62px;height:62px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-weight:900;font-size:24px;flex-shrink:0}
+.lec-plan .pt{flex:1}
+.lec-plan .tag{display:inline-block;font-weight:800;font-size:12.5px;color:var(--primary-dark);background:var(--primary-light);border-radius:999px;padding:4px 13px;margin-bottom:8px}
+.lec-plan h3{font-size:21px;font-weight:900;line-height:1.3;margin-bottom:6px}
+.lec-plan p{font-size:15px;color:var(--ink-soft);line-height:1.65;margin:0}
+.lec-plan .when{text-align:center;flex-shrink:0;font-size:13px;color:var(--muted);font-weight:700}
+.lec-plan .when b{display:block;font-size:16px;color:var(--ink)}
+@media(max-width:700px){.lec-plan{flex-direction:column;text-align:center}}
 /* lecture 7 · IFRS standards (teal) */
 .lec-feat.ifrs{background:linear-gradient(160deg,#062421,#0f766e)}
 .lec-feat.ifrs::before{background:#2dd4bf}
@@ -256,8 +290,8 @@ footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
     <div class="sec-head rv">
       <span class="sec-tag">מסלול הקורס</span>
       <h2>שנים-עשר מפגשים, <span class="grad-l">מסע אחד</span></h2>
-      <p>כל מפגש עומד בפני עצמו, אך יחד הם בונים את הדרך מהיסודות ועד לניהול פיננסי מתקדם. מומלץ ללכת לפי הסדר. חומרי המפגשים מועלים לאתר בהדרגה, לאחר קיומם.</p>
-      <div class="progress"><span>8 מתוך 12 מפגשים כבר באתר</span><span class="bar"><i></i></span></div>
+      <p>כל מפגש עומד בפני עצמו, אך יחד הם בונים את הדרך מהיסודות ועד לניהול פיננסי מתקדם. מומלץ ללכת לפי הסדר. חומרי המפגשים מועלים לאתר בהדרגה; מפגש 12 עדיין לפנינו.</p>
+      <div class="progress"><span>11 מתוך 12 מפגשים כבר באתר</span><span class="bar"><i></i></span></div>
     </div>
 
     <div class="lecs rv-s">
@@ -368,12 +402,57 @@ footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
         </div>
       </a>
 
-      <div class="lec-soon rv">
-        <div class="sn">09<br>–12</div>
-        <div>
-          <b>עוד ארבעה מפגשים בדרך</b>
-          <p>הקורס כולל שנים-עשר מפגשים. חומרי המפגשים הבאים יועלו לכאן לאחר קיומם.</p>
+      <a class="lec-feat ai9 rv" href="https://shaytsaban.github.io/BIU-CFO/lecture9-avrahami.html">
+        <div class="feat-badge">09</div>
+        <div class="feat-body">
+          <span class="feat-tag">הרצאת אורח · חלק א</span>
+          <h3>יישומי בינה מלאכותית בניהול כספי, חלק א</h3>
+          <p>ההרצאה הראשונה מתוך שתיים של ד״ר פאול אברהמי בנושא יישומי בינה מלאכותית בניהול כספי. להרצאה אין מצגת מלווה; בדף המפגש מצורף קובץ ״שיעור הבא״ עם הנחיות ההכנה להרצאה 10.</p>
+          <div class="feat-must"><span class="e">📌</span><span>חובה לפני הרצאה 10: קובץ ״שיעור הבא״ עם הנחיות התקנה והכנה. הקובץ להורדה בדף המפגש.</span></div>
+          <div class="feat-chips"><span class="feat-chip must">📎 קובץ ״שיעור הבא״</span><span class="feat-chip">Git · VS Code</span><span class="feat-chip">התקנת Claude</span><span class="feat-chip">פרויקט לדוגמה</span></div>
         </div>
+        <div class="feat-cta">
+          <span class="feat-pill">להנחיות ההכנה ←</span>
+          <span class="feat-when">8 בספטמבר 2026 · ד״ר פאול אברהמי</span>
+        </div>
+      </a>
+
+      <a class="lec-feat ai10 rv" href="https://shaytsaban.github.io/BIU-CFO/lecture10-avrahami.html">
+        <div class="feat-badge">10</div>
+        <div class="feat-body">
+          <span class="feat-tag">הרצאת אורח · חלק ב · כולל הקלטה מלאה</span>
+          <h3>כלים מתקדמים וקלוד קוד</h3>
+          <p>חלק ב של ד״ר פאול אברהמי, בדגש על כלים מתקדמים ו-Claude Code: מהתקנה, פרומפטים ומצב תכנון, דרך ניהול הקשר, MCP ו-Skills, ועד checkpoints, סוכני משנה וביקורת קוד, על אפליקציה אמיתית. כולל הקלטת וידאו, המצגת וקישור לאתר פרומפטים.</p>
+          <div class="feat-chips"><span class="feat-chip">Claude Code</span><span class="feat-chip">MCP · Skills</span><span class="feat-chip">Subagents</span><span class="feat-chip">אתר פרומפטים</span><span class="feat-chip">🎬 הקלטה</span></div>
+        </div>
+        <div class="feat-cta">
+          <span class="feat-pill">כניסה למפגש ←</span>
+          <span class="feat-when">15 בספטמבר 2026 · ד״ר פאול אברהמי</span>
+        </div>
+      </a>
+
+      <a class="lec-feat val11 rv" href="https://shaytsaban.github.io/BIU-CFO/lecture11-edvy.html">
+        <div class="feat-badge">11</div>
+        <div class="feat-body">
+          <span class="feat-tag">הרצאת אורח</span>
+          <h3>יישום כלים מתקדמים בהערכת שווי חברות</h3>
+          <p>הרצאת אורח מאת ניצנה עדוי, מומחית בהערכת שווי וחברת דירקטוריון בכירה. מהשווי ההוגן והשימושים בהערכות שווי, דרך שלוש הגישות (נכסית, מכפילים ו-DCF), ועד בניית מודל DCF בחמישה שלבים ויישומו בעזרת AI. כולל את המצגת המלאה.</p>
+          <div class="feat-chips"><span class="feat-chip">שווי הוגן</span><span class="feat-chip">מכפילים</span><span class="feat-chip">DCF · WACC</span><span class="feat-chip">רגישויות</span><span class="feat-chip">DCF בעזרת AI</span></div>
+        </div>
+        <div class="feat-cta">
+          <span class="feat-pill">לחומרי המפגש ←</span>
+          <span class="feat-when">22 בספטמבר 2026 · ניצנה עדוי</span>
+        </div>
+      </a>
+
+      <div class="lec-plan rv">
+        <div class="sn">12</div>
+        <div class="pt">
+          <span class="tag">המפגש הבא · חומרים יעלו לאחר המפגש</span>
+          <h3>סיכום ועם הפנים קדימה, והסמכה</h3>
+          <p>סיכום מבנה הקורס, משוב והסמכה. יצירת קהילה שיתופית ומשמעותה בחיבורים פיננסיים. מפגש הסיום מוביל ד״ר שי צבאן.</p>
+        </div>
+        <div class="when"><b>13 באוקטובר 2026</b>ד״ר שי צבאן</div>
       </div>
 
     <div class="pathnote rv"><span class="e">🧭</span><span>חדשים בקורס? התחילו במפגש הראשון, הוא בנוי כנקודת פתיחה שלא מניחה שום ידע מוקדם.</span></div>
