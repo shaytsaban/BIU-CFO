@@ -150,7 +150,7 @@ a{text-decoration:none;color:inherit}
 @media(max-width:560px){.lec-soon{flex-direction:column;text-align:center}}
 .progress{display:inline-flex;align-items:center;gap:9px;margin-top:16px;font-size:14px;font-weight:800;color:var(--accent-dark);background:#e6fbf6;border:1px solid #99f6e4;border-radius:999px;padding:7px 16px}
 .progress .bar{width:120px;height:8px;border-radius:999px;background:#ccfbf1;overflow:hidden;direction:ltr}
-.progress .bar i{display:block;height:100%;width:91.7%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.progress .bar i{display:block;height:100%;width:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--accent))}
 .lec-feat.ai9{background:linear-gradient(160deg,#2d0a1c,#6b1740)}
 .lec-feat.ai9::before{background:#fb7185}
 .lec-feat.ai9::after{background:#be123c}
@@ -176,6 +176,13 @@ a{text-decoration:none;color:inherit}
 .feat-must{display:flex;align-items:center;gap:10px;margin-top:14px;background:rgba(255,255,255,.1);border:1px solid rgba(251,113,133,.5);border-radius:14px;padding:11px 16px;font-size:14.5px;font-weight:800;color:#fff;line-height:1.5}
 .feat-must .e{font-size:22px}
 .feat-must a{color:#ffd6dd;text-decoration:underline;text-underline-offset:3px}
+.lec-feat.final{background:linear-gradient(160deg,#12151c,#262f42)}
+.lec-feat.final::before{background:#c9f25c}
+.lec-feat.final::after{background:#d6402b}
+.lec-feat.final .feat-badge{background:linear-gradient(135deg,#c9f25c,#8fbf2e);color:#12151c}
+.lec-feat.final .feat-tag{color:#c9f25c;background:rgba(201,242,92,.12);border-color:rgba(201,242,92,.32)}
+.lec-feat.final .feat-chip{color:#eaf7bd;background:rgba(201,242,92,.1);border-color:rgba(201,242,92,.22)}
+.lec-feat.final .feat-pill{background:linear-gradient(110deg,#c9f25c,#9bd13a);box-shadow:0 12px 32px rgba(201,242,92,.28)}
 .lec-plan{display:flex;align-items:center;gap:20px;margin-top:26px;background:#fff;border:2px dashed #c7d2fe;border-radius:var(--r);padding:24px 32px}
 .lec-plan .sn{display:grid;place-items:center;width:62px;height:62px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;font-weight:900;font-size:24px;flex-shrink:0}
 .lec-plan .pt{flex:1}
@@ -290,8 +297,8 @@ footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
     <div class="sec-head rv">
       <span class="sec-tag">מסלול הקורס</span>
       <h2>שנים-עשר מפגשים, <span class="grad-l">מסע אחד</span></h2>
-      <p>כל מפגש עומד בפני עצמו, אך יחד הם בונים את הדרך מהיסודות ועד לניהול פיננסי מתקדם. מומלץ ללכת לפי הסדר. חומרי המפגשים מועלים לאתר בהדרגה; מפגש 12 עדיין לפנינו.</p>
-      <div class="progress"><span>11 מתוך 12 מפגשים כבר באתר</span><span class="bar"><i></i></span></div>
+      <p>כל מפגש עומד בפני עצמו, אך יחד הם בונים את הדרך מהיסודות ועד לניהול פיננסי מתקדם. מומלץ ללכת לפי הסדר. כל 12 המפגשים כבר באתר.</p>
+      <div class="progress"><span>12 מתוך 12 מפגשים כבר באתר</span><span class="bar"><i></i></span></div>
     </div>
 
     <div class="lecs rv-s">
@@ -445,15 +452,19 @@ footer .fs{font-size:13.5px;margin-top:10px;line-height:1.7}
         </div>
       </a>
 
-      <div class="lec-plan rv">
-        <div class="sn">12</div>
-        <div class="pt">
-          <span class="tag">המפגש הבא · חומרים יעלו לאחר המפגש</span>
-          <h3>סיכום ועם הפנים קדימה, והסמכה</h3>
-          <p>סיכום מבנה הקורס, משוב והסמכה. יצירת קהילה שיתופית ומשמעותה בחיבורים פיננסיים. מפגש הסיום מוביל ד״ר שי צבאן.</p>
+      <a class="lec-feat final rv" href="https://shaytsaban.github.io/BIU-CFO/lecture12-final.html">
+        <div class="feat-badge">12</div>
+        <div class="feat-body">
+          <span class="feat-tag">מפגש הסיום · עבודה מעשית עם Claude</span>
+          <h3>תיק ארבעה FFO: סיכום הקורס, שוק העבודה והסמכה</h3>
+          <p>במפגש הסיום מתבצעת אינטגרציה של כל תחומי התוכן בקורס, דרך ניתוח כלכלי אחד של חברת נדל״ן ציבורית אחת. כל משתתף עובד עם Claude שלו: מימון והלוואה, תשובה לדירקטוריון, התקן החדש, שווי חברה ובטיחות של סוכני בינה מלאכותית. כל מושג מוסבר בפשטות, עם דוגמה קטנה. בסוף: מה זה אומר לשוק העבודה ולקריירה, משוב, תעודות וחגיגה.</p>
+          <div class="feat-chips"><span class="feat-chip">אינטגרציה של כל הקורס</span><span class="feat-chip">עבודה עם Claude</span><span class="feat-chip">שוק העבודה</span><span class="feat-chip">דרכון ותוכנית ל-90 יום</span><span class="feat-chip">משוב, תעודות וחגיגה</span></div>
         </div>
-        <div class="when"><b>13 באוקטובר 2026</b>ד״ר שי צבאן</div>
-      </div>
+        <div class="feat-cta">
+          <span class="feat-pill">כניסה למפגש ←</span>
+          <span class="feat-when">13 באוקטובר 2026 · ד״ר שי צבאן</span>
+        </div>
+      </a>
 
     <div class="pathnote rv"><span class="e">🧭</span><span>חדשים בקורס? התחילו במפגש הראשון, הוא בנוי כנקודת פתיחה שלא מניחה שום ידע מוקדם.</span></div>
   </div>
